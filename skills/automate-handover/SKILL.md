@@ -5,9 +5,6 @@ description: Write the acceptance document that closes an automation build — w
 
 # Automation handover — the client has to be able to switch it off
 
-> Shell commands below use `${CLAUDE_PLUGIN_ROOT}`. It is guaranteed inside hooks, not inside a
-> skill's shell — if it is unset, use the plugin root announced at session start.
-
 One session, on the day the automation goes live. Deliverable: a filled block in `AUTOMATIONS.md`.
 
 **Read `capabilities/automate/doctrine/HANDOVER.md` first.** It carries the twelve items the report
@@ -123,9 +120,7 @@ document says, and knows how to turn it off. **Not that it will never fail.**
 Then add it to `ROUTINES.md` if it runs on a schedule, and append the conversation to
 `INTERVIEW.md` — who accepted it and who was told how to switch it off.
 
-Create and change company files with `Write` and `Edit` only. The company guard covers those two;
-it cannot see a shell redirect, and the journal would show the violation after the fact rather than
-stop it.
+Company files change through `Write` and `Edit` only. `capabilities/company/doctrine/CONTROLS.md` carries why, and what the guard refuses versus merely records.
 
 ## Reference material
 

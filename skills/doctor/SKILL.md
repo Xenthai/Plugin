@@ -1,12 +1,9 @@
 ---
 name: doctor
-description: Verify that this machine and the bound company's connectors can actually do the work — after installing or updating the plugin, before the first session with a new company, when a store read or write fails, when a connector shows as connected but a skill's call failed anyway, when a render fails for a reason that is not composition (no browser found, a substituted font on every asset, a blank canvas), or when the operator asks whether the setup is ready. Use it whenever an install looks healthy and something still does not work. For producing pieces use social-produce; for an asset that failed a layout assertion read capabilities/social/doctrine/LAYOUT.md — that is a composition defect, not a health problem.
+description: Verify that this machine and the bound company's connectors can actually do the work — after installing or updating the plugin, before the first session with a new company, when a store read or write fails, when a connector shows as connected but a skill's call failed anyway, when a render fails for a reason that is not composition (no browser found, a substituted font on every asset, a blank canvas), or when the operator asks whether the setup is ready. Use it whenever an install looks healthy and something still does not work. Not to be confused with Claude Code’s own built-in /doctor, which rightsizes skills and CLAUDE.md files — a different job on a different subject; this one checks whether this machine and this company’s connectors can do the work. For producing pieces use social-produce; for an asset that failed a layout assertion read capabilities/social/doctrine/LAYOUT.md — that is a composition defect, not a health problem.
 ---
 
 # Doctor — can this install do the work it is about to promise?
-
-> Shell commands below use `${CLAUDE_PLUGIN_ROOT}`. It is guaranteed inside hooks, not inside a
-> skill's shell — if it is unset, use the plugin root announced at session start.
 
 An install can pass every visible sign of health and fail at the first delivery. Four ways it does,
 each found today at that delivery instead of in two minutes:

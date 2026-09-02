@@ -5,9 +5,6 @@ description: Start a new company engagement — write the .company.json that bin
 
 # New company — the binding, before anything else
 
-> Shell commands below use `${CLAUDE_PLUGIN_ROOT}`. It is guaranteed inside hooks, not inside a
-> skill's shell — if it is unset, use the plugin root announced at session start.
-
 One session, and a short one. Deliverables: a filled `.company.json`, the company's folder in its
 own store, and a green `doctor`. **No company document is written here** — that is intake's work,
 and mixing the two hides a failed binding behind a busy session.
@@ -87,8 +84,7 @@ node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event phase_start --capability co
 Close by handing off to `company-intake` — the file request is the next thing that happens, and it
 needs nobody present, so it should be sent the same day.
 
-Create and change files with `Write` and `Edit` only. The company guard covers those two; it cannot
-see a shell redirect, and the journal would show the violation after the fact rather than stop it.
+Company files change through `Write` and `Edit` only. `capabilities/company/doctrine/CONTROLS.md` carries why, and what the guard refuses versus merely records.
 
 ## Reference material
 

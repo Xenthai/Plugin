@@ -118,15 +118,64 @@ check("every skill states its STOP conditions", () => {
   return [bad.length === 0, bad.length ? `no STOP section: ${bad.join(", ")}` : `${names.length} declare when to stop`];
 });
 
-check("no skill claims ${CLAUDE_PLUGIN_ROOT} works in a shell without saying it may not", () => {
-  const bad = names.filter((n) => {
-    const t = readFileSync(join(SKILLS, n, "SKILL.md"), "utf8");
-    return t.includes("${CLAUDE_PLUGIN_ROOT}") && !/guaranteed inside hooks/.test(t);
-  });
+check("the plugin root is announced once by the hook, not repeated in every skill", () => {
+  const hook = readFileSync(join(ROOT, "hooks", "bootstrap.mjs"), "utf8");
+  const announces = /CLAUDE_PLUGIN_ROOT/.test(hook) && /additionalContext/.test(hook);
+  const repeats = names.filter((n) => /guaranteed inside hooks/.test(readFileSync(join(SKILLS, n, "SKILL.md"), "utf8")));
   return [
-    bad.length === 0,
-    bad.length ? `uses the variable with no caveat: ${bad.join(", ")}` : "every user carries the caveat",
+    announces && repeats.length === 0,
+    announces
+      ? repeats.length
+        ? `the hook announces it, yet ${repeats.length} skills still repeat the caveat`
+        : "announced once at SessionStart, repeated nowhere"
+      : "the bootstrap hook does not announce the root, so the skills would have to",
   ];
+});
+
+/**
+ * Policies that appear in more than one skill. Each must appear in EXACTLY ONE wording.
+ *
+ * The failure this catches is not disobedience — it is that the model reads every loaded
+ * instruction and has to reconcile the ones that overlap before it can act. Two skills stating the
+ * same policy in non-identical language pay that cost on every invocation, and the published
+ * account of removing over 80% of a system prompt with no measurable eval loss names exactly this
+ * as the thing that was removed. So a policy stated twice is a defect even when both statements are
+ * correct: one of them is redundant and the difference between them is pure overhead.
+ */
+const SHARED_POLICIES = [
+  { name: "how company files are written", fingerprint: /Company files change through/ },
+  { name: "where the write policy's reasoning lives", fingerprint: /doctrine\/CONTROLS\.md/ },
+];
+
+check("a policy shared across skills is stated in exactly one wording", () => {
+  const problems = [];
+  for (const { name, fingerprint } of SHARED_POLICIES) {
+    const forms = new Map();
+    for (const n of names) {
+      for (const line of readFileSync(join(SKILLS, n, "SKILL.md"), "utf8").split(/\r?\n/)) {
+        if (!fingerprint.test(line)) continue;
+        const norm = line.trim().replace(/\s+/g, " ");
+        if (!forms.has(norm)) forms.set(norm, []);
+        forms.get(norm).push(n);
+      }
+    }
+    if (forms.size > 1) {
+      problems.push(
+        `${name}: ${forms.size} wordings — ${[...forms.values()].map((s) => s.join("/")).join(" vs ")}`
+      );
+    }
+  }
+  return [
+    problems.length === 0,
+    problems.length ? problems.join("; ") : `${SHARED_POLICIES.length} shared policies, one wording each`,
+  ];
+});
+
+check("two wordings of one policy would fail", () => {
+  const a = "Company files change through `Write` and `Edit` only.";
+  const b = "Create and change company files with `Write` and `Edit` only.";
+  const forms = new Set([a, b].map((s) => s.trim().replace(/\s+/g, " ")));
+  return [forms.size > 1, "the same policy in two wordings was detected as two forms"];
 });
 
 check("a skill with a third frontmatter key would fail", () => {

@@ -5,9 +5,6 @@ description: Write the copy and render the assets for pieces in an approved plan
 
 # Produce — copy and render
 
-> Shell commands below use `${CLAUDE_PLUGIN_ROOT}`. It is guaranteed inside hooks, not inside a
-> skill's shell — if it is unset, use the plugin root announced at session start.
-
 Two things happen here, in this order: the words, then the render. The render engine will refuse
 work that breaches a platform limit, and **a refusal is a correct outcome** — an asset with its
 call to action under Instagram's interface is worse than no asset.
@@ -114,9 +111,7 @@ node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event delivery --capability socia
   --why "first batch of <period> for review" --target "content/<YYYY-MM>/pieces"
 ```
 
-Create and change company files with `Write` and `Edit` only. The company guard covers those two;
-it cannot see a shell redirect, and the journal would show the violation after the fact rather
-than stop it.
+Company files change through `Write` and `Edit` only. `capabilities/company/doctrine/CONTROLS.md` carries why, and what the guard refuses versus merely records.
 
 ## STOP conditions
 

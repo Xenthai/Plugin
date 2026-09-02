@@ -5,9 +5,6 @@ description: Run the phase 3 inventory session — the Diagnóstico — that lis
 
 # Phase 3 — Diagnóstico: the process inventory
 
-> Shell commands below use `${CLAUDE_PLUGIN_ROOT}`. It is guaranteed inside hooks, not inside a
-> skill's shell — if it is unset, use the plugin root announced at session start.
-
 **Read `capabilities/process/doctrine/PROCESS.md` first.** It carries the SIPOC boundary prompt, the
 field list, and why this is a table and never a diagram. Do not re-derive any of that here.
 

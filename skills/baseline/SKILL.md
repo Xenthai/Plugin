@@ -5,9 +5,6 @@ description: Measure a company's "before" while it still exists — per-process 
 
 # Baseline — the company's "before"
 
-> Shell commands below use `${CLAUDE_PLUGIN_ROOT}`. It is guaranteed inside hooks, not inside a
-> skill's shell — if it is unset, use the plugin root announced at session start.
-
 You measure. You change nothing in this session. The moment a process is touched, its before is
 gone: about 20% of event detail is gone after a year, and self-reported time diverges from logged
 time by a median 47%. There is no second chance to take it.

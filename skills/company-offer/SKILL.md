@@ -5,9 +5,6 @@ description: Capture what a company sells and on what terms — its product cata
 
 # Company offer — what is sold, and on what terms
 
-> Shell commands below use `${CLAUDE_PLUGIN_ROOT}`. It is guaranteed inside hooks, not inside a
-> skill's shell — if it is unset, use the plugin root announced at session start.
-
 One session. Deliverables: `OFFER.md`, plus `PRODUCTS.md` and `SERVICES.md` for whichever the
 company actually sells.
 
@@ -75,9 +72,7 @@ Append what each person said to `INTERVIEW.md` — prices and terms stated from 
 client-reported until a document confirms them, and that distinction is only recoverable if the
 conversation was written down.
 
-Create and change company files with `Write` and `Edit` only. The company guard covers those two;
-it cannot see a shell redirect, and the journal would show the violation after the fact rather
-than stop it.
+Company files change through `Write` and `Edit` only. `capabilities/company/doctrine/CONTROLS.md` carries why, and what the guard refuses versus merely records.
 
 ## Reference material
 

@@ -5,9 +5,6 @@ description: Run the phase 4 session — the Mapeo integral — that ranks a com
 
 # Phase 4 — Mapeo integral: pain, access, authority, shortlist
 
-> Shell commands below use `${CLAUDE_PLUGIN_ROOT}`. It is guaranteed inside hooks, not inside a
-> skill's shell — if it is unset, use the plugin root announced at session start.
-
 **Read `capabilities/process/doctrine/PROCESS.md` first**, then the company's existing
 `PROCESSES.md`. This session extends that document; it never rewrites the inventory.
 

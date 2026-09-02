@@ -69,6 +69,58 @@ Record per routine, in the company's `ROUTINES.md`, where it runs and what happe
 machine is off. **Never promise a cadence that depends on a laptop being open** unless that
 dependency is written down and the client accepted it with the condition said out loud.
 
+## 2c. How a routine must be executed, and what it costs when it is not
+
+A cadence is also a technical design, and the wrong design costs the client money on every run.
+Five facts, each with a consequence:
+
+**1. A recurring routine is a fresh session, never a turn in a standing one.** A loop fires as a
+full turn inside the session it was created in, **carrying that whole conversation with it every
+time.** A daily or weekly cadence is always past the cache window, so every run pays for the entire
+accumulated history. Start each routine in its own session.
+
+**2. Chained work belongs in separate sessions.** Published measurement: three tasks in one session
+sent **1.9× the tokens** of the same three with a clear between them, because turn 40 also re-reads
+the 39 turns before it. A routine that maps, then measures, then reports is three sessions or three
+subagents — not three phases of one context.
+
+**3. Session length is the top cost driver. Model size is only third.** The published ranking is:
+long sessions, then too much in the context, then an oversized model or effort level, then a broken
+prompt cache. **This inverts the usual instinct**, which reaches for a cheaper model first and
+leaves the session running all day.
+
+**4. Model and effort persist between sessions, and a routine inherits them.** A high-effort choice
+made yesterday by a person silently multiplies today's unattended run. Pin the model in the
+routine's own definition; do not let it inherit whatever the last human session left behind.
+
+**5. The dangerous output size is the middle.** Output past roughly 30,000 characters is written to
+a file with only a preview kept — that case is safe. **The expensive case is everything under it**:
+a runner that prints four hundred passing lines stays under the threshold and those lines are then
+re-sent on every remaining turn. This plugin's own test suites and render engine emit exactly that
+shape. Use quiet flags, or hand the noisy job to a subagent whose output is discarded.
+
+And one for anything running headless on an API key rather than a subscription: **the prompt cache
+expires in five minutes there, not an hour**, unless the long-cache flag is set. A scheduled
+routine spaced further apart than that pays a full prefill every single run.
+
+### The spend ceiling the platform does not give you
+
+The only preventive cost control described in the platform's own guidance is a hard spend cap, and
+two things about it matter here:
+
+- **It is an enterprise-tier control**, so it may not exist on the plan a client bought.
+- **A group cap is per member, not pooled.** A cap of X set on a group of ten authorises ten times
+  X. Read that twice before quoting a client a ceiling.
+
+And the guidance's own sequencing advice is to wait for **a month of real usage** before setting a
+cap — which means the documented posture for month one of an engagement is *no ceiling, watch the
+dashboard*. That is precisely the month in which a surprise bill happens.
+
+**So the ceiling has to be ours.** Every routine run records its own turn and token counts in the
+journal, and a run that exceeds its expected envelope is an `error` row and a line in the next
+biweekly report — not a discovery made when the invoice arrives. A dashboard is retrospective by
+construction; the journal is the only instrument in this plugin that can refuse.
+
 ## 3. Biweekly — the absence of surprises
 
 One page. Generated from the journal with **zero client time**. Its real job is not information; it

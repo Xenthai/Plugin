@@ -5,9 +5,6 @@ description: Entry point for capturing how a company actually works and what of 
 
 # Process — the router for phases 3 and 4
 
-> Shell commands below use `${CLAUDE_PLUGIN_ROOT}`. It is guaranteed inside hooks, not inside a
-> skill's shell — if it is unset, use the plugin root announced at session start.
-
 You route. You do not capture processes here: phase 3 is `process-map`, phase 4 is
 `process-access`. Read the doctrine before either.
 

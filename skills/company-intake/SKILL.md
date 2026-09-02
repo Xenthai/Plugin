@@ -5,9 +5,6 @@ description: Request the files a company already has and map it from those inste
 
 # Company intake — files before questions
 
-> Shell commands below use `${CLAUDE_PLUGIN_ROOT}`. It is guaranteed inside hooks, not inside a
-> skill's shell — if it is unset, use the plugin root announced at session start.
-
 Ask for a document before asking a person. A file the company already maintains is cheaper to
 get, more accurate than recall, and dated. And gathering files is the one part of mapping that
 does not need anyone present, so it must never occupy a session.
@@ -86,9 +83,7 @@ should never have to work out who fills what:
 node "${CLAUDE_PLUGIN_ROOT}/bin/status.mjs" --pending
 ```
 
-Create and change company files with `Write` and `Edit` only. The company guard covers those two;
-it cannot see a shell redirect, and the journal would show the violation after the fact rather
-than stop it.
+Company files change through `Write` and `Edit` only. `capabilities/company/doctrine/CONTROLS.md` carries why, and what the guard refuses versus merely records.
 
 ## Reference material
 

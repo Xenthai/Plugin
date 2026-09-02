@@ -5,9 +5,6 @@ description: Report what actually happened in a company's engagement, read back 
 
 # Report — the journal read back
 
-> Shell commands below use `${CLAUDE_PLUGIN_ROOT}`. It is guaranteed inside hooks, not inside a
-> skill's shell — if it is unset, use the plugin root announced at session start.
-
 The tool counts. You interpret. Those are different jobs and the line between them is the whole
 point of this skill: every figure in the report is arithmetic over the journal, and every sentence
 about what those figures *mean* is a judgement you have to be able to defend out loud.

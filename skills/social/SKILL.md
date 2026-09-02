@@ -5,9 +5,6 @@ description: Mandatory entry point for any social or content work on behalf of a
 
 # Social — router
 
-> Shell commands below use `${CLAUDE_PLUGIN_ROOT}`. It is guaranteed inside hooks, not inside a
-> skill's shell — if it is unset, use the plugin root announced at session start.
-
 You are the entry point, not the worker. Your job is to establish two facts and then hand off.
 Doing the phase work yourself skips the gates that keep a client's published claims true.
 

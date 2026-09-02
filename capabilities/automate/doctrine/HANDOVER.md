@@ -50,7 +50,34 @@ permanent and nobody ever decides.
 everything: the ten comparisons are where the process's real exceptions surface, and those
 exceptions are the ones nobody mentioned when describing the process from memory.
 
-Three rules that keep the ladder honest:
+### Agreement is not accuracy, and this caps the whole ladder
+
+Rung 1's criterion is that the automation's output **matched what the person did**. That is the right
+criterion and it has a hard ceiling that must be said out loud:
+
+**Matching the person is not the same as being right.** If the person is wrong some fraction of the
+time, agreement includes agreeing with their errors. A published customer case reports an agent
+that "agrees with the compliance team about 98% of the time" — with no sample size, no class
+balance, and no precision-or-recall split. On a review task where most items pass, an automation
+that approves everything scores high.
+
+Three consequences, and none of them is optional:
+
+- **A graduated automation's ceiling is the current human standard.** The ladder cannot detect a
+  systematically wrong policy, because the policy is the thing it is being compared against.
+- **Say "agreement", never "accuracy".** In a report, in a handover document, and to the client. The
+  two words describe different measurements and only one of them was taken.
+- **Where a wrong answer has a cost outside the company** — a price, a legal claim, a regulated
+  statement — **the comparison set has to be right answers, not the person's answers.** That means
+  someone with authority adjudicates a sample, and that adjudication is a separate line item in the
+  engagement, not a favour.
+
+An automation matching a person perfectly on a process nobody ever audited has proven exactly one
+thing: it learned the process. Whether the process is correct is a different question, and it is
+usually the more valuable one — **which is why the mapping engagement, not the automation, is where
+that answer comes from.**
+
+### Three rules that keep the ladder honest
 
 - **Record which rung each automation is on, and the date it climbed.** An automation with no rung
   is at rung 1 by default, whatever anyone intended.

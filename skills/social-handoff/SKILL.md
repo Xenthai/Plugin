@@ -5,9 +5,6 @@ description: Package finished assets and copy so a person can publish them witho
 
 # Handoff — the delivery package
 
-> Shell commands below use `${CLAUDE_PLUGIN_ROOT}`. It is guaranteed inside hooks, not inside a
-> skill's shell — if it is unset, use the plugin root announced at session start.
-
 The package is the entire integration surface. There is no publishing API in this pipeline by
 design, so whatever is in this folder is what the person publishing has to work with. If they have
 to ask a question, the handoff failed.
@@ -99,9 +96,7 @@ node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event delivery --capability socia
   --target "content/<YYYY-MM>/delivery"
 ```
 
-Create and change company files with `Write` and `Edit` only. The company guard covers those two;
-it cannot see a shell redirect, and the journal would show the violation after the fact rather
-than stop it.
+Company files change through `Write` and `Edit` only. `capabilities/company/doctrine/CONTROLS.md` carries why, and what the guard refuses versus merely records.
 
 ## STOP conditions
 

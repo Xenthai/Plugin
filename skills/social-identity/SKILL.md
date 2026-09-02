@@ -5,9 +5,6 @@ description: Run onboarding phase 1 for a company that has no identity documents
 
 # Phase 1 — identity and positioning
 
-> Shell commands below use `${CLAUDE_PLUGIN_ROOT}`. It is guaranteed inside hooks, not inside a
-> skill's shell — if it is unset, use the plugin root announced at session start.
-
 One session. Two deliverables: `BRAND.md`, and **two or three draft pieces the client can see
 before they leave**.
 
@@ -87,9 +84,7 @@ node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event phase_end --capability soci
   --target "BRAND.md"
 ```
 
-Create and change company files with `Write` and `Edit` only. The company guard covers those two;
-it cannot see a shell redirect, and the journal would show the violation after the fact rather
-than stop it.
+Company files change through `Write` and `Edit` only. `capabilities/company/doctrine/CONTROLS.md` carries why, and what the guard refuses versus merely records.
 
 Append the conversation to `INTERVIEW.md`: who said each thing, and on what date. Positioning
 stated in a session is client-reported until a document or a customer confirms it, and six months

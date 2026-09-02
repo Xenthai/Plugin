@@ -5,9 +5,6 @@ description: Build the editorial plan for a company that has BRAND.md, VOICE.md 
 
 # Editorial plan — approval gate 1
 
-> Shell commands below use `${CLAUDE_PLUGIN_ROOT}`. It is guaranteed inside hooks, not inside a
-> skill's shell — if it is unset, use the plugin root announced at session start.
-
 You decide what will be said and when. You produce nothing. The plan is published for the client
 to comment on, and their comments are the approval.
 

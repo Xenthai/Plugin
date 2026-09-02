@@ -5,9 +5,6 @@ description: Audit a company's current public presence before anything is produc
 
 # Presence audit — phase 0, and it only happens once
 
-> Shell commands below use `${CLAUDE_PLUGIN_ROOT}`. It is guaranteed inside hooks, not inside a
-> skill's shell — if it is unset, use the plugin root announced at session start.
-
 One session. Deliverable: `PRESENCE.md`, in the company's store.
 
 **Read `capabilities/social/doctrine/PRESENCE.md` before capturing anything.** It carries what is
@@ -108,9 +105,7 @@ Append the conversation to `INTERVIEW.md` — who confirmed which account is off
 not recognise one. **A senior person not recognising an account is itself the finding**, and it is
 only recoverable if the exchange was written down.
 
-Create and change company files with `Write` and `Edit` only. The company guard covers those two;
-it cannot see a shell redirect, and the journal would show the violation after the fact rather than
-stop it.
+Company files change through `Write` and `Edit` only. `capabilities/company/doctrine/CONTROLS.md` carries why, and what the guard refuses versus merely records.
 
 ## Reference material
 

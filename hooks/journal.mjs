@@ -19,9 +19,17 @@ const READ_ONLY = new Set([
  */
 const READ_ONLY_CONNECTOR = /__(search_files|read_file_content|get_file_metadata|list_|download_)/;
 
+/**
+ * A `PermissionRequest` is recorded as an escalation because that is what it is: the moment a
+ * decision stopped being the session's and became a person's. Recording it is what makes the
+ * approval queue in `capabilities/company/doctrine/CONTROLS.md` real rather than aspirational — a
+ * refusal nobody can enumerate afterwards is an obstacle, and a refusal with a record and a route
+ * is governance.
+ */
 const EVENT_BY_HOOK = {
   PostToolUse: "ai_action",
   PostToolUseFailure: "error",
+  PermissionRequest: "escalation",
   SessionEnd: "session_end",
 };
 
@@ -61,8 +69,13 @@ const main = async () => {
       target: ref.target,
       digest: ref.digest,
       bytes: ref.bytes,
-      result: hook === "PostToolUseFailure" ? "error" : "ok",
-      why: event.prompt_id ? `turn ${String(event.prompt_id).slice(0, 8)}` : null,
+      result: hook === "PostToolUseFailure" ? "error" : hook === "PermissionRequest" ? "pending" : "ok",
+      why:
+        hook === "PermissionRequest"
+          ? `decision pending: ${tool ?? "unknown tool"} needs a person to authorise it`
+          : event.prompt_id
+            ? `turn ${String(event.prompt_id).slice(0, 8)}`
+            : null,
     },
     event
   );

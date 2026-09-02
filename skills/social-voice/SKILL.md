@@ -5,9 +5,6 @@ description: Run onboarding phase 2 for a company that has BRAND.md but no VOICE
 
 # Phase 2 — voice and proof
 
-> Shell commands below use `${CLAUDE_PLUGIN_ROOT}`. It is guaranteed inside hooks, not inside a
-> skill's shell — if it is unset, use the plugin root announced at session start.
-
 One session. Deliverables: `VOICE.md`, a filled `PROOF.md`, and the first batch of pieces whose
 copy is actually the company's.
 
@@ -88,9 +85,7 @@ node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event phase_end --capability soci
   --target "VOICE.md"
 ```
 
-Create and change company files with `Write` and `Edit` only. The company guard covers those two;
-it cannot see a shell redirect, and the journal would show the violation after the fact rather
-than stop it.
+Company files change through `Write` and `Edit` only. `capabilities/company/doctrine/CONTROLS.md` carries why, and what the guard refuses versus merely records.
 
 Append the conversation to `INTERVIEW.md`, including the phrases the client rejected. A rejected
 phrase is the most reusable output of a voice session — it is what stops the same wording being

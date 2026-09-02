@@ -1,4 +1,5 @@
 import { spawnSync } from "node:child_process";
+import { MAX_ROW_BYTES, record as recordDirect } from "../lib/journal.mjs";
 import { mkdirSync, rmSync, writeFileSync, readFileSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -173,6 +174,58 @@ check("journal survives concurrent hook processes without losing rows", () => {
   const ok = procs.every((p) => p.status === 0);
   const after = rows(CO_A).length;
   return [ok && after === before + 12, `exits ok=${ok}; rows ${before} -> ${after}`];
+});
+
+/**
+ * A permission prompt is the moment a decision stopped being the session's and became a person's.
+ * Recording it is what makes the approval queue in the controls doctrine real: a refusal nobody can
+ * enumerate afterwards is an obstacle, not governance.
+ */
+check("a permission request is recorded as a pending escalation naming the tool", () => {
+  const before = rows(CO_A).length;
+  const r = run(
+    "hooks/journal.mjs",
+    { hook_event_name: "PermissionRequest", tool_name: "Bash", tool_input: { command: "rm -rf /tmp/x" } },
+    CO_A
+  );
+  const row = rows(CO_A).at(-1);
+  return [
+    r.code === 0 &&
+      rows(CO_A).length === before + 1 &&
+      row.event === "escalation" &&
+      row.result === "pending" &&
+      /Bash/.test(row.why ?? ""),
+    `exit ${r.code}; event=${row?.event} result=${row?.result} why="${(row?.why ?? "").slice(0, 54)}"`,
+  ];
+});
+
+check("the permission request records a reference, never the command itself", () => {
+  const row = rows(CO_A).at(-1);
+  const serialised = JSON.stringify(row);
+  return [!/rm -rf/.test(serialised), /rm -rf/.test(serialised) ? "the command leaked into the row" : "digested, not copied"];
+});
+
+/**
+ * Row size is a correctness property, not a style one: hooks matching an event run in parallel, and
+ * O_APPEND is atomic only while a write stays small. A row that grew past the ceiling could
+ * interleave with another and corrupt both.
+ */
+check("every row written by the suite stays under the atomic-append ceiling", () => {
+  const all = [...rows(CO_A), ...rows(CO_B)];
+  const sizes = all.map((r) => Buffer.byteLength(JSON.stringify(r)));
+  const max = Math.max(...sizes, 0);
+  return [max <= MAX_ROW_BYTES, `${all.length} rows, largest ${max} B, ceiling ${MAX_ROW_BYTES} B`];
+});
+
+check("a row carrying a payload is truncated rather than risking the file", () => {
+  const before = rows(CO_A).length;
+  recordDirect({ event: "ai_action", why: "x".repeat(MAX_ROW_BYTES * 2), tool: "Edit" }, { cwd: CO_A });
+  const row = rows(CO_A).at(-1);
+  const size = Buffer.byteLength(JSON.stringify(row));
+  return [
+    rows(CO_A).length === before + 1 && size <= MAX_ROW_BYTES && Number.isInteger(row.truncated),
+    `row ${size} B, truncated field = ${row?.truncated}`,
+  ];
 });
 
 check("bootstrap emits valid hook JSON naming the bound company and the plugin root", () => {
