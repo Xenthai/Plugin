@@ -12,10 +12,25 @@ The tool counts. You interpret. Those are different jobs and the line between th
 point of this skill: every figure in the report is arithmetic over the journal, and every sentence
 about what those figures *mean* is a judgement you have to be able to defend out loud.
 
+## Read the cadence doctrine first
+
+`capabilities/report/doctrine/REPORTING.md` says which cadence answers which question, **what each
+one may and may not claim**, and why the quarterly is the first that can report a result at all.
+
+The rule that decides everything else: **cadence follows the data's refresh rate, not the
+calendar.** Five reports saying the same thing at different intervals trains a client to stop
+reading all of them. A biweekly report carries no outcome claim, because two weeks is too few
+instances for a median to mean anything; a quarterly one may, because that is the shortest window
+in which most mapped processes accumulate enough.
+
+The company's agreed cadences are in its `ROUTINES.md`. A cadence not activated there does not get
+a report.
+
 ## When to run it
 
 | Trigger | What the client is really asking |
 | --- | --- |
+| A cadence in `ROUTINES.md` comes due | Whatever that cadence's question is. Do not answer a different one |
 | End of a month | "Did we get what we paid for?" |
 | Before a review or renewal | "Is this worth continuing?" |
 | "How much of this did the AI do?" | An output number — give it, but never alone |

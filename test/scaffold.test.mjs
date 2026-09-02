@@ -23,7 +23,7 @@ const ENGLISH_MARKERS = /\b(the|this file|owner of|when the|should be|must be|in
 const GOVERNED = [
   "BRAND.md", "VOICE.md", "PROOF.md", "DESIGN.md", "SOCIAL.md",
   "PEOPLE.md", "SYSTEMS.md", "OFFER.md", "PRODUCTS.md", "SERVICES.md", "CUSTOMERS.md",
-  "INTAKE.md", "INTERVIEW.md", "PROCESSES.md", "BASELINE.md", "PRESENCE.md",
+  "INTAKE.md", "INTERVIEW.md", "PROCESSES.md", "BASELINE.md", "PRESENCE.md", "ROUTINES.md", "AUTOMATIONS.md",
 ];
 
 const UNGOVERNED = docs.filter((f) => !GOVERNED.includes(f));

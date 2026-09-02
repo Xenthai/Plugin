@@ -115,6 +115,50 @@ Never put a process name, a system name tied to a client, or any credential in `
 Append the conversation to `INTERVIEW.md`: who ranked the pain, who stated each authorisation, and
 the date. Never the credential itself — record the role that holds it.
 
+## Then close the mapping — two things, in this order
+
+Phase 4 is the last mapping phase, so this session owes the client two closing acts. Neither is
+optional, and the order matters.
+
+### 1. The record of the before, signed
+
+Produce the mapping-completion report from `BASELINE.md`, `PRESENCE.md` and `PROCESSES.md`. It
+contains **no achievement**, because nothing has happened yet — every measure with its definition
+verbatim, its source, its measurement date and who measured it; what is documented versus
+client-reported; what could not be measured and why; and the scope statement saying what a later
+report will and will not be able to claim.
+
+Then **ask the client to sign it** — not as approval of Xenth AI's work, but as **agreement on the
+starting numbers.** Without that signature the before gets relitigated at exactly the moment the
+after looks good, and the practice ends up arguing about a figure it recorded honestly a year
+earlier.
+
+```bash
+node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event approval --actor "person:<name>" \
+  --capability baseline --why "starting numbers agreed at end of mapping" --target "BASELINE.md"
+```
+
+### 2. Propose the reporting routine
+
+Create `ROUTINES.md` from the scaffold and propose the cadences. **Read
+`capabilities/report/doctrine/REPORTING.md` first** — it says what each cadence may and may not
+claim, and why the quarterly is the first that can report a result at all.
+
+Propose, do not impose. A routine agreed here in writing **is** its approval, so it runs afterwards
+with no further gate — which is exactly why the agreement has to be explicit and recorded with a
+named person.
+
+Two things to say while proposing, because they are what make the routine trusted:
+
+- **Each cadence answers a question the others cannot.** Five reports saying the same thing at
+  different intervals trains a client to stop reading all of them. If a cadence does not answer
+  something distinct for this company, do not activate it.
+- **Name what no report will ever contain** — hours saved, reach, revenue, a causal magnitude —
+  now, while proposing, rather than when someone asks for a number that does not exist.
+
+Fill `ROUTINES.md` §4: **a report with no named recipient does not get read, and "management" is not
+a recipient.**
+
 ## STOP conditions
 
 - **Sign-off authority is unknown.** Stop before the shortlist is presented as actionable. A ranked

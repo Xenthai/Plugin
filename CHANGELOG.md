@@ -38,6 +38,37 @@ moves.
   separately from cycle time — a person can report the same duration and produce three times the
   output — the direction of recall bias, the paired quality metric every throughput figure
   requires, and Contribution Analysis as the only defensible attribution at n=1.
+- **Reporting cadences** (`capabilities/report/doctrine/REPORTING.md`) — five cadences, each
+  answering a question the others cannot, because the failure mode of a multi-cadence routine is
+  five reports saying the same thing at different intervals, which trains a client to stop reading
+  all of them. **Cadence follows the data's refresh rate, not the calendar:** a biweekly report
+  carries no outcome claim at all, because two weeks is too few instances for a median to be
+  stable, while the quarterly is the first that may report a result. The semiannual is the
+  contribution-analysis report and carries the section almost nobody writes — what was
+  recommended and not done, and what it cost. The annual carries the **claim ledger**: every
+  figure claimed during the year and whether it held.
+- **`ROUTINES.md`** — the per-company register of planned tasks and their cadence, agreed once at
+  the end of mapping. A routine written down **is** its approval, which is what lets it run
+  afterwards with no gate; it also records what each routine costs the client, and the annual rule
+  that a routine nobody reads gets removed.
+- **The mapping-completion report**, proposed by `process-access` as the last act of phase 4. It
+  contains no achievement, because nothing has happened yet — every measure with its definition
+  verbatim, its source, its date and its measurer, plus what is documented versus client-reported
+  and the scope statement saying what a later report will and will not be able to claim. **The
+  client signs it as agreement on the starting numbers**, so the before cannot be relitigated at
+  the moment the after looks good.
+- **`automate-handover` skill and `capabilities/automate/doctrine/HANDOVER.md`** — the acceptance
+  document that closes an automation build, written the day it goes live rather than at the next
+  cadence. Its test is that **the client can switch the automation off, alone, without calling
+  Xenth AI** — a client who cannot switch it off does not own it. It answers what happens when the
+  automation is wrong (designing for the wrong-but-plausible output first, since bad input merely
+  stops and a downed system merely fails loudly), who pays for and administers the platform with
+  its renewal date, and which journal events it writes so touch time is measurable after the fact.
+  It also settles a rule that is easy to get backwards: the plugin depends on nothing that charges,
+  but a client may bring a platform that does — what is refused is an automation that only works
+  because Xenth AI pays for something, since that is a dependency the client inherits at renewal
+  without knowing it.
+- **`AUTOMATIONS.md`** — the register and handover record, one replicated block per automation.
 - **Presence capability** — `social-presence` runs as **phase 0**, before identity and before voice,
   because the "before" is perishable: after phase 1 the operator has already influenced what there
   is to observe. It produces `PRESENCE.md`, which is **append-only** — a dated observation is never
