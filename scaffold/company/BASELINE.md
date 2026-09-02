@@ -30,7 +30,7 @@ Además, un puntaje esconde su propia construcción: los pesos **son** el argume
 | Capa | Qué mide | Qué sí puede sostener | Qué nunca puede sostener |
 | --- | --- | --- | --- |
 | 1 · Operación | Desempeño por proceso, sólo en los procesos que se van a intervenir | "Este proceso, en estas instancias fechadas, pasó de X a Y" | Una afirmación de desempeño de toda la empresa |
-| 2 · Estado | Hechos contables sobre sistemas y procesos | "Estos hechos eran ciertos en esta fecha, verificados así" | Que la empresa opera mejor |
+| 2 · Estado | Hechos contables sobre sistemas y procesos | "Estos hechos eran ciertos en esta fecha, y así se documentaron" | Que la empresa opera mejor |
 | 3 · Cobertura | Procesos con ejecución asistida ÷ procesos identificados | "Esta parte del trabajo identificado ya está asistida" | El valor de ese trabajo |
 
 La capa 2 es la que se malinterpreta. Un hecho de estado **no** es una afirmación de desempeño:

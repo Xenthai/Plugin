@@ -124,6 +124,10 @@ node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event blocked --capability baseli
   visible engagement. Reach, impressions and revenue need platform-side access and are otherwise
   unavailable, not estimated.
 
+Append the conversation to `INTERVIEW.md`: who reported each duration and volume, verbatim, with
+the date. A self-reported figure is only defensible later if its source is recoverable, and
+recurring-task durations skew high when recalled — the attribution is what makes that correctable.
+
 ## STOP conditions
 
 - **The process boundary is not written down yet.** Write it first — exact trigger, exact

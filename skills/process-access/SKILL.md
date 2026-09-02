@@ -112,6 +112,9 @@ node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event approval --actor "person:<n
 
 Never put a process name, a system name tied to a client, or any credential in `--why` or `--detail`.
 
+Append the conversation to `INTERVIEW.md`: who ranked the pain, who stated each authorisation, and
+the date. Never the credential itself — record the role that holds it.
+
 ## STOP conditions
 
 - **Sign-off authority is unknown.** Stop before the shortlist is presented as actionable. A ranked

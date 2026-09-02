@@ -108,17 +108,33 @@ every tool that has one.
 
 ```
 .claude-plugin/     plugin and marketplace manifests
-skills/             one directory per skill, one level deep
+skills/             one directory per skill, one level deep — the only depth that loads
 hooks/              journal and company guard
 bin/                CLIs a skill invokes without reading their source
-lib/                shared across capabilities: company binding, PNG reader
+lib/                shared across capabilities: company binding, journal, PNG reader
 capabilities/
   social/
     doctrine/       LAYOUT.md, COPY.md — the rules with numbers in them
     engine/         formats.json, render.mjs, template.html (every archetype), fonts/ (OFL palette)
-scaffold/company/   the blank document set created for a new company
-test/               three suites: hooks, engine assertions, and every archetype on every target
+  process/
+    doctrine/       PROCESS.md — SIPOC boundaries, capture fields, suitability scoring
+  baseline/
+    doctrine/       MEASUREMENT.md — what may be measured, and what may be claimed from it
+  company/
+    doctrine/       INTAKE.md — which document answers which fact
+scaffold/company/   the blank document set created for a new company, es-MX
+test/               one suite per subsystem, discovered by glob — `npm test` runs all of them
 ```
+
+Every CLI answers `--help` and exits 0 doing it, because a caller reads a non-zero exit as a broken
+tool and stops:
+
+| CLI | What it answers |
+| --- | --- |
+| `bin/status.mjs` | Which documents exist, how many fields are still pending, and **which phase owes each one** |
+| `bin/journal.mjs` | Records a semantic event a hook cannot infer — a review, an approval with a named approver, an escalation |
+| `bin/doctor.mjs` | Whether this machine and the bound company's connectors can do the work about to be promised |
+| `bin/report.mjs` | Turns journal rows into an engagement report without copying client content out of the store |
 
 ---
 

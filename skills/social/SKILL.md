@@ -36,6 +36,14 @@ Read what exists in the company's store. The documents **are** the state; there 
 progress file, because a skill is one-shot and cannot be resumed, so state that lives anywhere
 else is lost the moment a session is interrupted.
 
+One command answers this in full, and answers it better than reading each document — it counts the
+pending fields, so a document that exists but is entirely unfilled shows as the unstarted phase it
+actually is:
+
+```bash
+node "${CLAUDE_PLUGIN_ROOT}/bin/status.mjs" --json
+```
+
 | What exists in the store | Phase | Hand off to |
 | --- | --- | --- |
 | Nothing, or only a folder | 1 — identity | `social-identity` |
@@ -65,6 +73,22 @@ its interface and costs context for nothing.
   documents are the specification.
 - **Never skip a gate because the operator is in a hurry.** The two approval gates — the plan, and
   the first batch — exist because a wrong judgement propagates to every piece produced after it.
+
+## STOP conditions
+
+Routing wrong is worse than not routing. In each of these, say what you found and ask:
+
+- **No company is bound.** Nothing here works without one, and guessing from the folder name is how
+  work lands in the wrong company's store. Ask which company, and bind it.
+- **The documents point at two different phases** — `BRAND.md` complete but `VOICE.md` untouched
+  while `SOCIAL.md` already holds a plan. Someone worked out of order, or two people worked in
+  parallel. Name both readings and let the operator pick; do not average them.
+- **A document exists but every field in it is still pending.** That is not a completed phase. Read
+  it as absent and say so, rather than routing past it.
+- **The operator asks for a piece and no phase has run.** Producing from nothing invents the brand.
+  Say which phase is missing and what it costs to skip it — then route there, not to production.
+- **The request is not social at all** — a process to map, a baseline to measure, prices to
+  capture. Hand it to `process`, `baseline` or `company-offer` instead of stretching this router.
 
 ## Reference material
 

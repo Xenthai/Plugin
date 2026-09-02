@@ -20,7 +20,68 @@ are traceable to an entry here. That traceability is only as good as the entry.
 
 ## [Unreleased]
 
-Nothing yet.
+Merged and on no client machine. The plugin at 0.1.0 covers social only; everything below is what
+turns it into a company-wide engagement, and none of it is installable until the `version` field
+moves.
+
+### Added
+
+- **Process capability** (`capabilities/process/`, three skills). `process` routes phases 3 and 4;
+  `process-map` runs the inventory breadth-first; `process-access` ranks pain, records who holds
+  which access as a reference rather than a credential, and scores the automation shortlist.
+  `doctrine/PROCESS.md` carries SIPOC boundary-setting, the capture and governance fields, the
+  Wanner et al. (ICIS 2019) suitability criteria, and the two expert-judgement criteria labelled as
+  judgement rather than research so a score cannot launder an opinion into evidence.
+- **Baseline capability** (`capabilities/baseline/`, one skill). Company-wide, not per-channel:
+  `baseline` captures a dated before-and-after across process, systems, people and maturity
+  layers. `doctrine/MEASUREMENT.md` carries Little's Law as the reason throughput is measured
+  separately from cycle time — a person can report the same duration and produce three times the
+  output — the direction of recall bias, the paired quality metric every throughput figure
+  requires, and Contribution Analysis as the only defensible attribution at n=1.
+- **Company capability** (`capabilities/company/`, two skills). `company-intake` asks for the files
+  a company already maintains and maps from those instead of interviewing for every fact;
+  `doctrine/INTAKE.md` carries the document-to-fact table and the three facts confirmed with a
+  person even when a document states them. `company-offer` captures what is sold and on what terms.
+- **Nine more scaffolds** (es-MX): `INTAKE.md`, `INTERVIEW.md`, `PEOPLE.md`, `SYSTEMS.md`,
+  `OFFER.md`, `PRODUCTS.md`, `SERVICES.md`, `CUSTOMERS.md`, `PROCESSES.md`, `BASELINE.md`. Every
+  scaffold declares a schema version, so a later change is a migration rather than a guess.
+- **`bin/status.mjs`.** Reports, per document, whether it exists, how many fields are still pending,
+  and **which phase owes it**. A field nobody owns stays pending forever; the owner map is checked
+  against the skills on disk, so a scaffold no phase fills is reported as a plugin defect. Invoked
+  by both routers for phase detection — a document that exists but is entirely unfilled reads as
+  the unstarted phase it is, which reading the file list alone cannot tell.
+- **`bin/report.mjs` and the `report` skill.** Turns journal rows into an engagement report without
+  copying client content out of the store.
+- **`bin/doctor.mjs` and the `doctor` skill.** Verifies that this machine and the bound company's
+  connectors can do the work before a session promises it.
+- **Four more test suites.** `skills.test.mjs` holds every skill to the invariants that decide
+  whether it loads and fires at all — depth 1, exactly `name` and `description`, name equal to its
+  directory, a body between 2 and 12 KB, a trigger clause, a sibling named for routing, a STOP
+  section. `process.test.mjs`, `baseline.test.mjs` and `status.test.mjs` cover the new capabilities.
+  Each suite proves its assertions bite with negative fixtures.
+
+### Changed
+
+- **`test/run.mjs` discovers suites by glob** instead of an enumerated list in `package.json`. The
+  list was a single file four parallel writers had to edit, and a suite added without editing it
+  ran nowhere.
+- **Every skill that interviews now appends to `INTERVIEW.md`**, naming who said what and when. A
+  figure stated from memory is only defensible later if its source is recoverable.
+- **The `social` router declares STOP conditions.** It had prohibitions but no instruction for the
+  ambiguous case, and it is the skill most likely to be invoked cold.
+
+### Fixed
+
+- **`scaffold/company/PROCESSES.md` declared its state without declaring its schema**, so it was
+  the one document a later migration could not place.
+- **`scaffold/company/BASELINE.md` used the word *verificados*** to describe how facts were
+  established. The word asserts an accreditation nobody in this practice holds — the exact claim
+  the measurement doctrine refuses.
+- **`capabilities/process/doctrine/PROCESS.md` omitted the breadth-before-depth rule** that decides
+  whether a mapping engagement is one session or six. It lived only in `process-map`, where a
+  builder reading the doctrine would not find it.
+- **Two test suites shared a sandbox directory**, so one suite's cleanup deleted another's fixtures
+  mid-run. Each suite now owns a named subdirectory.
 
 ## [0.1.0] - 2026-09-02
 

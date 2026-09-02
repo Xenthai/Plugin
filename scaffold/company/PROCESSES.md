@@ -1,6 +1,6 @@
 # Procesos — <Nombre de la empresa>
 
-**Estado del documento:** — pendiente — *(provisional | completo)*
+**Esquema:** 1 · **Estado del documento:** — pendiente — *(provisional | completo)*
 **Fecha de captura:** — pendiente —
 **Fuente de la información:** — pendiente — *(quién ejecuta el proceso | gerencia | ambos)*
 

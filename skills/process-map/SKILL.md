@@ -91,6 +91,10 @@ Close the session by telling the client two things: which processes are captured
 pending, and that phase 4 (`process-access`) is where pain, access and the automation shortlist come
 from. Do not start phase 4 in the same session.
 
+Append the conversation to `INTERVIEW.md`, marking who described each process. **Whoever does the
+work and whoever runs the company describe the same process differently, and the difference is the
+finding** — record both attributions rather than reconciling them into one account.
+
 ## STOP conditions
 
 - **Only management is available and the doer is not.** Do not cancel and do not pretend. Capture

@@ -1,6 +1,6 @@
 ---
 name: company-intake
-description: Request the files a company already has and map it from those instead of interviewing for every fact — the constancia fiscal, an org chart or payroll list, a price list, a real quote and invoice, the software bill, a brand manual, any written procedure. Use at the very start of a new company, when the operator asks what to ask the client for, when files a client sent need extracting into the company's documents, or when a session keeps stalling on facts nobody in the room knows. Produces INTAKE.md as the request ledger and fills whatever the documents yield. For interviewing about what no document holds, the phase skills do that — social-identity for positioning, process-map for how work actually runs.
+description: Request the files a company already has and map it from those instead of interviewing for every fact — the constancia fiscal, an org chart or payroll list, a price list, a real quote and invoice, the software bill, a brand manual, any written procedure. Use at the very start of a new company, when the operator asks what to ask the client for, when files a client sent need extracting into the company's documents, or when a session keeps stalling on facts nobody in the room knows. Produces INTAKE.md as the request ledger and fills whatever the documents yield. For interviewing about what no document holds, the phase skills do that — social-identity for positioning, company-offer for prices and terms, process-map for how work actually runs.
 ---
 
 # Company intake — files before questions
@@ -38,8 +38,8 @@ Write extracted facts into the document that owns them:
 | --- | --- |
 | Constancia de situación fiscal | `BRAND.md` identity, `.company.json` legal name |
 | Org chart or payroll list | `PEOPLE.md` |
-| Price list or catalogue | `PRODUCTS.md` and `SERVICES.md` — whichever the company sells |
-| A contract or published conditions | `OFFER.md`: payment, warranty, cancellation, CFDI |
+| Price list or catalogue | `PRODUCTS.md` and `SERVICES.md` — whichever the company sells (hand to `company-offer`) |
+| A contract or published conditions | `OFFER.md`: payment, warranty, cancellation, CFDI (hand to `company-offer`) |
 | An inventory report, or where stock is checked | `PRODUCTS.md` stock section — if stock lives in a sheet someone updates by hand, an automated quote can promise what is not there, and that is a finding |
 | A real quote and a real invoice | `PROCESSES.md` (hand to `process-map`), `SYSTEMS.md` |
 | System list or the monthly software invoice | `SYSTEMS.md` |
@@ -77,6 +77,13 @@ count in the baseline's maturity layer, and it is usually the strongest argument
 ```bash
 node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event phase_end --capability company \
   --why "intake: N files requested, M received, K recorded as non-existent" --target "INTAKE.md"
+```
+
+Close by reporting what is still open, and by naming the phase that owes each one — the client
+should never have to work out who fills what:
+
+```bash
+node "${CLAUDE_PLUGIN_ROOT}/bin/status.mjs" --pending
 ```
 
 Create and change company files with `Write` and `Edit` only. The company guard covers those two;

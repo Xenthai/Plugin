@@ -34,6 +34,24 @@ captured without those two has no way to know when it ran correctly.
 
 ---
 
+## 1b. Breadth before depth — the rule that sizes the engagement
+
+**A page that names every process beats a page that fully documents three and silently omits nine.**
+An omitted process is invisible; a pending cell is a visible question that the client can answer
+later. This is the decision that turns a mapping engagement into one session or six, so it is made
+before the first interview, not discovered during it.
+
+Spend the first third of the available time naming **every** process — primary and support — with
+only four fields each: the name in the doers' words, the owner's **role**, the trigger, and the
+systems it touches. Spend the rest on depth for the ones the client already calls painful. Leave
+everything else `— pendiente —` rather than inferred, because a scoring pass re-orders the whole
+list by pain anyway and depth spent on a process nobody complains about is the cheapest thing to
+have skipped.
+
+The failure this prevents is specific: a client reads a document listing three fully-detailed
+processes, concludes their company has three processes, and the automation is scoped to a fraction
+of the work.
+
 ## 2. One structured table per process. Never a diagram
 
 This is a hard rule, and it is the one most often argued with. The reasons:

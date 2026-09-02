@@ -28,7 +28,14 @@ plugin's own directory.
 
 ## 2. Detect the phase from what exists, not from what the client says
 
-The client will say "we want to automate things". That sentence fits both phases. Look at the store:
+The client will say "we want to automate things". That sentence fits both phases. Look at the store —
+one command reports which documents exist and how many fields in each are still pending, which is
+the distinction the table below turns on:
+
+```bash
+node "${CLAUDE_PLUGIN_ROOT}/bin/status.mjs" --json
+```
+
 
 | What is in the company store | Phase | Route to |
 | --- | --- | --- |

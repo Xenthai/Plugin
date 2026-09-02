@@ -92,6 +92,10 @@ Create and change company files with `Write` and `Edit` only. The company guard 
 it cannot see a shell redirect, and the journal would show the violation after the fact rather
 than stop it.
 
+Append the conversation to `INTERVIEW.md`, including the phrases the client rejected. A rejected
+phrase is the most reusable output of a voice session — it is what stops the same wording being
+proposed again next quarter.
+
 ## STOP conditions
 
 - **The company has published nothing.** There is nothing to extract from. Derive voice from the

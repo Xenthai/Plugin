@@ -91,6 +91,10 @@ Create and change company files with `Write` and `Edit` only. The company guard 
 it cannot see a shell redirect, and the journal would show the violation after the fact rather
 than stop it.
 
+Append the conversation to `INTERVIEW.md`: who said each thing, and on what date. Positioning
+stated in a session is client-reported until a document or a customer confirms it, and six months
+on an inferred claim reads exactly like a captured one.
+
 ## STOP conditions
 
 - **The person in the room cannot approve public claims.** Capture what you can, record who must
