@@ -1,0 +1,1 @@
+En base al setup y el uso continue de IA y la bitacora, vamos a crear algo en el plugin para que detecte oportunidades de optimización de procesos, documentos, workflows, rutinas, etc.

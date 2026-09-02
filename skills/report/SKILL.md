@@ -1,0 +1,168 @@
+---
+name: report
+description: Report what actually happened in a company's engagement, read back from that company's own execution journal — actions by actor, human review time, who approved what, and what the evidence cannot support. Use at the end of a month, before a client review or renewal conversation, when the client asks how much of this the AI did or what it saved them, when someone needs an audit trail of an approval, and before any figure about the engagement is quoted anywhere. For checking that the plugin, its store and its connectors are working, use doctor. For planning or producing content, use social-plan or social-produce.
+---
+
+# Report — the journal read back
+
+> Shell commands below use `${CLAUDE_PLUGIN_ROOT}`. It is guaranteed inside hooks, not inside a
+> skill's shell — if it is unset, use the plugin root announced at session start.
+
+The tool counts. You interpret. Those are different jobs and the line between them is the whole
+point of this skill: every figure in the report is arithmetic over the journal, and every sentence
+about what those figures *mean* is a judgement you have to be able to defend out loud.
+
+## When to run it
+
+| Trigger | What the client is really asking |
+| --- | --- |
+| End of a month | "Did we get what we paid for?" |
+| Before a review or renewal | "Is this worth continuing?" |
+| "How much of this did the AI do?" | An output number — give it, but never alone |
+| "How many hours did this save us?" | A counterfactual. It does not exist. See below |
+| An approval is disputed | "Who signed off on this, and when?" |
+| A figure is about to appear in a deck | Whether it survives being checked |
+
+## Running the tool
+
+```bash
+node "${CLAUDE_PLUGIN_ROOT}/bin/report.mjs" --journal <store-root> --month <YYYY-MM> \
+  --root <bound-folder-id> --out reports/<YYYY-MM>/report.md
+```
+
+`--help` lists the current options; trust it over this file. `--json` gives the same figures for
+your own arithmetic. Pass `--root` whenever you know the bound root folder id — without it the
+unauthorized-action check does not run, and the report will say so rather than read as clean.
+
+## What the tool will not do for you
+
+| The tool gives you | You have to supply |
+| --- | --- |
+| Counts by actor and by event | Which of those counts anyone should care about |
+| Human review touch time, and the starts that never closed | Whether that touch time is the real review effort |
+| Named approvers, and a defect line for unnamed ones | Whether an approval actually approved the thing |
+| The unauthorized-action sentence, matched to the check that ran | Nothing. Do not strengthen that sentence |
+| Every figure with its definition, file, period and measurer | The mechanism, the alternatives, the contribution |
+
+## A count of AI actions is an output metric
+
+It proves that the system ran. It does not prove that anything got better. A month with 400
+`ai_action` rows is equally consistent with a process that improved and one that got worse and
+generated more rework — the count cannot tell those apart, so quoting it alone is not a weak claim,
+it is a claim about nothing.
+
+The tool renders runs and escalations as **one value in one cell** so the run count cannot be
+lifted out of the table on its own. Keep that discipline in prose: any sentence with the run count
+in it carries the escalation count too.
+
+## Contribution analysis, never a counterfactual
+
+Attribution is by contribution analysis. Four steps, in order, and the report is not finished until
+all four are written:
+
+1. **State the mechanism.** How, concretely, would this work have changed the outcome? "Pieces are
+   drafted from documents the company already had, so the review starts from a draft instead of a
+   blank page." A mechanism is falsifiable; a benefit is not.
+2. **Name the alternative explanations, before the client does.** Seasonality. A person who joined
+   or left. A price change. A campaign nobody logged. The client simply trying harder because
+   someone was watching. Naming them is what makes the remaining claim credible — an analysis that
+   lists no alternatives reads as advocacy, and a director in this market will read it that way.
+3. **Claim a plausible, evidenced contribution.** "Consistent with a contribution to X, evidenced by
+   the journal rows in the table above and by the client's own process measure." That sentence is
+   the strongest honest one available.
+4. **Say what would change your mind.** Name the observation that would falsify the claim. If no
+   observation would, you have written a belief.
+
+Never a quantified counterfactual — no "saved 40 hours", no "3× faster", no "would have taken two
+weeks". Nobody ran the month twice. Every such figure is arithmetic on an imagined month.
+
+And never build one from what the client remembers. A systematic review of 32 studies found 22% of
+people's estimates of their own recurring tasks high by more than 100%, and self-reported time
+diverges from logged time by a median of 47% — always in the flattering direction. If you need a
+"before", ask for **three to five dated, concrete instances**, not an average.
+
+## The three metrics that actually hold up
+
+| Metric | Where it comes from | What it proves | How it fails |
+| --- | --- | --- | --- |
+| The client's own process measure, before and now | `BASELINE.md` in the company store | Improvement, in the client's own unit | Missing baseline, or a unit redefined between the two readings |
+| Automation runs paired with human escalations | This tool, one cell | The system ran *and* a person still holds the decisions | Escalations at zero — nothing was ever handed back, which is a finding, not a success |
+| The unauthorized-action sentence | This tool, generated from the check that ran | That nothing recorded went outside the bound folder | Presenting it as proof of absence; the journal holds only what passed through the plugin |
+
+Those three, together. The first without the second is a number with no accountability behind it;
+the second without the first is activity dressed as improvement; the third without either is
+compliance theatre.
+
+## Reading the figures without fooling yourself
+
+- **Touch time is not cycle time.** The journal measures the minutes a person spent inside a
+  review, not how long the work sat waiting. By Little's Law, `WIP = throughput × cycle time`, so a
+  touch-time figure says nothing about throughput on its own. Report cycle time and throughput when
+  you have them, and say plainly that you do not when you don't.
+- **A flow-efficiency figure far outside 5–15% is a data defect, not an achievement.** That band is
+  typical for knowledge work. If your numbers imply 60%, the events are wrong — most likely
+  `review_start` rows that were never closed, or work that happened without any row at all.
+- **Unmatched review starts make the touch-time figure a floor.** The tool reports them separately
+  for exactly that reason. Say "at least N minutes", never "N minutes".
+- **An unnamed approval is not an approval.** If the tool reports any, do not call them approvals
+  anywhere in your prose. Name the defect and say what has to change: whoever records the event
+  passes `--actor person:<name>`.
+- **The defects section goes in the client's report**, not into a private note. A report that
+  publishes clean numbers while you privately know the evidence has holes is the failure mode this
+  whole tool exists to prevent.
+
+## Who reads it, and where the baseline comes from
+
+Decision-making in Mexican companies concentrates heavily in one person — power distance 81/100,
+and only about 21% of companies have a board. Write for that one director: *usted*, the conclusion
+first, the tables underneath it.
+
+But the **baseline number does not come from that director**. Management is routinely unaware of
+the real exceptions in a process. Get the before-and-after measure from the person who does the
+work, and record whose it is.
+
+## Publishing it
+
+The markdown is the source and carries the lineage. Write it into the company store
+(`reports/<YYYY-MM>/report.md`), then generate a Google Doc from it, because **comments are how the
+client answers** and only a Doc returns them. The store cannot rewrite a file's contents, so a
+revised report is a new file — which is what leaves the version history visible.
+
+Language of the report body: es-MX, *usted*. Never the words *certificado* or *verificado* — this
+is measurement, not certification. Use **medido y evidenciado**. The tool never emits those two
+words; do not reintroduce them in the sentences you add.
+
+Any figure or client name the client might republish needs a live row in `PROOF.md` naming its
+source, who confirmed it, and its re-verification date. An expired row is not publishable.
+
+```bash
+node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event delivery --capability report \
+  --why "monthly report published for review" --target "reports/<YYYY-MM>/report.md"
+```
+
+## STOP conditions
+
+- **No `BASELINE.md` exists.** Say explicitly, in the report: this describes **activity**, not
+  **improvement**. The distinction matters because an activity count is fully compatible with the
+  process having got worse, so without a before-measure any improvement claim is the client's own
+  estimate wearing a measurement's clothes — and that estimate is reliably wrong in the direction
+  that flatters everyone. Then say what to measure from now on, in the client's own unit, and who
+  will read it. Do not proceed to write an improvement claim anyway.
+- **The client asks for hours or pesos saved.** Explain once that the figure would be invented,
+  offer the three metrics above, and record their decision if they insist.
+- **The journal has no file for the period.** Report nothing. Do not reconstruct events from this
+  session's transcript or from memory: an operational record cannot be rebuilt after the fact, and a
+  reconstruction presented as a journal is fabricated evidence. Say the period is unmeasured and why.
+- **You do not know the bound root folder id.** Run without `--root` and leave the tool's sentence
+  as it is. Never hand-write the clean version of a check that did not run.
+- **A figure you want to publish has no `PROOF.md` row.** It does not go in.
+
+## Reference
+
+| File | Open it when |
+| --- | --- |
+| `<store>/BASELINE.md` | Always, before writing anything about improvement |
+| `<store>/PROOF.md` | The report will carry a figure or name the client might republish |
+| `<store>/journal/execution/<YYYY-MM>.jsonl` | A figure looks wrong and you need the rows behind it |
+| `lib/journal.mjs` | You need the exact row shape, or the `EVENTS` vocabulary |
+| `node bin/report.mjs --help` | Before quoting any option from this file |

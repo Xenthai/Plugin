@@ -1,0 +1,87 @@
+{
+  "name": "xenthai",
+  "version": "0.1.0",
+  "description": "Xenth AI Plugin. Applied-AI consulting, executable: maps a company, produces its communication from the company's own documents, and records every action with its actor and timestamp. Company-agnostic — all client material lives in that company's store.",
+  "author": {
+    "name": "Derian André Castillo Franco",
+    "url": "https://xenth.ai"
+  },
+  "homepage": "https://xenth.ai",
+  "repository": "https://github.com/xenthai/xenthai-plugin",
+  "license": "SEE LICENSE IN LICENSE",
+  "keywords": [
+    "claude-skill",
+    "claude-code",
+    "consultoria",
+    "automatizacion",
+    "procesos",
+    "gobierno-de-datos",
+    "bitacora",
+    "contenido",
+    "redes-sociales",
+    "es-mx"
+  ],
+  "skills": "./skills/",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/guard-company.mjs\"",
+            "timeout": 10,
+            "statusMessage": "Checking the company bound to this session..."
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/journal.mjs\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/journal.mjs\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/bootstrap.mjs\"",
+            "timeout": 60,
+            "statusMessage": "Preparing the render engine..."
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/journal.mjs\"",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

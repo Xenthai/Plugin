@@ -1,0 +1,210 @@
+{
+  "schema": 1,
+  "labelling": [
+    "expected is the skill whose description most specifically claims the request: a phase skill when the query states the phase context, social when the binding or the phase must be established first, doctor when the machine or a connector is in doubt, none when no skill in skills/ applies today.",
+    "kind=target: the surface of the query and the expected skill agree. kind=near-miss: the surface points at another skill, or at a capability that does not exist yet.",
+    "split is fixed per item: tune descriptions against train, report on test, and never move an item between splits to make a number pass."
+  ],
+  "items": [
+    {
+      "id": "identity-empty-store-es",
+      "query": "Ya estamos en la carpeta de Talleres del Norte y su store está vacío: ni BRAND.md ni nada. Arranquemos la fase 1: razón social, cómo escriben de verdad el nombre comercial, sector con su regulador y quién firma lo que se publica.",
+      "expected": "social-identity",
+      "split": "train",
+      "kind": "target",
+      "why": "A bound company with an empty store and the phase-1 facts named is exactly the state social-identity's description claims."
+    },
+    {
+      "id": "voice-generic-copy-en",
+      "query": "This company has BRAND.md and DESIGN.md but no VOICE.md, and every draft we write for them reads like any competitor could have posted it. Derive their voice from what they already publish and fill in PROOF.md.",
+      "expected": "social-voice",
+      "split": "test",
+      "kind": "target",
+      "why": "BRAND.md present, VOICE.md missing and copy coming out generic are the three cues social-voice names; the produce lure is a distraction."
+    },
+    {
+      "id": "plan-october-calendar-es",
+      "query": "La empresa ya tiene BRAND.md, VOICE.md y PROOF.md al día. Necesito el plan editorial de octubre: qué se dice, en qué red y en qué orden, listo para mandarlo a revisión del director.",
+      "expected": "social-plan",
+      "split": "train",
+      "kind": "target",
+      "why": "All three documents exist and a new period needs deciding, which is social-plan's precondition and trigger; nothing is produced yet."
+    },
+    {
+      "id": "produce-approved-plan-en",
+      "query": "The director approved the October plan in the Doc yesterday. Write the copy and render the twelve pieces for Instagram and LinkedIn.",
+      "expected": "social-produce",
+      "split": "train",
+      "kind": "target",
+      "why": "An approved plan whose pieces need making is the first trigger in social-produce's description."
+    },
+    {
+      "id": "produce-keepout-one-piece-es",
+      "query": "La pieza 07 falló el render: el titular entra en la zona de la interfaz de Stories y el engine la rechazó. Arréglala y vuélvela a renderizar.",
+      "expected": "social-produce",
+      "split": "test",
+      "kind": "target",
+      "why": "One piece failing a layout assertion is a composition defect that produce fixes; doctor's own description sends this case away from itself."
+    },
+    {
+      "id": "handoff-approved-batch-metricool-es",
+      "query": "Las veinte piezas de octubre ya están aprobadas y renderizadas. Arma la entrega: calendario con horas, archivos y la nota de lo que falta hacer a mano. El cliente ya paga Metricool.",
+      "expected": "social-handoff",
+      "split": "train",
+      "kind": "target",
+      "why": "An approved, rendered batch that needs delivering plus a vendor already in use is handoff's trigger set."
+    },
+    {
+      "id": "handoff-redo-broken-csv-en",
+      "query": "The client says last month's delivery folder was missing half the images and the schedule CSV opened with broken accents in Excel. Redo it properly.",
+      "expected": "social-handoff",
+      "split": "test",
+      "kind": "target",
+      "why": "A previous handoff being incomplete is an explicit trigger in social-handoff's description; the corrupted CSV is its UTF-8 BOM concern."
+    },
+    {
+      "id": "router-which-phase-es",
+      "query": "¿En qué fase del onboarding va Constructora Delta? Retomemos su trabajo de redes donde se quedó.",
+      "expected": "social",
+      "split": "train",
+      "kind": "target",
+      "why": "Asking which onboarding phase a company is in and resuming its work are named in the router's own description."
+    },
+    {
+      "id": "identity-restart-guessed-brand-en",
+      "query": "Restart Grupo Ferrer's onboarding from scratch. The BRAND.md we have was filled in by guessing and we can't trust a single field in it.",
+      "expected": "social-identity",
+      "split": "test",
+      "kind": "target",
+      "why": "BRAND.md exists, which lures toward social-voice, but restarting a company's onboarding is identity's explicit trigger."
+    },
+    {
+      "id": "voice-claim-needs-proof-row-es",
+      "query": "El cliente quiere publicar que 'reducimos 40% los costos de nuestros clientes'. Antes de que esa cifra entre en una pieza, regístrala con su fuente, quién la confirmó y cuándo se revalida.",
+      "expected": "social-voice",
+      "split": "train",
+      "kind": "target",
+      "why": "A claim that needs a verification row before it can be published is social-voice's PROOF.md duty, even though the claim is bound for a piece."
+    },
+    {
+      "id": "doctor-setup-before-first-session-es",
+      "query": "Mañana es la primera sesión con Grupo Ferrer y trabajaremos desde su laptop. ¿Está listo el setup? Verifica que Drive lee, escribe y borra un archivo, y que regresan los comentarios de un Doc.",
+      "expected": "doctor",
+      "split": "train",
+      "kind": "target",
+      "why": "Before the first session with a new company and 'is the setup ready' are both named in doctor's description; the round trips are its checklist."
+    },
+    {
+      "id": "none-process-map-es",
+      "query": "Mapea los procesos de la empresa: cuentas por pagar, compras y facturación con CFDI. Quién hace qué, cuánto tarda cada paso y dónde se atora.",
+      "expected": "none",
+      "split": "train",
+      "kind": "near-miss",
+      "why": "Process mapping is a roadmap capability, not a skill in skills/; the router's description says outright it is the wrong skill for this."
+    },
+    {
+      "id": "none-monthly-report-journal-en",
+      "query": "Build the monthly report from this company's journal: cycle time, touch time and throughput for the processes we touched.",
+      "expected": "none",
+      "split": "test",
+      "kind": "near-miss",
+      "why": "The report capability does not exist yet; aggregating the journal is not communication work and no description claims it."
+    },
+    {
+      "id": "none-automation-opportunities-es",
+      "query": "Ya llevamos tres meses de bitácora con esta empresa. Revisa qué acciones se repiten y dime qué proceso conviene automatizar primero.",
+      "expected": "none",
+      "split": "train",
+      "kind": "near-miss",
+      "why": "Surfacing automation candidates from the journal is the future opportunities capability; today no skill claims it and the router excludes automation scoping."
+    },
+    {
+      "id": "router-linkedin-no-brand-en",
+      "query": "Write a LinkedIn post announcing Almacenes Ruiz's new warehouse. We haven't set up any brand or voice documents for this company yet.",
+      "expected": "social",
+      "split": "train",
+      "kind": "near-miss",
+      "why": "Producing is impossible with no BRAND.md, so the router must establish binding and phase first; expected social, not social-produce."
+    },
+    {
+      "id": "router-instagram-unknown-phase-es",
+      "query": "Necesito una publicación de Instagram sobre la promoción del Buen Fin. No tengo idea de si esta empresa ya tiene plan aprobado ni en qué fase va.",
+      "expected": "social",
+      "split": "test",
+      "kind": "near-miss",
+      "why": "The phase is unknown, so the router decides between plan and produce; jumping to social-produce would skip the approval gate."
+    },
+    {
+      "id": "plan-revise-after-comments-en",
+      "query": "The client left comments on the October plan Doc: fewer LinkedIn posts and nothing on Fridays. Revise it and send it back.",
+      "expected": "social-plan",
+      "split": "train",
+      "kind": "near-miss",
+      "why": "Revising after the client commented is a planning act named in social-plan's description; no piece is produced against an unapproved plan."
+    },
+    {
+      "id": "plan-reorder-add-single-piece-es",
+      "query": "Para la semana que viene cambia el orden de lo que se publica y mete una pieza nueva sobre el evento del jueves; todavía no producimos nada de esa semana.",
+      "expected": "social-plan",
+      "split": "test",
+      "kind": "near-miss",
+      "why": "Reordering and adding a piece before anything is produced changes the plan, so it returns to the approval gate; 'lo que se publica' lures toward produce or handoff."
+    },
+    {
+      "id": "none-add-render-test-case-en",
+      "query": "Add a case to test/render.test.mjs that proves the fill assertion fails on an empty canvas, then run npm test.",
+      "expected": "none",
+      "split": "train",
+      "kind": "near-miss",
+      "why": "Plugin development: 'render', 'assertion' and 'fails' lure toward social-produce or doctor, but writing a test case is company-agnostic work no skill claims."
+    },
+    {
+      "id": "voice-boilerplate-to-rules-en",
+      "query": "Their posts always say 'soluciones integrales' and 'líderes en el sector'. Turn what they actually publish into word rules a writer can follow, and get rid of the boilerplate.",
+      "expected": "social-voice",
+      "split": "test",
+      "kind": "near-miss",
+      "why": "Turning published material into word-level rules is voice extraction; rewriting their posts lures toward social-produce."
+    },
+    {
+      "id": "router-new-client-no-binding-es",
+      "query": "Quiero arrancar el onboarding de redes de un cliente nuevo, Ferretería La Central. Todavía no hay .company.json ni carpeta en Drive.",
+      "expected": "social",
+      "split": "train",
+      "kind": "near-miss",
+      "why": "A new client's onboarding lures toward social-identity, but identity requires a bound company and is reached through the router, which binds first."
+    },
+    {
+      "id": "doctor-every-asset-substituted-font-es",
+      "query": "Las 32 imágenes de la corrida de hoy salieron en Segoe UI en vez de Archivo, todas, en cada formato. No es una pieza: es toda la corrida.",
+      "expected": "doctor",
+      "split": "test",
+      "kind": "near-miss",
+      "why": "A substituted font on every asset is an install problem that doctor's description claims; the render failure lures toward social-produce."
+    },
+    {
+      "id": "doctor-connected-but-failing-en",
+      "query": "Drive shows as connected in the settings, but the plan skill's read of BRAND.md failed twice with an authorization error.",
+      "expected": "doctor",
+      "split": "train",
+      "kind": "near-miss",
+      "why": "A connector that shows as connected while a skill's call fails is doctor's case; 'the plan skill' lures toward social-plan."
+    },
+    {
+      "id": "none-one-page-website-es",
+      "query": "Hazme la página web de una sola sección para la empresa a partir de su BRAND.md y su PROOF.md.",
+      "expected": "none",
+      "split": "test",
+      "kind": "near-miss",
+      "why": "The web capability is on the roadmap; using the company's documents does not make a website social content, and no description lists the web as a platform."
+    },
+    {
+      "id": "none-baseline-invoice-duration-en",
+      "query": "Measure how long the team really takes to close an invoice today: three to five dated real cases, not an estimate.",
+      "expected": "none",
+      "split": "train",
+      "kind": "near-miss",
+      "why": "Baseline measurement is a roadmap capability; the elicitation rule lives in doctrine, but no skill in skills/ implements it."
+    }
+  ]
+}

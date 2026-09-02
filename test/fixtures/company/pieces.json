@@ -1,0 +1,120 @@
+{
+  "hero": {
+    "archetype": "hero",
+    "eyebrow": "Consultoría · Querétaro",
+    "kicker": "Las personas deciden. <em>La IA ejecuta.</em>",
+    "headline": "Tu empresa,<br>más inteligente<br>cada mes.",
+    "art": "<svg viewBox=\"0 0 100 100\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.8\"><circle cx=\"50\" cy=\"50\" r=\"6\" fill=\"currentColor\" stroke=\"none\"/><line x1=\"50\" y1=\"50\" x2=\"90.0\" y2=\"50.0\"/><line x1=\"50\" y1=\"50\" x2=\"84.6\" y2=\"70.0\"/><line x1=\"50\" y1=\"50\" x2=\"70.0\" y2=\"84.6\"/><line x1=\"50\" y1=\"50\" x2=\"50.0\" y2=\"90.0\"/><line x1=\"50\" y1=\"50\" x2=\"30.0\" y2=\"84.6\"/><line x1=\"50\" y1=\"50\" x2=\"15.4\" y2=\"70.0\"/><line x1=\"50\" y1=\"50\" x2=\"10.0\" y2=\"50.0\"/><line x1=\"50\" y1=\"50\" x2=\"15.4\" y2=\"30.0\"/><line x1=\"50\" y1=\"50\" x2=\"30.0\" y2=\"15.4\"/><line x1=\"50\" y1=\"50\" x2=\"50.0\" y2=\"10.0\"/><line x1=\"50\" y1=\"50\" x2=\"70.0\" y2=\"15.4\"/><line x1=\"50\" y1=\"50\" x2=\"84.6\" y2=\"30.0\"/></svg>"
+  },
+  "record": {
+    "archetype": "record",
+    "eyebrow": "Bitácora de cada acción",
+    "rows": [
+      {
+        "st": "12 mar · 03:14 · IA",
+        "ac": "cotización #4471 → enviada",
+        "cls": "hot",
+        "scope": "fecha, actor y resultado, meses después"
+      },
+      {
+        "st": "08 abr · 22:41 · IA",
+        "ac": "pedido #8830 → capturado",
+        "cls": "dim"
+      },
+      {
+        "st": "27 may · 03:22 · IA",
+        "ac": "correo → hoja maestra (4 campos)",
+        "cls": "dim"
+      },
+      {
+        "st": "19 jun · 04:07 · IA",
+        "ac": "recordatorio de cita → enviado",
+        "cls": "dim"
+      },
+      {
+        "st": "03 jul · 04:51 · IA",
+        "ac": "pedido #8831 → capturado",
+        "cls": "dim"
+      },
+      {
+        "st": "21 ago · 05:12 · IA",
+        "ac": "cotización #4472 → enviada",
+        "cls": "dim"
+      }
+    ],
+    "lead": "Auditable meses después, no solo el día de la demostración."
+  },
+  "statement": {
+    "archetype": "statement",
+    "eyebrow": "El ecosistema",
+    "headline": "Dueño de<br>tus procesos,<br>no rehén de<br>una plataforma.",
+    "lead": "Lo que hace útil a una IA no es el modelo: es el contexto y los procesos que le das."
+  },
+  "list": {
+    "archetype": "list",
+    "eyebrow": "El punto",
+    "headline": "Sí importa.<br>Pero no necesita<br>a una <em>persona</em>.",
+    "items": [
+      "Capturar un pedido",
+      "Armar una cotización",
+      "Pasar un correo a una hoja",
+      "Mandar el recordatorio de la cita",
+      "Actualizar la lista de precios",
+      "Enviar el resumen a dirección",
+      "Registrar por dónde llegó el cliente"
+    ],
+    "lead": "Si no se hace, la operación se cae."
+  },
+  "question": {
+    "archetype": "question",
+    "eyebrow": "Siguiente paso",
+    "question": "¿Qué se<br>teclea dos<br>veces en tu<br>empresa?",
+    "lead": "Con eso basta para empezar a ver la red.",
+    "foot": [
+      "WhatsApp 55 7348 9866"
+    ]
+  },
+  "quote": {
+    "archetype": "quote",
+    "eyebrow": "Lo que dijo el cliente",
+    "quote": "Antes tardábamos una mañana en cerrar el día. Ahora el resumen llega solo y yo decido.",
+    "source": {
+      "name": "Nombre Apellido",
+      "role": "Dirección de operaciones"
+    }
+  },
+  "announcement": {
+    "archetype": "announcement",
+    "eyebrow": "Sesión abierta",
+    "headline": "Cómo mapear<br>tu operación<br>en cuatro sesiones.",
+    "details": [
+      {
+        "label": "Cuándo",
+        "value": "Jueves 12 · 10:00"
+      },
+      {
+        "label": "Dónde",
+        "value": "En línea"
+      },
+      {
+        "label": "Cupo",
+        "value": "12 personas"
+      }
+    ],
+    "lead": "Sin costo. Sin seguimiento comercial si no aplica."
+  },
+  "contrast": {
+    "archetype": "contrast",
+    "eyebrow": "Antes y después",
+    "headline": "La misma<br>cotización.",
+    "before": {
+      "label": "Antes",
+      "text": "Una persona, dos horas, tres documentos abiertos, y nadie más puede tocar el archivo."
+    },
+    "after": {
+      "label": "Después",
+      "text": "La IA arma el borrador, la persona revisa cinco minutos y aprueba. Tres a la vez."
+    },
+    "lead": "Mismo tiempo de reloj; una fracción del tiempo de atención."
+  }
+}

@@ -1,0 +1,7 @@
+:root {
+  --ground: #000000; --surface: #08090c; --surface-lift: #0e1116;
+  --ink: #f2f5f9; --ink-soft: #b9c3d1; --ink-muted: #8f9aa9; --ink-faint: #616b78;
+  --signal: #dce9ff; --line: rgba(198, 214, 235, 0.11);
+  --display: "Archivo", sans-serif; --body: "Hanken Grotesk", sans-serif; --mono: "JetBrains Mono", monospace;
+  --stretch-h1: 116%; --stretch-h2: 112%;
+}
