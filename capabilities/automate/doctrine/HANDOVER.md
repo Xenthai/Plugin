@@ -34,6 +34,49 @@ automation dies is a card expiring on a subscription nobody remembered was load-
 
 ---
 
+## 1b. Autonomy is earned in three steps, never granted at once
+
+An automation does not go from nothing to unattended. It climbs, and **each rung has an exit
+criterion that must be met before the next one** — otherwise "we'll watch it for a while" becomes
+permanent and nobody ever decides.
+
+| Rung | What it means | Exit criterion to climb |
+| --- | --- | --- |
+| **1 · Visible** | It runs and shows what it *would* do. It changes nothing. A person does the work as before and compares | Its output matched what the person did, on **at least ten real instances**, and every mismatch was explained rather than waved off |
+| **2 · Assisted** | It does the work and a person reviews every output before it leaves | A stated period with **no wrong output reaching anyone outside the company**, and the reviewer can say what they are checking for without reading this document |
+| **3 · Unattended** | It runs on its own; a person reviews a sample and every escalation | Only after rung 2. And it still has a named reviewer, a sample rate, and a cadence — see §4 |
+
+**The order is the safeguard, not the ceremony.** At rung 1 a wrong output costs nothing and teaches
+everything: the ten comparisons are where the process's real exceptions surface, and those
+exceptions are the ones nobody mentioned when describing the process from memory.
+
+Three rules that keep the ladder honest:
+
+- **Record which rung each automation is on, and the date it climbed.** An automation with no rung
+  is at rung 1 by default, whatever anyone intended.
+- **A rung is not a promotion for good behaviour, it is a decision with evidence.** "It has been
+  fine" is not an exit criterion. Ten matched instances is.
+- **Rungs go down as well as up.** A wrong output that reaches a customer sends it back to rung 2,
+  and that is a normal event to be recorded rather than argued about.
+
+### Before building anything, three questions
+
+If any of them cannot be answered, the automation is not ready to be built — and the missing answer
+is itself the finding.
+
+| Question | Why it gates the build |
+| --- | --- |
+| **Can the goal be stated in one sentence?** | A goal that needs a paragraph is two goals, and it will be automated badly as one |
+| **Can you say what good looks like, and how anyone would know it got it right?** | This is the check in §3. **If nobody can state it, there is no check, and rung 3 is unreachable forever** |
+| **Can each step be described without hand-waving?** | A hand-waved step is where a person is silently applying judgement — automate around it, not through it |
+
+And one prior test, before those three: **is the task autonomous, recurring, and reviewable?** If it
+needs live judgement, happens once, or cannot be reviewed clearly, it is not an automation candidate
+at all — it is a task a person does with assistance, which is a different and often better answer.
+
+**Reviewable is the criterion people skip.** A task whose output nobody can check is not automatable
+at any rung, however repetitive it is.
+
 ## 2. What the report must answer, in the client's own words
 
 Twelve items. Anything missing is a gap the client discovers at the worst moment.
@@ -74,6 +117,34 @@ For each failure mode: **what the automation does, what the client sees, and who
 **A wrong output that reaches a customer is the failure that matters.** Design the check for that
 case before designing the happy path, and put the check in the report so the client knows it exists
 and who owns it.
+
+### Stopping instead of rerouting is a choice, and this is the reasoning
+
+A useful distinction exists between two postures. A **workflow** is obedient: it follows the path
+and breaks when the path fails. An **agent** reroutes: the usual item is out of stock, so it finds a
+substitute, adjusts the quantity, checks the calendar, and rebuilds the order. The common test for
+whether something is really an agent is exactly that — when the first path breaks, does it keep
+following the script or find a better one?
+
+**This doctrine deliberately chooses the workflow posture for a client's commercial output.** On bad
+input it stops. It does not substitute, infer, or proceed with a guess.
+
+The reasoning, stated so nobody later mistakes it for an oversight:
+
+- **A reroute is a decision made without authority.** Substituting a product, adjusting a quantity or
+  changing a price is a commercial decision, and the client's own authorisation chain — recorded in
+  `PROCESSES.md` — says who may make it. An automation that reroutes has quietly appointed itself.
+- **A break is visible; a clever recovery is not.** A stopped automation produces an escalation
+  somebody sees within the hour. A rerouted one produces a plausible wrong result that surfaces
+  weeks later, through a customer.
+- **The exception is where the money is.** The exceptions a process throws are the finding the
+  mapping engagement is paid to surface. An automation that silently absorbs them destroys the
+  evidence.
+
+Where rerouting genuinely is the right answer — internal research, drafting, exploration, anything
+whose output a person reads before it matters — say so per automation in `AUTOMATIONS.md` and record
+who decided. **The posture is chosen per automation, not once for the plugin.** What is never
+acceptable is rerouting by accident because nobody decided.
 
 ---
 

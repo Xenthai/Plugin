@@ -16,6 +16,42 @@ must answer, the failure modes to design against, and the platform rules.
 Not a report of results. **Acceptance and liability.** Between going live and the next cadence
 report, the client owns something they cannot describe unless this exists.
 
+## Before anything: which rung, and can it be built at all
+
+**Autonomy is earned in three rungs — visible, assisted, unattended — and each has an exit criterion
+that must be met before the next.** The doctrine carries them. Record the rung and the date it
+climbed in `AUTOMATIONS.md`; **an automation with no rung recorded is at rung 1**, whatever anyone
+intended.
+
+Rung 1 is where the value is on day one: it runs, shows what it *would* do, changes nothing, and a
+person compares. Ten matched real instances is the exit criterion, and those ten comparisons are
+where the process's real exceptions surface — the ones nobody mentioned when describing the process
+from memory.
+
+Then three questions that gate the build. If any cannot be answered, **the missing answer is the
+finding** and the automation is not ready:
+
+1. Can the goal be stated in **one sentence**? A goal needing a paragraph is two goals.
+2. Can anyone say **what good looks like**, and how they would know it got it right? If nobody can
+   state it, there is no check, and rung 3 is unreachable forever.
+3. Can each step be described **without hand-waving**? A hand-waved step is a person silently
+   applying judgement — automate around it, not through it.
+
+And one prior test: **is the task autonomous, recurring and reviewable?** If it needs live
+judgement, happens once, or cannot be reviewed clearly, it is not an automation candidate — it is a
+task a person does with assistance, which is often the better answer. **Reviewable is the one people
+skip.**
+
+## Decide the failure posture, and write down who decided
+
+On a failure, does it **stop** or **reroute**? For a client's commercial output the default is
+**stop** — rerouting substitutes a product, adjusts a quantity or changes a price, and those are
+commercial decisions whose authority `PROCESSES.md` assigns to a person.
+
+Rerouting is right where a person reads the output before it matters. Record the posture per
+automation with the name of whoever chose it. **What is never acceptable is rerouting by accident
+because nobody decided.**
+
 ## The test
 
 **Can the client switch it off, alone, without calling Xenth AI?**

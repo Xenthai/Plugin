@@ -20,11 +20,62 @@ instancias suficientes para que un número signifique algo.
 
 ## 1. Inventario
 
-| # | Proceso | Id en [PROCESSES.md](PROCESSES.md) | Plataforma | En vivo desde | Estado |
-| --- | --- | --- | --- | --- | --- |
-| 1 | — pendiente — | | | | |
+| # | Proceso | Id en [PROCESSES.md](PROCESSES.md) | Plataforma | Peldaño | Desde | Estado |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | — pendiente — | | | | | |
 
 **Estados:** `en vivo` · `en pruebas` · `pausada` · `apagada` · `retirada`
+
+## 1b. La autonomía se gana en tres peldaños
+
+Una automatización no pasa de nada a desatendida. Sube, y **cada peldaño tiene un criterio de salida
+que hay que cumplir antes del siguiente** — si no, "la vigilamos un rato" se vuelve permanente y
+nadie decide nunca.
+
+| Peldaño | Qué significa | Criterio para subir |
+| --- | --- | --- |
+| **1 · Visible** | Corre y muestra qué *haría*. No cambia nada. Una persona hace el trabajo como antes y compara | Su salida coincidió con lo que hizo la persona en **al menos diez instancias reales**, y cada discrepancia se explicó, no se pasó por alto |
+| **2 · Asistida** | Hace el trabajo y una persona revisa cada salida antes de que salga | Un periodo acordado **sin ninguna salida equivocada que llegue a alguien fuera de la empresa**, y quien revisa puede decir qué está revisando sin leer este documento |
+| **3 · Desatendida** | Corre sola; una persona revisa una muestra y todas las escalaciones | Sólo después del peldaño 2. Y sigue teniendo revisor nombrado, tasa de muestreo y periodicidad |
+
+**El orden es la salvaguarda, no el trámite.** En el peldaño 1 una salida equivocada no cuesta nada
+y enseña todo: las diez comparaciones son donde salen las excepciones reales del proceso — las que
+nadie mencionó al describirlo de memoria.
+
+| Dato del peldaño | Valor |
+| --- | --- |
+| Peldaño actual | — pendiente — |
+| Fecha en que subió | — pendiente — |
+| Instancias comparadas en el peldaño 1 | — pendiente — |
+| Discrepancias, y cómo se explicó cada una | — pendiente — |
+| Quién decidió subirla | — pendiente — *(puesto)* |
+| ¿Alguna vez bajó de peldaño, y por qué? | — pendiente — |
+
+**Los peldaños bajan igual que suben.** Una salida equivocada que llega a un cliente la regresa al
+peldaño 2, y eso es un evento normal que se registra, no que se discute.
+
+**Sin peldaño anotado, está en el 1.** No importa qué se haya intendido.
+
+## 1c. Postura ante una falla: se detiene o rerutea
+
+Se decide **por automatización**, y se anota quién lo decidió. Lo que nunca es aceptable es que
+reruteé por accidente porque nadie decidió.
+
+| Automatización | Postura | Quién lo decidió | Por qué |
+| --- | --- | --- | --- |
+| — pendiente — | se detiene / rerutea | | |
+
+**Por defecto, para salida comercial: se detiene.** Reencaminar es tomar una decisión sin autoridad
+—sustituir un producto, ajustar una cantidad, cambiar un precio son decisiones comerciales, y
+[PROCESSES.md](PROCESSES.md) dice quién puede tomarlas. Además, una automatización detenida produce
+una escalación que alguien ve en una hora; una que reruteó produce un resultado plausible y
+equivocado que aparece semanas después, por un cliente.
+
+**Y las excepciones son donde está el dinero:** son el hallazgo por el que se paga el mapeo. Una
+automatización que las absorbe en silencio destruye la evidencia.
+
+Reencaminar sí es la respuesta correcta cuando la salida la lee una persona antes de que importe —
+investigación interna, borradores, exploración. Ahí se anota así arriba.
 
 ---
 
