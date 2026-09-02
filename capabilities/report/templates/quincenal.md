@@ -4,7 +4,7 @@
 > Ninguna otra. Un reporte que contesta la pregunta de otra cadencia entrena al cliente a dejar de
 > leerlos todos.
 
-**Esquema:** 1 · **Periodo:** <desde> — <hasta> · **Emitido:** <fecha> · **Para:** <nombre y puesto>
+**Esquema:** 1 · **Número de secuencia:** #<n> · **Periodo:** <desde> — <hasta> · **Emitido:** <fecha> · **Para:** <nombre y puesto>
 
 ---
 

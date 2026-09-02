@@ -54,6 +54,30 @@ Se dice aquí, al acordar la rutina, y no cuando alguien pida una cifra que no e
 
 ---
 
+## 1b. Dónde corre cada rutina, y qué pasa cuando no corre
+
+**Una rutina programada en el escritorio sólo corre mientras esa computadora está encendida y la
+aplicación abierta.** Eso significa que una rutina puede dejar de correr sin avisar: nadie recibe un
+error, simplemente no llega el reporte. Y un reporte que silenciosamente no llega es peor que no
+tener la rutina, porque el cliente deja de revisarlo y nadie se da cuenta.
+
+Por eso cada rutina declara dónde vive y cómo se nota su ausencia.
+
+| Rutina | Dónde corre | ¿Qué pasa si esa máquina está apagada? | Cómo se nota que no corrió |
+| --- | --- | --- | --- |
+| — pendiente — | escritorio del operador / nube | | |
+
+**La detección de ausencia es lo que hay que diseñar, no la ejecución.** La ejecución falla poco; la
+ausencia silenciosa pasa siempre desapercibida. Dos formas que sí funcionan:
+
+- **El reporte lleva número de secuencia.** El quincenal #14 después del #12 hace visible que faltó
+  el #13. Un reporte sin secuencia no deja hueco visible.
+- **El destinatario sabe cuándo esperarlo.** Un día fijo acordado en la sección 4 convierte la
+  ausencia en algo que la persona nota sola.
+
+**Nunca prometer una cadencia que depende de que una laptop esté abierta**, salvo que quede
+declarado aquí y el cliente lo acepte con esa condición dicha en voz alta.
+
 ## 2. Otras rutinas
 
 | Rutina | Qué hace | Cadencia | ¿Activa? | Notas |

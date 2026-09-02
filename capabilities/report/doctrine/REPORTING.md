@@ -48,6 +48,27 @@ credibility than three quiet months.
 
 ---
 
+## 2b. A cadence is a promise about execution, not only about content
+
+**A scheduled routine on a desktop runs only while that machine is on and the application is open.**
+So a routine can stop running with no error and no notice — nothing fails, the report simply does
+not arrive.
+
+That is worse than having no routine at all, because the client stops checking and nobody notices
+the silence. **Design the detection of absence, not the execution.** Execution rarely fails; silent
+absence always goes unnoticed.
+
+Two mechanisms that work, and both cost nothing:
+
+- **Number every report in sequence.** A biweekly #14 arriving after #12 makes the missing #13
+  visible. A report with no sequence number leaves no visible hole.
+- **Tell the recipient which day to expect it.** A fixed day, agreed in writing, turns absence into
+  something a person notices without being told.
+
+Record per routine, in the company's `ROUTINES.md`, where it runs and what happens when that
+machine is off. **Never promise a cadence that depends on a laptop being open** unless that
+dependency is written down and the client accepted it with the condition said out loud.
+
 ## 3. Biweekly — the absence of surprises
 
 One page. Generated from the journal with **zero client time**. Its real job is not information; it
