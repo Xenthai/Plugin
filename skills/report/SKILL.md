@@ -26,6 +26,24 @@ in which most mapped processes accumulate enough.
 The company's agreed cadences are in its `ROUTINES.md`. A cadence not activated there does not get
 a report.
 
+**Start from the template, never from a blank page.** `capabilities/report/templates/` holds one
+per cadence — `quincenal`, `mensual`, `trimestral`, `semestral`, `anual`, and `cierre-de-mapeo`.
+Each carries the mandatory sections, so a report cannot lose its paired quality metric or its scope
+statement by accident, and `test/report.test.mjs` refuses a template that lost one.
+
+For a chart, render it through the engine rather than describing a number in prose:
+
+```bash
+node "${CLAUDE_PLUGIN_ROOT}/capabilities/social/engine/render.mjs" \
+  --template "${CLAUDE_PLUGIN_ROOT}/capabilities/social/engine/template.html" \
+  --pieces <pieces.json> --piece <id> --target square --out <dir> --pdf
+```
+
+The `chart` archetype **prints every value as text beside its bar** — a bar read by length is a
+value the reader estimates, and an estimate is not a measurement. It also refuses to render without
+`piece.basis`, which carries the definition, the measurement dates and who measured. `--pdf` writes
+a vector copy beside the PNG.
+
 ## When to run it
 
 | Trigger | What the client is really asking |

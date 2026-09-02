@@ -51,6 +51,19 @@ body[data-f="horizontal"] .lead { max-width: min(100%, 52ch); }
 .record .row.hot .st { color: var(--ink-muted); font-size: calc(var(--fs-mono) * 0.86); }
 .record .row.hot .ac { color: var(--ink); font-size: var(--fs-monolg); line-height: 1.12; }
 .record .scope { display: block; margin-top: 0.5em; font-size: calc(var(--fs-mono) * 0.8); color: var(--ink-faint); }
+.chart { width: 100%; flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; justify-content: space-between; gap: calc(var(--gap) * 0.9); font-family: var(--mono); }
+[data-body] > .chart { flex: 1 1 auto; }
+.chart .cbar { display: flex; flex-direction: column; gap: 0.3em; border-top: 1px solid var(--line); padding-top: 0.55em; }
+.chart .clabel { font-size: calc(var(--fs-mono) * 0.78); color: var(--ink-muted); letter-spacing: 0.05em; text-transform: uppercase; }
+.chart .ctrack { display: grid; grid-template-columns: minmax(0, 1fr) max-content max-content; align-items: center; column-gap: 0.6em; }
+.chart .cwell { min-width: 0; }
+.chart .cfill { height: 0.5em; background: var(--ink-faint); border-radius: 1px; }
+.chart .ctrack.now .cfill { background: var(--signal); height: 0.62em; }
+.chart .cval { font-size: var(--fs-mono); color: var(--ink-soft); line-height: 1.1; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.chart .ctrack.now .cval { font-size: var(--fs-monolg); color: var(--ink); }
+.chart .cside { font-size: calc(var(--fs-mono) * 0.68); color: var(--ink-faint); letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
+.chart .cqual { font-size: calc(var(--fs-mono) * 0.74); color: var(--ink-muted); }
+.cbasis { font-family: var(--mono); font-size: calc(var(--fs-mono) * 0.72); color: var(--ink-faint); line-height: 1.45; max-width: min(100%, 58ch); }
 
 .list { width: 100%; font-family: var(--mono); }
 .list .it { display: flex; gap: 0.9em; align-items: baseline; padding: 0.62em 0; border-top: 1px solid var(--line); font-size: calc(var(--fs-mono) * 1.2); color: var(--ink-soft); line-height: 1.3; }
@@ -105,6 +118,12 @@ const DEMO_PIECES = {
 const params = new URLSearchParams(location.search);
 const targetId = TARGETS[params.get("f")] ? params.get("f") : "square";
 const target = TARGETS[targetId];
+/**
+ * Marks the document when no piece data arrived, so the engine can refuse an asset that rendered
+ * the placeholder. The placeholder is deliberately well composed and therefore passes every
+ * geometric assertion — without this flag a dropped `--pieces` argument ships a green placeholder.
+ */
+if (!window.__xenthPieces) document.documentElement.dataset.demo = "1";
 const pieces = window.__xenthPieces ?? DEMO_PIECES;
 const pieceId = params.get("p") && pieces[params.get("p")] ? params.get("p") : Object.keys(pieces)[0];
 const piece = pieces[pieceId];
@@ -295,6 +314,62 @@ const ARCHETYPES = {
   },
 };
 
+/**
+ * Before-and-after comparison for a report.
+ *
+ * Every value is printed as text beside its bar. A bar read by length is a value the reader
+ * estimates, and an estimate is not a measurement — the bar exists to show relative size, the
+ * printed number is the datum. Bars are scaled against the largest value present, never against a
+ * zero-suppressed axis, because a truncated axis is how a small change is made to look large.
+ *
+ * `piece.basis` is required and renders as the last line. It carries the definition, the
+ * measurement dates and who measured, which is what the reporting doctrine demands of every
+ * figure. A chart with no basis line is refused rather than drawn without one.
+ */
+ARCHETYPES.chart = (box) => {
+  eyebrow(box);
+  if (piece.headline) {
+    const h = el("h2", "h2", piece.headline);
+    h.setAttribute("data-headline", "");
+    box.appendChild(h);
+  }
+
+  const bars = capRows(piece.bars ?? [], target.rows);
+  const values = bars.flatMap((b) => [Number(b.before) || 0, Number(b.after) || 0]);
+  const peak = Math.max(...values, 1);
+  const unit = piece.unit ?? "";
+
+  const chart = el("div", "chart");
+  for (const b of bars) {
+    const group = el("div", "cbar");
+    group.appendChild(el("div", "clabel", b.label));
+    for (const side of ["before", "after"]) {
+      const raw = Number(b[side]);
+      if (!Number.isFinite(raw)) continue;
+      const track = el("div", "ctrack" + (side === "after" ? " now" : ""));
+      const well = el("div", "cwell");
+      const fill = el("div", "cfill");
+      fill.style.width = Math.max((raw / peak) * 100, 1.5) + "%";
+      well.appendChild(fill);
+      track.appendChild(well);
+      const v = el("div", "cval", `${raw}${unit}`);
+      if (side === "after") v.setAttribute("data-headline", "");
+      track.appendChild(v);
+      const legend = el("div", "cside", side === "after" ? (piece.afterLabel ?? "ahora") : (piece.beforeLabel ?? "antes"));
+      legend.setAttribute("data-texture", "");
+      track.appendChild(legend);
+      group.appendChild(track);
+    }
+    if (b.quality) group.appendChild(el("div", "cqual", b.quality));
+    chart.appendChild(group);
+  }
+  box.appendChild(chart);
+
+  if (!piece.basis) throw new Error("chart archetype requires piece.basis: the definition, the measurement dates and who measured");
+  box.appendChild(el("div", "cbasis", piece.basis));
+  return true;
+};
+
 const frame = document.createElement("div");
 frame.setAttribute("data-frame", "");
 frame.style.width = target.w + "px";
@@ -352,7 +427,7 @@ const fitDown = () => {
   const bodyBox = document.querySelector("[data-body]");
   if (!bodyBox) return;
   for (let i = 0; i < 40 && overflowsBody(bodyBox); i++) {
-    const rows = [...bodyBox.querySelectorAll(".record .row:not(.hot), .list .it, .chain .st, .details dd")];
+    const rows = [...bodyBox.querySelectorAll(".record .row:not(.hot), .list .it, .chain .st, .details dd, .chart .cbar:not(:first-child)")];
     const last = rows.at(-1);
     if (last) {
       if (last.tagName === "DD") last.previousElementSibling?.remove();
@@ -412,7 +487,7 @@ const fitShrink = () => {
   const bodyBox = document.querySelector("[data-body]");
   if (!bodyBox || !overflowsBody(bodyBox)) return;
   const floor = Number.parseFloat(getComputedStyle(document.body).getPropertyValue("--fs-lead"));
-  const secondary = [...bodyBox.querySelectorAll(".lead, .contrast .text, .source, .details dd, .record .scope")];
+  const secondary = [...bodyBox.querySelectorAll(".lead, .contrast .text, .source, .details dd, .record .scope, .cbasis, .chart .cqual")];
   if (!secondary.length) return;
   for (let step = 0; step < 8 && overflowsBody(bodyBox); step++) {
     let moved = false;

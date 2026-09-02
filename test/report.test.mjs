@@ -212,6 +212,64 @@ check(
 const flat = run("--journal", EXECUTION, "--month", "2026-09", "--json");
 check("the month directory can be passed directly", flat.status === 0, flat.stderr.slice(0, 300));
 
+/**
+ * The cadence templates carry the reporting doctrine structurally, so a report cannot omit a
+ * mandatory section by accident. These assertions are what make that true — a template is only a
+ * guarantee if something refuses the version that lost a section.
+ */
+const TEMPLATES = join(ROOT, "capabilities", "report", "templates");
+const CADENCES = ["quincenal", "mensual", "trimestral", "semestral", "anual", "cierre-de-mapeo"];
+const tpl = (n) => readFileSync(join(TEMPLATES, `${n}.md`), "utf8");
+
+for (const name of CADENCES) {
+  let text = "";
+  try {
+    text = tpl(name);
+  } catch {
+    check(`the ${name} template exists`, false, "file missing");
+    continue;
+  }
+  check(`${name}: declares the one question it answers`, /La pregunta que responde este reporte:/.test(text));
+  check(`${name}: declares a schema version`, /\*\*Esquema:\*\*\s*\d/.test(text));
+  check(`${name}: marks uncaptured fields rather than inventing them`, /—\s*pendiente\s*—/.test(text));
+  check(
+    `${name}: is es-MX, because a director reads it`,
+    !/\b(the|should be|must be|instead of)\b/i.test(
+      text.split(/\r?\n/).filter((l) => !/^\s*[-|>`]/.test(l)).join(" ")
+    )
+  );
+}
+
+check(
+  "the biweekly template forbids an outcome claim, which two weeks cannot support",
+  /no lleva ninguna afirmaci[óo]n de resultado/i.test(tpl("quincenal"))
+);
+check(
+  "the quarterly template withholds attribution and hands it to the semiannual",
+  /No lleva atribuci[óo]n/i.test(tpl("trimestral")) && /semestral/i.test(tpl("trimestral"))
+);
+check(
+  "the semiannual template requires alternative explanations to be answered with evidence",
+  /Explicaciones alternativas/i.test(tpl("semestral")) && /evidencia en contra/i.test(tpl("semestral"))
+);
+check(
+  "the annual template carries the claim ledger and the option of not renewing",
+  /libro de afirmaciones/i.test(tpl("anual")) && /\*\*No renovar\*\*/.test(tpl("anual"))
+);
+check(
+  "the mapping-close template contains no achievement and asks for a signature on the starting numbers",
+  /no ha pasado nada/i.test(tpl("cierre-de-mapeo")) && /Qui[ée]n firm[óo]/i.test(tpl("cierre-de-mapeo"))
+);
+check(
+  "every template refuses the hours-saved counterfactual by name",
+  CADENCES.filter((n) => /[Hh]oras ahorradas/.test(tpl(n))).length >= 5,
+  `only ${CADENCES.filter((n) => /[Hh]oras ahorradas/.test(tpl(n))).length} name it`
+);
+check(
+  "a template that lost its question line would fail",
+  !/La pregunta que responde este reporte:/.test("# REPORTE MENSUAL\n\n**Esquema:** 1\n\n— pendiente —")
+);
+
 console.log("");
 console.log(failed ? `${failed} assertion(s) failed` : "every assertion passed against an 18-row fixture journal with 5 planted evidence defects");
 

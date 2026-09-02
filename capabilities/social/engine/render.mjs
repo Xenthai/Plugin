@@ -40,6 +40,12 @@ OPTIONS
   --brand <file.json>     Name, logo and foot, injected as window.__xenthBrand.
                           These three keep the template static HTML: data arrives as plain files a
                           skill writes, and nothing is fetched over file://, where fetch is blocked.
+  --pdf                   Also write each canvas as a vector PDF beside its PNG. Chromium prints
+                          it natively, so this adds no dependency. The page box is the target size at
+                          96dpi, so one CSS pixel is one PDF point and the composition matches the PNG
+                          rather than reflowing onto paper. The PNG is still produced and still
+                          carries every assertion — the PDF is an extra artefact, never a substitute
+                          for the asset that was verified.
   --min-fill <pct>        Minimum share of the body box the content must occupy. Default: 65.
   --channel <name>        Browser channel override. Default: the cached probe, else msedge.
   --json                  Emit a machine-readable report instead of lines.
@@ -65,13 +71,22 @@ EXIT CODES
   2  could not start: no template, no browser, or a bad argument
 `;
 
+/**
+ * Options that take no value. A flag missing from this set silently consumes the next argument as
+ * its value, which drops that argument — and when the dropped one is `--pieces`, the template falls
+ * back to its demo placeholder and every assertion still passes, because the placeholder is well
+ * composed. That happened. `assertInjected` below is the second half of the fix, so a repeat of
+ * this mistake fails instead of shipping a placeholder.
+ */
+const BOOLEAN_FLAGS = new Set(["json", "help", "pdf"]);
+
 const parse = (argv) => {
   const out = { expectColor: [] };
   for (let i = 0; i < argv.length; i++) {
     const token = argv[i];
     if (!token.startsWith("--")) continue;
     const key = token.slice(2);
-    if (key === "json" || key === "help") {
+    if (BOOLEAN_FLAGS.has(key)) {
       out[key] = true;
       continue;
     }
@@ -258,6 +273,7 @@ const run = async () => {
   const pieces = (args.piece ? args.piece.split(",") : ["default"]).map((p) => p.trim());
   const prefix = args.prefix ?? "asset";
   const minFill = Number.parseFloat(args.minFill ?? "65");
+  const wantPdf = Boolean(args.pdf);
 
   let colors;
   try {
@@ -340,6 +356,25 @@ const run = async () => {
         .catch(() => {});
       await page.waitForTimeout(120);
 
+      /**
+       * Refuses a placeholder render. The template flags itself when no piece data reached it, and
+       * that state must never produce a passing asset: the placeholder is well composed, so it
+       * clears every geometric assertion and looks like a delivered piece. It is a hard exit rather
+       * than a per-asset failure because the cause is always the invocation, never the composition.
+       */
+      const renderedDemo = await page.evaluate(() => document.documentElement.dataset.demo === "1");
+      if (renderedDemo && args.pieces) {
+        await ctx.close();
+        await browser.close();
+        process.stderr.write(
+          `piece data was supplied via --pieces but never reached the page, so the template rendered its
+placeholder. Every assertion would have passed on that placeholder. Check the argument order: a
+value-taking option immediately before --pieces will consume it.
+`
+        );
+        process.exit(2);
+      }
+
       const m = await page.evaluate(measure, {
         hard,
         soft,
@@ -367,6 +402,26 @@ const run = async () => {
         path: file,
         clip: { x: 0, y: 0, width: t.width, height: t.height },
       });
+
+      /**
+       * The same canvas as a vector PDF, when asked for. Chromium prints it natively, so this adds
+       * no dependency; the page box is set to the target's own pixel size at 96dpi so one CSS pixel
+       * is one PDF point and the composition is identical to the PNG rather than reflowed onto
+       * paper. The PNG is still produced and still carries every assertion — the PDF is an
+       * additional artefact, never a substitute for the asset that was verified.
+       */
+      let pdfFile = null;
+      if (wantPdf) {
+        pdfFile = join(outDir, name.replace(/\.png$/, ".pdf"));
+        await page.pdf({
+          path: pdfFile,
+          width: `${t.width / 96}in`,
+          height: `${t.height / 96}in`,
+          printBackground: true,
+          pageRanges: "1",
+          margin: { top: "0", right: "0", bottom: "0", left: "0" },
+        });
+      }
 
       await ctx.close();
 
@@ -459,6 +514,7 @@ const run = async () => {
         piece,
         target,
         file: name,
+        pdf: pdfFile ? pdfFile.split(/[\/]/).pop() : null,
         bytes,
         fill: m.fill,
         leaves: m.leaves,

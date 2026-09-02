@@ -116,5 +116,34 @@
       "text": "La IA arma el borrador, la persona revisa cinco minutos y aprueba. Tres a la vez."
     },
     "lead": "Mismo tiempo de reloj; una fracción del tiempo de atención."
+  },
+  "chart": {
+    "archetype": "chart",
+    "eyebrow": "Trimestre 3 · re-medición",
+    "headline": "Cotizaciones<br>por semana",
+    "unit": "",
+    "beforeLabel": "antes",
+    "afterLabel": "ahora",
+    "bars": [
+      {
+        "label": "Cotización estándar",
+        "before": 12,
+        "after": 34,
+        "quality": "rechazo 8% → 6%"
+      },
+      {
+        "label": "Cotización especial",
+        "before": 3,
+        "after": 7,
+        "quality": "rechazo 21% → 19%"
+      },
+      {
+        "label": "Refacturación",
+        "before": 9,
+        "after": 11,
+        "quality": "retrabajo 14% → 15%"
+      }
+    ],
+    "basis": "Mediana de instancias completadas por semana. Definición congelada 2026-03-02. Medido sobre 12 semanas por Operaciones. Medido y evidenciado, autorreportado."
   }
 }

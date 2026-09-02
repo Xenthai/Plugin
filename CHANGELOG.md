@@ -38,6 +38,26 @@ moves.
   separately from cycle time — a person can report the same duration and produce three times the
   output — the direction of recall bias, the paired quality metric every throughput figure
   requires, and Contribution Analysis as the only defensible attribution at n=1.
+- **A `chart` archetype in the render engine**, so a before-and-after figure is composed by the
+  same pipeline that already asserts exact dimensions, safe zones, embedded fonts and exact pixel
+  colour — rather than by a charting library, which would add a dependency, duplicate a tested
+  pipeline, and produce output bypassing those assertions. It **prints every value as text beside
+  its bar**, because a bar read by length is a value the reader estimates and an estimate is not a
+  measurement; it scales bars against the largest value present rather than a truncated axis; and
+  it **refuses to render without `piece.basis`**, which carries the definition, the measurement
+  dates and who measured. Covered by the template suite: 36 assets across 9 archetypes and 4
+  targets.
+- **PDF output from the render engine** (`--pdf`). Chromium prints natively, so no dependency was
+  added; the page box is the target size at 96dpi so one CSS pixel is one PDF point and the
+  composition matches the PNG rather than reflowing onto paper. The PNG is still produced and still
+  carries every assertion — the PDF is an extra artefact, never a substitute for the verified one.
+- **Six cadence templates** (`capabilities/report/templates/`, es-MX) — one per cadence plus the
+  mapping-close record. Each declares the single question it answers, carries its mandatory
+  sections, and names what it will never contain. `test/report.test.mjs` refuses a template that
+  lost its question line, and asserts the doctrine structurally: the biweekly forbids an outcome
+  claim, the quarterly withholds attribution and hands it to the semiannual, the semiannual
+  requires alternative explanations answered with evidence, the annual carries the claim ledger and
+  the option of not renewing, and the mapping-close contains no achievement.
 - **Reporting cadences** (`capabilities/report/doctrine/REPORTING.md`) — five cadences, each
   answering a question the others cannot, because the failure mode of a multi-cadence routine is
   five reports saying the same thing at different intervals, which trains a client to stop reading
@@ -155,6 +175,13 @@ moves.
   builder reading the doctrine would not find it.
 - **Two test suites shared a sandbox directory**, so one suite's cleanup deleted another's fixtures
   mid-run. Each suite now owns a named subdirectory.
+- **The render engine could report a passing asset for content that never reached the page.** A
+  value-taking option immediately before `--pieces` consumed it, the template fell back to its demo
+  placeholder, and because the placeholder is deliberately well composed it cleared every
+  geometric assertion — a green report on a placeholder. Found while adding `--pdf`, which was the
+  option that consumed it, because only `json` and `help` were registered as boolean flags. Both
+  halves are fixed: flags are now declared in one set, and the template marks the document when no
+  piece data arrived so the engine exits rather than measuring a placeholder.
 - **`doctor` did not validate `store.root` at all.** `readCompany` checks that `store` exists, not
   what is in it, so an install where the operator copied the template and left
   `ID-DE-LA-CARPETA-RAIZ` in place reported healthy and failed at the first delivery — the exact
