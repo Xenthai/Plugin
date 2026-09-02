@@ -53,8 +53,16 @@ One folder per company, anywhere on disk:
 mkdir "Acme"
 ```
 
-Copy `scaffold/company/.company.json.template` into it as `.company.json` and fill it in. Two
-fields decide whether the session works at all:
+Then open a session in that folder and invoke `company-new`. It asks for the five fields nothing can
+infer, writes the manifest, creates the company's root folder in its store, and runs `doctor` — in
+that order, because the guard permits a local write with no company bound and vetoes a store write,
+so the manifest has to exist before the folder can be created.
+
+Doing it by hand still works — copy `scaffold/company/.company.json.template` into the folder as
+`.company.json` and fill it in — but `doctor` now fails while `store.root` still holds the
+template's placeholder, which is the mistake the manual path actually produces.
+
+Two fields decide whether the session works at all:
 
 - **`store.root`** is the Drive folder **ID**, never a name. Names collide; two companies can name
   a folder the same thing. Take it from the folder's URL: `drive.google.com/drive/folders/<ID>`.

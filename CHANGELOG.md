@@ -38,6 +38,13 @@ moves.
   separately from cycle time — a person can report the same duration and produce three times the
   output — the direction of recall bias, the paired quality metric every throughput figure
   requires, and Contribution Analysis as the only defensible attribution at n=1.
+- **`company-new` skill** — the first step of an engagement, which until now was a manual copy of a
+  JSON template. It asks the five fields nothing can infer, writes the manifest, creates the
+  company's root folder in its store, and verifies the install can reach it. The order is forced by
+  the guard rather than chosen: a local write with no company bound is permitted and a store write
+  is vetoed, so the manifest must exist before the folder can be created. Getting this step wrong is
+  the one mistake in the system that is both invisible and permanent — a duplicated `id` merges two
+  clients' journals, a wrong `store.root` writes one client's material into another's store.
 - **Company capability** (`capabilities/company/`, two skills). `company-intake` asks for the files
   a company already maintains and maps from those instead of interviewing for every fact;
   `doctrine/INTAKE.md` carries the document-to-fact table and the three facts confirmed with a
@@ -82,6 +89,17 @@ moves.
   builder reading the doctrine would not find it.
 - **Two test suites shared a sandbox directory**, so one suite's cleanup deleted another's fixtures
   mid-run. Each suite now owns a named subdirectory.
+- **`doctor` did not validate `store.root` at all.** `readCompany` checks that `store` exists, not
+  what is in it, so an install where the operator copied the template and left
+  `ID-DE-LA-CARPETA-RAIZ` in place reported healthy and failed at the first delivery — the exact
+  class of failure `doctor` exists to find two minutes after install. It now fails on an unset root,
+  on the template's placeholder, and on a URL or path where an id belongs.
+- **`ROADMAP.md` listed ten finished items as pending** — `process`, `baseline`, `report`, `doctor`,
+  CI, the install runbook, the plugin version on journal rows, and the OFL texts in the delivery
+  package among them — and duplicated four items across two horizons. A roadmap that lists finished
+  work sends the next builder to rebuild it, which is the same failure as a journal with gaps.
+  Shipped work now has its own section, and Horizon 1 states what actually stands between this and a
+  first real client.
 
 ## [0.1.0] - 2026-09-02
 

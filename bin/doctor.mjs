@@ -94,11 +94,39 @@ const checkNode = () => {
  * callers must never treat it as an error — so it is a SKIP with its reason. A manifest that exists
  * and does not validate is a defect somebody has to fix, so it is a FAIL.
  */
+/**
+ * Values a `store.root` can hold that pass every structural check and fail at the first write: the
+ * template's own placeholder, an empty string, or the bootstrap's deliberate null. `readCompany`
+ * validates that `store` exists, not what is in it, so without this an install where the operator
+ * copied the template and forgot one line reports healthy and fails at the first delivery — the
+ * exact class of failure this tool exists to find two minutes after install instead.
+ */
+const UNSET_ROOT = new Set(["", "ID-DE-LA-CARPETA-RAIZ", "ID-DE-LA-CARPETA-RAÍZ", "TODO", "null"]);
+
 const checkCompany = (cwd) => {
   const ctx = readCompany(cwd);
   if (ctx.ok) {
-    const { id, name } = ctx.company;
-    return result("company", "OK", `${name} (${id}) bound by ${ctx.path}`, null, { id, name, path: ctx.path });
+    const { id, name, store } = ctx.company;
+    const root = store?.root;
+    if (root === null || root === undefined || UNSET_ROOT.has(String(root).trim())) {
+      return result(
+        "company",
+        "FAIL",
+        `${name} (${id}) is bound but store.root is not set (${JSON.stringify(root)}). Nothing can be written to the company's store until it holds the folder id. If company-new is mid-bootstrap this is expected; finish it`,
+        "unset-store-root",
+        { id, name, path: ctx.path }
+      );
+    }
+    if (/^https?:\/\//.test(String(root)) || String(root).includes("/")) {
+      return result(
+        "company",
+        "FAIL",
+        `${name} (${id}) has a URL or path in store.root (${root}). It must be the folder id alone — a name or a link never proves identity, and the id is what the guard compares against`,
+        "store-root-not-an-id",
+        { id, name, path: ctx.path }
+      );
+    }
+    return result("company", "OK", `${name} (${id}) bound by ${ctx.path}, store ${root}`, null, { id, name, path: ctx.path });
   }
   if (ctx.reason === "no-manifest") {
     return result(

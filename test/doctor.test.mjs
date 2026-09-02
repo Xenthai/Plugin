@@ -88,6 +88,52 @@ check("an unknown option is refused with exit 2", () => {
   return [r.code === 2 && /unknown option/.test(r.err), `exit ${r.code}`];
 });
 
+/**
+ * A manifest whose `store.root` holds the given value. `readCompany` validates that `store` exists,
+ * not what is in it, so these are the bindings that look healthy and fail at the first write.
+ */
+const withRoot = (dir, root) => {
+  const path = join(SANDBOX, dir);
+  mkdirSync(path, { recursive: true });
+  writeFileSync(
+    join(path, ".company.json"),
+    JSON.stringify({ schema_version: 1, id: `co-${dir}`, name: `Co ${dir}`, store: { kind: "drive", root } }, null, 2)
+  );
+  return path;
+};
+
+check("the template's own placeholder in store.root is a FAIL, not a healthy install", () => {
+  const r = doctor(withRoot("placeholder", "ID-DE-LA-CARPETA-RAIZ"), ["--json"]);
+  const c = r.by.company;
+  return [
+    c?.status === "FAIL" && c?.code === "company:fail(unset-store-root)" && r.code === 1,
+    `${c?.code}; exit ${r.code}`,
+  ];
+});
+
+check("a null store.root — the bootstrap's own midpoint — is a FAIL that says how to finish it", () => {
+  const r = doctor(withRoot("bootstrapping", null), ["--json"]);
+  const c = r.by.company;
+  const explains = /company-new/.test(c?.reason ?? "");
+  return [
+    c?.code === "company:fail(unset-store-root)" && explains,
+    `${c?.code}; names the skill mid-bootstrap: ${explains}`,
+  ];
+});
+
+check("a link or a path in store.root is a FAIL, because a name never proves identity", () => {
+  const r = doctor(withRoot("linked", "https://drive.google.com/drive/folders/1ABC"), ["--json"]);
+  const c = r.by.company;
+  return [c?.code === "company:fail(store-root-not-an-id)", `${c?.code}`];
+});
+
+check("a real folder id passes and is echoed, so the operator can compare it against the store", () => {
+  const r = doctor(withRoot("goodroot", "1REALFOLDERID000000000000000000000"), ["--json"]);
+  const c = r.by.company;
+  const echoed = /1REALFOLDERID/.test(c?.reason ?? "");
+  return [c?.status === "OK" && echoed, `status=${c?.status}; id echoed: ${echoed}`];
+});
+
 check("a valid manifest on a healthy machine: every check OK, exit 0", () => {
   const r = doctor(BOUND, ["--json"]);
   const allOk = ["company", ...LOCAL].every((n) => r.by[n]?.status === "OK");
