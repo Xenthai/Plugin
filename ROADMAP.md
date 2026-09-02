@@ -65,6 +65,29 @@ The MVP passes its own tests. These are the gaps a real engagement would hit on 
 
 ---
 
+## Horizon 1b — reporting mechanics, decided against installing anything
+
+A survey of the open skills ecosystem for reporting turned up nothing usable: everything above
+20,000 installs is standup or status reporting bound to a specific SaaS product, and the
+consulting-and-measurement entries sit between 11 and 111 installs with no provenance worth
+standing behind. One is named `quantify-impact`, which is precisely what
+`capabilities/report/doctrine/REPORTING.md` refuses to do.
+
+**The ecosystem has no measurement doctrine.** That matches the two earlier findings — no
+multi-tenant brand configuration, and no deterministic template-to-PNG renderer — and it carries
+the same warning rather than the same comfort: there is no prior art to check this doctrine
+against.
+
+What is missing is mechanics, not doctrine, and the engine to build it on already exists.
+
+| Item | Why | Waits on |
+| --- | --- | --- |
+| **A `chart` archetype in `capabilities/social/engine/template.html`** | The quarterly and semiannual reports carry before-and-after figures and currently have no visual at all. A chart is one more archetype in a renderer that already asserts exact dimensions, safe zones, embedded fonts and exact pixel colour — adding a charting library would instead add a dependency the vanilla rule argues against, duplicate a tested pipeline, and produce output that bypasses those assertions | — |
+| **PDF output from `render.mjs`** | **Verified on 2 September 2026: `page.pdf()` works on the pinned `playwright-core` 1.58.2 through the msedge channel already driven — 23,718 bytes, `%PDF-` header, zero new dependencies.** Serves two roadmap items at once, since the LinkedIn document export in Horizon 4 is the same format | — |
+| **Report templates per cadence** | Five cadences with fixed sections, generated from the journal and the company's documents so a report cannot silently omit its paired quality metric or its scope statement | The two above |
+
+---
+
 ## Horizon 2 — the capabilities that are the business
 
 Social is the calling card. These are what is sold.
