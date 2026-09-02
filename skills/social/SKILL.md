@@ -46,7 +46,8 @@ node "${CLAUDE_PLUGIN_ROOT}/bin/status.mjs" --json
 
 | What exists in the store | Phase | Hand off to |
 | --- | --- | --- |
-| Nothing, or only a folder | 1 — identity | `social-identity` |
+| No `PRESENCE.md`, and the company has any public presence at all | **0 — presence audit** | `social-presence` |
+| Nothing, or only a folder, and `PRESENCE.md` is done or the company has no public presence | 1 — identity | `social-identity` |
 | `BRAND.md` and `DESIGN.md` exist but no `VOICE.md` | 2 — voice and proof | `social-voice` |
 | `BRAND.md` + `VOICE.md` + `PROOF.md`, no plan for the target period | 3 — plan | `social-plan` |
 | A plan exists and is approved, no assets produced for it | 4 — produce | `social-produce` |

@@ -67,13 +67,27 @@ pensamiento.
 
 ## 6. Línea base
 
-Sin acceso a analítica ni herramientas de pago, el único baseline honesto es **estado público
-visible, capturado en pantalla y con fecha**.
+**La línea base no vive aquí.** Vive en [PRESENCE.md](PRESENCE.md), y hay dos razones.
 
-| Fecha | Plataforma | Seguidores | Cadencia observada | Interacciones visibles | Captura |
-| --- | --- | --- | --- | --- | --- |
-| | | | | | |
+La primera es de tiempo: se captura en la **primera** sesión, antes de identidad y antes de voz.
+Este documento es de la fase de planeación, y para entonces ya influimos en lo que se observa —
+la observación deja de ser independiente y el "antes" se pierde.
 
-Esto sostiene afirmaciones sobre **cambio de estado público visible**. No sostiene nada sobre
-alcance, impresiones ni ingresos: eso exige acceso del lado de la plataforma. Cualquier número que
-aporte el cliente se etiqueta **reportado por el cliente**.
+La segunda es de naturaleza: este plan **se edita** cuando cambia la estrategia. Una observación
+fechada **nunca** se edita, sólo se le agrega. Meter una medición perecedera dentro de un
+documento que se reescribe es exactamente cómo se pierde el antes.
+
+Lo que sí se registra aquí es contra qué se va a medir el resultado del plan, y con qué definición
+congelada:
+
+| Dato | Valor |
+| --- | --- |
+| Captura de referencia en PRESENCE.md | — pendiente — *(fecha)* |
+| Qué se espera mover con este plan | — pendiente — |
+| Definición congelada de esa medida | — pendiente — |
+
+**Nunca se compara contra un benchmark de industria.** Las razones y las fuentes están en
+`capabilities/social/doctrine/PRESENCE.md`. Sólo dos comparaciones son honestas: la empresa contra
+sí misma con la definición congelada de arriba, y contra un conjunto competidor nombrado y
+observado el mismo día. Cualquier número que aporte el cliente se etiqueta **reportado por el
+cliente**.

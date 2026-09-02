@@ -38,6 +38,41 @@ moves.
   separately from cycle time — a person can report the same duration and produce three times the
   output — the direction of recall bias, the paired quality metric every throughput figure
   requires, and Contribution Analysis as the only defensible attribution at n=1.
+- **Presence capability** — `social-presence` runs as **phase 0**, before identity and before voice,
+  because the "before" is perishable: after phase 1 the operator has already influenced what there
+  is to observe. It produces `PRESENCE.md`, which is **append-only** — a dated observation is never
+  edited, only added to. A thin version of this already existed as section 6 of `SOCIAL.md`, owed by
+  the *planning* phase, which meant the independent baseline was captured two sessions late and
+  inside a document that gets rewritten. That section is now a pointer plus the frozen definition
+  the plan will be measured against.
+- **`capabilities/social/doctrine/PRESENCE.md`** — what is observable per platform with no account,
+  verified in a logged-out browser against real companies rather than from documentation, and the
+  reason no industry benchmark comparison is honest. The decisive fact is an access constraint, not
+  an opinion: reach and impressions are retrievable only for accounts that authorised the requesting
+  app, so a large-sample benchmark must use followers as its denominator and a reach-based one can
+  only cover the vendor's own customers. Published vendor figures for the same platform and year
+  differ by up to 18 times, differ by half again in the direction their own formulas cannot explain
+  when denominators match, and **invert which platform performs best** — which no denominator
+  artifact can do, so they are measurements of different quantities wearing one name. Carries the
+  sampling rule (a structured sample plus a random sample at one tenth its size, whose only purpose
+  is to prove the structured one was representative), a review-cadence floor with a signed
+  government memorandum behind it, and the only source in the corpus that may be copied verbatim
+  into a client deliverable.
+- **`capabilities/company/doctrine/REGULATORS-MX.md`** — every article a Mexican regulator can act
+  on, verified against the official texts with their reform dates: PROFECO's Art. 32 and the
+  revenue-linked ceiling that makes exposure scale with company size, its own list of the ten most
+  frequent violations, IMPI's comparative-advertising safe harbour and the April 2026 paragraph
+  extending sanctions to conduct carried out using artificial intelligence, COFEPRIS's permit regime
+  which expressly covers digital platforms, the credit-cost disclosure that fails in
+  character-limited formats, and the 2025 data-protection law that replaced INAI — so a privacy
+  notice naming INAI dates a client's last compliance review in one thirty-second check.
+- **`capabilities/company/doctrine/STANDARDS.md`** — what may be claimed and what may be copied.
+  There is no certification anywhere for brand, reputation or communications work, and the personal
+  credentials that do exist accredit a person, never a work product. The trap is reproduction: ISO's
+  terms, tightened on 29 May 2026, require a separate licence to put standards text into reports,
+  presentations or products offered to third parties, prohibit AI use of that text outright, and
+  cover one named person per licence — so a purchased standard is the one document class that must
+  not go into a company's shared store.
 - **`company-new` skill** — the first step of an engagement, which until now was a manual copy of a
   JSON template. It asks the five fields nothing can infer, writes the manifest, creates the
   company's root folder in its store, and verifies the install can reach it. The order is forced by

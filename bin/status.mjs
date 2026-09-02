@@ -32,6 +32,7 @@ phase that never ran, not a cosmetic gap.
  */
 const OWNERS = {
   "INTAKE.md": ["company-intake"],
+  "PRESENCE.md": ["social-presence"],
   "BRAND.md": ["social-identity"],
   "PROOF.md": ["social-identity", "social-voice"],
   "DESIGN.md": ["social-identity"],

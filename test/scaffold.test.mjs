@@ -23,24 +23,26 @@ const ENGLISH_MARKERS = /\b(the|this file|owner of|when the|should be|must be|in
 const GOVERNED = [
   "BRAND.md", "VOICE.md", "PROOF.md", "DESIGN.md", "SOCIAL.md",
   "PEOPLE.md", "SYSTEMS.md", "OFFER.md", "PRODUCTS.md", "SERVICES.md", "CUSTOMERS.md",
-  "INTAKE.md", "INTERVIEW.md", "PROCESSES.md", "BASELINE.md",
+  "INTAKE.md", "INTERVIEW.md", "PROCESSES.md", "BASELINE.md", "PRESENCE.md",
 ];
 
 const UNGOVERNED = docs.filter((f) => !GOVERNED.includes(f));
 
 /**
- * True when a document DEFINES the fact as a fillable field — a table row or a bold label with a
- * placeholder — rather than merely mentioning it. A cross-reference explaining why a fact matters
- * is good writing; only a second fillable definition is the duplication that drifts.
+ * True when a document DEFINES the fact as a fillable field rather than merely mentioning it.
+ *
+ * In a table only the first TWO cells are tested, because that is where a label lives — the first
+ * cell of a body row, or the first two columns of a header row. Testing the whole row cannot tell a
+ * label from an explanation in a later cell, and that produced three false defects; testing only
+ * the first cell then broke every pattern anchored across two header columns. A cross-reference
+ * explaining why a fact matters is good writing, and only a second fillable definition drifts.
  */
 const definesField = (text, pattern) =>
-  text
-    .split(/\r?\n/)
-    .some(
-      (line) =>
-        pattern.test(line) &&
-        (/^\s*\|/.test(line) || /^\s*\*\*.*:\*\*/.test(line) || /^#{1,4}\s/.test(line) || /^```/.test(line))
-    );
+  text.split(/\r?\n/).some((line) => {
+    const row = /^\s*\|([^|]*)\|([^|]*)\|/.exec(line);
+    if (row) return pattern.test(`|${row[1]}|${row[2]}|`);
+    return pattern.test(line) && (/^\s*\*\*.*:\*\*/.test(line) || /^#{1,4}\s/.test(line) || /^```/.test(line));
+  });
 
 /**
  * Every fact has exactly one owning document. A second document defining it drifts, and then two
@@ -57,6 +59,7 @@ const SINGLE_OWNER = [
   { fact: "the claims register", owner: "PROOF.md", pattern: /^\|\s*Afirmaci[óo]n, textual/im },
   { fact: "the design tokens block", owner: "DESIGN.md", pattern: /^```css$/im },
   { fact: "the word lists", owner: "VOICE.md", pattern: /^\*\*No decimos:\*\*/im },
+  { fact: "the dated public-state observation", owner: "PRESENCE.md", pattern: /^\|\s*Seguidores\s*\|/im },
 ];
 
 const cases = [];
