@@ -89,6 +89,26 @@ check("the baseline is company-wide, not a social metric sheet", () => {
   return [!socialOnly, socialOnly ? "the baseline collapsed into social metrics" : "process-level measures present"];
 });
 
+check("the baseline records the CLIENT's level, and who built the artefact that proves it", () => {
+  const levels = /Nivel de la empresa/i.test(scaffold);
+  const evidence = /Sin artefacto, no hay nivel/i.test(scaffold);
+  const who = /Qui[ée]n lo construy[óo]/i.test(scaffold);
+  return [
+    levels && evidence && who,
+    `levels: ${levels}; evidence required: ${evidence}; builder recorded: ${who}`,
+  ];
+});
+
+check("the maturity doctrine names dependency as the failure the model detects", () => {
+  const p = join(ROOT, "capabilities", "company", "doctrine", "MATURITY.md");
+  if (!existsSync(p)) return [false, "capabilities/company/doctrine/MATURITY.md missing"];
+  const t = readFileSync(p, "utf8");
+  const whose = /Whose level moved/i.test(t);
+  const dependency = /produced dependency/i.test(t);
+  const oneLevel = /one level higher/i.test(t);
+  return [whose && dependency && oneLevel, `whose-level test: ${whose}; dependency named: ${dependency}; one-level goal: ${oneLevel}`];
+});
+
 check("an overclaiming line would fail", () => {
   const fake = "Resultados certificados: 40% de mejora garantizada.";
   return [OVERCLAIM.test(fake), "a certified/guaranteed claim was refused"];

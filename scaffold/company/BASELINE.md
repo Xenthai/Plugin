@@ -125,6 +125,40 @@ desempeño que estos hechos no pueden sostener.
 
 ---
 
+## Capa 2b — Nivel de la empresa, por área
+
+**El nivel lo tiene el cliente, no nosotros.** Si al final del compromiso sólo se movió el nuestro,
+produjimos dependencia y no capacidad — y eso es un hallazgo del reporte anual, no un secreto.
+
+| Nivel | Qué puede hacer el área sola |
+| --- | --- |
+| **0** | Preguntar y recibir respuesta |
+| **1** | Producir algo con sus propios archivos y sistemas: un documento, un correo, una hoja |
+| **2** | **Convertir una tarea repetida en una habilidad** que corre igual cada vez |
+| **3** | Agrupar habilidades y **programarlas** para que corran solas |
+| **4** | Un paquete curado por área, instalado por quien no lo construyó |
+
+**Sin artefacto, no hay nivel.** La evidencia de cada nivel es lo que no podría existir en el
+anterior:
+
+| Área | Nivel al inicio | Fecha | Nivel ahora | Fecha | Artefacto que lo prueba | ¿Quién lo construyó? |
+| --- | --- | --- | --- | --- | --- | --- |
+| — pendiente — | | | | | | |
+
+**La última columna es la que importa en la renovación.** Un artefacto que construimos nosotros y
+que el cliente no puede modificar no subió su nivel: subió el nuestro.
+
+| Dato | Valor |
+| --- | --- |
+| Fase del compromiso | evaluación / piloto / escala — pendiente — |
+| Habilidades escritas **por el cliente** | — pendiente — |
+| Habilidades escritas por Xenth AI que el cliente ya mantiene | — pendiente — |
+| ¿Se acordó explícitamente un servicio permanente en vez de capacidad? | sí / no — pendiente — |
+
+**El nivel no es un puntaje que maximizar.** Una sola habilidad bien hecha que usa toda un área vale
+más que cuatro paquetes que nadie abre. Y subir **un** nivel es la meta de un despliegue; nadie
+necesita llegar al 4 en el primer mes.
+
 ## Capa 3 — Cobertura
 
 **Procesos con ejecución asistida: — pendiente — de — pendiente — procesos identificados
