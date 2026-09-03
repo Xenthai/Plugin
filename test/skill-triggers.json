@@ -469,6 +469,46 @@
       "split": "test",
       "kind": "near-miss",
       "why": "Setup words lure toward the setup skill, but the request is exactly and only the binding, with the step before it already done. company-new owns the manifest."
+    },
+    {
+      "id": "resume-where-are-we-es",
+      "query": "Oye, ¿en qué nos quedamos con esta empresa? Ya pasaron unas semanas y no me acuerdo qué seguía.",
+      "expected": "resume",
+      "split": "train",
+      "kind": "target",
+      "why": "Asks for the position of the engagement and the next step, with no phase named. That is resume's whole subject, and the person asking is the kind who does not know a skill's name."
+    },
+    {
+      "id": "resume-pick-back-up-en",
+      "query": "Picking this back up after a while — where did we leave the mapping, and what is the next thing that has to happen?",
+      "expected": "resume",
+      "split": "test",
+      "kind": "target",
+      "why": "The same request in English. Descriptions are in English and 46 of these cases are in Spanish, so the routing is cross-language by design; this case proves it in the other direction."
+    },
+    {
+      "id": "resume-third-language-pt",
+      "query": "Onde paramos com esta empresa? Quero retomar o trabalho e saber qual é o próximo passo.",
+      "expected": "resume",
+      "split": "train",
+      "kind": "target",
+      "why": "A third language, because the claim is that this entry point is language-agnostic rather than bilingual. The description names the situation instead of enumerating phrasings, which is what makes that hold."
+    },
+    {
+      "id": "resume-vs-social-produce-es",
+      "query": "Continúa produciendo las piezas del plan que ya se aprobó, faltan las tres del carrusel.",
+      "expected": "social-produce",
+      "split": "test",
+      "kind": "near-miss",
+      "why": "Continúa lures toward resume, but the phase is named, the plan is already approved and the work is specific. Resume exists for when nobody knows which phase is live; here everybody does."
+    },
+    {
+      "id": "resume-vs-process-es",
+      "query": "Actualiza el mapeo de procesos de la empresa, cambiaron dos áreas desde la última vez.",
+      "expected": "process",
+      "split": "train",
+      "kind": "near-miss",
+      "why": "Updating the mapping names its own domain, so the process router owns it. Resume would be right only if the question were which phase to update at all."
     }
   ]
 }
