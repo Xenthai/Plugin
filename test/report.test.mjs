@@ -1,5 +1,6 @@
 import { spawnSync } from "node:child_process";
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -120,6 +121,13 @@ if (!computed) {
   check("one period is reported for --month 2026-09", computed.periods.length === 1 && period.month === "2026-09", JSON.stringify(computed.periods.map((p) => p.month)));
   check("18 rows counted", period.rows === 18, period.rows);
   check("source names the journal file", period.source === "2026-09.jsonl", period.source);
+  check(
+    "the digest is the sha256 of the exact bytes on disk, not of the parsed rows",
+    period.digest ===
+      createHash("sha256").update(readFileSync(join(EXECUTION, "2026-09.jsonl"))).digest("hex") &&
+      period.bytes === statSync(join(EXECUTION, "2026-09.jsonl")).size,
+    `${String(period.digest).slice(0, 16)}… / ${period.bytes} bytes`
+  );
   check("measured-by carries the plugin version from the rows", period.measuredBy === "Xenth AI Plugin 0.1.0 desde la bitácora", period.measuredBy);
   check("4 automation runs paired with 2 escalations", period.automation.runs === 4 && period.automation.escalations === 2, JSON.stringify(period.automation));
   check("runs are never exposed without escalations", Object.keys(period.automation).sort().join(",") === "escalations,runs", Object.keys(period.automation).join(","));
@@ -142,6 +150,22 @@ check("the report renders and exits 0", markdown.status === 0, markdown.stderr.s
 const body = markdown.stdout;
 
 check("the report body is es-MX", body.includes("Cifras medidas y evidenciadas") && body.includes("Acciones no autorizadas"), body.slice(0, 200));
+
+const realDigest = createHash("sha256").update(readFileSync(join(EXECUTION, "2026-09.jsonl"))).digest("hex");
+check("the rendered digest is the one a client would compute from their own copy", body.includes(realDigest), (body.match(/SHA-256:[^\n]*/) ?? [])[0]);
+/**
+ * A verification block is worth having only if the reader can run it. A Mexican client is most
+ * likely on Windows, where `shasum` does not exist — a command they cannot run turns the section
+ * into decoration, which is exactly the kind of unearned trust this whole report refuses elsewhere.
+ */
+check("the verify command is given for Windows as well as Unix", /certutil -hashfile 2026-09\.jsonl SHA256/.test(body) && /shasum -a 256 2026-09\.jsonl/.test(body), (body.match(/certutil[^\n]*/) ?? [])[0]);
+/**
+ * The digest pins the file from the report's date forward, because the report comes to rest in the
+ * client's store where the practice cannot rewrite a past revision. It says nothing about the file
+ * before that. Stating the limit is what separates this from tamper-evidence theatre, so it is
+ * asserted rather than trusted to survive an edit.
+ */
+check("the block states what the digest does not prove", /no comprueba/.test(body) && /no hacia atrás/.test(body), (body.match(/Lo que esto no comprueba[^\n]*/) ?? [])[0]);
 check("no figure is called certificada or verificada", !/certificad|verificad/i.test(body), (body.match(/.{0,60}(certificad|verificad).{0,60}/i) ?? [])[0]);
 check("the ISAE columns are present on the metric table", ["Métrica", "Definición", "Fuente", "Periodo", "Medido por"].every((h) => body.includes(h)), body.slice(0, 200));
 check("every ISAE row carries the source file and the measurer", (body.match(/\| 2026-09\.jsonl \| 2026-09 \| Xenth AI Plugin 0\.1\.0 desde la bitácora \|/g) ?? []).length >= 13, (body.match(/\| 2026-09\.jsonl \| 2026-09 \|/g) ?? []).length);

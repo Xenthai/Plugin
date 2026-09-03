@@ -351,6 +351,49 @@ a specific wrong sentence attached to it:
   numbers while privately knowing the evidence has holes is the single failure this instrument
   exists to prevent, and doing it once destroys the value of every clean report that follows.
 
+## 10d. What a client can check for themselves, and what nobody can
+
+In a regulated sector — a client under CNBV, COFEPRIS or a customer of theirs running an audit —
+someone eventually asks whether the record behind a report could have been altered. The answer has
+to be given before it is asked, and it has to be the true one.
+
+Work the question properly, by asking what each party actually controls:
+
+| Who | What they control | What a per-row hash chain would prove against them |
+| --- | --- | --- |
+| The client | Their own store. They can delete the journal outright | Nothing. They can delete the chain too |
+| This practice | The local file, before it is uploaded | Nothing. Whoever computes a chain can recompute it |
+| Anyone else | No write access at all | Nothing beyond what the store already gives |
+
+A hash chain over the rows therefore proves nothing against anyone who matters. It would detect
+reordering by a party with no write access, and that party does not exist. Building one would be
+tamper-evidence theatre: a mechanism that looks like assurance, is understood by the client as
+assurance, and delivers none. That is worse than having nothing, because it earns trust it cannot
+support — the same failure as a benchmark with no denominator or an ISO number on a deliverable.
+
+### What does work, and why
+
+The property actually wanted is an anchor outside the practice's reach. There is one already, and it
+costs nothing to use: **the report is written into the client's own store, whose revision history is
+kept by the storage provider.** This practice can delete a file there; it cannot rewrite a past
+revision or forge its timestamp.
+
+So `bin/report.mjs` prints, in the report body, the SHA-256 of the exact bytes it read, with the file
+size and row count, and the command to check it — for Windows and for Unix, because a command the
+reader cannot run is decoration. From the moment the client holds that report, that month's journal
+is pinned: any later edit to it produces a digest that disagrees with a dated document held by the
+client, not by us.
+
+### The limit, stated in the block itself
+
+**The digest pins the file forward, not backward.** It proves nothing about the journal before the
+first report was delivered, and it proves nothing about activity that never passed through the
+plugin at all. The rendered block says both, in the client's language, next to the digest.
+
+Say it out loud in the meeting too. A client who hears the limit from the practice, unprompted,
+reads every other figure in the report differently — and that is the only durable version of the
+trust a hash chain was reaching for.
+
 ## 11. Cross-references
 
 | File | Read it when |

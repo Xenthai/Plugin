@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { createHash } from "node:crypto";
 import { mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { basename, dirname, join, resolve } from "node:path";
 
@@ -77,7 +78,9 @@ const resolveExecutionDir = (dir) => {
 const readMonth = (file) => {
   const rows = [];
   const malformed = [];
-  const lines = readFileSync(file, "utf8").split("\n");
+  const bytes = readFileSync(file);
+  const digest = createHash("sha256").update(bytes).digest("hex");
+  const lines = bytes.toString("utf8").split("\n");
   for (let i = 0; i < lines.length; i++) {
     const text = lines[i].trim();
     if (!text) continue;
@@ -87,7 +90,7 @@ const readMonth = (file) => {
       malformed.push(i + 1);
     }
   }
-  return { rows, malformed };
+  return { rows, malformed, digest, bytes: bytes.length };
 };
 
 const tally = (values) => {
@@ -220,7 +223,7 @@ const unauthorizedStatement = ({ guardErrors, foreign, checked, root }) => {
   return `La bitácora **no** sostiene la afirmación limpia en este periodo: ${parts.join(" y ")}. El detalle está en la tabla siguiente.`;
 };
 
-const summarise = ({ month, file, rows, malformed, root }) => {
+const summarise = ({ month, file, rows, malformed, digest, bytes, root }) => {
   const events = tally(rows.map((row) => row.event ?? PENDING));
   const countOf = (event) => events.get(event) ?? 0;
   const review = reviewTouchTime(rows);
@@ -263,6 +266,8 @@ const summarise = ({ month, file, rows, malformed, root }) => {
   return {
     month,
     source: basename(file),
+    digest,
+    bytes,
     rows: rows.length,
     malformedLines: malformed,
     plugin,
@@ -397,6 +402,46 @@ const coreMetrics = (summary) => [
   },
 ];
 
+/**
+ * The digest of the exact bytes this report was computed from, and the client's own command to
+ * check it.
+ *
+ * Deliberately not a hash chain over the rows. A chain is computed by whoever writes the journal,
+ * so it detects nothing that party wants hidden — it would only prove the file had not been
+ * reordered by someone with no write access, who is not the threat. What makes a digest mean
+ * something is where it comes to rest: this report is written into the CLIENT's store, whose
+ * revision history is kept by the storage provider and cannot be rewritten by the practice. From
+ * the moment the client holds this report, the journal for this month is pinned, and a later edit
+ * to it produces a different digest against a dated document nobody here controls.
+ *
+ * The limit is stated in the block itself rather than left for a reader to work out, because a
+ * verification section that overstates what it verifies is worse than none: it invites exactly the
+ * trust it has not earned. It pins the file from this report forward. It says nothing about what
+ * the file was before the first report was delivered.
+ */
+const verification = (summary) =>
+  [
+    "> **Verificación de origen.** Este reporte se calculó sobre estos bytes exactos:",
+    ">",
+    `> - archivo: \`${summary.source}\` · ${summary.bytes} bytes · ${plural(summary.rows, "fila", "filas")}`,
+    `> - SHA-256: \`${summary.digest}\``,
+    ">",
+    "> Para comprobarlo usted mismo, sobre su propia copia del archivo. En Windows:",
+    ">",
+    `> \`\`\`\n> certutil -hashfile ${summary.source} SHA256\n> \`\`\``,
+    ">",
+    "> En Mac o Linux:",
+    ">",
+    `> \`\`\`\n> shasum -a 256 ${summary.source}\n> \`\`\``,
+    ">",
+    "> Si el resultado coincide, el archivo que usted tiene es el que produjo estas cifras. Si no",
+    "> coincide, el archivo cambió después de este reporte y las cifras de aquí ya no le corresponden.",
+    ">",
+    "> **Lo que esto no comprueba:** que la bitácora estuviera completa antes de la fecha de este",
+    "> reporte. Una bitácora sólo registra lo que pasó por el plugin. Esta huella fija el archivo de",
+    "> aquí en adelante, no hacia atrás.",
+  ].join("\n");
+
 const renderMonth = (summary) => {
   const out = [];
   out.push(`## Periodo ${summary.month}`);
@@ -404,6 +449,8 @@ const renderMonth = (summary) => {
   out.push(
     `Empresa: ${summary.company} · archivo de origen: \`${summary.source}\` · filas observadas del ${summary.observed.first} al ${summary.observed.last}.`
   );
+  out.push("");
+  out.push(verification(summary));
   out.push("");
   out.push("### Cifras medidas y evidenciadas");
   out.push("");
@@ -621,8 +668,8 @@ const result = {
   rootChecked: Boolean(args.args.root),
   periods: months.map((month) => {
     const file = join(found.dir, `${month}.jsonl`);
-    const { rows, malformed } = readMonth(file);
-    return summarise({ month, file, rows, malformed, root: args.args.root ?? null });
+    const { rows, malformed, digest, bytes } = readMonth(file);
+    return summarise({ month, file, rows, malformed, digest, bytes, root: args.args.root ?? null });
   }),
 };
 
