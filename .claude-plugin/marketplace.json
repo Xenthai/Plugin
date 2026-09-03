@@ -1,5 +1,5 @@
 {
-  "name": "xenthai",
+  "name": "xenthai-dev",
   "owner": {
     "name": "Derian André Castillo Franco",
     "url": "https://xenth.ai"
@@ -8,15 +8,12 @@
     {
       "name": "xenthai",
       "description": "Applied-AI consulting, executable. People decide, the AI executes, and everything is recorded.",
-      "source": {
-        "source": "url",
-        "url": "https://github.com/Xenthai/Plugin.git"
-      },
+      "source": "./",
       "category": "productivity",
       "displayName": "Xenth AI Plugin",
       "homepage": "https://xenth.ai",
       "version": "0.1.0"
     }
   ],
-  "description": "Xenth AI - Applied-AI consulting, executable. People decide, the AI executes, and everything is recorded."
+  "description": "Development marketplace for the Xenth AI Plugin — installs it straight from a working copy. The published catalogue is Xenthai/Marketplace."
 }

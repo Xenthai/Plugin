@@ -15,7 +15,7 @@ write a store; it does not know who the clients are.
 ## Install
 
 ```bash
-claude plugin marketplace add Xenthai/Plugin
+claude plugin marketplace add Xenthai/Marketplace
 ```
 
 ```bash

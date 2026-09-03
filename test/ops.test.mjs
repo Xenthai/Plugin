@@ -41,25 +41,44 @@ check("CI downloads no browser — the runner already has one", () => {
 });
 
 /**
- * Both manifests and both runbooks named a repository that does not exist —
- * `xenthai/xenthai-plugin` against the real `Xenthai/Plugin`. The `marketplace add` line therefore
- * failed, and it failed on step two of a fifteen-minute setup at a client's desk, reading as a typo
- * rather than as a wrong slug.
+ * The runbooks must send an operator to the CATALOGUE, never to this repository.
  *
- * The slug is derived from the manifest's own `repository` field rather than written twice, so the
- * two cannot drift apart again: whatever the manifest declares is what the runbooks must tell an
- * operator to type.
+ * This repo carries two things that look alike and are not. `plugin.json` is the plugin. The
+ * `marketplace.json` beside it is a **development** catalogue named `xenthai-dev` that points at
+ * itself with `"./"`, so the plugin can be installed from a working copy — the same arrangement
+ * `obra/superpowers` uses. Adding this repository as a marketplace works from a terminal, which
+ * clones it, and fails in the desktop app, which syncs over HTTP and needs each plugin's own
+ * repository URL.
+ *
+ * That distinction cost an afternoon, so it is asserted rather than remembered: the runbooks name
+ * the published catalogue, and the dev manifest is never mistaken for it.
  */
-check("every runbook's marketplace line matches the repository the manifest declares", () => {
-  const repo = json(".claude-plugin/plugin.json").repository;
-  const slug = String(repo ?? "").replace(/^https?:\/\/github\.com\//, "").replace(/\.git$/, "");
-  const expected = `claude plugin marketplace add ${slug}`;
+const PUBLISHED_MARKETPLACE = "Xenthai/Marketplace";
+
+check("both runbooks send an operator to the published catalogue, not to this repository", () => {
+  const expected = `claude plugin marketplace add ${PUBLISHED_MARKETPLACE}`;
   const bad = [];
-  if (!/^https:\/\/github\.com\/[^/]+\/[^/]+$/.test(String(repo))) bad.push(`repository is not a github url: ${repo}`);
   for (const f of ["INSTALL.md", "README.md"]) {
-    if (!read(f).includes(expected)) bad.push(`${f} does not say "${expected}"`);
+    const text = read(f);
+    if (!text.includes(expected)) bad.push(`${f} does not say "${expected}"`);
+    if (/marketplace add Xenthai\/Plugin\b/.test(text)) bad.push(`${f} sends the operator to the plugin repo`);
   }
-  return [bad.length === 0, bad.join("; ") || `both name ${slug}`];
+  return [bad.length === 0, bad.join("; ") || `both name ${PUBLISHED_MARKETPLACE}`];
+});
+
+/**
+ * The manifest in this repository is the development one. If it ever takes the published
+ * marketplace's name, adding either would replace the other — Claude Code keeps one marketplace per
+ * name per user — and the operator would be installing from a source nobody intended.
+ */
+check("this repository's marketplace manifest is the development one, and says so", () => {
+  const m = json(".claude-plugin/marketplace.json");
+  const entry = m.plugins?.[0];
+  const bad = [];
+  if (m.name !== "xenthai-dev") bad.push(`name is ${m.name}, not xenthai-dev`);
+  if (entry?.source !== "./") bad.push(`source is ${JSON.stringify(entry?.source)}, not "./"`);
+  if (entry?.version !== json(".claude-plugin/plugin.json").version) bad.push("entry version does not match plugin.json");
+  return [bad.length === 0, bad.join("; ") || `${m.name} → ${entry.source} @ ${entry.version}`];
 });
 
 check("package.json points at the same repository as the plugin manifest", () => {
@@ -68,8 +87,13 @@ check("package.json points at the same repository as the plugin manifest", () =>
   return [a === b, `plugin: ${a} · package: ${b}`];
 });
 
+/**
+ * The install line names the PUBLISHED marketplace, which is `xenthai` — not this repository's
+ * development one, `xenthai-dev`. Deriving it from the local manifest was correct until the
+ * catalogue moved to its own repository, and then it silently expected the wrong line.
+ */
 check("the install line names the marketplace, not the repository slug", () => {
-  const marketplace = json(".claude-plugin/marketplace.json").name;
+  const marketplace = "xenthai";
   const plugin = json(".claude-plugin/plugin.json").name;
   const expected = `claude plugin install ${plugin}@${marketplace}`;
   const install = read("INSTALL.md");

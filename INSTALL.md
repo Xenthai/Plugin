@@ -16,7 +16,7 @@ Install it if it is not there: https://claude.com/claude-code
 ## 2. The plugin
 
 ```bash
-claude plugin marketplace add Xenthai/Plugin
+claude plugin marketplace add Xenthai/Marketplace
 ```
 
 ```bash
@@ -25,9 +25,11 @@ claude plugin install xenthai@xenthai
 
 Two things about those two lines, and each has broken an install:
 
-- **`Xenthai/Plugin` is the repository slug**, exactly as GitHub spells it. It is not the plugin name
-  and not the marketplace name. Check it against the repository's own URL rather than typing what
-  looks right.
+- **`Xenthai/Marketplace` is the catalogue, not the plugin.** The plugin's own repository is
+  `Xenthai/Plugin`, and adding *that* as a marketplace works from a terminal and **fails in the
+  desktop app** — its manifest is the development one, named `xenthai-dev`, which points at itself.
+  A marketplace people add lists plugins by their own repository URL, which is what
+  `Xenthai/Marketplace` does.
 - **The part after `@` is the marketplace name**, which `marketplace.json` sets to `xenthai`. The
   plugin before it is also `xenthai`, so the line reads as a repetition and is not one.
 
@@ -38,6 +40,14 @@ typo rather than a permission. Either make it public, or install from a local pa
 ```bash
 claude plugin marketplace add <path to a checkout on this machine>
 ```
+
+```bash
+claude plugin install xenthai@xenthai-dev
+```
+
+Note the `-dev`: a working copy carries its own catalogue named `xenthai-dev`, so the install line
+changes with it. Claude Code keeps one marketplace per name, which is why the two are named apart —
+adding one would otherwise silently replace the other.
 
 The local path costs the auto-update: a plugin installed that way updates when that checkout does,
 not when a version ships. Say which of the two an engagement is on, because the release gate means
