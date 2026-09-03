@@ -161,14 +161,31 @@ npm install --ignore-scripts
 npm test
 ```
 
-Three suites. The hook suite proves the guard vetoes only what it should, that a share is
+Fifteen suites. The hook suite proves the guard vetoes only what it should, that a share is
 announced and journaled rather than blocked, and that the journal does not leak content — including
-the paths inside a shell command. The template suite renders all eight archetypes on all four
+the paths inside a shell command. The template suite renders every archetype on all four
 targets through the real template with a fixture company and requires every asset to pass every
 assertion. The render suite proves the assertions **fail** when they should —
 a piece pushed into a keep-out, an overflowing canvas, a substituted font, a wrong pixel colour.
 Testing that an assertion catches a violation matters more than testing it passes when nothing is
 wrong.
+
+`node test/skill-eval.mjs` is deliberately outside `npm test`: it asks the `claude` CLI which skill a
+query routes to, so it needs a login and costs money. It is the only instrument that measures whether
+the skills route correctly, and a description is their sole trigger surface.
+
+### Where each kind of record lives
+
+One subject, one file. A fact in two of them is a defect.
+
+| File | What it answers |
+| --- | --- |
+| [CHANGELOG.md](CHANGELOG.md) | **What changed**, per version, so a client can trace what produced their material |
+| [DECISIONS.md](DECISIONS.md) | **What was chosen and what evidence chose it** — with the rejected alternative and what would reverse it. Also what is blocked, on whom, and since when |
+| [ROADMAP.md](ROADMAP.md) | **What is next**, what has shipped, and what is deliberately refused |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | **How to write code here**, and why each rule exists |
+| [IDEAS.md](IDEAS.md) | Raw and unargued. An item leaves for the roadmap once it has a reason and a cost |
+| `capabilities/*/doctrine/` | **Why the work is done this way** — read by the skills, not by a person browsing |
 
 `--ignore-scripts` is not a preference. Claude Code installs a plugin's dependencies that way, so
 anything depending on a lifecycle script would install cleanly here and fail only on a client's
