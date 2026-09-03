@@ -253,6 +253,50 @@ Accents survive that compression, because the words a headline keeps are the con
 is where Spanish accents live. Across this repository the English documents run 0 to 7 accents per
 thousand words and the es-MX ones 111 to 126, so the two floors sit far from anything real.
 
+### What the research says, and where this sits in it
+
+Language identification is a studied problem, and both signals used here are named families in its
+own literature: Cole et al. (1997), as enumerated by Vatanen et al., lists *"short words,
+probabilities of various character combinations, n-grams of words, n-grams of characters, **diacritics
+and special characters**, syllable characteristics, morphology and syntax"*. Function words are the
+short-words family; accents are the diacritics one. Neither was invented here.
+
+The standard method is character n-grams — Cavnar and Trenkle (1994) reach 99.8% on documents over
+300 characters and 98.6% on shorter ones. **That method was deliberately not adopted**, because it
+needs a trained profile per language and this task does not resemble the one it solves.
+
+The literature's hard case is many languages and tiny samples. Vatanen et al. (LREC 2010) test 281
+languages on samples of 5 to 21 characters and report 72.5% average recall for their best model —
+English alone at 59.6%. Those figures are a floor for a far harder problem, not a benchmark for this
+one: here the candidate set is **two** (Spanish, or not Spanish), there is a strong prior that the
+document is meant to be es-MX, and the samples are twenty-five words or more.
+
+### Validated externally, and the margins are wide
+
+Calibrating on this repository's own files was internal validation — one author, one style — so the
+floors were checked against text nobody here wrote:
+
+| Sample | Kind | Function words / 1000 | Accents / 1000 |
+| --- | --- | --- | --- |
+| Ley Federal de Protección al Consumidor (PROFECO, 37k words) | Spanish, external | **396** | not testable, the extractor dropped them |
+| Wikipedia es, *mercadotecnia* (231 words) | Spanish, external | **394** | **134** |
+| the same, cut to 26 words | Spanish, external, short | 308 | **0** |
+| *Data strategies for AI leaders* (MIT Tech Review, 3.5k words) | English, external | **1** | 0 |
+
+Floors of 150 and 40 sit with external Spanish 2.6× above one and 3.3× above the other, and external
+English 150× below. Two things fell out of it worth keeping:
+
+- **Each signal caught the case the other missed, on real text.** The 26-word Spanish extract has
+  zero accents and passed on function words; the telegraphic chart piece is below the function floor
+  and passed on accents. The `OR` is not a hedge, it is load-bearing.
+- **This repository was the harder sample in both directions.** Its English carries Spanish quotes
+  (22 against an external 1) and its Spanish is more telegraphic (318 against an external 394). The
+  floors were therefore calibrated conservatively by accident, which is the safe direction.
+
+**What is still only internally validated** is the specific hard case: short, telegraphic es-MX
+marketing copy. No external sample of that was obtained, so the chart piece standing in for it was
+written here. If that case ever misbehaves, this is the paragraph that says why nobody had checked.
+
 **Crying wolf on correct work is the worse failure of the two.** A check that flags a good piece
 teaches its reader to stop looking, and after that it catches nothing at all.
 
