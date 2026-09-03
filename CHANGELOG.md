@@ -26,6 +26,33 @@ moves.
 
 ### Added
 
+- **`setup` skill** — the whole first visit, in the order that works, closing by reporting which of
+  seven steps are done and which are owed rather than by declaring success. It sequences
+  `company-new` and `company-intake` rather than repeating them, and it exists because the sequence
+  has a step that must precede the binding: Drive's OAuth. The four steps a person must do are named
+  as such, with why none of them is a gap in the plugin — a plugin cannot declare or install a
+  connector, and "anyone with the link" is not in the API surface the Drive connector reaches.
+- **Scheduling doctrine** (`capabilities/company/doctrine/SCHEDULING.md`), written after checking the
+  published behaviour of all three mechanisms rather than assuming. Cloud routines are disqualified
+  here for three independent reasons, any one of them sufficient: they have no access to local files
+  and the journal is the entire input; they belong to an individual account and consume its
+  allowance; and the form is repository-centric while a company's material is in Drive. `/loop` and
+  `CronCreate` are disqualified by being session-scoped and expiring after seven days. So the rule
+  is one question — does this routine need a model? No means an operating-system task, yes means a
+  Desktop scheduled task, which is the only mechanism that both persists and reads local files.
+  Carries each remaining routine's ready-to-use configuration, and the case where a scheduled task
+  is the wrong answer even though it would work: a cadence report carries claims, so what gets
+  scheduled is a reminder, not the report.
+- **The silent failure in Desktop scheduled tasks, documented.** A task whose permission mode does
+  not pre-approve a tool it needs **stalls waiting for a person** — it does not fail and does not
+  retry, so the routine has stopped with no error anywhere. Creating the task is therefore not
+  finishing it: run it once, answer every prompt with always-allow, and confirm the output appeared.
+  Two further properties go into every routine prompt rather than being discovered: a missed run can
+  arrive many hours late with exactly one catch-up, so each prompt states its own window; and each
+  run starts with no memory of any conversation, so each prompt is self-contained.
+
+### Added — earlier in this cycle
+
 - **A digest that runs with nobody present** (`bin/watch.mjs`). The one part of this plugin that can
   honestly be called automatic, because it needs no model: plain arithmetic over a local JSONL file,
   no session, no connector, no network, no API cost. It answers the question no other tool here can —

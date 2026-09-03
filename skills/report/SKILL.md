@@ -182,6 +182,7 @@ node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event delivery --capability repor
 
 | File | Open it when |
 | --- | --- |
+| `capabilities/company/doctrine/SCHEDULING.md` | A routine is about to be proposed or created — where it runs, and the stall that silences it |
 | `<store>/BASELINE.md` | Always, before writing anything about improvement |
 | `capabilities/company/doctrine/MATURITY.md` | The quarterly re-measure of level, and the annual question of whose level actually moved |
 | `<store>/PROOF.md` | The report will carry a figure or name the client might republish |

@@ -1,0 +1,122 @@
+---
+name: setup
+description: Run the whole first-visit setup for a client in order, and report at the end which steps are done and which are still owed — the connector, the binding, the adoption of any documents already in their store, both Drive shares, the digest routine, and the handoff to intake. Use at the very first session with a new client, when arriving at a client's machine to install, when asked what to do to get a client started, and when a setup was interrupted and nobody remembers how far it got. Delegates the binding to company-new and the file request to company-intake rather than repeating them.
+---
+
+# Setup — the first visit, in the order that works
+
+**Seven steps. Four are yours, three are the skills'.** The ones that get forgotten are the ones
+nothing fails without until months later, when a report comes back empty or an import produces posts
+with every image missing.
+
+This skill does not do the work of `company-new` or `company-intake`. It sequences them, and it makes
+sure the steps around them happen.
+
+## Before anything: is this a setup, or a rescue?
+
+Read the state before acting. If a `.company.json` already exists up the tree, this is not a first
+visit — say which company is bound, run `doctor`, and report which of the seven steps below are
+already done. **A setup that starts over destroys work.**
+
+```bash
+node "${CLAUDE_PLUGIN_ROOT}/bin/doctor.mjs" --json
+node "${CLAUDE_PLUGIN_ROOT}/bin/status.mjs"
+```
+
+## The seven steps
+
+| # | Step | Who does it | What it unblocks |
+| --- | --- | --- | --- |
+| 1 | **Google Drive authorized** in the client's own connector settings | The client, in a browser | Everything. Without it the skills load and look healthy until the first call fails |
+| 2 | **The binding** — manifest, store root, `doctor` green | `company-new` | Every store write |
+| 3 | **Documents already in the store adopted**, never overwritten | `company-new` | The client's prior work surviving |
+| 4 | **Assets folder shared "anyone with the link"** | A person, in Drive's own interface | Scheduler imports. The most common silent failure |
+| 5 | **`digest` folder created, shared with the practice as Lector** | A person, in Drive's own interface | Continuous monitoring |
+| 6 | **The digest routine registered, and run once by hand** | One command | The digest existing at all |
+| 7 | **`ROUTINES.md` created with the digest already active** | `company-new` | Absence detection |
+
+Then step 8, which is not setup but happens the same day: **hand off to `company-intake`.** The file
+request needs nobody present, so it goes out immediately.
+
+## What cannot be automated, and why saying so is the job
+
+Four of these need a person, and none of them is a gap in the plugin:
+
+- **Step 1** is an OAuth consent in a browser. A plugin cannot declare, request or install a
+  connector — there is no field for it and no hook that fires when one is missing.
+- **Steps 4 and 5** set link and folder permissions. The Drive connector's share can only add a
+  named email; "anyone with the link" is not in the API surface the plugin can reach.
+- **Step 6** registers an operating-system task.
+
+Tell the operator this plainly at the start. An operator who expects the plugin to do step 4 skips it
+and finds out from a client's failed import.
+
+**Gmail is not on the list.** The plugin uses it only to send a finished deliverable, sending always
+needs per-message confirmation, and nothing in setup depends on it. Connecting it changes nothing.
+
+## Steps 4 and 5 — the two shares, and the difference between them
+
+They are opposite in kind and mixing them up is the one mistake here with real consequences.
+
+| Folder | Shared with | Why |
+| --- | --- | --- |
+| assets | **Anyone with the link** | A scheduler fetches media by URL and cannot read a private file |
+| `digest` | **The practice's account, as Lector** | Monitoring. Nothing else |
+
+**Never share the company's root folder with the practice.** Standing access to a client's material
+has no upside and two costs: it would make the practice a processor of the client's personal data,
+and one compromised account would then be every client at once. The digest exists precisely so that
+access is unnecessary — it carries counts, dates and verdicts and no company data at all.
+
+## Step 6 — the routine, and the mechanism that is not obvious
+
+The digest is the only thing here that runs with nobody present, and it runs on an **operating-system
+scheduled task**, not a Claude routine. `capabilities/company/doctrine/SCHEDULING.md` carries why: a
+cloud routine cannot read local files, and the journal is the entire input.
+
+`INSTALL.md` §6b has the exact command. Two things about it are not optional:
+
+- **Run it once by hand and open the file.** A schedule nobody proved is a schedule nobody has.
+- **Only the digest gets scheduled today.** Every other routine waits for its cadence to be agreed
+  with the client at mapping close — `SCHEDULING.md` §4 holds each one's configuration, ready to
+  create in minutes when that happens. Provisioning six routines now trains the client to ignore all
+  of them, which is the exact outcome `ROUTINES.md` refuses.
+
+## Close by reporting the state, not by declaring success
+
+Read the seven back, each marked done or owed with who owes it. Then:
+
+```bash
+node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event phase_start --capability company \
+  --why "setup: <N> of 7 steps done; owed: <list>" --target ".company.json"
+```
+
+An honest "five of seven, and here are the two you owe" is worth more than "listo" — the two that are
+owed are the ones that fail silently, and the row is what lets a later session find out where this
+stopped.
+
+Company files change through `Write` and `Edit` only. `capabilities/company/doctrine/CONTROLS.md` carries why, and what the guard refuses versus merely records.
+
+## STOP conditions
+
+- **Drive is not authorized yet.** Stop at step 1. Steps 2 onward will appear to work and fail at the
+  first store call. Say what the client has to do, in their own connector settings.
+- **A `.company.json` already exists up the tree.** This is a rescue, not a setup. Report which steps
+  are done and never re-run `company-new`.
+- **The store folder already holds documents.** Point `store.root` at that folder and let
+  `company-new` adopt them. Creating a second folder splits the engagement in two, and nothing later
+  can tell which half is real.
+- **Nobody present knows the Drive folder id.** Stop rather than accept a name or a link. The guard
+  compares ids, and a name does not prove identity.
+- **The operator asks you to do step 4 or 5.** You cannot; the connector has no such call. Say so and
+  let them do it in Drive while you wait, rather than marking it done.
+
+## Reference material
+
+| File | Read it when |
+| --- | --- |
+| `INSTALL.md` | Always — it is the machine-level runbook this skill sequences |
+| `capabilities/company/doctrine/SCHEDULING.md` | Step 6, and every later routine |
+| `capabilities/company/doctrine/INTAKE.md` | The store already holds documents |
+| `capabilities/company/doctrine/SESSION.md` | Anything in this visit will be asked of a person |
+| `MCP.md` | A connector behaves oddly or a store call fails |

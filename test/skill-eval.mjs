@@ -525,7 +525,14 @@ const selfTest = async () => {
 
   check("the gate is inclusive at the threshold: the most misses that keep 80% pass, one more fails", async () => {
     const testRuns = data.items.filter((it) => it.split === "test").length * fake.runs;
-    const allowedWrong = Math.floor(testRuns * (1 - PASS_THRESHOLD));
+    /**
+     * Derived from the number that must be CORRECT, never from `1 - PASS_THRESHOLD`. That
+     * subtraction is 0.19999999999999996 in binary floating point, which floored one run too few and
+     * left this assertion silently off by one — invisible until the dataset grew to a size where the
+     * boundary landed on an exact integer, and then it claimed the gate passed a run that should
+     * have failed. The gate is inclusive at the threshold, so `ceil` is what matches it.
+     */
+    const allowedWrong = testRuns - Math.ceil(testRuns * PASS_THRESHOLD);
     const run = (wrong) => {
       let remaining = wrong;
       return evaluate(data.items, skills, fake, async (prompt) => {

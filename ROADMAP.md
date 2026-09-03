@@ -76,6 +76,8 @@ client machine until the `version` field moves.
 | **`watch` digest** — engagement health as counts and dates, computed with no model, no session and no network, safe to share with the practice | `bin/watch.mjs`, `INSTALL.md` §6b |
 | **`feedback` skill** — the second improvement loop: what to fix in the PLUGIN, from evidence, carrying nothing about any company | `skills/feedback` |
 | **Adoption of pre-existing documents** — a store that is not empty when the plugin arrives | `capabilities/company/doctrine/INTAKE.md`, `skills/company-new`, `skills/company-intake` |
+| **`setup` skill** — the whole first visit in order, reporting which of seven steps are done and which are owed | `skills/setup` |
+| **Scheduling doctrine** — which of the three mechanisms a routine belongs on, and the permission stall that silences one | `capabilities/company/doctrine/SCHEDULING.md` |
 
 ---
 
@@ -85,7 +87,7 @@ The MVP passes its own tests. These are the gaps a real engagement would hit on 
 
 | Item | Why | Waits on |
 | --- | --- | --- |
-| **Skill-trigger evaluation inside the gate** — the 56 cases in `test/skill-triggers.json` run on every change, not on request | Nineteen skills now, up from six. A `description` is the only trigger surface and the measured failure mode is **under**-triggering: a skill that never fires is indistinguishable from a skill that does not exist. `test/skill-eval.mjs` exists and runs nowhere | Claude CLI and API access in CI, or a local pre-release step |
+| **Skill-trigger evaluation inside the gate** — the 58 cases in `test/skill-triggers.json` run on every change, not on request | Twenty skills now, up from six. A `description` is the only trigger surface and the measured failure mode is **under**-triggering: a skill that never fires is indistinguishable from a skill that does not exist. `test/skill-eval.mjs` exists and runs nowhere | Claude CLI and API access in CI, or a local pre-release step |
 | **Verify `${CLAUDE_PLUGIN_ROOT}` inside a skill's shell** on a real install | Every semantic journal entry from a skill depends on it, and the documentation does not say it resolves there. The bootstrap hook announces the path as a fallback, but the assumption is untested | A second machine |
 | **A first-session dry run against a real company** — every phase, in order, with the journal read back afterwards | The suites prove each part in isolation. Nothing has yet proven the parts compose, and the journal has never been read by `report` on rows a full engagement produced | `company-new` |
 

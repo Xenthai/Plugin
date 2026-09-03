@@ -192,6 +192,7 @@ a recipient.**
 
 | File | Read it when |
 | --- | --- |
+| `capabilities/company/doctrine/SCHEDULING.md` | A routine is about to be proposed or created — where it runs, and the stall that silences it |
 | `capabilities/company/doctrine/SESSION.md` | Before any session that fills a document by asking a person |
 | `capabilities/process/doctrine/PROCESS.md` | Before the session, always. §4 governance fields and §5 scoring provenance are the two you will use most |
 | `capabilities/company/doctrine/MATURITY.md` | Closing the mapping — the six-month phase framework and what each phase owes |

@@ -453,6 +453,22 @@
       "split": "test",
       "kind": "near-miss",
       "why": "Mejorar plus three months of journal lures toward feedback, but the subject is this company's processes, not the instrument. Feedback carries nothing about a company by design."
+    },
+    {
+      "id": "setup-first-visit-es",
+      "query": "Mañana llego con un cliente nuevo a instalarle todo. Dime todo lo que tengo que hacer y en qué orden, para que no se me olvide nada.",
+      "expected": "setup",
+      "split": "train",
+      "kind": "target",
+      "why": "The ask is the whole ordered first visit, not one of its steps. setup sequences the seven and reports which are owed; company-new owns only the binding."
+    },
+    {
+      "id": "setup-vs-company-new-es",
+      "query": "El Drive ya está conectado y la carpeta ya existe. Escribe el .company.json y vincula esta sesión a la empresa.",
+      "expected": "company-new",
+      "split": "test",
+      "kind": "near-miss",
+      "why": "Setup words lure toward the setup skill, but the request is exactly and only the binding, with the step before it already done. company-new owns the manifest."
     }
   ]
 }

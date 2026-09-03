@@ -150,6 +150,7 @@ Company files change through `Write` and `Edit` only. `capabilities/company/doct
 
 | File | Read it when |
 | --- | --- |
+| `capabilities/company/doctrine/SCHEDULING.md` | A routine is about to be proposed or created — where it runs, and the stall that silences it |
 | `capabilities/company/doctrine/SESSION.md` | Before any session that fills a document by asking a person |
 | `capabilities/automate/doctrine/HANDOVER.md` | Before writing anything — the twelve items, the failure modes, the platform rules |
 | `capabilities/company/doctrine/MATURITY.md` | A workflow is climbing from Level 2 to Level 3, which is what scheduling it unattended means |
