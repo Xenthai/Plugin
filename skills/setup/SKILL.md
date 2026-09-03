@@ -32,7 +32,7 @@ node "${CLAUDE_PLUGIN_ROOT}/bin/status.mjs"
 | 3 | **Documents already in the store adopted**, never overwritten | `company-new` | The client's prior work surviving |
 | 4 | **Assets folder shared "anyone with the link"** | A person, in Drive's own interface | Scheduler imports. The most common silent failure |
 | 5 | **`digest` folder created, shared with the practice as Lector** | A person, in Drive's own interface | Continuous monitoring |
-| 6 | **The digest routine registered, and run once by hand** | One command | The digest existing at all |
+| 6 | **The digest routine created, and run once with its prompts approved** | Desktop → Rutinas → Nueva rutina → **Local** | The digest existing at all |
 | 7 | **`ROUTINES.md` created with the digest already active** | `company-new` | Absence detection |
 
 Then step 8, which is not setup but happens the same day: **hand off to `company-intake`.** The file
@@ -46,7 +46,8 @@ Four of these need a person, and none of them is a gap in the plugin:
   connector — there is no field for it and no hook that fires when one is missing.
 - **Steps 4 and 5** set link and folder permissions. The Drive connector's share can only add a
   named email; "anyone with the link" is not in the API surface the plugin can reach.
-- **Step 6** registers an operating-system task.
+- **Step 6** creates a Desktop scheduled task and runs it once to approve its prompts. A routine
+  created and never run stalls on its first prompt and stops with no error anywhere.
 
 Tell the operator this plainly at the start. An operator who expects the plugin to do step 4 skips it
 and finds out from a client's failed import.
@@ -70,13 +71,15 @@ access is unnecessary — it carries counts, dates and verdicts and no company d
 
 ## Step 6 — the routine, and the mechanism that is not obvious
 
-The digest is the only thing here that runs with nobody present, and it runs on an **operating-system
-scheduled task**, not a Claude routine. `capabilities/company/doctrine/SCHEDULING.md` carries why: a
-cloud routine cannot read local files, and the journal is the entire input.
+The digest is the only routine that needs nobody in the room. It is a **Desktop scheduled task** —
+choose **Local**, never Cloud: a cloud routine runs on Anthropic's infrastructure and cannot read
+local files, and the journal on this machine is the entire input.
 
-`INSTALL.md` §6b has the exact command. Two things about it are not optional:
+`INSTALL.md` §6b has the fields and the verbatim prompt. Two things about it are not optional:
 
-- **Run it once by hand and open the file.** A schedule nobody proved is a schedule nobody has.
+- **Run it once and approve every prompt with "permitir siempre".** A task whose permission mode
+  does not already allow what it needs **stalls waiting for a person** — it does not fail and does
+  not retry, so the routine stops with no error anywhere. Then open the file and confirm the date.
 - **Only the digest gets scheduled today.** Every other routine waits for its cadence to be agreed
   with the client at mapping close — `SCHEDULING.md` §4 holds each one's configuration, ready to
   create in minutes when that happens. Provisioning six routines now trains the client to ignore all

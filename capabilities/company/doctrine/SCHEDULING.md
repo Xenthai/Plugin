@@ -18,12 +18,30 @@ silently never runs.
 | Costs subscription usage | Yes, plus a daily run cap | Yes | Yes |
 | Expires | No | No | **After 7 days** |
 
-**The question that decides it: does this routine need a model at all?**
+**Every routine in this plugin runs as a Desktop scheduled task.** It is the only mechanism that
+both persists and reads the company's local files, and the journal on the client's machine is the
+entire input to all of them.
 
-- **No** → an operating-system scheduled task running `node`. Costs nothing, needs no app open, cannot
-  stall on a permission prompt, cannot expire. Everything deterministic belongs here.
-- **Yes** → a **Desktop scheduled task**, because it is the only mechanism that both persists and can
-  read the company's local files.
+An operating-system task running `node` is technically better for the deterministic ones — it costs
+nothing, needs no app open, and cannot stall on a permission prompt. **It was deliberately not
+chosen**, and the reasoning is operational rather than technical:
+
+- **One place to look.** The Desktop Routines page lists every routine with its run history and its
+  skipped runs, each with the reason. Task Scheduler is a separate interface nobody opens, so a
+  routine that stopped there stops invisibly.
+- **No administrator command on a client's machine.** Registering an OS task needs elevated
+  PowerShell, which a client's own IT may refuse — and a setup step that sometimes cannot be
+  performed is worse than a slightly weaker one that always can.
+- **Pause, resume and run-now are in the same interface** the operator is already in.
+
+What that costs, stated once so nobody rediscovers it: a Desktop task runs only while the app is open
+and the machine is awake, so **a routine that stopped is ambiguous from outside the machine** — the
+machine was off, the app was closed, or the task stalled. See §2.
+
+Keep the question anyway, because it decides the *model* and the *prompt*: a routine that needs no
+judgement gets the cheapest model and a prompt that runs one command and stops. Giving a deterministic
+routine a capable model and an open-ended prompt is how it starts interpreting things nobody asked it
+to interpret.
 
 ### Why a cloud routine is wrong here, specifically
 
@@ -72,7 +90,7 @@ Only one routine is justified on day one:
 
 | Routine | Mechanism | Cadence | Why day one |
 | --- | --- | --- | --- |
-| **Status digest** | OS scheduled task, `bin/watch.mjs` | Daily | It is monitoring, not a deliverable. It needs no agreement with the client because it produces nothing they read, and its absence is what makes an abandoned engagement visible |
+| **Status digest** | Desktop scheduled task running `bin/watch.mjs`, cheapest model | Daily | It is monitoring, not a deliverable. It needs no agreement with the client because it produces nothing they read, and its absence is what makes an abandoned engagement visible |
 
 **Every other routine waits for its cadence to be agreed with the client.** `ROUTINES.md` says a
 cadence that does not answer a distinct question is not activated, and that the annual review asks of

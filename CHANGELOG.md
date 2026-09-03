@@ -32,6 +32,18 @@ moves.
   has a step that must precede the binding: Drive's OAuth. The four steps a person must do are named
   as such, with why none of them is a gap in the plugin — a plugin cannot declare or install a
   connector, and "anyone with the link" is not in the API surface the Drive connector reaches.
+- **Every routine runs as a Claude Desktop scheduled task** — the Programado section — and the
+  scheduling doctrine now says so as a decision rather than leaving the mechanism per-routine. An
+  operating-system task is technically better for the deterministic ones, since it costs nothing,
+  needs no app open and cannot stall on a permission prompt. It was deliberately not chosen: one
+  interface shows every routine with its run history and its skipped runs, pause and run-now live
+  there too, and registering an OS task needs elevated PowerShell that a client's own IT may refuse
+  — a setup step that sometimes cannot be performed is worse than a slightly weaker one that always
+  can. What it costs is stated once so nobody rediscovers it: a stopped routine is ambiguous from
+  outside the machine, because the machine may have been off, the app closed, or the task stalled.
+  The claim that the digest runs "with no Claude, no connector and no network" was true of the OS
+  task and is now false, so it is gone from every document — the *computation* needs no model, the
+  *schedule* does, and that distinction is the honest version.
 - **Scheduling doctrine** (`capabilities/company/doctrine/SCHEDULING.md`), written after checking the
   published behaviour of all three mechanisms rather than assuming. Cloud routines are disqualified
   here for three independent reasons, any one of them sufficient: they have no access to local files

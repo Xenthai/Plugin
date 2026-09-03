@@ -93,17 +93,23 @@ per asset.
 cannot read a local file, so an import runs and produces posts with missing images, discovered one
 failed row at a time.
 
-## 6b. The digest folder, and the one thing that runs with nobody present
+## 6b. The digest folder, and the one routine that needs nobody in the room
 
-Everything else in this plugin needs a session, because it needs judgement. The digest does not: it
-is arithmetic over a local file, so it runs on a schedule with no Claude, no connector and no
-network. That is the only part you can honestly call automatic.
+Everything else in this plugin needs a person in the session, because it needs judgement. The digest
+does not: what it computes is arithmetic over a local file, so the answer cannot be wrong and nothing
+about it has to be reviewed.
+
+It still runs **inside a scheduled Claude session**, so it needs the app open and the machine awake.
+Be precise about that rather than calling it automatic: the *computation* needs no model, and the
+*schedule* does. What that buys is one place to see every routine, its run history and its skipped
+runs — and no administrator command on a client's machine, which their own IT may not allow.
 
 ### Why it needs Drive for Desktop
 
-The digest has to reach the practice, and a connector write needs a session. So instead the company
-folder is **synced to disk** with Google Drive for Desktop — free, official, no subscription. Then
-writing the digest is a plain file write and Drive syncs it.
+The digest has to reach the practice, and a connector write is a per-call permission and a network
+round trip for something that should be a file write. So instead the company folder is **synced to
+disk** with Google Drive for Desktop — free, official, no subscription — and the digest is written
+as a plain local file that Drive syncs.
 
 Install it and let the company folder sync. Note the local path it gets, for example
 `G:\Mi unidad\Acme` or `C:\Users\<user>\Mi unidad\Acme`.
@@ -126,29 +132,63 @@ Do not share the company's root folder. There is no reason for the practice to h
 to the client's material, and every reason not to: it would make the practice a processor of the
 client's personal data, and one compromised account would then be every client at once.
 
-### Register the scheduled task
+### Create the scheduled task
 
-One command, once, in **PowerShell as Administrator**. Replace the two paths:
+In the Desktop app's **Code** tab: **Rutinas** in the sidebar (or under **Más**), then **Nueva
+rutina**, and choose **Local** — not Cloud. A cloud routine runs on Anthropic's infrastructure and
+**cannot read local files**, and the journal on this machine is the whole input.
 
-```powershell
-$plugin = "$env:USERPROFILE\.claude\plugins\cache\xenthai\xenthai"
-$store  = "G:\Mi unidad\Acme"
-$action = New-ScheduledTaskAction -Execute "node" -Argument "`"$plugin\bin\watch.mjs`" --journal `"$store`" --out `"$store\digest\estado.md`""
-$trigger = New-ScheduledTaskTrigger -Daily -At 7am
-Register-ScheduledTask -TaskName "XenthAI digest" -Action $action -Trigger $trigger -Description "Escribe el digest de estado del compromiso. No envia datos de la empresa."
+| Field | Value |
+| --- | --- |
+| Nombre | `xenthai-digest` |
+| Descripción | Escribe el digest de estado. No envía datos de la empresa |
+| Carpeta | The engagement folder — the one holding `.company.json` |
+| Programación | **Diaria**, at an hour the machine is normally on and awake |
+| Modelo | The cheapest available. The task runs one command and stops; nothing here needs judgement |
+| Worktree | Off. This folder is not a repository |
+
+Instructions, verbatim — replace only the two paths:
+
+```
+Corre exactamente este comando y nada más:
+
+node "<ruta del plugin>/bin/watch.mjs" --journal "<ruta local de la carpeta de la empresa>" --out "<ruta local>/digest/estado.md"
+
+Después confirma en una línea si el archivo se escribió y cuál fue el veredicto. No abras ningún
+otro archivo, no leas la bitácora, no interpretes el resultado y no escribas nada más. Si el comando
+falla, reporta el error tal cual y detente.
 ```
 
-Then run it once by hand to prove it works before trusting the schedule:
+Get the plugin path from any session with `echo $CLAUDE_PLUGIN_ROOT`. The company path is the local
+one Drive for Desktop gave the synced folder, not the Drive URL.
 
-```powershell
-Start-ScheduledTask -TaskName "XenthAI digest"
-```
+### Then run it once, or it is not finished
 
-Open `digest\estado.md`. If it is there, the automatic half is done and it stays done.
+**Click Ejecutar ahora and answer every permission prompt with "permitir siempre".**
 
-The task overwrites one file rather than appending a new one per day, so the folder never grows and
-the practice always reads the current state. History is not lost — it is in the journal, which is
-where history belongs.
+This is not a nicety. A scheduled task whose permission mode does not already allow a tool it needs
+**stalls waiting for a person** — it does not fail and it does not retry. The session sits open in
+the sidebar and the routine has silently stopped, with no error anywhere. Running it once and
+approving is what makes every future run pass without a person.
+
+To avoid the prompt entirely, an allow rule in `~/.claude/settings.json` also applies to scheduled
+task sessions.
+
+Then open `digest/estado.md`. If it is there with today's date, this step is done.
+
+The task overwrites one file rather than appending one per day, so the folder never grows and the
+practice always reads the current state. History is not lost — it is in the journal, which is where
+history belongs.
+
+### The one thing this mechanism cannot tell you
+
+A Desktop task runs only while the app is open and the machine is awake. So when the digest's date
+stops advancing, it means one of three things — the machine was off, the app was closed, or the task
+stalled — and **the practice cannot tell which from the file alone.**
+
+The task's own detail page distinguishes them: its history lists every skipped run with the reason.
+But that page is on this machine. So a stale digest is a reason to ask, not a conclusion, and the
+first question is always "¿estuvo prendida la máquina?" before anything about the engagement.
 
 ### What the verdict means when the practice reads it
 

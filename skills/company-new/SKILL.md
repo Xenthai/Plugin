@@ -123,7 +123,7 @@ images. So do not end this session with "listo": end it by reading this back, ma
 | 3 | Documents already in the store adopted, not overwritten | The client's prior work survives | Done, here |
 | 4 | Assets folder shared **anyone with the link** | Scheduler imports. Skipping it is the most common silent failure | A person, in Drive's own interface |
 | 5 | `digest` folder created and shared with the practice as **Lector** | Continuous monitoring, and it is the only part that runs with nobody present | A person, in Drive's own interface |
-| 6 | The scheduled task registered, and run once by hand to prove it | The digest actually appearing. A schedule nobody proved is a schedule nobody has | One PowerShell command, once |
+| 6 | The digest routine created **and run once**, approving its prompts | The digest actually appearing. A routine nobody ran once stalls on its first permission prompt and stops in silence | Desktop → Rutinas → Nueva rutina → Local |
 | 7 | `ROUTINES.md` created, with the digest routine already active | Absence detection. **A routine nobody wrote down cannot be noticed missing** | Done, here — see below |
 
 `INSTALL.md` §6b carries the exact commands for 5 and 6. Gmail is **not** on this list: the plugin
