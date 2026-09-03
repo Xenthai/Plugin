@@ -122,6 +122,61 @@ const rendered = run("--journal", liveStore, "--company", "acme-sa").stdout;
 const leaks = ["Ana", "Beto", "Write", "Edit", "acme-sa.jsonl"].filter((s) => rendered.includes(s));
 check("the rendered digest leaks no person, tool or file name", leaks.length === 0, `leaked: ${leaks.join(", ")}`);
 
+/**
+ * The deterministic half of `feedback`, carried by the digest so plugin signal accumulates without
+ * waiting for a session. `detect` returns each finding's subject — a file path, an escalation reason
+ * — and every one of those is the company's data. Only the shape may survive, so this asserts the
+ * detector fired AND that its subject did not travel.
+ */
+const recurring = store("recurring", [0, 1, 2].flatMap((m) =>
+  [10, 20].map((d) => ({
+    ...row("ai_action", d + m * 31, { tool: "Write", target: { file_path: "reportes/cotizacion-secreta.md" }, capability: "process" }),
+  }))
+));
+const rec = run("--journal", recurring, "--json");
+let recData = null;
+try {
+  recData = JSON.parse(rec.stdout);
+} catch {}
+check(
+  "the digest carries which detector fired and how wide, never its subject",
+  recData?.plugin?.recurrence?.some((r) => r.detector === "recurring-target" && r.widest_span >= 2) &&
+    !rec.stdout.includes("cotizacion-secreta"),
+  JSON.stringify(recData?.plugin?.recurrence)
+);
+check(
+  "capabilities seen are counted, so the ones missing from the list are the finding",
+  recData?.plugin?.capabilities_seen?.some((c) => c.capability === "process" && c.rows > 0),
+  JSON.stringify(recData?.plugin?.capabilities_seen)
+);
+
+/**
+ * The period a row belongs to comes from the file name, not from its `ts`. Grouping by an
+ * unparseable timestamp would put every row in one `undefined` bucket, make every pattern one period
+ * wide, and report "nothing recurred" — a silent false negative in the exact tool built to catch
+ * silent false negatives.
+ */
+const undatedRecurring = join(SANDBOX, "undated-recurring");
+mkdirSync(join(undatedRecurring, "journal", "execution"), { recursive: true });
+for (const month of ["2026-07", "2026-08", "2026-09"]) {
+  const rs = [10, 20].map((d) => {
+    const { ts, ...rest } = row("ai_action", d, { tool: "Write", target: { file_path: "x.md" }, capability: "process" });
+    return rest;
+  });
+  const body = rs.map((r) => JSON.stringify(r)).join("\n");
+  writeFileSync(join(undatedRecurring, "journal", "execution", `${month}.jsonl`), `${body}\n`, "utf8");
+}
+const ur = run("--journal", undatedRecurring, "--json");
+let urData = null;
+try {
+  urData = JSON.parse(ur.stdout);
+} catch {}
+check(
+  "recurrence still groups when rows carry no timestamp, because the period is the file name",
+  (urData?.plugin?.recurrence?.length ?? 0) > 0,
+  JSON.stringify(urData?.plugin?.recurrence)
+);
+
 const jsonOut = run("--journal", liveStore, "--json").stdout;
 let parsed = null;
 try {

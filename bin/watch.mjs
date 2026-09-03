@@ -2,6 +2,8 @@
 import { mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 
+import { detect } from "./opportunities.mjs";
+
 /**
  * The practice-facing digest of one engagement's health, computed without a model and without a
  * session.
@@ -63,14 +65,21 @@ const resolveExecutionDir = (dir) => {
   return null;
 };
 
+/**
+ * `period` comes from the FILE NAME, not from a row's `ts`. The recurrence detectors group by it,
+ * and a row whose timestamp is missing or unparseable would otherwise land in a group of `undefined`
+ * and silently make every pattern one period wide — which reads as "nothing recurred". The file name
+ * is the one thing about a row that cannot be wrong.
+ */
 const load = (dir, months) => {
   const rows = [];
   for (const name of months) {
+    const period = name.replace(".jsonl", "");
     for (const line of readFileSync(join(dir, name), "utf8").split("\n")) {
       const text = line.trim();
       if (!text) continue;
       try {
-        rows.push(JSON.parse(text));
+        rows.push({ ...JSON.parse(text), period });
       } catch {
         /* a malformed line is a defect `report` names; it carries no signal here */
       }
@@ -103,6 +112,37 @@ const activeDays = (rows) => {
 };
 
 const signal = (id, question, verdict, value, note) => ({ id, question, verdict, value, note });
+
+/**
+ * The deterministic half of `skills/feedback`, so plugin-improvement signal accumulates on a
+ * schedule instead of waiting for a monthly session.
+ *
+ * `detect` returns each finding's SUBJECT — a file path, an escalation reason, a tool-and-target
+ * pair. Every one of those is the company's data and none of it may leave, so only the shape
+ * survives here: which detector fired, how many findings it produced, and the widest span any of
+ * them covered. Which capabilities appear at all is the other half, and a capability's ABSENCE from
+ * this list is the finding — a skill nobody invoked in months is either mis-described, since a
+ * description is its only trigger surface, or unnecessary. Those have opposite fixes, and only a
+ * session can tell them apart.
+ */
+const pluginSignal = (rows) => {
+  const byDetector = new Map();
+  for (const f of detect(rows, 2)) {
+    const cur = byDetector.get(f.detector) ?? { findings: 0, widest_span: 0 };
+    byDetector.set(f.detector, {
+      findings: cur.findings + 1,
+      widest_span: Math.max(cur.widest_span, f.periods.length),
+    });
+  }
+  const caps = new Map();
+  for (const r of rows) {
+    if (typeof r.capability === "string" && r.capability) caps.set(r.capability, (caps.get(r.capability) ?? 0) + 1);
+  }
+  return {
+    recurrence: [...byDetector.entries()].map(([detector, v]) => ({ detector, ...v })).sort((a, b) => b.widest_span - a.widest_span),
+    capabilities_seen: [...caps.entries()].sort((a, b) => b[1] - a[1]).map(([capability, rows]) => ({ capability, rows })),
+  };
+};
 
 export const analyse = (rows, now = Date.now()) => {
   const days = activeDays(rows);
@@ -213,6 +253,7 @@ export const analyse = (rows, now = Date.now()) => {
   const worst = signals.some((s) => s.verdict === ACT) ? ACT : signals.some((s) => s.verdict === WATCH) ? WATCH : signals.some((s) => s.verdict === UNKNOWN) ? UNKNOWN : OK;
 
   return {
+    plugin: pluginSignal(rows),
     generated: new Date(now).toISOString(),
     periods: [...new Set(rows.map((r) => (typeof r.ts === "string" ? r.ts.slice(0, 7) : null)).filter(Boolean))].sort(),
     rows: rows.length,
@@ -274,6 +315,28 @@ const render = (d, company) => {
   for (const s of d.signals.filter((x) => x.verdict === ACT || x.verdict === WATCH || x.verdict === UNKNOWN)) {
     out.push(`- **${s.verdict} · \`${s.id}\`** — ${s.note}`);
   }
+  out.push("");
+  out.push("## Señal para mejorar el plugin");
+  out.push("");
+  if (d.plugin.recurrence.length) {
+    out.push("| Detector | Hallazgos | Periodos que abarca el más amplio |");
+    out.push("| --- | --- | --- |");
+    for (const r of d.plugin.recurrence) out.push(`| \`${r.detector}\` | ${r.findings} | ${r.widest_span} |`);
+  } else {
+    out.push("Ningún patrón se repitió por encima del umbral.");
+  }
+  out.push("");
+  out.push(
+    d.plugin.capabilities_seen.length
+      ? `Capacidades que aparecen en la bitácora: ${d.plugin.capabilities_seen.map((c) => `\`${c.capability}\` (${c.rows})`).join(", ")}.`
+      : "Ninguna fila declara capacidad. Nada se invocó a través de una skill."
+  );
+  out.push("");
+  out.push(
+    "**Lo que falta en esa lista es el hallazgo.** Una skill que nadie invocó en meses está mal " +
+      "descrita —la descripción es su única superficie de disparo— o no hace falta. Son arreglos " +
+      "opuestos y solo una sesión los distingue: eso es `feedback`."
+  );
   out.push("");
   out.push(
     "> Este digest lleva conteos, fechas y veredictos. No lleva nombres de archivo, objetivos, razones " +

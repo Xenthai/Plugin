@@ -110,8 +110,39 @@ node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event phase_start --capability co
   --target ".company.json"
 ```
 
-Close by handing off to `company-intake` — the file request is the next thing that happens, and it
-needs nobody present, so it should be sent the same day.
+## Close by reading the remaining setup out loud, in order
+
+The binding is one step of a setup with seven, and the ones that get forgotten are the ones nothing
+fails without — until months later, when a report is empty or an import produces posts with missing
+images. So do not end this session with "listo": end it by reading this back, marked.
+
+| # | Step | What it unblocks | Who |
+| --- | --- | --- | --- |
+| 1 | Drive authorized in the client's own connector settings | Everything. Without it the skills load and look healthy until the first call | The client, in a browser |
+| 2 | This binding — manifest, store root, `doctor` green | Every store write | Done, here |
+| 3 | Documents already in the store adopted, not overwritten | The client's prior work survives | Done, here |
+| 4 | Assets folder shared **anyone with the link** | Scheduler imports. Skipping it is the most common silent failure | A person, in Drive's own interface |
+| 5 | `digest` folder created and shared with the practice as **Lector** | Continuous monitoring, and it is the only part that runs with nobody present | A person, in Drive's own interface |
+| 6 | The scheduled task registered, and run once by hand to prove it | The digest actually appearing. A schedule nobody proved is a schedule nobody has | One PowerShell command, once |
+| 7 | `ROUTINES.md` created, with the digest routine already active | Absence detection. **A routine nobody wrote down cannot be noticed missing** | Done, here — see below |
+
+`INSTALL.md` §6b carries the exact commands for 5 and 6. Gmail is **not** on this list: the plugin
+uses it only to send a finished deliverable, sending always needs per-message confirmation, and
+nothing here depends on it. Connect it or not; it changes nothing about setup.
+
+### Create `ROUTINES.md` here, not at mapping close
+
+The document says routines are agreed once, at mapping close — and that was written before one
+routine existed from day one. The digest is scheduled during setup, so if `ROUTINES.md` does not
+exist yet, **the one routine that is already running is recorded nowhere and its absence cannot be
+detected**, which is the exact failure `capabilities/report/doctrine/REPORTING.md` §2b is about.
+
+So create it from `scaffold/company/ROUTINES.md` now. The digest row is already filled and active.
+Every reporting cadence stays `— pendiente —`: those are agreed at mapping close, with the client,
+and a cadence not activated there gets no report.
+
+Then hand off to `company-intake` — the file request needs nobody present, so it should be sent the
+same day.
 
 Company files change through `Write` and `Edit` only. `capabilities/company/doctrine/CONTROLS.md` carries why, and what the guard refuses versus merely records.
 

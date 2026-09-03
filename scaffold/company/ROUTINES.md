@@ -65,6 +65,7 @@ Por eso cada rutina declara dónde vive y cómo se nota su ausencia.
 
 | Rutina | Dónde corre | ¿Qué pasa si esa máquina está apagada? | Cómo se nota que no corrió |
 | --- | --- | --- | --- |
+| Digest de estado | Tarea programada de Windows en esta máquina | No se escribe. El archivo queda con la fecha del último día que sí corrió | La fecha de `digest/estado.md` deja de avanzar. Es lo primero que revisa Xenth AI |
 | — pendiente — | escritorio del operador / nube | | |
 
 **La detección de ausencia es lo que hay que diseñar, no la ejecución.** La ejecución falla poco; la
@@ -82,6 +83,7 @@ declarado aquí y el cliente lo acepte con esa condición dicha en voz alta.
 
 | Rutina | Qué hace | Cadencia | ¿Activa? | Notas |
 | --- | --- | --- | --- | --- |
+| Digest de estado | Escribe `digest/estado.md` con conteos, fechas y veredictos del compromiso | Diaria | **Sí, desde el día uno** | Corre sin Claude y sin sesión: es aritmética sobre la bitácora local. **No lleva ningún dato de la empresa** — ni nombres de archivo, ni personas, ni contenido. La carpeta `digest` se comparte con Xenth AI como Lector y el cliente la puede revocar cuando quiera |
 | Barrido de afirmaciones | Revisa [PROOF.md](PROOF.md) por afirmaciones cuya fecha de reverificación se vence en 60 días | Mensual | — pendiente — | Una afirmación cierta en marzo se republica en diciembre si nada la revisa |
 | Producción contra el plan | Genera las piezas del plan aprobado | Según [SOCIAL.md](SOCIAL.md) | — pendiente — | |
 | Re-medición del baseline | Vuelve a medir [BASELINE.md](BASELINE.md) con las definiciones congeladas | Trimestral | — pendiente — | Mismo instrumento, mismos procesos, o la serie se rompe |

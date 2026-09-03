@@ -46,7 +46,7 @@ const OWNERS = {
   "SYSTEMS.md": ["process-map"],
   "PROCESSES.md": ["process-map", "process-access", "opportunities"],
   "BASELINE.md": ["baseline"],
-  "ROUTINES.md": ["report", "process-access"],
+  "ROUTINES.md": ["company-new", "report", "process-access"],
   "AUTOMATIONS.md": ["automate-handover"],
   "INTERVIEW.md": ["every skill that interviews"],
 };
