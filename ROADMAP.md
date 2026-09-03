@@ -79,6 +79,10 @@ client machine until the `version` field moves.
 | **`setup` skill** — the whole first visit in order, reporting which of seven steps are done and which are owed | `skills/setup` |
 | **Scheduling doctrine** — which of the three mechanisms a routine belongs on, and the permission stall that silences one | `capabilities/company/doctrine/SCHEDULING.md` |
 | **The language of a document is a control** — `doctor` gates the manifest's locale, `status` audits what actually landed in the store, including reports, plans and the copy inside rendered assets | `bin/doctor.mjs`, `bin/status.mjs`, `bin/legible.mjs`, `capabilities/company/doctrine/CONTROLS.md` §4c |
+| **`chart` archetype and PDF output in the render engine** — values printed as text beside each bar, refuses without `piece.basis`, vector copy beside the PNG | `capabilities/social/engine/template.html`, `render.mjs` |
+| **Six report templates, one per cadence** plus the mapping-close record, each declaring the single question it answers | `capabilities/report/templates/` |
+| **`ROUTINES.md` per company** — the pre-approved planned tasks, with the digest active from day one and absence detection per row | `scaffold/company/ROUTINES.md`, `skills/company-new` |
+| **The `PROOF.md` expiry sweep**, configured as a routine ready to activate when its cadence is agreed | `capabilities/company/doctrine/SCHEDULING.md` §4 |
 
 ---
 
@@ -109,11 +113,8 @@ against.
 
 What is missing is mechanics, not doctrine, and the engine to build it on already exists.
 
-| Item | Why | Waits on |
-| --- | --- | --- |
-| **A `chart` archetype in `capabilities/social/engine/template.html`** | The quarterly and semiannual reports carry before-and-after figures and currently have no visual at all. A chart is one more archetype in a renderer that already asserts exact dimensions, safe zones, embedded fonts and exact pixel colour — adding a charting library would instead add a dependency the vanilla rule argues against, duplicate a tested pipeline, and produce output that bypasses those assertions | — |
-| **PDF output from `render.mjs`** | **Verified on 2 September 2026: `page.pdf()` works on the pinned `playwright-core` 1.58.2 through the msedge channel already driven — 23,718 bytes, `%PDF-` header, zero new dependencies.** Serves two roadmap items at once, since the LinkedIn document export in Horizon 4 is the same format | — |
-| **Report templates per cadence** | Five cadences with fixed sections, generated from the journal and the company's documents so a report cannot silently omit its paired quality metric or its scope statement | The two above |
+**All three items in this section have shipped** and are listed under Shipped above.
+The survey's conclusion still holds: there is no prior art to check this doctrine against.
 
 ---
 
@@ -124,8 +125,6 @@ Social is the calling card. These are what is sold.
 | Item | Why | Waits on |
 | --- | --- | --- |
 | **`automate` capability** — the actual "IA + Flujo" build: one process from the inventory implemented with per-tool permissions, human approval on decisions, and a journal entry for every action including `review_start`/`review_end` so touch time is measurable after the fact | This is `Un proceso conectado`, the highest-priced item in the catalogue. The journal's event vocabulary already carries the events it needs; nothing writes them yet | A first mapped company |
-| **`ROUTINES.md` per company** — the pre-approved planned tasks and their cadence: produce against the approved plan, generate the monthly report, sweep `PROOF.md` for expired claims, re-measure baseline state facts, run the opportunity scan | Makes "the plan is the approval" concrete and inspectable. A routine that is not written down is a surprise, and these are the tasks that need no gate precisely because they were approved once, in writing | `report`, `baseline` |
-| **`PROOF.md` expiry sweep** as a routine | A claim true in March is republished in December unless something checks. Nothing checks today, and this is the failure that produced the safe-zone error: a rule in doctrine with nothing verifying it in code | — |
 | **Regulator claim linting at produce time** — phrase patterns per regulator (PROFECO for comparative and general claims, COFEPRIS for health with disease-reduction claims prohibited outright, CNBV/CONDUSEF for financial) flagged before rendering | Knowing which claims are illegal must happen before drafting, not at review. A sentence the plugin wrote can cost a client a fine | `BRAND.md` records the regulator |
 | **`LEARNINGS.md` per company** with a hard size cap and a promotion ladder: an entry earns its place only if it would change a future decision; when the file is full, entries are promoted into doctrine or deleted | It is loaded into context, so unbounded growth is a permanent token tax. The cap is what forces the distinction between a note and a rule | — |
 
