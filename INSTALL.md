@@ -70,6 +70,15 @@ Two fields decide whether the session works at all:
 
 Never commit a filled `.company.json` anywhere public.
 
+**If the company's Drive folder already has documents in it**, from earlier work or from someone
+filling them by hand, point `store.root` at that same folder. Do not make a new one. `company-new`
+lists what is there and adopts it, and it never writes over a file that exists.
+
+Those documents are **adopted, not captured**: nobody here knows who wrote what is in them. They
+stay, they get marked, and nothing in them is published or reported until somebody re-establishes
+where each fact came from. That is one question to one person, and it is the difference between
+inheriting useful material and inheriting a claim you cannot defend.
+
 ## 6. Share the assets folder publicly — by hand, once
 
 Inside the company's Drive folder, create the folder that will hold rendered assets and set it to

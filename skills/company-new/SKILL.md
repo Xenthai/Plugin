@@ -1,6 +1,6 @@
 ---
 name: company-new
-description: Start a new company engagement — write the .company.json that binds a session to exactly one company, create its folder in the company's own store, and verify the install can reach it. Use at the first session with a company that has no folder and no manifest, when a new client is starting, or when an engagement moves to a different store. Creates the binding and fills no document — to verify a manifest that already exists use doctor, to start gathering documents use company-intake.
+description: Start a new company engagement — write the .company.json that binds a session to exactly one company, create its folder in the company's own store, and verify the install can reach it. Use at the first session with a company that has no manifest yet — including one whose store already holds documents from earlier work — when a new client is starting, or when an engagement moves to a different store. Creates the binding and fills no document — to verify a manifest that already exists use doctor, to start gathering documents use company-intake.
 ---
 
 # New company — the binding, before anything else
@@ -31,6 +31,33 @@ with no bound company is how material lands in the wrong client's Drive.
 
 If the operator already created the folder in the store's own interface, skip steps 2–3 and write
 the id straight into the manifest. That is not a worse path; it is one fewer thing to get wrong.
+
+## Before you finish: list what is already in the folder
+
+A store is not always empty when this plugin arrives. Previous work, a pilot, or an operator who
+started filling documents by hand leaves files there, and they are usually the most useful material
+available.
+
+So after step 4, **list the folder's contents with each file's last modification date** — a read, so
+nothing is blocked — and report what is there. Then two rules, and the first is absolute:
+
+- **Never create a scaffold on top of a file that already exists.** That destroys the only copy of
+  work somebody did, and no later session can tell it happened.
+- **An inherited document is adopted, not captured.** It has no name in `INTERVIEW.md`, no
+  `PROOF.md` row and no measurer — so nothing in it may be published, reported or automated against
+  until its provenance is re-established. `capabilities/company/doctrine/INTAKE.md` carries why, and
+  the one case where keeping an unverified figure is still right.
+
+Record the boundary between what this install can account for and what it inherited:
+
+```bash
+node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event migration --capability company \
+  --why "adopted <N> pre-existing documents from work predating this install" --target "<store root>"
+```
+
+Then hand off to `company-intake`, telling it what is already there. Intake's job is to request what
+is missing, and a request listing files the client can see in their own folder reads as not having
+looked.
 
 ## What to ask, and what never to guess
 
@@ -71,9 +98,11 @@ node "${CLAUDE_PLUGIN_ROOT}/bin/doctor.mjs"
 node "${CLAUDE_PLUGIN_ROOT}/bin/status.mjs"
 ```
 
-`doctor` proves the install can reach the store; `status` reports that every document is absent,
-which is the correct state for a company that starts today and the fastest way to show the operator
-what the engagement will cover.
+`doctor` proves the install can reach the store; `status` reports which documents exist and which
+phase owes each absent one, which is the fastest way to show the operator what the engagement will
+cover. For a company starting today every document is absent, and that is the correct state. For a
+company whose store already held work, the documents `status` finds are the adopted ones — say so
+when you report it, or the operator reads inherited material as material this engagement produced.
 
 ```bash
 node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event phase_start --capability company \

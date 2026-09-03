@@ -1,6 +1,6 @@
 ---
 name: company-intake
-description: Request the files a company already has — constancia fiscal, org chart or payroll list, price list, a real quote and invoice, the software bill, a brand manual, any written procedure — and map the company from those instead of interviewing for every fact. Use at the start of a new company, when files a client sent need extracting, or when a session stalls on facts nobody in the room knows. Produces INTAKE.md. For what no document holds the phase skills interview — social-identity for positioning, company-offer for prices, process-map for how work runs.
+description: Request the files a company already has — constancia fiscal, org chart or payroll list, price list, a real quote and invoice, the software bill, a brand manual, any written procedure — and map the company from those instead of interviewing for every fact. Use at the start of a new company, when files a client sent need extracting, when a store already holds documents from earlier work that must be adopted rather than overwritten, or when a session stalls on facts nobody in the room knows. Produces INTAKE.md. For what no document holds the phase skills interview — social-identity for positioning, company-offer for prices, process-map for how work runs.
 ---
 
 # Company intake — files before questions
@@ -12,11 +12,30 @@ does not need anyone present, so it must never occupy a session.
 Read `capabilities/company/doctrine/INTAKE.md` before the first request — it carries the
 document-to-fact table, the extraction rules and where an interview is still unavoidable.
 
+## Step 0 — Read the store before asking for anything
+
+The premise of this skill is not asking a person for what a document already answers. The same logic
+extends one step back: **do not ask the client to send what is already sitting in their own store.**
+
+List the folder's contents first, with modification dates. For each file that already exists:
+
+| What you find | What it is | What you do |
+| --- | --- | --- |
+| A filled document from previous work | **Adopted, not captured** — no name behind its facts, no `PROOF.md` row, no measurer | Keep it, mark it at the top as adopted on this date with provenance unverified, and drop its inputs from the request |
+| A document the client filled by hand | The same, and usually better than anything a request would produce | Same treatment. Ask who wrote it — that one question re-establishes provenance cheaply |
+| An empty scaffold | Nothing yet | Treat as pending, request normally |
+
+**Never create a scaffold over a file that exists.** That destroys the only copy of somebody's work.
+
+Nothing from an adopted document is published, quoted in a report or automated against until its
+provenance is re-established — `capabilities/company/doctrine/INTAKE.md` carries why, and why an
+adopted *baseline* is still worth keeping when a fresh one is no longer possible.
+
 ## Step 1 — Ask for everything, once
 
 Create `INTAKE.md` in the company's store from `scaffold/company/INTAKE.md`, then send the request
-as **one message**. Never drip requests across sessions: a client who receives four separate asks
-concludes the engagement is disorganised.
+as **one message** — covering only what step 0 did not already find. Never drip requests across
+sessions: a client who receives four separate asks concludes the engagement is disorganised.
 
 Say what each file unblocks and what its absence blocks. That column is the whole point — it lets
 the client weigh the cost of not sending something instead of receiving reminders.

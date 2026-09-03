@@ -421,6 +421,22 @@
       "split": "test",
       "kind": "near-miss",
       "why": "Automation priority lures toward opportunities and process-access, but a company with no journal history and no inventory is mapping work, and the process router is where that starts."
+    },
+    {
+      "id": "company-new-store-has-prior-docs-es",
+      "query": "Este cliente ya trabajó con nosotros antes y tiene un par de documentos en su Drive, pero no hay ningún .company.json. Déjalo listo para retomar.",
+      "expected": "company-new",
+      "split": "train",
+      "kind": "target",
+      "why": "No manifest is the deciding fact and company-new owns the binding. Its description names the case of a store that already holds documents from earlier work, so pre-existing files must not route this away."
+    },
+    {
+      "id": "company-intake-adopt-not-request-es",
+      "query": "Ya hay BRAND.md y PROOF.md en la carpeta del cliente de un trabajo anterior. No los sobreescribas, incorpóralos y pídeme nada más lo que falte.",
+      "expected": "company-intake",
+      "split": "test",
+      "kind": "target",
+      "why": "Adopting documents already in the store and requesting only the remainder is intake's step 0. The manifest already exists here, so company-new is not the answer."
     }
   ]
 }
