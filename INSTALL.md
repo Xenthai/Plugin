@@ -16,16 +16,35 @@ Install it if it is not there: https://claude.com/claude-code
 ## 2. The plugin
 
 ```bash
-claude plugin marketplace add xenthai/xenthai-plugin
+claude plugin marketplace add Xenthai/Plugin
 ```
 
 ```bash
 claude plugin install xenthai@xenthai
 ```
 
-The part after `@` is the **marketplace** name, which `marketplace.json` sets to `xenthai` — not
-the repository slug. Updates then arrive automatically, once per session, and only for a version
-that was deliberately released: the `version` field in `plugin.json` is the release gate.
+Two things about those two lines, and each has broken an install:
+
+- **`Xenthai/Plugin` is the repository slug**, exactly as GitHub spells it. It is not the plugin name
+  and not the marketplace name. Check it against the repository's own URL rather than typing what
+  looks right.
+- **The part after `@` is the marketplace name**, which `marketplace.json` sets to `xenthai`. The
+  plugin before it is also `xenthai`, so the line reads as a repetition and is not one.
+
+**The repository has to be reachable from the client's machine.** While it is private, this command
+fails there even though it works on a machine with your credentials — and the failure looks like a
+typo rather than a permission. Either make it public, or install from a local path instead:
+
+```bash
+claude plugin marketplace add <path to a checkout on this machine>
+```
+
+The local path costs the auto-update: a plugin installed that way updates when that checkout does,
+not when a version ships. Say which of the two an engagement is on, because the release gate means
+different things for each.
+
+Updates otherwise arrive automatically, once per session, and only for a version that was
+deliberately released: the `version` field in `plugin.json` is the release gate.
 
 ## 3. Authorize Google Drive — the step nobody can automate
 

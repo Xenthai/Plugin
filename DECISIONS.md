@@ -28,6 +28,7 @@ The only work that is not code. Each of these looks like a defect when it fails 
 | 2026-09-02 | OAuth for seventeen MCP servers | claude.ai connector settings, or `/mcp` in an interactive session | Those capabilities are unavailable until authorised |
 | 2026-09-03 | `${CLAUDE_PLUGIN_ROOT}` resolving inside a skill's shell | A real install on a second machine | Every semantic journal entry from a skill depends on it, and the documentation covers hook commands rather than a skill's later shell command |
 | 2026-09-03 | A first-session dry run against a real company | A client | The suites prove each part in isolation. **Nothing has yet proven the parts compose**, and this is the only item no suite can ever replace |
+| 2026-09-03 | Installing on a client's machine from the marketplace | The repository being reachable from that machine — it is private, so `marketplace add Xenthai/Plugin` fails there while working here | The failure looks like a typo rather than a permission. Until it is public, the alternative is a local-path install, which costs the auto-update |
 
 ---
 
