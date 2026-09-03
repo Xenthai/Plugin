@@ -1,6 +1,6 @@
 ---
 name: baseline
-description: Measure a company's "before" while it still exists — per-process cycle time, touch time, throughput and error rate, countable state facts, and coverage. Use BEFORE any process is automated, assisted or changed, because the before is perishable and cannot be reconstructed from memory afterwards; use again at every check-in to re-record the same measures the same way. Also use when a savings figure, an improvement percentage or any before/after claim is wanted, since whether such a claim is publishable at all depends on what was frozen here. The process inventory this measures against comes from process-map into PROCESSES.md, never from here. Reading back what happened in an engagement — actions, review time, approvals, the month's report — is report, not this skill.
+description: Measure a company's before while it still exists — cycle time, touch time, throughput, error rate and coverage per process. Use BEFORE anything is automated or changed, because a before cannot be reconstructed from memory afterwards, and again at every check-in with the same measures. Any savings figure or improvement claim depends on what was frozen here. The inventory it measures against comes from process-map; reading an engagement back is report.
 ---
 
 # Baseline — the company's "before"
@@ -141,7 +141,7 @@ recurring-task durations skew high when recalled — the attribution is what mak
   before it and label everything effort-related as an unverified client estimate. Never present a
   reconstructed before as a measured one.
 
-## Reference
+## Reference material
 
 | File | Read it when |
 | --- | --- |

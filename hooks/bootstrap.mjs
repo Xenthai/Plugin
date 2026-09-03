@@ -4,8 +4,17 @@ import { readCompany } from "../lib/company.mjs";
  * Announces, at session start, the two facts every skill depends on: which company the session is
  * bound to, and where the plugin lives on disk.
  *
- * The company name is printed so a person half-watching the screen catches a wrong binding by
- * osmosis — a repeated confirmation dialog is ignored within a week; a name in every reply is not.
+ * The company name is announced twice on purpose, because the two surfaces catch different
+ * mistakes. `additionalContext` tells the session itself which company it is bound to, so the
+ * first reply can state it. `sessionTitle` puts that name in the tab, the session list and the
+ * resume picker, where it stays visible after the announcement has scrolled away — an operator
+ * holding four client engagements open at once reads the binding off the list instead of
+ * reconstructing it. Writing one company's material into another company's store is the worst
+ * thing this plugin can do, and it happens by looking at the wrong window.
+ *
+ * No title is set when nothing is bound. A generic title is worse than the one the session would
+ * have named itself, and the absence of a client name is itself the signal that nothing is bound.
+ *
  * The plugin root is announced because `${CLAUDE_PLUGIN_ROOT}` is documented for hook commands but
  * not for shell commands a skill runs later, so the resolved path is handed over here instead of
  * assumed there.
@@ -23,10 +32,22 @@ const main = () => {
   );
   if (root) lines.push(`Plugin root: ${root} — use this path for bin/journal.mjs and the render engine.`);
 
-  process.stdout.write(JSON.stringify({ hookSpecificOutput: { hookEventName: "SessionStart", additionalContext: lines.join(" ") } }));
+  const out = { hookEventName: "SessionStart", additionalContext: lines.join(" ") };
+  if (company.ok) out.sessionTitle = `${company.company.name} — Xenth AI`;
+
+  process.stdout.write(JSON.stringify({ hookSpecificOutput: out }));
 };
 
+/**
+ * A bootstrap failure must not block the session, but it must not vanish either: the binding
+ * announcement is a control, and an operator who never sees it has lost the control without being
+ * told. Same posture as the journal hook — complain on stderr, exit 0.
+ */
 try {
   main();
-} catch {}
+} catch (err) {
+  process.stderr.write(
+    `Xenth AI — the session could not be announced, so no company binding was stated: ${String(err && err.message).slice(0, 200)}\n`
+  );
+}
 process.exit(0);

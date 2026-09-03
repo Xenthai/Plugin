@@ -1,6 +1,6 @@
 ---
 name: company-new
-description: Start a new company engagement — write the .company.json that binds a session to exactly one company, create its folder in the company's own store, verify the install can reach it, and hand off to intake. Use at the very first session with a company that has no folder and no manifest yet, when the operator says a new client is starting, when a session reports no company bound and the company genuinely does not exist yet, or when an engagement must be moved to a different store. For a company whose manifest already exists use doctor to verify it and company-intake to start gathering documents; this skill creates the binding, it does not fill any document.
+description: Start a new company engagement — write the .company.json that binds a session to exactly one company, create its folder in the company's own store, and verify the install can reach it. Use at the first session with a company that has no folder and no manifest, when a new client is starting, or when an engagement moves to a different store. Creates the binding and fills no document — to verify a manifest that already exists use doctor, to start gathering documents use company-intake.
 ---
 
 # New company — the binding, before anything else

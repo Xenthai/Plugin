@@ -1,6 +1,6 @@
 ---
 name: process
-description: Entry point for capturing how a company actually works and what of it can be automated — onboarding phases 3 and 4, the Diagnóstico and the Mapeo integral. Use when asked to map or document processes, to write down how something is done today, to find what should be automated first, to price an automation, or when a company is ready to move past its identity and communication documents. Also use when the client asks who would have to approve an automation, or what an AI must never be allowed to do. For communication work — editorial plans, posts, carousels, brand or voice documents — use the social router instead. For measuring a before so a later gain can be defended, use baseline; if that skill is not installed here, say so rather than improvising a measurement.
+description: Entry point for capturing how a company actually works and what of it can be automated — onboarding phases 3 and 4, the Diagnóstico and the Mapeo integral. Use when asked to map or document processes, to write down how something is done today, to find what to automate first, to price an automation, or when the client asks who must approve an automation or what an AI must never be allowed to do. For communication work — editorial plans, posts, brand or voice documents — use the social router instead. For measuring a before, use baseline.
 ---
 
 # Process — the router for phases 3 and 4
@@ -82,7 +82,7 @@ Never put client content in `--why` or `--detail`. The name of a process is clie
   not block the session — it makes the inventory provisional. Route anyway and let that skill mark
   it.
 
-## Reference table
+## Reference material
 
 | File | Read it when |
 | --- | --- |

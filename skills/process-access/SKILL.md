@@ -1,6 +1,6 @@
 ---
 name: process-access
-description: Run the phase 4 session — the Mapeo integral — that ranks a company's process pain, records who owns each system and account and what access they can grant, establishes who authorises an automation and what it must never do, and produces a scored automation shortlist. Use when PROCESSES.md exists but its pain, access and authorisation sections are still pending, when the client asks what to automate first or what an automation would cost, or when the process router sends you here. One session. Requires the phase 3 inventory — if PROCESSES.md does not exist yet, use process-map instead and do not attempt both in one sitting.
+description: Run the phase 4 session — the Mapeo integral — that ranks a company's process pain, records who owns each system and account and what access they can grant, establishes who authorises an automation and what it must never do, and produces a scored automation shortlist. Use when PROCESSES.md exists but its pain, access and authorisation sections are pending, or when the client asks what to automate first or what it would cost. One session. Requires the phase 3 inventory — if PROCESSES.md does not exist yet, use process-map instead.
 ---
 
 # Phase 4 — Mapeo integral: pain, access, authority, shortlist
@@ -173,7 +173,7 @@ a recipient.**
   this document. Give ranges tied to named unknowns, and never a single number over a pending cell.
 - **A credential is offered to you.** Decline it, and record only the role that holds it.
 
-## Reference table
+## Reference material
 
 | File | Read it when |
 | --- | --- |

@@ -1,6 +1,6 @@
 ---
 name: social
-description: Mandatory entry point for any social or content work on behalf of a company — writing posts, producing images, carousels, video or text for Instagram, LinkedIn, Facebook, TikTok, X or WhatsApp; setting up a new company's brand, voice or proof documents; building an editorial plan; or packaging finished assets for someone to publish. Also use it when asked which onboarding phase a company is in, or when a company's social work should resume. Invoke this before any social-identity, social-voice, social-plan, social-produce or social-handoff skill: those assume a bound company and a known phase, and this establishes both. For process mapping and automation scoping rather than communication, this is the wrong skill.
+description: Mandatory entry point for any social or content work on behalf of a company — posts, images, carousels, video or text for Instagram, LinkedIn, Facebook, TikTok, X or WhatsApp; a new company's brand, voice or proof documents; an editorial plan; or packaging finished assets for someone to publish. Also use when asked which onboarding phase a company is in, or when social work should resume. Invoke before any social-identity, social-voice, social-plan, social-produce or social-handoff — those assume a bound company and a known phase, and this establishes both. For process mapping and automation scoping, this is the wrong skill.
 ---
 
 # Social — router

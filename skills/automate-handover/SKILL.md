@@ -1,6 +1,6 @@
 ---
 name: automate-handover
-description: Write the acceptance document that closes an automation build — what it does, what it does when it is wrong, who gets escalated to, what it deliberately does not do, who pays for and administers the platform, what it records so it can be measured later, and how the client turns it off without calling anyone. Use the day an automation goes live, when a client asks what happens if an automation fails, before accepting an automation built on a platform the client pays for, or when AUTOMATIONS.md is absent or its fields are pending. This is acceptance and liability, not results — for a cadence report on how an automation performed use report, and to decide whether a process should be automated at all use process-access.
+description: Write the acceptance document that closes an automation build — what it does, what it does when it is wrong, who gets escalated to, and how the client switches it off alone. Use the day an automation goes live, when a client asks what happens if one fails, or when AUTOMATIONS.md is absent or pending. This is acceptance and liability, not results — for how an automation performed use report, for whether to automate at all use process-access.
 ---
 
 # Automation handover — the client has to be able to switch it off

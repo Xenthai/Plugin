@@ -1,6 +1,6 @@
 ---
 name: social-produce
-description: Write the copy and render the assets for pieces in an approved plan — static images, carousels, text-only posts, or the draft pieces phase 1 needs. Use when a plan has been approved and pieces need making, when a specific piece needs producing or re-rendering, when an asset failed a check and needs fixing, or when a rendered piece looks wrong. Runs the render engine, which refuses to emit an asset that breaches a platform's safe zone or renders in a substituted font. For deciding what to say and when, use social-plan first; for packaging finished assets for someone to publish, use social-handoff.
+description: Write the copy and render the assets for pieces in an approved plan — static images, carousels, text-only posts, or the draft pieces phase 1 needs. Use when a plan has been approved and pieces need making, when a specific piece needs producing or re-rendering, when an asset failed a check, or when a rendered piece looks wrong. Runs the render engine, which refuses to emit an asset that breaches a platform's safe zone or renders in a substituted font. For deciding what to say and when, use social-plan first.
 ---
 
 # Produce — copy and render

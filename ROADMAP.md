@@ -27,6 +27,23 @@
   cannot show rigorous level-to-performance evidence.
 - Claims about reach, impressions or revenue for social. Without platform-side analytics, only
   visible public state can be measured.
+- **`argument-hint` in skill frontmatter.** Sixty-seven of Anthropic's first-party skills declare
+  it, and it is still wrong here for two independent reasons: it is not among the Agent Skills
+  spec's six portable fields, and no skill in this plugin reads `$ARGUMENTS`. A hint advertises an
+  interface — the operator types `/xenthai:report 2026-08`, the skill ignores it and asks for the
+  month anyway. That is worse than no hint. Revisit only if a skill actually consumes arguments.
+- **Moving the hook declarations out of `plugin.json` into `hooks/hooks.json`.** The inline form is
+  the working one: the caveman plugin installed on this machine declares its hooks inline, has no
+  `hooks/hooks.json`, and its `SessionStart` hook fires. The observation that no plugin in
+  `knowledge-work-plugins` declares hooks inline was a bad inference — those plugins declare no
+  hooks at all. Moving them risks silently killing the enforcement spine to satisfy a convention
+  that does not exist.
+- **`duration_ms` in the journal row.** `PostToolUse` and `PostToolUseFailure` hook inputs carry
+  it, and it is genuinely unmatched-proof in a way the manual `review_start`/`review_end` pair is
+  not. But it measures *tool execution time*, which is neither the human review time a client is
+  paying for nor the cycle time a process improves on — so it supports no client-facing claim, and
+  adding it costs a `ROW_SCHEMA` bump. It would earn its place as a diagnostic for a store whose
+  connector calls are degrading, which is `doctor`'s subject, not the report's.
 
 ---
 

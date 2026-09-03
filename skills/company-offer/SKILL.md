@@ -1,6 +1,6 @@
 ---
 name: company-offer
-description: Capture what a company sells and on what terms — its product catalogue with stock and lead times, its service catalogue with deliverables and capacity, and the payment, warranty, cancellation and CFDI terms that apply to both, including the discount limit and who authorises going past it. Use when OFFER.md, PRODUCTS.md or SERVICES.md are still pending, when a quoting or invoicing process is about to be mapped or automated, when the operator asks what the company charges, or when a price or term needs to appear in public copy. A social-content-only engagement does not need this; for positioning and voice use social-identity, and for how the quote actually gets produced use process-map.
+description: Capture what a company sells and on what terms — products with stock and lead times, services with deliverables and capacity, and the payment, warranty, cancellation and CFDI terms, including the discount limit and who authorises exceeding it. Use when OFFER.md, PRODUCTS.md or SERVICES.md are pending, when quoting or invoicing is about to be mapped or automated, or when a price must appear in public copy. For positioning use social-identity; for how the quote gets produced use process-map.
 ---
 
 # Company offer — what is sold, and on what terms

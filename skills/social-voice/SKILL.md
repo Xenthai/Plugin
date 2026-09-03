@@ -1,6 +1,6 @@
 ---
 name: social-voice
-description: Run onboarding phase 2 for a company that has BRAND.md but no VOICE.md — deriving its voice from material it has already published, turning that into word-level rules a writer who is not the brand owner can actually follow, and filling PROOF.md with what may be claimed publicly. Use when VOICE.md is missing, when copy keeps coming out generic, when the operator asks to calibrate or fix a company's tone, or when a claim needs a verification row before it can be published. Requires BRAND.md to exist — if it does not, use social-identity first; for producing pieces once voice exists, use social-produce.
+description: Run onboarding phase 2 for a company that has BRAND.md but no VOICE.md — deriving its voice from material it has already published, turning that into word-level rules a writer who is not the brand owner can actually follow, and filling PROOF.md with what may be claimed publicly. Use when VOICE.md is missing, when copy keeps coming out generic, when asked to calibrate or fix a company's tone, or when a claim needs a verification row before it can be published. Requires BRAND.md — if it does not exist, use social-identity first.
 ---
 
 # Phase 2 — voice and proof

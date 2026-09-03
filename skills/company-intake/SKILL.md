@@ -1,6 +1,6 @@
 ---
 name: company-intake
-description: Request the files a company already has and map it from those instead of interviewing for every fact — the constancia fiscal, an org chart or payroll list, a price list, a real quote and invoice, the software bill, a brand manual, any written procedure. Use at the very start of a new company, when the operator asks what to ask the client for, when files a client sent need extracting into the company's documents, or when a session keeps stalling on facts nobody in the room knows. Produces INTAKE.md as the request ledger and fills whatever the documents yield. For interviewing about what no document holds, the phase skills do that — social-identity for positioning, company-offer for prices and terms, process-map for how work actually runs.
+description: Request the files a company already has — constancia fiscal, org chart or payroll list, price list, a real quote and invoice, the software bill, a brand manual, any written procedure — and map the company from those instead of interviewing for every fact. Use at the start of a new company, when files a client sent need extracting, or when a session stalls on facts nobody in the room knows. Produces INTAKE.md. For what no document holds the phase skills interview — social-identity for positioning, company-offer for prices, process-map for how work runs.
 ---
 
 # Company intake — files before questions

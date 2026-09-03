@@ -1,6 +1,6 @@
 ---
 name: report
-description: Report what actually happened in a company's engagement, read back from that company's own execution journal — actions by actor, human review time, who approved what, and what the evidence cannot support. Use at the end of a month, before a client review or renewal conversation, when the client asks how much of this the AI did or what it saved them, when someone needs an audit trail of an approval, and before any figure about the engagement is quoted anywhere. For checking that the plugin, its store and its connectors are working, use doctor. For planning or producing content, use social-plan or social-produce.
+description: Report what actually happened in a company's engagement, read back from that company's own execution journal — actions by actor, human review time, who approved what, and what the evidence cannot support. Use at the end of a month, before a client review or renewal, when the client asks how much of this the AI did or what it saved them, when an approval needs an audit trail, and before any figure about the engagement is quoted anywhere. For whether the install and its connectors work, use doctor.
 ---
 
 # Report — the journal read back
@@ -178,7 +178,7 @@ node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event delivery --capability repor
   as it is. Never hand-write the clean version of a check that did not run.
 - **A figure you want to publish has no `PROOF.md` row.** It does not go in.
 
-## Reference
+## Reference material
 
 | File | Open it when |
 | --- | --- |

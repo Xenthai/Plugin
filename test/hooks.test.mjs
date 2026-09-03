@@ -259,6 +259,30 @@ check("bootstrap emits valid hook JSON naming the bound company and the plugin r
   return [r.code === 0 && ctx.includes("Company A") && ctx.includes("Plugin root:"), `exit ${r.code}; ${ctx.slice(0, 80)}`];
 });
 
+/**
+ * The session title is the only announcement of the binding that survives after the first reply
+ * scrolls away, so it is the surface that catches an operator working the wrong window. Asserting
+ * its absence when nothing is bound matters just as much: a generic title would displace the one
+ * the session names for itself and would read as a binding that does not exist.
+ */
+check("bootstrap titles the session with the bound company, and titles nothing when none is bound", () => {
+  const bound = run("hooks/bootstrap.mjs", { hook_event_name: "SessionStart" }, CO_A, { CLAUDE_PLUGIN_ROOT: ROOT });
+  const loose = run("hooks/bootstrap.mjs", { hook_event_name: "SessionStart" }, SANDBOX, { CLAUDE_PLUGIN_ROOT: ROOT });
+  const titleOf = (r) => {
+    try {
+      return JSON.parse(r.out).hookSpecificOutput.sessionTitle;
+    } catch {
+      return undefined;
+    }
+  };
+  const a = titleOf(bound);
+  const b = titleOf(loose);
+  return [
+    typeof a === "string" && a.includes("Company A") && b === undefined,
+    `bound title ${JSON.stringify(a)}; unbound title ${JSON.stringify(b)}`,
+  ];
+});
+
 check("cli --help exits 0 so callers can discover it without reading the source", () => {
   const r = cli(["--help"], CO_A);
   return [r.status === 0 && /--event/.test(r.stdout), `exit ${r.status}`];

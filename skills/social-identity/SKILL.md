@@ -1,6 +1,6 @@
 ---
 name: social-identity
-description: Run onboarding phase 1 for a company that has no identity documents yet — capturing its legal and trade name, sector and regulator, who is authorised to approve public claims, who actually decides, and what it sells to whom. Use when a company's store is empty, when BRAND.md does not exist, or when the operator asks to start or restart a company's onboarding. Produces BRAND.md plus two or three draft pieces the client can look at in the same session. Requires a bound company and is normally reached through the social router rather than directly; for a company that already has BRAND.md, use social-voice instead.
+description: Run onboarding phase 1 for a company that has no identity documents yet — its legal and trade name, sector and regulator, who is authorised to approve public claims, who actually decides, and what it sells to whom. Use when a company's store is empty, when BRAND.md does not exist, or when asked to start or restart a company's onboarding. Produces BRAND.md plus two or three draft pieces the client can look at in the same session. For a company that already has BRAND.md, use social-voice.
 ---
 
 # Phase 1 — identity and positioning

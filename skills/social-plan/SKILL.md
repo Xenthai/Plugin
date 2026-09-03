@@ -1,6 +1,6 @@
 ---
 name: social-plan
-description: Build the editorial plan for a company that has BRAND.md, VOICE.md and PROOF.md — deciding what gets said, on which platform, in what order, over a month, a week, or as a single piece. Use when asked for a content plan or calendar, when a new period needs planning, when the client wants to change cadence, or when a plan needs revising after the client commented on it. This is the first approval gate, so it ends by publishing the plan for review rather than by producing anything. For producing the pieces once a plan is approved, use social-produce.
+description: Build the editorial plan for a company that has BRAND.md, VOICE.md and PROOF.md — what gets said, on which platform, in what order, over a month, a week, or as a single piece. Use when asked for a content plan or calendar, when a new period needs planning, when the client wants to change cadence, or when a plan needs revising after the client commented on it. This is the first approval gate, so it ends by publishing the plan for review rather than by producing anything. For producing the pieces, use social-produce.
 ---
 
 # Editorial plan — approval gate 1

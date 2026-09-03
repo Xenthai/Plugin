@@ -1,6 +1,6 @@
 ---
 name: process-map
-description: Run the phase 3 inventory session — the Diagnóstico — that lists every process a company actually runs, who owns each one and which systems it touches, and writes it into the company's PROCESSES.md. Use when a company has no PROCESSES.md yet, when the client asks what their processes even are, when an existing inventory has to be extended with processes nobody wrote down, or when the process router sends you here. One session, breadth before depth. For pain points, account ownership, who authorises an automation and the scored automation shortlist, that is phase 4 — use process-access, and only after this inventory exists.
+description: Run the phase 3 inventory session — the Diagnóstico — that lists every process a company actually runs, who owns each one and which systems it touches, into the company's PROCESSES.md. Use when a company has no PROCESSES.md yet, when the client asks what their processes even are, or when an inventory needs extending with processes nobody wrote down. One session, breadth before depth. Pain, account ownership, authorisation and the scored shortlist are phase 4 — use process-access, and only after this inventory exists.
 ---
 
 # Phase 3 — Diagnóstico: the process inventory
@@ -107,7 +107,7 @@ finding** — record both attributions rather than reconciling them into one acc
   **after** capture, for the report only. Never elicit into a drawing — the doctrine's §2 has the
   reasons if they push.
 
-## Reference table
+## Reference material
 
 | File | Read it when |
 | --- | --- |

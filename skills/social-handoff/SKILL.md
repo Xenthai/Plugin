@@ -1,6 +1,6 @@
 ---
 name: social-handoff
-description: Package finished assets and copy so a person can publish them without asking a single question — the schedule, the files, and an honest note about anything that still needs doing by hand. Use when a batch has been approved and needs delivering, when the client asks for the files or the calendar, when they want an import file for a scheduling tool they already pay for, or when a previous handoff was incomplete. Emits a canonical schedule that works with no paid tool, plus a vendor import file only when that vendor is already in use. For producing the assets themselves, use social-produce first.
+description: Package finished assets and copy so a person can publish them without asking a single question — the schedule, the files, and an honest note about anything that still needs doing by hand. Use when an approved batch needs delivering, when the client asks for the files or the calendar, or when they want an import file for a scheduling tool they already pay for. Emits a schedule that works with no paid tool. For producing the assets themselves, use social-produce first.
 ---
 
 # Handoff — the delivery package
