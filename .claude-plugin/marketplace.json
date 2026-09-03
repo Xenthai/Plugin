@@ -9,12 +9,13 @@
       "name": "xenthai",
       "description": "Applied-AI consulting, executable. People decide, the AI executes, and everything is recorded.",
       "source": {
-        "source": "github",
-        "repo": "Xenthai/Plugin"
+        "source": "url",
+        "url": "https://github.com/Xenthai/Plugin.git"
       },
       "category": "productivity",
       "displayName": "Xenth AI Plugin",
-      "homepage": "https://xenth.ai"
+      "homepage": "https://xenth.ai",
+      "version": "0.1.0"
     }
   ],
   "description": "Xenth AI - Applied-AI consulting, executable. People decide, the AI executes, and everything is recorded."
