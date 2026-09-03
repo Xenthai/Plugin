@@ -294,13 +294,18 @@ export const measure = (src) => {
   };
 };
 
-const HELP = `Readability of a Spanish document, on the INFLESZ scale.
+const HELP = `Xenth AI legible — how hard a Spanish document is to read, on the INFLESZ scale.
 
   node bin/legible.mjs <file.md> [<file.md> ...] [--json] [--floor ${FLOOR}]
 
 Reports Szigriszt-Pazos perspicuity over the document's PROSE — markdown tables, fenced blocks,
 headings and frontmatter are excluded, and the share of the document that was measurable is
 reported with the score.
+
+**It refuses anything that does not read as Spanish**, with exit 2. The scale, the syllable rules and
+the bands are all Spanish-only, and on another language the result still lands inside its plausible
+range and still prints a band — so it would read as a measurement and be none. This measures a
+CLIENT's documents; the plugin's own English ones are not its subject.
 
 Exit 0 when every file is at or above the floor, 1 when one is below, 2 when a file cannot be
 measured (too little prose to be meaningful) or the arguments are wrong.

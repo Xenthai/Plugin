@@ -78,6 +78,7 @@ client machine until the `version` field moves.
 | **Adoption of pre-existing documents** — a store that is not empty when the plugin arrives | `capabilities/company/doctrine/INTAKE.md`, `skills/company-new`, `skills/company-intake` |
 | **`setup` skill** — the whole first visit in order, reporting which of seven steps are done and which are owed | `skills/setup` |
 | **Scheduling doctrine** — which of the three mechanisms a routine belongs on, and the permission stall that silences one | `capabilities/company/doctrine/SCHEDULING.md` |
+| **The language of a document is a control** — `doctor` gates the manifest's locale, `status` audits what actually landed in the store, including reports, plans and the copy inside rendered assets | `bin/doctor.mjs`, `bin/status.mjs`, `bin/legible.mjs`, `capabilities/company/doctrine/CONTROLS.md` §4c |
 
 ---
 

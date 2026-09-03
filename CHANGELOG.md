@@ -26,6 +26,72 @@ moves.
 
 ### Added
 
+- **The language a document is written in is now a control** (`CONTROLS.md` §4c), enforced in two
+  places because it has two halves. `doctor` refuses a manifest whose `locale` this toolchain cannot
+  honour: every client-facing part is Spanish by construction — the scaffolds, the six report
+  templates, `bin/report.mjs`'s prose, and the readability index whose scale and syllable rules are
+  Spanish-only — so a manifest declaring `en-US` would have produced Spanish documents while claiming
+  otherwise. `locale` had until then been declared in every manifest and **read by nothing**, which is
+  worse than not having the field: it looked like a control and was decoration.
+- **`status` audits the language of what actually landed in the store**, which is the half the
+  manifest cannot speak for: the scaffolds ship in es-MX and a session fills them, so a document
+  could carry Spanish headings and English content and look finished. A document in the wrong
+  language exits 1, the same severity as a missing one, because both look like progress. It abstains
+  below twenty-five words of prose rather than flagging every fresh scaffold.
+- **The audit covers the deliverables the scaffold list cannot name.** A report and a month's plan
+  live in dated subfolders, and they are what a director reads and what goes to review, so
+  `reports/` and `content/` are scanned rather than listed. `journal/`, `digest/` and `feedback/` are
+  never audited, and those exclusions are asserted: the journal carries English event names by
+  design, the digest is written for the practice, and feedback is about the plugin and must stay
+  English so one client's experience improves every other install.
+- **The copy inside rendered assets is audited through `pieces.json`.** A PNG's words are pixels and
+  cannot be checked, but the render is deterministic from that file, so measuring the source measures
+  the published result exactly — the last point at which a client's public copy is still checkable.
+  Every string in a piece counts as copy except a short token list, deliberately the inverse of a
+  copy-field list, so a new archetype's text is measured by default rather than invisible until
+  somebody remembers it.
+- **Document adoption** (`INTAKE.md`, `company-new`, `company-intake`). A store is not always empty
+  when the plugin arrives, and nothing handled that — `company-new` created the root folder assuming
+  it was new, and `company-intake` requested files without reading the store it was about to write
+  into. Overwriting is loud and recoverable; **treating an inherited document as captured is silent**
+  and corrupts everything downstream, because three of this plugin's rules key off provenance and an
+  inherited document satisfies none: no name in `INTERVIEW.md`, no `PROOF.md` row, no measurer. So an
+  adopted document is a third state — neither pending nor captured — and nothing in it is published
+  or reported until somebody re-establishes where each fact came from. The exception is a baseline: a
+  before cannot be reconstructed once the work has changed, so an adopted measurement is kept,
+  labelled, and paired with a fresh one.
+
+### Changed
+
+- **Language detection is validated externally**, not on this repository's own files. Both signals
+  are named families in the literature (Cole et al. 1997: "short words … diacritics and special
+  characters"), and the standard character-n-gram method was deliberately not adopted because it
+  needs a trained profile per language and solves a harder problem — Vatanen et al. (LREC 2010) test
+  281 languages on 5-to-21-character samples for 72.5% average recall, while this task is binary
+  with a strong prior. Against floors of 150 function words and 40 accents per thousand: Mexican
+  consumer-protection law scores 396, a Wikipedia article 394 and 134, a Mexican company's own
+  buttons and taglines 219 and 188, and an English business report 1. This repository turned out to
+  be the harder sample in both directions, so the floors were calibrated conservatively by accident.
+- **Two signals combined with OR, because each catches what the other misses.** A 26-word Spanish
+  extract with zero accents passes on function words; telegraphic marketing copy below the
+  function-word floor passes on accents. Requiring both would reinstate the bug that found this — a
+  real es-MX chart piece reported as foreign, which is the worse failure of the two, because a check
+  that flags correct work teaches its reader to stop looking.
+
+### Fixed
+
+- **`bin/legible.mjs` refuses text that is not Spanish.** Every part of the index is Spanish-only and
+  none of it failed loudly on English: this plugin's own `INSTALL.md` scored 87 and *muy fácil*
+  several times before the guard existed, because a Spanish formula on English still lands inside its
+  plausible range and still prints a band. A wrong answer that looks right is the worst class, and
+  this was the tool built to catch that class failing to catch its own.
+- **The language floor is separate from the readability floor**, at twenty-five words against a
+  hundred. They fail differently at small samples — readability is a mean over sentences, language is
+  the frequency of a language's commonest words — and sharing the readability floor meant every short
+  deliverable, a one-page biweekly report included, escaped the check entirely.
+
+### Added — the routines and the setup
+
 - **`setup` skill** — the whole first visit, in the order that works, closing by reporting which of
   seven steps are done and which are owed rather than by declaring success. It sequences
   `company-new` and `company-intake` rather than repeating them, and it exists because the sequence
