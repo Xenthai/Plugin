@@ -8,7 +8,10 @@
     {
       "name": "xenthai",
       "description": "Applied-AI consulting, executable. People decide, the AI executes, and everything is recorded.",
-      "source": "./",
+      "source": {
+        "source": "github",
+        "repo": "Xenthai/Plugin"
+      },
       "category": "productivity",
       "displayName": "Xenth AI Plugin",
       "homepage": "https://xenth.ai"
