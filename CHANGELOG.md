@@ -26,6 +26,29 @@ moves.
 
 ### Added
 
+- **A digest that runs with nobody present** (`bin/watch.mjs`). The one part of this plugin that can
+  honestly be called automatic, because it needs no model: plain arithmetic over a local JSONL file,
+  no session, no connector, no network, no API cost. It answers the question no other tool here can —
+  **how long has it been quiet** — measured against each client's own median gap between active days
+  rather than a fixed threshold, since a client recording twice a week and one recording daily have
+  different silences. Ten signals across silence, capability and risk, each carrying the question it
+  raises and a verdict of OK, WATCH, ACT or UNKNOWN. No composite score, and a worst-of verdict
+  instead: averaging a silence signal against a governance defect would hide whichever one mattered.
+  It exits 0 whatever it finds, because a scheduled task that fails on a finding gets disabled after
+  the second alert. **Counts, dates and verdicts only** — never a file name, a target, a reason or a
+  person's name — which is what lets it sit in a folder shared with the practice without the practice
+  becoming a processor of the client's personal data. `INSTALL.md` §6b carries the Drive-for-Desktop
+  path, the Viewer share on the digest folder alone, and the scheduled task.
+- **`feedback` skill** — the second improvement loop, and the one nothing covered. `opportunities`
+  improves the client's company; this improves the instrument, for every client. Signal comes from
+  the record before the operator is asked: what recurred, what never filled, what never fired, what
+  the digest has been saying. Findings are classed defect, gap, friction or excess, each with a
+  different bar to change, and **excess is the class this practice will under-report** because nobody
+  complains about a feature they ignore. The report carries nothing about any company by design — if
+  a finding cannot be stated without naming the client, it is a company finding and does not travel.
+
+### Added — earlier in this cycle
+
 - **Opportunities capability** (`bin/opportunities.mjs`, `skills/opportunities/`). Reads a company's
   own journal and reports what recurred — the document reworked every period, the escalation reason
   that keeps returning, the step that has been failing for months without anyone reporting it. The

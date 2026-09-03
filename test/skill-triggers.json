@@ -437,6 +437,22 @@
       "split": "test",
       "kind": "target",
       "why": "Adopting documents already in the store and requesting only the remainder is intake's step 0. The manifest already exists here, so company-new is not the answer."
+    },
+    {
+      "id": "feedback-monthly-plugin-es",
+      "query": "Llevamos un mes con este cliente. Junta qué falló del plugin, qué tuvo que hacer a mano el operador y qué no le sirvió, para arreglarlo y que le sirva a todos mis clientes.",
+      "expected": "feedback",
+      "split": "train",
+      "kind": "target",
+      "why": "The subject is the plugin itself and the beneficiary is every client. That is feedback's whole distinction from opportunities, which improves one company."
+    },
+    {
+      "id": "feedback-vs-opportunities-es",
+      "query": "Ya son tres meses de bitácora con esta empresa. Dime qué se puede mejorar aquí y qué proceso conviene atacar primero.",
+      "expected": "opportunities",
+      "split": "test",
+      "kind": "near-miss",
+      "why": "Mejorar plus three months of journal lures toward feedback, but the subject is this company's processes, not the instrument. Feedback carries nothing about a company by design."
     }
   ]
 }

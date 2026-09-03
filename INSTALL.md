@@ -93,6 +93,75 @@ per asset.
 cannot read a local file, so an import runs and produces posts with missing images, discovered one
 failed row at a time.
 
+## 6b. The digest folder, and the one thing that runs with nobody present
+
+Everything else in this plugin needs a session, because it needs judgement. The digest does not: it
+is arithmetic over a local file, so it runs on a schedule with no Claude, no connector and no
+network. That is the only part you can honestly call automatic.
+
+### Why it needs Drive for Desktop
+
+The digest has to reach the practice, and a connector write needs a session. So instead the company
+folder is **synced to disk** with Google Drive for Desktop — free, official, no subscription. Then
+writing the digest is a plain file write and Drive syncs it.
+
+Install it and let the company folder sync. Note the local path it gets, for example
+`G:\Mi unidad\Acme` or `C:\Users\<user>\Mi unidad\Acme`.
+
+### Create the folder and share it once, by hand
+
+Inside the company's Drive folder, create `digest`. Share **that folder only** with the practice's
+account as **Viewer**:
+
+```
+digest@xenth.ai   →   Lector
+```
+
+Two properties make this safe to leave in place. The digest carries **counts, dates and verdicts
+only** — never a file name, a target, a reason, or any person's name — so nothing about the company
+or its people travels. And the client can revoke it in Drive at any moment without breaking
+anything else in the engagement.
+
+Do not share the company's root folder. There is no reason for the practice to hold standing access
+to the client's material, and every reason not to: it would make the practice a processor of the
+client's personal data, and one compromised account would then be every client at once.
+
+### Register the scheduled task
+
+One command, once, in **PowerShell as Administrator**. Replace the two paths:
+
+```powershell
+$plugin = "$env:USERPROFILE\.claude\plugins\cache\xenthai\xenthai"
+$store  = "G:\Mi unidad\Acme"
+$action = New-ScheduledTaskAction -Execute "node" -Argument "`"$plugin\bin\watch.mjs`" --journal `"$store`" --out `"$store\digest\estado.md`""
+$trigger = New-ScheduledTaskTrigger -Daily -At 7am
+Register-ScheduledTask -TaskName "XenthAI digest" -Action $action -Trigger $trigger -Description "Escribe el digest de estado del compromiso. No envia datos de la empresa."
+```
+
+Then run it once by hand to prove it works before trusting the schedule:
+
+```powershell
+Start-ScheduledTask -TaskName "XenthAI digest"
+```
+
+Open `digest\estado.md`. If it is there, the automatic half is done and it stays done.
+
+The task overwrites one file rather than appending a new one per day, so the folder never grows and
+the practice always reads the current state. History is not lost — it is in the journal, which is
+where history belongs.
+
+### What the verdict means when the practice reads it
+
+| Verdict | What it means |
+| --- | --- |
+| `OK` | Every signal fired and found nothing |
+| `WATCH` | A finding for the next session |
+| `ACT` | Pick up the phone |
+| `UNKNOWN` | Not enough history yet for that signal to mean anything |
+
+The digest exits successfully whatever it finds, on purpose: a scheduled task that fails on a
+finding is a task somebody disables after the second alert.
+
 ## 7. Verify before you trust it
 
 ```bash
