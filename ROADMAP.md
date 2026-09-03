@@ -65,6 +65,14 @@ client machine until the `version` field moves.
 | **CI on GitHub Actions** — `npm ci --ignore-scripts`, the suites, `plugin validate`, no browser download | `.github/workflows/test.yml` |
 | **Install runbook** for a client machine | `INSTALL.md` |
 | **OFL licence texts copied into the delivery package** | `skills/social-handoff` step 3 |
+| **`company-new` skill** — the engagement bootstrap: the manifest, the store folder, the health check, the handoff to intake | `skills/company-new` |
+| **`social-presence` skill** — the perishable before, captured at the first session and append-only | `skills/social-presence`, `capabilities/social/doctrine/PRESENCE.md`, `scaffold/company/PRESENCE.md` |
+| **`automate-handover` skill** — acceptance and liability rather than results, with the three-rung autonomy ladder | `skills/automate-handover`, `capabilities/automate/doctrine/HANDOVER.md` |
+| **`opportunities` skill** — what recurred across periods, read from the journal, as questions rather than recommendations | `skills/opportunities`, `bin/opportunities.mjs`, `capabilities/process/doctrine/PROCESS.md` §8 |
+| **Readability floor for operator-facing documents** — Szigriszt-Pazos on the INFLESZ scale, gated across every client-facing scaffold | `bin/legible.mjs`, `capabilities/automate/doctrine/HANDOVER.md` §5b |
+| **Session doctrine** — who has to be in the room for each question, and who must not be | `capabilities/company/doctrine/SESSION.md`, reached from all eight interviewing skills |
+| **Controls doctrine and the maturity model** — what the plugin refuses versus merely records, and whose level actually moved | `capabilities/company/doctrine/CONTROLS.md`, `MATURITY.md` |
+| **Source verification in every report** — the digest of the bytes a report was computed from, anchored by the client's own store | `bin/report.mjs`, `capabilities/report/doctrine/REPORTING.md` §10d |
 
 ---
 
@@ -74,9 +82,7 @@ The MVP passes its own tests. These are the gaps a real engagement would hit on 
 
 | Item | Why | Waits on |
 | --- | --- | --- |
-| **`company-new` skill** — ask the minimum, create the store folder, write `.company.json`, run `doctor`, hand to `company-intake` | **The first step of every engagement is the least automated part of the system.** `INSTALL.md` documents it as a manual copy-and-fill, and no skill owns it. It is also the step whose mistakes are invisible and permanent: a wrong `id` means two clients' journals merge, a wrong `store.root` means work lands in the wrong Drive | — |
-| **Skill-trigger evaluation inside the gate** — the 25 cases in `test/skill-triggers.json` run on every change, not on request | Fourteen skills now, up from six. A `description` is the only trigger surface and the measured failure mode is **under**-triggering: a skill that never fires is indistinguishable from a skill that does not exist. `test/skill-eval.mjs` exists and runs nowhere | Claude CLI and API access in CI, or a local pre-release step |
-| **Negative trigger cases** — for each pair of sibling skills, a query that must route to one and must not route to the other | `social` vs `process`, `company-intake` vs `company-offer`, `process-map` vs `process-access`. Sibling confusion is the failure the negative routing lines in each description are written to prevent, and nothing tests them | The evaluation harness above |
+| **Skill-trigger evaluation inside the gate** — the 52 cases in `test/skill-triggers.json` run on every change, not on request | Eighteen skills now, up from six. A `description` is the only trigger surface and the measured failure mode is **under**-triggering: a skill that never fires is indistinguishable from a skill that does not exist. `test/skill-eval.mjs` exists and runs nowhere | Claude CLI and API access in CI, or a local pre-release step |
 | **Verify `${CLAUDE_PLUGIN_ROOT}` inside a skill's shell** on a real install | Every semantic journal entry from a skill depends on it, and the documentation does not say it resolves there. The bootstrap hook announces the path as a fallback, but the assumption is untested | A second machine |
 | **A first-session dry run against a real company** — every phase, in order, with the journal read back afterwards | The suites prove each part in isolation. Nothing has yet proven the parts compose, and the journal has never been read by `report` on rows a full engagement produced | `company-new` |
 

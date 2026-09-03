@@ -218,6 +218,55 @@ prohibited-actions list from them directly — no committee will produce it.
 
 ---
 
+## 8. After a few periods, the journal beats the interview
+
+§5 scores automation suitability, and two of its research-backed criteria — execution time and
+failure rate — are normally filled with what somebody remembers. That is the weakest evidence in the
+whole document: self-estimates of one's own recurring work run high by a median of 47%, always in
+the flattering direction, and the estimate and the improvement computed against it come from the
+same place, so the inflation is invisible.
+
+Once an engagement has a few periods of journal, both of those criteria can be **measured instead**.
+`bin/opportunities.mjs` reports what recurred and over how many distinct periods, with the rows
+behind each pattern. Where a finding covers a process already scored in §5, replace the estimate with
+the measured value and say in the cell that it came from the journal, naming the periods it covers.
+
+That substitution is the single most valuable thing the journal buys. It turns two columns of a
+scoring table from opinion into evidence, and it is the strongest available argument for an
+engagement continuing — not because the numbers flatter anyone, but because they are checkable.
+
+The judgement criteria stay untouched. Cost of error and regulatory constraint are invisible to a
+journal, and §5 keeps them separate from the research criteria precisely so that a measurement
+cannot quietly acquire their authority.
+
+### Three properties this measurement has to keep
+
+**The floor counts distinct periods, not occurrences.** Three edits to one file in one afternoon is
+one event; three edits across three months is a pattern. An occurrence count lets a single busy
+fortnight manufacture a finding, and a detector that fires on noise trains its reader to skip the
+section.
+
+**Nothing is scored or ranked on one axis.** A composite improvement score is indefensible with one
+client and no control group, which is why `ROADMAP.md` rules one out. Ranking journal findings would
+smuggle the same thing back in through a side door, so they come out ordered by how many periods
+each spans — a count, not a judgement.
+
+**A finding is a question, never a recommendation.** Recurrence is the only part the journal proves.
+Whether the work is autonomous and whether it is reviewable it cannot see, and reviewable is the one
+people skip: if nobody can say what good looks like, there is no check, and unattended operation is
+unreachable however often the task repeats.
+
+### What it is blind to, and why that is not a small caveat
+
+The journal holds only what passed through the plugin. Every finding is therefore biased toward work
+the practice already touches, and the process nobody has opened is invisible — frequently the one
+worth the most.
+
+So this never replaces the mapping session. It prioritises among what is already known, and the
+client's own answer to *what hurts today* still outranks it. A list of recurring file paths presented
+as a survey of the company is a category error, and the tool prints that warning with its own output
+so the list cannot travel without it.
+
 ## Cross-references
 
 | File | Read it when |

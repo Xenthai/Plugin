@@ -97,26 +97,26 @@
     {
       "id": "none-process-map-es",
       "query": "Mapea los procesos de la empresa: cuentas por pagar, compras y facturación con CFDI. Quién hace qué, cuánto tarda cada paso y dónde se atora.",
-      "expected": "none",
+      "expected": "process",
       "split": "train",
-      "kind": "near-miss",
-      "why": "Process mapping is a roadmap capability, not a skill in skills/; the router's description says outright it is the wrong skill for this."
+      "kind": "target",
+      "why": "The process router now exists and its description says outright to use it when asked to map or document processes. This item expected none while process-map and process-access were still roadmap items; leaving it would penalise the correct answer."
     },
     {
       "id": "none-monthly-report-journal-en",
       "query": "Build the monthly report from this company's journal: cycle time, touch time and throughput for the processes we touched.",
-      "expected": "none",
+      "expected": "report",
       "split": "test",
-      "kind": "near-miss",
-      "why": "The report capability does not exist yet; aggregating the journal is not communication work and no description claims it."
+      "kind": "target",
+      "why": "The report skill now exists and reads the journal back. It supplies touch time; cycle time and throughput come from BASELINE.md, which its own description and STOP conditions say. This item expected none while report was a roadmap item."
     },
     {
       "id": "none-automation-opportunities-es",
       "query": "Ya llevamos tres meses de bitácora con esta empresa. Revisa qué acciones se repiten y dime qué proceso conviene automatizar primero.",
-      "expected": "none",
+      "expected": "opportunities",
       "split": "train",
-      "kind": "near-miss",
-      "why": "Surfacing automation candidates from the journal is the future opportunities capability; today no skill claims it and the router excludes automation scoping."
+      "kind": "target",
+      "why": "This query is verbatim the opportunities skill's case: several periods of journal, what repeats, what to automate first. It expected none while that capability was on the roadmap."
     },
     {
       "id": "router-linkedin-no-brand-en",
@@ -201,10 +201,10 @@
     {
       "id": "none-baseline-invoice-duration-en",
       "query": "Measure how long the team really takes to close an invoice today: three to five dated real cases, not an estimate.",
-      "expected": "none",
+      "expected": "baseline",
       "split": "train",
-      "kind": "near-miss",
-      "why": "Baseline measurement is a roadmap capability; the elicitation rule lives in doctrine, but no skill in skills/ implements it."
+      "kind": "target",
+      "why": "The baseline skill now exists and its description covers measuring a before per process. The three-to-five-dated-cases phrasing is the elicitation rule that skill implements, not just doctrine."
     },
     {
       "id": "new-company-first-folder",
@@ -388,7 +388,39 @@
       "expected": "none",
       "split": "test",
       "kind": "near-miss",
-      "why": "Rightsizing skills and CLAUDE.md is Claude Code's own built-in /doctor, not this plugin's install check. The word doctor points one way and the correct answer is the built-in tool."
+      "why": "Rightsizing skills and CLAUDE.md is Claude Code's own built-in /doctor, not this plugin's install check. The disambiguation used to sit in doctor's description and now sits in its body, so this item tests whether the description alone still declines the request — the lure words are gone from it entirely, which should help rather than hurt."
+    },
+    {
+      "id": "opportunities-next-phase-en",
+      "query": "We are three quarters into this engagement and the client is asking what to tackle next. Use what the journal already shows instead of putting them through another round of interviews.",
+      "expected": "opportunities",
+      "split": "train",
+      "kind": "target",
+      "why": "Names the journal, several periods of history, and the next-phase question — the three things the opportunities description claims."
+    },
+    {
+      "id": "opportunities-vs-process-access-es",
+      "query": "Ya tenemos tres meses de bitácora. Arma la lista corta de automatizaciones con puntaje y precio para presentarla al director el jueves.",
+      "expected": "process-access",
+      "split": "test",
+      "kind": "near-miss",
+      "why": "The journal and three months of history lure toward opportunities, but scoring and pricing a shortlist in a session with the client is what process-access claims. Opportunities counts repetition; it does not score or price."
+    },
+    {
+      "id": "opportunities-vs-report-en",
+      "query": "Read the journal back for the client review: how many actions, whose review time it took, and who approved what.",
+      "expected": "report",
+      "split": "train",
+      "kind": "near-miss",
+      "why": "Reading the journal lures toward opportunities, but actions by actor, review time and named approvals are report's own list. Opportunities looks for what recurred across periods, not for what a period contained."
+    },
+    {
+      "id": "opportunities-no-history-es",
+      "query": "Apenas empezamos con esta empresa. Dime qué procesos conviene automatizar primero según lo que ya hicimos.",
+      "expected": "process",
+      "split": "test",
+      "kind": "near-miss",
+      "why": "Automation priority lures toward opportunities and process-access, but a company with no journal history and no inventory is mapping work, and the process router is where that starts."
     }
   ]
 }

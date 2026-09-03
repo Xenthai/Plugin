@@ -26,6 +26,66 @@ moves.
 
 ### Added
 
+- **Opportunities capability** (`bin/opportunities.mjs`, `skills/opportunities/`). Reads a company's
+  own journal and reports what recurred — the document reworked every period, the escalation reason
+  that keeps returning, the step that has been failing for months without anyone reporting it. The
+  floor counts **distinct periods, not occurrences**, because three edits in one afternoon is one
+  event and three across three months is a pattern; below the threshold it refuses rather than
+  reporting a shorter list. Nothing is scored or ranked on one axis, since a composite improvement
+  score is indefensible at n=1 and ranking would smuggle one back in. Every finding carries the
+  **question it raises, never a recommendation**: recurrence is the only part a journal proves, and
+  whether the work is autonomous and reviewable it cannot see. `PROCESS.md` §8 carries what this
+  replaces — the execution-time and failure-rate criteria in the suitability score, normally filled
+  from recall that runs high by a median of 47%, become measured values with the periods they cover.
+- **A readability floor for the documents an operator has to act on** (`bin/legible.mjs`).
+  Szigriszt-Pazos perspicuity on the INFLESZ scale — Spanish-validated, not a translated Flesch —
+  over a document's prose, with markdown tables, fenced blocks and frontmatter excluded. Floor 55,
+  target 65 for the failure-recovery section, and the score is stated as a screen rather than the
+  test: the test is an operator performing the failure step from the document, unaided and timed.
+  `HANDOVER.md` §5b carries why there are two numbers; `AUTOMATIONS.md` grows the rows that record
+  who ran the operator test and where they stopped. All eighteen client-facing scaffolds clear the
+  floor, and the suite now gates every one of them.
+- **Session doctrine** (`capabilities/company/doctrine/SESSION.md`), reachable from all eight skills
+  that fill a document by interviewing a person. Leads with the rule that silently corrupts
+  everything downstream in this market: with a director in the room an operator gives the
+  director's estimate in their own voice, and no later step can detect it.
+- **Source verification in every report.** `bin/report.mjs` prints the SHA-256 of the exact bytes it
+  read, with the row count and the check command for Windows as well as Unix. Not a hash chain —
+  whoever computes one can recompute it, so it proves nothing against the parties who matter. The
+  anchor is that the report comes to rest in the client's store, whose revision history this
+  practice cannot rewrite. The block states its own limit: it pins the file forward, not backward.
+- **The client's name in the session title**, set by the `SessionStart` hook when a company is bound
+  and deliberately not set when none is. Writing one company's material into another company's store
+  is the worst thing this plugin can do, and it happens by looking at the wrong window.
+
+### Changed
+
+- **Skill descriptions cut from a 689-character mean to 522**, recovering 2,844 characters resident
+  in every turn of every session. What came out was the enumeration of trigger phrasings and the
+  restatement of workflow; every routing clause and prerequisite invariant stayed.
+- **The frontmatter assertion** now enforces the Agent Skills spec's six fields rather than exactly
+  `name` and `description`. `allowed-tools` is spec-legal and is declared by fifteen first-party
+  skills, so the old rule asserted something false.
+- **Manifests aligned**: one name (`xenthai`) across `plugin.json` and `marketplace.json`, the
+  redundant `skills` field and a dead `$schema` removed, `displayName` and `homepage` added.
+- **The ambient journal hook is gated on a bound company**, so it cannot observe tool I/O in an
+  unrelated project — the condition the published marketplace policy fails a hook for.
+- **Four stale ground truths corrected in the trigger dataset.** They expected `none` for
+  capabilities that now exist, including one query that is verbatim the `opportunities` case. An
+  evaluation that penalises the correct answer is worse than one with a coverage gap.
+
+### Fixed
+
+- **A missing journal no longer reads as a quiet month.** The hooks that write it are inactive in
+  chat on the web and in the Desktop Chat tab, so a report asked for there found no rows, no error,
+  and reported a clean period. Both the tool and the skill now name which of the two it is.
+- **The `report` skill body** exceeded the 12 KB ceiling the suite enforces; attribution and
+  figure-reading moved to `REPORTING.md` §10b/§10c rather than the ceiling moving.
+- **The bootstrap hook stopped swallowing its own failures.** The binding announcement is a control,
+  and an operator who never sees it has lost the control without being told.
+
+### Added — earlier in this cycle
+
 - **Process capability** (`capabilities/process/`, three skills). `process` routes phases 3 and 4;
   `process-map` runs the inventory breadth-first; `process-access` ranks pain, records who holds
   which access as a reference rather than a credential, and scores the automation shortlist.
