@@ -165,6 +165,30 @@ check("journal records a failure as result=error", () => {
  * directory. The "a gap cannot be told apart from an action that never happened" invariant applies
  * inside an engagement, which is where it was always aimed.
  */
+/**
+ * With no company bound AND no data directory in the environment, an entry must still be recorded —
+ * a gap cannot be told apart from an action that never happened — but never into the working
+ * directory. Falling back to `cwd` meant running `doctor` from anywhere created a `journal/`
+ * tree there: the ambient-authority pattern `company-new` refuses for manifests, committed by the
+ * journal instead, and it scattered unbound rows across whatever folder the operator stood in.
+ */
+check("an unbound entry with no data directory lands in one stable place, never in the cwd", () => {
+  const bare = join(SANDBOX, "bare-cwd");
+  mkdirSync(bare, { recursive: true });
+  const env = { ...process.env };
+  delete env.CLAUDE_PLUGIN_DATA;
+  const home = join(SANDBOX, "fake-home");
+  env.CLAUDE_CONFIG_DIR = home;
+  const r = spawnSync(process.execPath, [join(ROOT, "bin", "journal.mjs"), "--event", "health", "--why", "no company, no data dir"], {
+    encoding: "utf8",
+    cwd: bare,
+    env,
+  });
+  const littered = existsSync(join(bare, "journal"));
+  const landed = existsSync(join(home, "xenthai", "journal", "execution"));
+  return [r.status === 0 && !littered && landed, `exit ${r.status}; littered=${littered} landed=${landed}`];
+});
+
 check("an unbound session is NOT journaled by the hook, but the CLI still records", () => {
   const before = rows(DATA).length;
   const hook = post("Write", { file_path: "/tmp/somebody-elses-project.md" }, SANDBOX);

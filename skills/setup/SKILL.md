@@ -19,9 +19,24 @@ visit — say which company is bound, run `doctor`, and report which of the seve
 already done. **A setup that starts over destroys work.**
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/doctor.mjs" --json
+node "${CLAUDE_PLUGIN_ROOT}/bin/doctor.mjs"
 node "${CLAUDE_PLUGIN_ROOT}/bin/status.mjs"
 ```
+
+**At a fresh client both of these exit 1, and that is the correct result.** Read them before
+reporting anything, because the first minute of a setup is where an operator decides whether the
+tool works:
+
+| What you will see | What it means |
+| --- | --- |
+| `SKIP company  no company bound: no .company.json in …` | Right. The company does not exist yet — that is step 2 |
+| `doctor … 5 ok, 0 failed, 1 skipped`, exit 1 | Right. A doctor that could not verify something never reports clean, and one skip is what a fresh machine has |
+| `status: no company bound (no-manifest)`, exit 1 | Right. There is nothing to have pending yet |
+| **Any `FAIL` line** | Wrong, and it stops the setup. `browser`, `fonts` and `engine` failing mean the install is incomplete — reinstall before step 1 |
+
+So the first thing to say is **not** "hay dos errores". It is which of the seven steps this machine
+is at, and what you need from whom. Reporting a correct skip as a failure teaches the operator to
+ignore this tool's output, and everything else here depends on them not doing that.
 
 ## The seven steps
 
