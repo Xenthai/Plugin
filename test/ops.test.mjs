@@ -40,6 +40,34 @@ check("CI downloads no browser — the runner already has one", () => {
   return [!/playwright install/.test(yml), "no playwright install step"];
 });
 
+/**
+ * Both manifests and both runbooks named a repository that does not exist —
+ * `xenthai/xenthai-plugin` against the real `Xenthai/Plugin`. The `marketplace add` line therefore
+ * failed, and it failed on step two of a fifteen-minute setup at a client's desk, reading as a typo
+ * rather than as a wrong slug.
+ *
+ * The slug is derived from the manifest's own `repository` field rather than written twice, so the
+ * two cannot drift apart again: whatever the manifest declares is what the runbooks must tell an
+ * operator to type.
+ */
+check("every runbook's marketplace line matches the repository the manifest declares", () => {
+  const repo = json(".claude-plugin/plugin.json").repository;
+  const slug = String(repo ?? "").replace(/^https?:\/\/github\.com\//, "").replace(/\.git$/, "");
+  const expected = `claude plugin marketplace add ${slug}`;
+  const bad = [];
+  if (!/^https:\/\/github\.com\/[^/]+\/[^/]+$/.test(String(repo))) bad.push(`repository is not a github url: ${repo}`);
+  for (const f of ["INSTALL.md", "README.md"]) {
+    if (!read(f).includes(expected)) bad.push(`${f} does not say "${expected}"`);
+  }
+  return [bad.length === 0, bad.join("; ") || `both name ${slug}`];
+});
+
+check("package.json points at the same repository as the plugin manifest", () => {
+  const a = json(".claude-plugin/plugin.json").repository;
+  const b = json("package.json").repository?.url;
+  return [a === b, `plugin: ${a} · package: ${b}`];
+});
+
 check("the install line names the marketplace, not the repository slug", () => {
   const marketplace = json(".claude-plugin/marketplace.json").name;
   const plugin = json(".claude-plugin/plugin.json").name;

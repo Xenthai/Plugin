@@ -15,7 +15,7 @@ write a store; it does not know who the clients are.
 ## Install
 
 ```bash
-claude plugin marketplace add xenthai/xenthai-plugin
+claude plugin marketplace add Xenthai/Plugin
 ```
 
 ```bash
@@ -34,14 +34,31 @@ verify it actually works.
 
 ## What it does today
 
-| Skill             | When it runs                                                                                                                  |
-| ----------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `social`          | The mandatory entry point. Binds the session to one company and routes to the phase that company is actually in               |
-| `social-identity` | Phase 1 — legal and trade name, sector and regulator, who approves public claims, who actually decides, what it sells to whom |
-| `social-voice`    | Phase 2 — derives voice from what the company already published, turns it into word-level rules, fills the claims register    |
-| `social-plan`     | The editorial plan. Ends at an approval gate rather than producing anything                                                   |
-| `social-produce`  | Copy, then render. Refuses to emit an asset that breaches a platform limit                                                    |
-| `social-handoff`  | The delivery package: schedule, assets, and an honest note about what still needs a hand                                      |
+Twenty skills. Two are routers that bind the session and decide which phase a company is in; the
+rest do one thing each.
+
+| | Skill | When it runs |
+| --- | --- | --- |
+| **Setup** | `setup` | The first visit. Reads the seven steps back before running anything, then reports which are owed and by whom |
+| | `company-new` | Writes the `.company.json` that binds a session to exactly one company, and adopts whatever the store already holds |
+| | `doctor` | Whether this machine and the bound company's connectors can do the work about to be promised |
+| **Mapping** | `company-intake` | Asks for the files the company already has instead of interviewing for every fact |
+| | `company-offer` | What it sells and on what terms — stock, lead times, CFDI, the discount limit and who authorises exceeding it |
+| | `process-map` | Phase 3, the *Diagnóstico*: every process it actually runs, breadth before depth |
+| | `process-access` | Phase 4, the *Mapeo integral*: pain, access, authority, and a scored shortlist |
+| | `process` | The router for those two |
+| | `baseline` | The before, while it still exists. It cannot be reconstructed afterwards |
+| **Communication** | `social` | The mandatory entry point for anything published |
+| | `social-presence` | The perishable before: every account that exists, dated, append-only |
+| | `social-identity` | Phase 1 — names, sector, regulator, who approves a public claim, who actually decides |
+| | `social-voice` | Phase 2 — voice derived from what they already published, as word-level rules |
+| | `social-plan` | The editorial plan. Ends at an approval gate rather than producing anything |
+| | `social-produce` | Copy, then render. Refuses to emit an asset that breaches a platform limit |
+| | `social-handoff` | The delivery package: schedule, assets, and an honest note about what still needs a hand |
+| **Closing the loop** | `automate-handover` | Acceptance and liability, not results. The test is whether the client can switch it off alone |
+| | `report` | The journal read back, per cadence, with what the evidence cannot support |
+| | `opportunities` | What recurred across periods, as questions rather than recommendations |
+| | `feedback` | What to fix in **this plugin**, from evidence, carrying nothing about any company |
 
 Onboarding is one phase per session, deliberately. A longer instrument measurably reduces both
 starts and completions, and phase 1 ends with something the client can look at — a director who
@@ -120,8 +137,14 @@ capabilities/
     doctrine/       PROCESS.md — SIPOC boundaries, capture fields, suitability scoring
   baseline/
     doctrine/       MEASUREMENT.md — what may be measured, and what may be claimed from it
+  automate/
+    doctrine/       HANDOVER.md — the autonomy ladder, and why agreement is not accuracy
+  report/
+    doctrine/       REPORTING.md — which cadence answers which question
+    templates/      one per cadence, es-MX, each declaring the question it answers
   company/
-    doctrine/       INTAKE.md — which document answers which fact
+    doctrine/       CONTROLS.md, INTAKE.md, SESSION.md, SCHEDULING.md, MATURITY.md,
+                    REGULATORS-MX.md, STANDARDS.md
 scaffold/company/   the blank document set created for a new company, es-MX
 test/               one suite per subsystem, discovered by glob — `npm test` runs all of them
 ```
@@ -131,10 +154,13 @@ tool and stops:
 
 | CLI | What it answers |
 | --- | --- |
-| `bin/status.mjs` | Which documents exist, how many fields are still pending, and **which phase owes each one** |
+| `bin/status.mjs` | Which documents exist, how many fields are pending, which phase owes each, and **whether what was written is actually in es-MX** |
 | `bin/journal.mjs` | Records a semantic event a hook cannot infer — a review, an approval with a named approver, an escalation |
 | `bin/doctor.mjs` | Whether this machine and the bound company's connectors can do the work about to be promised |
-| `bin/report.mjs` | Turns journal rows into an engagement report without copying client content out of the store |
+| `bin/report.mjs` | Journal rows to an engagement report, with the SHA-256 of the bytes it read so the client can check it |
+| `bin/watch.mjs` | Engagement health as counts, dates and verdicts, with **no company data in it** — the file the practice is given |
+| `bin/opportunities.mjs` | What recurred across distinct periods, with the rows behind each pattern |
+| `bin/legible.mjs` | How hard an es-MX document is to read, on the INFLESZ scale. Refuses anything that is not Spanish |
 
 ---
 
