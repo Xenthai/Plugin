@@ -162,10 +162,15 @@ check("the plugin root is announced once by the hook, not repeated in every skil
  * account of removing over 80% of a system prompt with no measurable eval loss names exactly this
  * as the thing that was removed. So a policy stated twice is a defect even when both statements are
  * correct: one of them is redundant and the difference between them is pure overhead.
+ *
+ * Each fingerprint matches the POLICY's own wording, never the file it points at. An earlier version
+ * matched any mention of `CONTROLS.md`, which failed the moment a skill cited a different section of
+ * it for a different reason — a legitimate cross-reference read as a restated policy. A fingerprint
+ * broad enough to catch unrelated citations does not detect duplication, it forbids reference.
  */
 const SHARED_POLICIES = [
   { name: "how company files are written", fingerprint: /Company files change through/ },
-  { name: "where the write policy's reasoning lives", fingerprint: /doctrine\/CONTROLS\.md/ },
+  { name: "where the write policy's reasoning lives", fingerprint: /CONTROLS\.md` carries why/ },
 ];
 
 check("a policy shared across skills is stated in exactly one wording", () => {
@@ -197,6 +202,25 @@ check("two wordings of one policy would fail", () => {
   const b = "Create and change company files with `Write` and `Edit` only.";
   const forms = new Set([a, b].map((s) => s.trim().replace(/\s+/g, " ")));
   return [forms.size > 1, "the same policy in two wordings was detected as two forms"];
+});
+
+/**
+ * A fingerprint that stops matching disables its policy silently — the check keeps passing because
+ * it now finds one wording of nothing. So each is exercised against the sentence it must catch AND
+ * against a legitimate cross-reference it must ignore. The second half is the regression: a
+ * fingerprint of just `CONTROLS.md` forbade every skill from citing any other part of that file.
+ */
+check("each fingerprint catches its own policy and ignores an unrelated citation", () => {
+  const canonical =
+    "Company files change through `Write` and `Edit` only. `capabilities/company/doctrine/CONTROLS.md` carries why, and what the guard refuses versus merely records.";
+  const unrelated =
+    "`capabilities/company/doctrine/CONTROLS.md` **§4b** carries what each answer makes true, and the provenance of the three.";
+  const bad = [];
+  for (const policy of SHARED_POLICIES) {
+    if (!policy.fingerprint.test(canonical)) bad.push(`${policy.name}: no longer matches its own policy`);
+    if (policy.fingerprint.test(unrelated)) bad.push(`${policy.name}: matches an unrelated cross-reference`);
+  }
+  return [bad.length === 0, bad.length ? bad.join("; ") : `${SHARED_POLICIES.length} fingerprints match the policy and only the policy`];
 });
 
 /**

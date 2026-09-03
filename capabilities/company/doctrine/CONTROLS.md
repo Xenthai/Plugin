@@ -147,6 +147,51 @@ Two rules that keep this honest:
 
 ---
 
+## 4b. Three AI-specific data controls, worth asking as three questions
+
+Everything above governs what the plugin does. These three govern what a company's data does once
+any AI touches it, and they are the ones a client has usually never been asked about directly.
+
+1. **Can sensitive data be kept out of model training and model use, with certainty that none
+   leaks?** Not "do we have a policy" — can it be demonstrated for a named dataset.
+2. **Is third-party IP inside the models being used accounted for, and is the company's own IP
+   prevented from leaving?** Both directions. Most clients have thought about neither.
+3. **Can anyone trace how an AI system interacted with internal data?** Which data, when, on whose
+   behalf, and can it be reconstructed afterwards.
+
+Ask them exactly like that, in `process-access`, of the person who authorises. They are yes/no
+questions with evidence attached, which is what makes them useful — a client who answers "yes" to
+the third and cannot produce the record has just told you something more valuable than a "no".
+
+### Why these three and not a longer list
+
+They come from IDC's surveys, reported by Neil Ward-Dutton (IDC Europe) in *Data strategies for AI
+leaders*, MIT Technology Review Insights, 2024 — **a paper sponsored by Snowflake**, which sells the
+remedy. Treat the accompanying figure accordingly: only 30–40% of businesses were confident in each
+control. That number is second-hand, the underlying IDC study is not in hand, and the sponsor's own
+Head of AI is the dominant voice in the paper. **Do not put the percentage in a client deliverable**;
+if it is mentioned aloud, name the sponsor in the same sentence, per `STANDARDS.md`.
+
+The three controls themselves survive that discount entirely, because a checklist does not need a
+survey behind it to be worth running. Each names a specific, checkable failure rather than a
+posture, and each is one a Mexican client is exposed to under the LFPDPPP regardless of what any
+survey says.
+
+### What the answers change
+
+A "no" to any of the three is not a reason to stop. It is a **scope finding**, and it belongs in
+`PROCESSES.md` §5 alongside the prohibited-actions list:
+
+| Answer | What it makes true |
+| --- | --- |
+| Cannot keep sensitive data out of training or use | No process touching personal or client data goes past rung 1 until it can. That is a prohibited action, not a risk to accept |
+| Cannot account for IP in either direction | Anything producing public-facing or contractual text needs a named human approver on every output, and it needs to be written down |
+| Cannot trace AI interaction with internal data | The engagement's own journal is the client's only trace. Say that plainly — it raises what the journal is worth, and it also means an absent journal is a lost control, not a quiet month |
+
+The third answer is the one worth pausing on. A client who cannot trace this is not unusual, and the
+plugin does not solve it for them — it solves it only for the work that passes through the plugin.
+Claiming otherwise would be exactly the overreach `§1` refuses.
+
 ## 5. Name one source of truth per artefact, before there are two
 
 > **For every artefact the process produces, name one system as the source of truth, with

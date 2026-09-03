@@ -62,6 +62,21 @@ Establish, by **role**:
   principles. Ask the negative question first; clients are vague about what a system should do and
   precise about what it must never do. Get this list from the person who authorises, directly
 
+Then ask the same person these three, in these words. They are the AI-specific data controls almost
+no client has been asked about directly, and each is a yes/no with evidence behind it:
+
+1. **¿Pueden mantener datos sensibles fuera del entrenamiento y del uso de un modelo, con certeza de
+   que no se filtra ninguno?** No "¿tienen política?" — que lo demuestren sobre un conjunto de datos
+   con nombre.
+2. **¿Saben qué propiedad intelectual de terceros viene dentro de los modelos que usan, y que la
+   suya no sale?** Las dos direcciones. La mayoría no ha pensado en ninguna.
+3. **¿Alguien puede rastrear cómo un sistema de IA interactuó con sus datos internos?** Cuáles,
+   cuándo, por cuenta de quién, y si se puede reconstruir después.
+
+A "no" is a **scope finding**, not a reason to stop, and each answer changes what may be built —
+`capabilities/company/doctrine/CONTROLS.md` **§4b** carries what each one makes true, and the
+provenance of the three, which is a vendor-sponsored paper and is discounted accordingly.
+
 Every governance cell in the doctrine's §4 gets filled here or marked pending: approval requirement
 with its basis, permission scope, audit trail today versus required, prohibited actions, escalation
 with response time, reversibility, regulatory tag.

@@ -36,6 +36,24 @@ than any facilitation technique, and it costs nothing to request.
 Record whose answer each fact is. `INTERVIEW.md` exists for this. A fact with a name can be traced
 and corrected later; a fact without one can only be believed or discarded.
 
+### The corollary the client will get backwards
+
+When a company finds its data is bad, it tells IT to fix it. That is the wrong department, and
+saying so early is worth more than any correction made later: *"the problem is caused where the
+information began in the first place — that typically is the business."* Neil Ward-Dutton, IDC
+Europe, in a 2024 MIT Technology Review Insights paper sponsored by Snowflake; expert opinion rather
+than evidence, and cited as such.
+
+It is worth carrying anyway, because it is the same fact as the rule above seen from the other end.
+The person who enters the data determines its quality, the person who manages them determines
+neither, and asking the manager produces a description of the data rather than the data. Ward-Dutton
+adds the lever: *employees who understand the value of their data care more about the quality of what
+they provide* — so telling the doer what their answer will be used for is not courtesy, it is how the
+answer gets better.
+
+Say it in the session, in one sentence: *"esto que usted captura es lo que va a alimentar todo lo
+demás, y por eso se lo pregunto a usted y no a su jefe."*
+
 ## 2. One question at a time
 
 Five questions asked together get one and a half answers. The other three and a half get re-asked

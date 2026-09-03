@@ -149,6 +149,50 @@ person keeps the decision and loses the retyping.
 
 ---
 
+## 6b. A client's own estimate of their readiness is the least reliable input available
+
+The artefact rule in §7 exists because self-assessment fails, and it fails in a specific, predictable
+shape worth naming before a client uses it on you.
+
+Asked to rate their data foundations for AI, executives distribute roughly: 22% very ready, 53%
+somewhat ready, 17% somewhat unready, 8% very unready — a poll of 275+ executives in *Data
+strategies for AI leaders*, MIT Technology Review Insights, May 2024. **That paper is sponsored by
+Snowflake**, discloses about three of AAPOR's eleven minimal items, and reports its own sample size
+as "275+", which is not a number. Use the shape, never the decimals, and name the sponsor if it is
+mentioned aloud.
+
+The shape is what matters, and two experts in the same paper say the same thing about it from
+different directions:
+
+- **"Somewhat ready" is where three-quarters of the honest answers land, and it is not a level.** It
+  is the answer a person gives when they can integrate data across the business and also know the
+  underlying data is not clean. Arnab Chakraborty of Accenture puts the consequence plainly: on
+  accuracy and data quality, *50% ready is not good enough*, because the threshold for trust is
+  higher than the midpoint.
+- **"Somewhat ready" is rarely "almost ready".** Neil Ward-Dutton of IDC Europe reports a bell curve
+  in practice — a front end that has already invested in governance and quality, and *"a bunch of
+  people still using, basically, Excel for everything"* — with the middle much closer to the Excel
+  end than its self-rating implies.
+
+Both are expert opinion rather than data, and neither is treated here as evidence. They are useful
+because they predict the same failure the level model already assumes: a client will place
+themselves one level above the artefact they can produce.
+
+### The counter-intuitive finding, and why it matters at renewal
+
+The companies rating themselves **very ready face MORE data-quality problems, not fewer** — better
+access to their information revealed shortcomings that were always there.
+
+This is the single most useful thing in that paper, because it inverts what a client expects from a
+successful engagement and it will happen to yours. Month one produces order; month six produces a
+list of defects nobody could see in month one. A client not warned about this reads that list as the
+engagement having made things worse.
+
+So warn them at the mapping close, before it happens: **the number of known problems is expected to
+rise, and a rising count of known problems is the instrument working.** Then, when it rises, the
+warning is what makes the finding credible instead of alarming — and `opportunities` is what surfaces
+the list, which is why its output belongs in the quarterly rather than being saved up.
+
 ## 7. Record it, or it is an opinion
 
 The client's level and phase belong in `BASELINE.md`'s maturity layer, per department, with a date —

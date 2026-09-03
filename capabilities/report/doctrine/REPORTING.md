@@ -24,6 +24,27 @@ Three things make a report credible, and none of them costs anything:
 3. **State what cannot be claimed, first.** Reach, revenue, causation. Saying it before the client
    asks is what makes everything else land.
 
+### The refusal costs less than it looks
+
+Point 3 reads like giving up the two strongest claims available. It is not, and there is external
+support for that: asked their top ambitions for adopting generative AI, executives named increased
+efficiency or productivity far ahead of everything else (72%), then market competitiveness (55%),
+better products or services (47%) and customer satisfaction (44%) — with **increased revenue at 30%
+and reduced costs at 24%, last of seven.** A poll of 275+ executives, *Data strategies for AI
+leaders*, MIT Technology Review Insights, May 2024, **sponsored by Snowflake**; a top-three ranked
+question, so the figures do not sum to 100, and roughly three of AAPOR's eleven disclosure items are
+met. Directional only, and never quoted to a client without the sponsor named.
+
+Directionally, though, it says something useful: **the two claims this doctrine refuses are the two
+the buyer cares least about.** What they say they want is productivity, which is measurable from the
+client's own process measure and from the journal — exactly what the reports here are built on. The
+refusal gives up the indefensible half of a pitch nobody was buying.
+
+Two cautions attach. These are *stated ambitions*, not outcomes, and the gap between them is the
+whole reason a baseline exists. And a client who does eventually ask for pesos saved has not been
+disqualified by a survey — answer them with §10b and record their decision, as `report`'s STOP
+conditions require.
+
 ---
 
 ## 2. Cadence follows the data's refresh rate, not the calendar
