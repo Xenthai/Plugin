@@ -177,6 +177,7 @@ a recipient.**
 
 | File | Read it when |
 | --- | --- |
+| `capabilities/company/doctrine/SESSION.md` | Before any session that fills a document by asking a person |
 | `capabilities/process/doctrine/PROCESS.md` | Before the session, always. §4 governance fields and §5 scoring provenance are the two you will use most |
 | `capabilities/company/doctrine/MATURITY.md` | Closing the mapping — the six-month phase framework and what each phase owes |
 | The company's `PROCESSES.md` | Before asking anything — phase 3 already captured the systems and exceptions this session builds on |

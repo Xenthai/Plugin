@@ -68,7 +68,9 @@ even when a document states them.
 
 ## Where an interview is still required
 
-Some facts do not exist in any document, and asking for one wastes a request:
+Some facts do not exist in any document, and asking for one wastes a request. **How that session is
+run is its own subject — `capabilities/company/doctrine/SESSION.md` carries it**, starting with the
+rule that decides the rest: who is in the room determines what the answer will be.
 
 - **Who actually decides**, as opposed to the org chart. In a Mexican company decision-making
   concentrates in one person (power distance 81/100) and only about 21% of companies have a board,

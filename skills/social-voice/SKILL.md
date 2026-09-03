@@ -91,6 +91,10 @@ Append the conversation to `INTERVIEW.md`, including the phrases the client reje
 phrase is the most reusable output of a voice session — it is what stops the same wording being
 proposed again next quarter.
 
+This skill fills documents by interviewing a person.
+`capabilities/company/doctrine/SESSION.md` says how that hour is run — above all, who has to
+be in the room for each question and who must not be.
+
 ## STOP conditions
 
 - **The company has published nothing.** There is nothing to extract from. Derive voice from the

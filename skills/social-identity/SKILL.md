@@ -90,6 +90,10 @@ Append the conversation to `INTERVIEW.md`: who said each thing, and on what date
 stated in a session is client-reported until a document or a customer confirms it, and six months
 on an inferred claim reads exactly like a captured one.
 
+This skill fills documents by interviewing a person.
+`capabilities/company/doctrine/SESSION.md` says how that hour is run — above all, who has to
+be in the room for each question and who must not be.
+
 ## STOP conditions
 
 - **The person in the room cannot approve public claims.** Capture what you can, record who must

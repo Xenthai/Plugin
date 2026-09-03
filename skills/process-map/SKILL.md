@@ -111,6 +111,7 @@ finding** — record both attributions rather than reconciling them into one acc
 
 | File | Read it when |
 | --- | --- |
+| `capabilities/company/doctrine/SESSION.md` | Before any session that fills a document by asking a person |
 | `capabilities/process/doctrine/PROCESS.md` | Before the session, always. Field list, SIPOC prompt, table-not-diagram reasoning, Mexican specifics |
 | `scaffold/company/PROCESSES.md` | At the start of writing — it is the skeleton to copy |
 | `skills/process-access/SKILL.md` | Only to tell the client what comes next. Never run it in this session |

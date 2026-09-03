@@ -78,6 +78,7 @@ Company files change through `Write` and `Edit` only. `capabilities/company/doct
 
 | File | Read it when |
 | --- | --- |
+| `capabilities/company/doctrine/SESSION.md` | Before any session that fills a document by asking a person |
 | `capabilities/company/doctrine/INTAKE.md` | Before asking for anything — check what a document already answers |
 | `capabilities/baseline/doctrine/MEASUREMENT.md` | A price or a duration is stated from memory and might become a claim |
 | `capabilities/social/doctrine/COPY.md` | A price or term is about to appear in public copy |

@@ -111,6 +111,7 @@ Company files change through `Write` and `Edit` only. `capabilities/company/doct
 
 | File | Read it when |
 | --- | --- |
+| `capabilities/company/doctrine/SESSION.md` | Before any session that fills a document by asking a person |
 | `capabilities/social/doctrine/PRESENCE.md` | Before capturing anything — observability per platform, benchmark refusal, the interpretive traps |
 | `capabilities/company/doctrine/REGULATORS-MX.md` | Screening what is published against what a regulator can act on |
 | `capabilities/company/doctrine/STANDARDS.md` | A framework or standard is about to be named in the deliverable |
