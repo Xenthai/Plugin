@@ -70,6 +70,23 @@ const SPANISH_FUNCTION_WORDS =
   /\b(que|de|la|el|los|las|en|con|para|se|no|una|del|por|es|su|lo|al|como|más|pero|si|ya|cada|sin)\b/gi;
 const MIN_SPANISH_PER_1000 = 150;
 
+/**
+ * Whether a document reads as Spanish, exported so `bin/status.mjs` can audit what actually landed
+ * in a company's store without a second copy of this rule. The scaffolds ship in es-MX, but a skill
+ * fills them during a session, and nothing until now checked the written result — so a document
+ * could carry Spanish headings and English content and look finished.
+ *
+ * Returns `null` rather than a verdict below the word floor. A document that is still mostly
+ * `— pendiente —` has almost no prose, and a density measured over thirty words says nothing.
+ */
+export const readsAsSpanish = (src) => {
+  const text = prose(src);
+  const words = text.match(/[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ'-]*/g) ?? [];
+  if (words.length < MIN_WORDS) return { verdict: null, words: words.length, per1000: null, floor: MIN_SPANISH_PER_1000 };
+  const per1000 = ((text.match(SPANISH_FUNCTION_WORDS) ?? []).length / words.length) * 1000;
+  return { verdict: per1000 >= MIN_SPANISH_PER_1000, words: words.length, per1000, floor: MIN_SPANISH_PER_1000 };
+};
+
 const VOWELS = "aeiouáéíóúüàèìòùâêîôûAEIOUÁÉÍÓÚÜÀÈÌÒÙÂÊÎÔÛ";
 const STRONG = new Set([..."aeoáéóàèòâêôAEOÁÉÓÀÈÒÂÊÔ"]);
 const ACCENTED_WEAK = new Set([..."íúìùîûÍÚÌÙÎÛ"]);

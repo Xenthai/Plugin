@@ -38,6 +38,48 @@ const company = (name, files) => {
 const cases = [];
 const check = (name, fn) => cases.push([name, fn]);
 
+/**
+ * The half of the language rule that had no enforcement. `doctor` gates the manifest's locale, and
+ * the scaffolds ship in es-MX — but a skill fills them during a session, and nothing checked the
+ * written result. A document carrying Spanish headings and English content looks finished, is read
+ * by the company's own people, and is a delivery defect.
+ *
+ * Both directions are asserted, and so is the abstention: a document still mostly `— pendiente —`
+ * has almost no prose, and a density measured over thirty words would flag every fresh scaffold.
+ */
+check("a document filled in the wrong language is reported and exits non-zero", () => {
+  const dir = company("idioma", ["BRAND.md", "VOICE.md"]);
+  const english = [
+    "# VOICE",
+    "",
+    "This document describes how the company writes and what it never says. The voice is direct and",
+    "plain, it avoids superlatives, and it never claims anything without a verification row behind it.",
+    "Every rule below is written as a word-level instruction rather than as an adjective, because an",
+    "adjective is not something a writer who is not the brand owner can apply consistently across a",
+    "month of posts and a dozen pieces of copy written by different people on different days.",
+    "",
+    "The list that follows names the words this company uses and the words it refuses, together with",
+    "a short reason for each one, so that a new writer can settle an argument about wording without",
+    "asking anyone. Where a rule depends on the platform, the platform is named. Where a rule exists",
+    "because a regulator would object to the alternative, the regulator is named as well, since a",
+    "rule whose reason nobody remembers is a rule somebody will quietly drop within a few months.",
+  ].join("\n");
+  writeFileSync(join(dir, "VOICE.md"), english, "utf8");
+  const r = run("--company", dir);
+  const spanishOk = /BRAND\.md\s+\S+\s+\S*\s*es-MX/.test(r.out) || /BRAND\.md[^\n]*es-MX/.test(r.out);
+  return [
+    r.code === 1 && /VOICE\.md[^\n]*NO ES es-MX/.test(r.out) && /IDIOMA EQUIVOCADO/.test(r.out) && spanishOk,
+    `exit ${r.code}; ${(r.out.match(/VOICE\.md[^\n]*/) ?? [])[0]}`,
+  ];
+});
+
+check("a fresh scaffold with almost no prose abstains rather than being called wrong", () => {
+  const dir = company("sinprosa", ["PROOF.md"]);
+  writeFileSync(join(dir, "PROOF.md"), "# PROOF\n\n| Afirmación | Fuente |\n| --- | --- |\n| — pendiente — | |\n", "utf8");
+  const r = run("--company", dir);
+  return [!/NO ES es-MX/.test(r.out) && /sin prosa/.test(r.out), (r.out.match(/PROOF\.md[^\n]*/) ?? [])[0]];
+});
+
 check("--help exits 0, because a caller reads a non-zero exit as a broken tool", () => {
   const r = run("--help");
   return [r.code === 0 && /status/i.test(r.out), `exit ${r.code}, ${r.out.length} bytes of help`];

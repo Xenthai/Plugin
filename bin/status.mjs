@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 import { readFileSync, readdirSync, existsSync } from "node:fs";
+
+import { readsAsSpanish } from "./legible.mjs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { readCompany } from "../lib/company.mjs";
@@ -10,8 +12,12 @@ const PLUGIN = join(HERE, "..");
 const HELP = `Xenth AI status — what each of a company's documents still needs, and who owes it.
 
 Reads the company's documents and reports, per document: whether it exists, how many fields are
-still marked pending, which sections are untouched, and which skill is supposed to fill it. A field
-nobody owns stays pending forever, which is the failure this surfaces.
+still marked pending, which skill is supposed to fill it, and whether what was written is actually
+in es-MX. A field nobody owns stays pending forever, and a document filled in the wrong language
+looks finished — those are the two failures this surfaces.
+
+The language column reads es-MX, "NO ES es-MX", or "sin prosa" when a document is still mostly
+pending and there is too little text to judge.
 
   node bin/status.mjs [--company <dir>] [--json] [--pending] [--help]
 
@@ -19,8 +25,9 @@ nobody owns stays pending forever, which is the failure this surfaces.
   --pending         List the pending field labels, not only the counts.
   --json            Machine-readable output.
 
-Exit 0 when every document exists, 1 when one is missing or unowned — a missing document is a
-phase that never ran, not a cosmetic gap.
+Exit 0 when every document exists, is owned, and reads as es-MX. Exit 1 otherwise — a missing
+document is a phase that never ran, and a document in the wrong language is a delivery defect,
+neither of which is a cosmetic gap.
 `;
 
 /**
@@ -104,10 +111,19 @@ const report = expected.map((name) => {
     exists,
     pending: exists ? (text.match(PENDING) ?? []).length : null,
     labels: exists ? pendingLabels(text) : [],
+    language: exists ? readsAsSpanish(text) : null,
     owedBy: owners,
     unowned: owners === null,
   };
 });
+
+/**
+ * Documents that exist and do NOT read as Spanish. The scaffolds ship in es-MX and a skill fills
+ * them in a session, so this is the only place the written result is checked — a document with
+ * Spanish headings and English content looks finished and is a delivery defect. `doctor` guarantees
+ * the manifest's locale is Spanish; this guarantees the files match it.
+ */
+const wrongLanguage = report.filter((r) => r.exists && r.language?.verdict === false);
 
 const missing = report.filter((r) => !r.exists);
 const unowned = report.filter((r) => r.unowned);
@@ -116,7 +132,14 @@ const totalPending = report.reduce((n, r) => n + (r.pending ?? 0), 0);
 if (args.json) {
   process.stdout.write(
     JSON.stringify(
-      { company: ctx.company?.name ?? args.company, totalPending, missing: missing.map((r) => r.document), unowned: unowned.map((r) => r.document), report },
+      {
+        company: ctx.company?.name ?? args.company,
+        totalPending,
+        missing: missing.map((r) => r.document),
+        unowned: unowned.map((r) => r.document),
+        wrongLanguage: wrongLanguage.map((r) => r.document),
+        report,
+      },
       null,
       2
     ) + "\n"
@@ -125,8 +148,15 @@ if (args.json) {
   process.stdout.write(`\n${ctx.company?.name ?? ctx.root}\n\n`);
   for (const r of report) {
     const state = !r.exists ? "AUSENTE" : r.pending === 0 ? "completo" : `${r.pending} pendientes`;
+    const lang = !r.exists
+      ? ""
+      : r.language?.verdict === false
+        ? "NO ES es-MX"
+        : r.language?.verdict === null
+          ? "sin prosa"
+          : "es-MX";
     process.stdout.write(
-      `  ${r.document.padEnd(16)} ${state.padEnd(16)} ${r.unowned ? "*** sin dueño ***" : r.owedBy.join(", ")}\n`
+      `  ${r.document.padEnd(16)} ${state.padEnd(16)} ${lang.padEnd(12)} ${r.unowned ? "*** sin dueño ***" : r.owedBy.join(", ")}\n`
     );
     if (args.pending && r.labels.length) {
       for (const l of r.labels.slice(0, 12)) process.stdout.write(`      · ${l}\n`);
@@ -137,6 +167,13 @@ if (args.json) {
   if (unowned.length) {
     process.stdout.write(`  DEFECTO DEL PLUGIN: ${unowned.map((r) => r.document).join(", ")} no tiene fase que lo llene\n`);
   }
+  if (wrongLanguage.length) {
+    const named = wrongLanguage.map((r) => `${r.document} (${r.language.per1000.toFixed(0)}/1000, piso ${r.language.floor})`).join(", ");
+    process.stdout.write(
+      `  IDIOMA EQUIVOCADO: ${named}\n` +
+        "  Estos documentos los lee la gente de la empresa. El scaffold nace en es-MX y una sesión lo llenó en otro idioma.\n"
+    );
+  }
 }
 
-process.exit(missing.length || unowned.length ? 1 : 0);
+process.exit(missing.length || unowned.length || wrongLanguage.length ? 1 : 0);

@@ -192,6 +192,31 @@ The third answer is the one worth pausing on. A client who cannot trace this is 
 plugin does not solve it for them — it solves it only for the work that passes through the plugin.
 Claiming otherwise would be exactly the overreach `§1` refuses.
 
+## 4c. The language a document is written in is a control, not a preference
+
+The company's documents are read by that company's own people. So their language is decided by the
+manifest's `locale` and never by whatever language the current conversation happens to be in — an
+operator switching to English for one message must not turn a client's deliverable into English.
+
+That rule used to be prose with nothing behind it, in the worst way: `locale` sat in every manifest
+and **was read by nothing**, so it looked like a control and was decoration. Two things enforce it
+now, and they cover different halves:
+
+| Where | What it catches |
+| --- | --- |
+| `doctor`, on the manifest | A locale this toolchain cannot honour. Every client-facing part is Spanish by construction — the scaffolds, the report templates, `bin/report.mjs`'s prose, and the readability index whose scale and syllable rules are Spanish-only — so a non-Spanish locale is refused rather than ignored |
+| `status`, on each written document | A document that **was filled** in the wrong language. The scaffold ships in es-MX and a session fills it, and a file with Spanish headings and English content looks finished |
+
+`status` abstains rather than guessing when a document is still mostly `— pendiente —`: a language
+measured over thirty words says nothing, and flagging every fresh scaffold would train an operator
+to ignore the column.
+
+**The failure this closes is a wrong answer that looks right**, which is the class this plugin
+spends most of its rules on. It was also committed here: the readability index scored this plugin's
+own English `INSTALL.md` at 87 and *muy fácil* for a while, because a Spanish formula run on English
+still lands in its plausible range and still prints a band. A measurement that cannot fail on the
+wrong input is not a measurement.
+
 ## 5. Name one source of truth per artefact, before there are two
 
 > **For every artefact the process produces, name one system as the source of truth, with
