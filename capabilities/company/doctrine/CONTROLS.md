@@ -293,9 +293,23 @@ English 150× below. Two things fell out of it worth keeping:
   (22 against an external 1) and its Spanish is more telegraphic (318 against an external 394). The
   floors were therefore calibrated conservatively by accident, which is the safe direction.
 
-**What is still only internally validated** is the specific hard case: short, telegraphic es-MX
-marketing copy. No external sample of that was obtained, so the chart piece standing in for it was
-written here. If that case ever misbehaves, this is the paragraph that says why nobody had checked.
+The hard case was checked separately, because it is the one that matters most: short, telegraphic
+es-MX commercial copy, taken from a Mexican company's own site rather than written here.
+
+| Sample | Words | Function words / 1000 | Accents / 1000 |
+| --- | --- | --- | --- |
+| Full navigation, headings and taglines | 135 | 230 | 200 |
+| One piece's worth, twelve strings | 38 | 263 | 158 |
+| **Buttons and taglines only** — the hardest realistic case | 32 | **219** | **188** |
+| One-word navigation labels only | 16 | abstains | abstains |
+
+Real commercial copy clears both floors with room, and it turned out to be **easier than the fixture
+written here** — 219 to 263 function words per thousand against the fixture's 125 — because real
+short copy keeps more prepositions than an invented example does. Every calibration in this check
+therefore errs toward the conservative side, which is the direction that fails safe.
+
+The one-word case abstaining is correct rather than a gap: sixteen single-word labels cannot be
+assigned a language and the tool says so instead of guessing.
 
 **Crying wolf on correct work is the worse failure of the two.** A check that flags a good piece
 teaches its reader to stop looking, and after that it catches nothing at all.
