@@ -202,6 +202,29 @@ check("--out writes the digest and reports the verdict on stdout", (() => {
   return r.status === 0 && /OK|WATCH|ACT/.test(r.stdout) && readFileSync(out, "utf8").includes("Digest de compromiso");
 })(), "out");
 
+/**
+ * The layout `INSTALL.md` documents, exercised as the scheduled task will run it: working folder is
+ * the engagement folder, journal directly under it, `digest` its sibling. Relative paths only —
+ * every absolute path in a routine's prompt is a value that goes stale on a plugin update, a machine
+ * change or a folder move, and the symptom is a routine that silently stopped.
+ */
+check("the documented layout works from the engagement folder with relative paths only", (() => {
+  const engagement = join(SANDBOX, "Acme", "engagement");
+  mkdirSync(join(engagement, "journal", "execution"), { recursive: true });
+  writeFileSync(join(engagement, "journal", "execution", "2026-08.jsonl"), `${LIVE.map((r) => JSON.stringify(r)).join("\n")}\n`, "utf8");
+  writeFileSync(
+    join(engagement, ".company.json"),
+    JSON.stringify({ schema_version: 1, id: "acme-sa", name: "Acme SA", store: { kind: "gdrive", root: "1ABC" } }),
+    "utf8"
+  );
+  const r = spawnSync(process.execPath, [CLI, "--journal", ".", "--out", "../digest/estado.md"], { encoding: "utf8", cwd: engagement });
+  let body = "";
+  try {
+    body = readFileSync(join(SANDBOX, "Acme", "digest", "estado.md"), "utf8");
+  } catch {}
+  return r.status === 0 && body.includes("acme-sa") && body.includes("Digest de compromiso");
+})(), "relative layout");
+
 check("--help exits 0 and states that it runs with no model in the loop", (() => {
   const r = run("--help");
   return r.status === 0 && /without a session/.test(r.stdout) && /counts, dates and verdicts ONLY/.test(r.stdout);

@@ -32,6 +32,22 @@ moves.
   has a step that must precede the binding: Drive's OAuth. The four steps a person must do are named
   as such, with why none of them is a gap in the plugin — a plugin cannot declare or install a
   connector, and "anyone with the link" is not in the API surface the Drive connector reaches.
+- **No routine carries an absolute path any more, and the engagement folder moved inside the synced
+  Drive folder.** A plugin is cached at `cache/<marketplace>/<plugin>/<version>/`, so its absolute
+  path changes on every release — a routine prompt with the plugin path written into it works until
+  the next update and then fails, with a stale digest as the only symptom, which sends the operator
+  looking at the machine and the schedule when the cause was a release. The prompt now reads the
+  path from the session's own start-up announcement and refuses rather than guessing when that line
+  is absent. Approving a task's command has the same shape, so a release can require approving again.
+- **The journal is now durable and the client has their own copy.** It is written to
+  `<engagement folder>/journal/execution/`, and that folder was documented as living anywhere on
+  disk — so it existed on exactly one machine, and that machine dying took the whole audit trail and
+  the ability to report with it. Worse, every report already instructs the client to check its
+  SHA-256 **against their own copy of the journal**, and they had none: the verification block was an
+  instruction nobody could follow. Putting the engagement folder inside the synced company folder
+  fixes both with no code, and drops every path from the digest routine — the working folder is the
+  engagement folder, so the journal is `.` and the digest is `../digest`. Asserted against that exact
+  layout.
 - **Every routine runs as a Claude Desktop scheduled task** — the Programado section — and the
   scheduling doctrine now says so as a decision rather than leaving the mechanism per-routine. An
   operating-system task is technically better for the deterministic ones, since it costs nothing,

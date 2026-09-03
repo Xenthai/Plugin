@@ -84,6 +84,28 @@ de hoy"* — or a late run produces a document with the wrong date on it.
 which document, which folder, which command, what done looks like. A prompt that says "continue what
 we discussed" runs against nothing.
 
+### Never write this plugin's own path into a routine's prompt
+
+A plugin is cached at `cache/<marketplace>/<plugin>/<version>/`, so **its absolute path changes every
+time the plugin is updated.** A routine prompt carrying a hardcoded plugin path therefore works until
+the next release and then fails, and the only symptom is a routine that stopped — which §1 already
+says is ambiguous from outside the machine. The operator would go looking at the machine, the app and
+the schedule, and the cause would be a release.
+
+The session's own start-up announcement carries the resolved path, and it fires in a scheduled
+session exactly as in a manual one. So a routine prompt reads the path from that announcement, and
+**refuses rather than guessing** when the line is not there. The company's own folder path is stable
+and may be written in.
+
+This is the same class of failure as a hardcoded `store.root`: a value that is correct on the day it
+is written and silently wrong later. Anything version-shaped, install-shaped or machine-shaped gets
+resolved at run time or refused.
+
+**A permission approval has the same shape.** Approving a task's command once is recorded against the
+command as written, so a release that moves the path can require approving again — and until somebody
+does, the run stalls. Two consequences: check the digest after every plugin update, and treat a
+routine that stopped right after a release as that first, before anything about the engagement.
+
 ## 3. What gets scheduled at setup, and what deliberately does not
 
 Only one routine is justified on day one:

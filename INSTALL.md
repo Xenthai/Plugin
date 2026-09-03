@@ -45,13 +45,28 @@ used and what breaks without them.
 | macOS    | `npx playwright install chromium` once. macOS ships only Safari, which cannot be driven this way |
 | Linux    | `npx playwright install chromium` once                                                           |
 
-## 5. The engagement folder
+## 5. The engagement folder — inside the synced Drive folder
 
-One folder per company, anywhere on disk:
+One folder per company, and **it goes inside the company's Drive folder as synced by Google Drive for
+Desktop** (step 6b installs it; do that first if it is not there):
 
 ```bash
-mkdir "Acme"
+mkdir "G:\Mi unidad\Acme\engagement"
 ```
+
+Placing it there rather than anywhere on disk is deliberate, and it settles three things at once:
+
+- **The journal becomes durable.** It is written to `<engagement folder>/journal/execution/`, so
+  outside a synced folder it exists on exactly one machine. That machine dying takes the whole audit
+  trail with it, and with it the ability to report on the engagement at all.
+- **The client gets their own copy**, which the reports already assume they have: every report tells
+  them to check its SHA-256 against their own copy of the journal. Without this they have none, and
+  the verification block is an instruction nobody can follow.
+- **No routine needs an absolute path.** The scheduled task's working folder is this folder, so the
+  journal is `.` and the digest is `../digest` — see 6b.
+
+If Drive for Desktop is set to **stream** rather than mirror, files are not kept on local disk. Set
+that company's folder to be available offline, or the routine reads nothing when the network is down.
 
 Then open a session in that folder and invoke `company-new`. It asks for the five fields nothing can
 infer, writes the manifest, creates the company's root folder in its store, and runs `doctor` — in
@@ -142,25 +157,35 @@ rutina**, and choose **Local** — not Cloud. A cloud routine runs on Anthropic'
 | --- | --- |
 | Nombre | `xenthai-digest` |
 | Descripción | Escribe el digest de estado. No envía datos de la empresa |
-| Carpeta | The engagement folder — the one holding `.company.json` |
+| Carpeta | The engagement folder — the one holding `.company.json`, inside the synced Drive folder |
 | Programación | **Diaria**, at an hour the machine is normally on and awake |
 | Modelo | The cheapest available. The task runs one command and stops; nothing here needs judgement |
 | Worktree | Off. This folder is not a repository |
 
-Instructions, verbatim — replace only the two paths:
+Instructions, verbatim — replace only the company path:
 
 ```
-Corre exactamente este comando y nada más:
+El anuncio de inicio de esta sesión trae la línea "Plugin root: <ruta>". Toma esa ruta y corre
+exactamente este comando, nada más:
 
-node "<ruta del plugin>/bin/watch.mjs" --journal "<ruta local de la carpeta de la empresa>" --out "<ruta local>/digest/estado.md"
+node "<Plugin root>/bin/watch.mjs" --journal . --out ../digest/estado.md
 
 Después confirma en una línea si el archivo se escribió y cuál fue el veredicto. No abras ningún
 otro archivo, no leas la bitácora, no interpretes el resultado y no escribas nada más. Si el comando
-falla, reporta el error tal cual y detente.
+falla, reporta el error tal cual y detente. Si el anuncio de inicio no trae esa línea, no adivines
+la ruta: repórtalo y detente.
 ```
 
-Get the plugin path from any session with `echo $CLAUDE_PLUGIN_ROOT`. The company path is the local
-one Drive for Desktop gave the synced folder, not the Drive URL.
+**Do not write the plugin's path into the prompt.** A plugin is cached at
+`cache/<marketplace>/<plugin>/<version>/`, so **its absolute path changes on every update** — a
+hardcoded path makes the routine fail the day the plugin is upgraded, and the only symptom is a
+digest that stopped advancing. The session's own start-up announcement carries the resolved path, and
+that announcement fires in a scheduled session exactly as it does in a manual one.
+
+**And no company path either.** The task's working folder is the engagement folder, the journal is
+directly under it, and `digest` is its sibling — so `.` and `../digest` are the whole of it. The only
+value the prompt carries is the plugin root, read at run time from the announcement. Nothing in this
+routine can be made stale by a plugin update, a machine change or a folder move.
 
 ### Then run it once, or it is not finished
 
