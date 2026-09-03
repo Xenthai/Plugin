@@ -307,6 +307,27 @@ check("bootstrap titles the session with the bound company, and titles nothing w
   ];
 });
 
+/**
+ * Announced once by the hook rather than repeated in twenty skills — the same reason the plugin root
+ * is. It has to reach every skill, including the ones no shared doctrine file is wired into, and a
+ * rule stated per-skill is paid for on every invocation and drifts between wordings.
+ *
+ * Both halves are asserted because they pull opposite ways: the operator is answered in the language
+ * they wrote in, and the company's documents keep the language its manifest declares regardless.
+ * Losing the second half would let one English message turn a client's deliverable into English.
+ */
+check("bootstrap states the language rule, for the operator and for the documents separately", () => {
+  const r = run("hooks/bootstrap.mjs", { hook_event_name: "SessionStart" }, CO_A, { CLAUDE_PLUGIN_ROOT: ROOT });
+  let ctx = "";
+  try {
+    ctx = JSON.parse(r.out).hookSpecificOutput.additionalContext;
+  } catch {}
+  return [
+    /language they wrote to you in/.test(ctx) && /documents keep the language its \.company\.json declares/.test(ctx),
+    ctx.slice(0, 140),
+  ];
+});
+
 check("cli --help exits 0 so callers can discover it without reading the source", () => {
   const r = cli(["--help"], CO_A);
   return [r.status === 0 && /--event/.test(r.stdout), `exit ${r.status}`];

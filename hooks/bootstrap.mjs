@@ -23,7 +23,21 @@ const main = () => {
   const company = readCompany();
   const root = process.env.CLAUDE_PLUGIN_ROOT ?? null;
 
-  const lines = ["Xenth AI Plugin ready."];
+  /**
+   * Announced once here rather than repeated in twenty skills, for the same reason the plugin root
+   * is: the model reads every loaded instruction, so a rule stated per-skill is paid for on every
+   * invocation and drifts between wordings. It also has to reach the twelve skills that no shared
+   * doctrine file happens to be wired into.
+   *
+   * The two halves pull in opposite directions and both matter. The operator is a person having a
+   * conversation and gets answered in the language they wrote in. The company's documents are
+   * deliverables read by that company's own people, so their language is decided by the manifest's
+   * `locale` and never by whatever language the current message happened to be in.
+   */
+  const lines = [
+    "Xenth AI Plugin ready.",
+    "Reply to the operator in the language they wrote to you in. The company's own documents keep the language its .company.json declares, whatever language this conversation is in.",
+  ];
   lines.push(
     company.ok
       ? `Bound company: ${company.company.name} (${company.company.id}). State it in your first reply. ` +

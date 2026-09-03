@@ -12,11 +12,26 @@ with every image missing.
 This skill does not do the work of `company-new` or `company-intake`. It sequences them, and it makes
 sure the steps around them happen.
 
-## Before anything: is this a setup, or a rescue?
+## Your first reply is the whole list, before you run anything
 
-Read the state before acting. If a `.company.json` already exists up the tree, this is not a first
-visit — say which company is bound, run `doctor`, and report which of the seven steps below are
-already done. **A setup that starts over destroys work.**
+**Print the seven steps first.** Not a summary, not "empecemos" — the list, with who does each one
+and what it needs, so the operator can read the entire visit before it starts and can see what they
+have to ask the client for.
+
+This is the point of the skill. An operator standing at a client's desk needs the list in front of
+them, not discovered one step at a time; and the four steps that need a person are the ones worth
+knowing about before you are half-way in. Render the table from **The seven steps** below, then the
+line about what cannot be automated, then say what you need first.
+
+In the operator's own language. The session's start-up announcement carries that rule.
+
+Only then run the diagnostics. The order matters: a checklist read first is a plan, and a checklist
+read after two commands exited 1 is a correction.
+
+## Then read the machine's state — setup, or rescue?
+
+If a `.company.json` already exists up the tree, this is not a first visit — say which company is
+bound, and report which of the seven are already done. **A setup that starts over destroys work.**
 
 ```bash
 node "${CLAUDE_PLUGIN_ROOT}/bin/doctor.mjs"
