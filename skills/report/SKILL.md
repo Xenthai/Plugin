@@ -192,6 +192,7 @@ node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event delivery --capability repor
 | File | Open it when |
 | --- | --- |
 | `<store>/BASELINE.md` | Always, before writing anything about improvement |
+| `capabilities/company/doctrine/MATURITY.md` | The quarterly re-measure of level, and the annual question of whose level actually moved |
 | `<store>/PROOF.md` | The report will carry a figure or name the client might republish |
 | `<store>/journal/execution/<YYYY-MM>.jsonl` | A figure looks wrong and you need the rows behind it |
 | `lib/journal.mjs` | You need the exact row shape, or the `EVENTS` vocabulary |

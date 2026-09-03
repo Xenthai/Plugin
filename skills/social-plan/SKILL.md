@@ -87,6 +87,17 @@ node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event approval --actor "person:<n
   --capability social --why "approved the plan for <period>" --target "content/<YYYY-MM>/plan.md"
 ```
 
+## Reference material
+
+Load these only when the condition applies. They are long on purpose and cost nothing until read.
+
+| File | Read it when |
+| --- | --- |
+| `capabilities/social/doctrine/COPY.md` | Choosing topics, or writing any client-facing words into the plan |
+| `capabilities/social/doctrine/PRESENCE.md` | The plan's baseline is being set, or a competitor is about to be named — it carries why no industry benchmark comparison is honest |
+| `capabilities/report/doctrine/REPORTING.md` | Deciding what the plan will be measured against, and on what cadence |
+| `capabilities/company/doctrine/REGULATORS-MX.md` | A pillar or a topic would put a price, a claim or a health statement in public |
+
 ## STOP conditions
 
 - **`PROOF.md` is empty and the plan needs claims.** Plan only pieces that make no claim, and say

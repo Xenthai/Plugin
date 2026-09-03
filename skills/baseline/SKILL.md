@@ -146,4 +146,5 @@ recurring-task durations skew high when recalled — the attribution is what mak
 | File | Read it when |
 | --- | --- |
 | `capabilities/baseline/doctrine/MEASUREMENT.md` | Before the first baseline of an engagement; whenever a client questions a metric, an attribution claim, or why there is no single maturity score; before publishing any outcome figure |
+| `capabilities/company/doctrine/MATURITY.md` | Recording the company's level per area — the artefact that proves a level, and who built it |
 | `scaffold/company/BASELINE.md` | Writing or updating the company's own `BASELINE.md` — it is the es-MX structure the director reads |

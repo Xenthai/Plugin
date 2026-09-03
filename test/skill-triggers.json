@@ -205,6 +205,190 @@
       "split": "train",
       "kind": "near-miss",
       "why": "Baseline measurement is a roadmap capability; the elicitation rule lives in doctrine, but no skill in skills/ implements it."
+    },
+    {
+      "id": "new-company-first-folder",
+      "query": "Cerramos con Grupo Ferretero Sarmiento. Nunca hemos trabajado con ellos, no hay carpeta ni nada. ¿Cómo arranco para que quede bien desde el principio y no se me revuelva con los otros clientes?",
+      "expected": "company-new",
+      "split": "train",
+      "kind": "target",
+      "why": "No manifest and no folder exist yet. The binding has to be created before any document, and the stated worry about mixing clients up is exactly what the manifest prevents."
+    },
+    {
+      "id": "new-company-vs-doctor",
+      "query": "Ya tengo la carpeta de Sarmiento con su .company.json lleno, pero cuando intenté escribir el BRAND.md me dijo que no encontraba el store. ¿Qué está mal?",
+      "expected": "doctor",
+      "split": "test",
+      "kind": "near-miss",
+      "why": "A manifest that exists but cannot reach the store is a health problem, not a binding problem. The surface says new company; the answer is the install check."
+    },
+    {
+      "id": "intake-ask-for-files",
+      "query": "Mañana es la primera sesión con Sarmiento y no quiero quemarles dos horas preguntando cosas que ya tienen escritas. ¿Qué les pido de una vez para no andar goteando peticiones cada semana?",
+      "expected": "company-intake",
+      "split": "train",
+      "kind": "target",
+      "why": "Requesting the documents a company already maintains, in one message rather than dripped, is intake's entire job."
+    },
+    {
+      "id": "intake-vs-offer-pricelist",
+      "query": "Sarmiento ya me mandó su lista de precios y un par de cotizaciones reales. Necesito dejar asentado qué venden, con qué existencias y bajo qué condiciones de pago se cotiza.",
+      "expected": "company-offer",
+      "split": "test",
+      "kind": "near-miss",
+      "why": "The files already arrived, so this is no longer a request. Capturing what is sold and on what terms belongs to company-offer; intake only routes the file here."
+    },
+    {
+      "id": "offer-discount-authority",
+      "query": "En la junta salió que el gerente de ventas da descuentos hasta cierto punto y de ahí para arriba habla con el dueño, pero nadie me dio el número. ¿Dónde va eso y por qué me insistes tanto en ese dato?",
+      "expected": "company-offer",
+      "split": "train",
+      "kind": "target",
+      "why": "The discount limit and who authorises past it is one of the five fields that decide whether a quoting automation is possible at all."
+    },
+    {
+      "id": "process-router-vague-automate",
+      "query": "El dueño de Sarmiento dice que quiere automatizar cosas. No sé si ya deberíamos estar mapeando o si eso es otra fase. En el store ya hay BRAND.md y VOICE.md.",
+      "expected": "process",
+      "split": "train",
+      "kind": "target",
+      "why": "\"Queremos automatizar cosas\" fits both process phases, and the identity documents present say nothing about which. The router reads the store and decides."
+    },
+    {
+      "id": "process-map-inventory",
+      "query": "Sesión de mañana con Sarmiento: hay que levantar todos los procesos que tienen, no sólo los que duelen. Son como veinte personas entre ventas, almacén y facturación y no tienen nada escrito.",
+      "expected": "process-map",
+      "split": "train",
+      "kind": "target",
+      "why": "Naming every process breadth-first, with nothing written down, is phase 3. The absence of written procedure is the finding, not an obstacle."
+    },
+    {
+      "id": "process-access-shortlist",
+      "query": "Ya está el PROCESSES.md de Sarmiento con las fichas, pero las secciones de dolor y accesos están en pendiente. El dueño quiere saber qué automatizamos primero y cuánto le costaría.",
+      "expected": "process-access",
+      "split": "test",
+      "kind": "target",
+      "why": "The inventory exists and the pain and access sections are pending, which is precisely phase 4's entry condition."
+    },
+    {
+      "id": "process-map-vs-access-order",
+      "query": "Sarmiento no tiene PROCESSES.md todavía y el dueño ya me está pidiendo el listado priorizado de qué automatizar con su costo.",
+      "expected": "process-map",
+      "split": "test",
+      "kind": "near-miss",
+      "why": "The request names the phase 4 output, but with no inventory there is nothing to rank. The surface points at process-access; the correct answer refuses and maps first."
+    },
+    {
+      "id": "baseline-before-numbers",
+      "query": "Antes de tocar nada en Sarmiento quiero dejar por escrito cómo están operando hoy: cuánto tardan en cotizar, cuánto retrabajo traen, cuántos procesos no tienen procedimiento. Para que en seis meses se pueda comparar.",
+      "expected": "baseline",
+      "split": "train",
+      "kind": "target",
+      "why": "A dated company-wide before, captured so a later comparison is possible, is the baseline capability and not a social measurement."
+    },
+    {
+      "id": "baseline-vs-report-remeasure",
+      "query": "Ya pasó el primer trimestre con Sarmiento. Hay que volver a medir lo mismo que medimos al inicio y armar lo que se le entrega al dueño.",
+      "expected": "report",
+      "split": "test",
+      "kind": "near-miss",
+      "why": "The re-measure is the quarterly report's own content. The surface says measure; the deliverable is the cadence report, which decides what may be claimed from it."
+    },
+    {
+      "id": "report-hours-saved",
+      "query": "El dueño de Sarmiento me preguntó en la junta cuántas horas le hemos ahorrado y quiere el número para su consejo. ¿Qué le contesto?",
+      "expected": "report",
+      "split": "train",
+      "kind": "target",
+      "why": "Hours saved is a counterfactual. The report skill is where that gets refused and replaced with touch time and concurrency."
+    },
+    {
+      "id": "presence-audit-first",
+      "query": "Sarmiento tiene Facebook, Instagram y creo que un LinkedIn que nadie usa. Antes de escribirles nada quiero saber cómo están hoy y qué tan mal está lo que ya publicaron.",
+      "expected": "social-presence",
+      "split": "train",
+      "kind": "target",
+      "why": "Observing the current public state before producing anything is phase 0, and it has to happen before identity influences what there is to observe."
+    },
+    {
+      "id": "presence-vs-benchmark-deck",
+      "query": "La agencia anterior de Sarmiento les dejó un reporte con su engagement rate comparado contra el promedio de la industria ferretera. El dueño quiere saber si vamos bien contra ese número.",
+      "expected": "social-presence",
+      "split": "test",
+      "kind": "target",
+      "why": "Answering an agency's benchmark deck is explicitly presence work: it carries why no industry comparison is honest and what to score the deck against instead."
+    },
+    {
+      "id": "handover-automation-live",
+      "query": "Hoy dejamos corriendo la cotización automática de Sarmiento en n8n. ¿Qué le tengo que entregar por escrito antes de irme, sobre todo si se equivoca un sábado y nadie está?",
+      "expected": "automate-handover",
+      "split": "train",
+      "kind": "target",
+      "why": "The day an automation goes live, what it does when it is wrong and who gets escalated to is the acceptance document."
+    },
+    {
+      "id": "handover-vs-report-performance",
+      "query": "La automatización de cotizaciones de Sarmiento lleva mes y medio corriendo. Toca decirle al dueño cómo le ha ido y si valió la pena.",
+      "expected": "report",
+      "split": "test",
+      "kind": "near-miss",
+      "why": "How an automation performed over time is a cadence report. The surface says automation; handover is acceptance and happens once, on day one."
+    },
+    {
+      "id": "handover-off-switch",
+      "query": "El dueño de Sarmiento me preguntó qué pasa si un día quiere apagar la automatización y yo no contesto el teléfono. Nunca lo habíamos escrito.",
+      "expected": "automate-handover",
+      "split": "train",
+      "kind": "target",
+      "why": "Whether the client can switch it off alone is the handover's own acceptance test, and its absence means the handover was never complete."
+    },
+    {
+      "id": "none-legal-opinion",
+      "query": "Sarmiento publicó en Facebook que son los distribuidores número uno del Bajío. Necesito un dictamen legal de si eso los expone con PROFECO y qué multa les tocaría.",
+      "expected": "none",
+      "split": "test",
+      "kind": "near-miss",
+      "why": "Screening what is published is presence work, but a legal opinion with a fine estimate is not something this practice produces. The correct answer names a lawyer."
+    },
+    {
+      "id": "none-build-the-n8n",
+      "query": "Ya tenemos el proceso de cotización mapeado y priorizado. Ahora constrúyeme el flujo en n8n con los nodos conectados y las credenciales puestas.",
+      "expected": "none",
+      "split": "train",
+      "kind": "near-miss",
+      "why": "Building the automation is the automate capability, which does not exist yet. Only its handover doctrine and acceptance skill do, so the honest answer says so rather than routing to automate-handover."
+    },
+    {
+      "id": "none-hire-someone",
+      "query": "Con todo lo que mapeamos de Sarmiento, ¿me armas la vacante y el perfil de puesto para que contraten a alguien que haga las cotizaciones?",
+      "expected": "none",
+      "split": "test",
+      "kind": "near-miss",
+      "why": "Recruiting sits adjacent to the process map and the people document, but no skill claims job descriptions and inventing one would be scope creep."
+    },
+    {
+      "id": "intake-vs-people-orgchart",
+      "query": "Sarmiento me mandó el organigrama y la lista de nómina con puestos. Quiero que quede asentado quién decide de verdad y quién autoriza lo que se publica, porque el organigrama apunta a alguien que ya no está.",
+      "expected": "company-intake",
+      "split": "train",
+      "kind": "target",
+      "why": "A document arrived and needs extracting, and the three facts confirmed with a person even when a file states them are intake's step 3."
+    },
+    {
+      "id": "doctor-connector-silently-ok",
+      "query": "El conector de Drive aparece en verde en la configuración pero cuando le pedí subir el PRESENCE.md de Sarmiento no pasó nada y no dio error.",
+      "expected": "doctor",
+      "split": "train",
+      "kind": "target",
+      "why": "A connector that shows as connected while a call silently fails is the exact case doctor exists for."
+    },
+    {
+      "id": "doctor-vs-builtin-rightsize",
+      "query": "Siento que el plugin ya trae demasiadas instrucciones y se está haciendo lento. Quiero revisar si las skills y el CLAUDE.md están más largos de lo que deberían.",
+      "expected": "none",
+      "split": "test",
+      "kind": "near-miss",
+      "why": "Rightsizing skills and CLAUDE.md is Claude Code's own built-in /doctor, not this plugin's install check. The word doctor points one way and the correct answer is the built-in tool."
     }
   ]
 }

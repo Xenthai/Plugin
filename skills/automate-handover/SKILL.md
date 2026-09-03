@@ -127,6 +127,7 @@ Company files change through `Write` and `Edit` only. `capabilities/company/doct
 | File | Read it when |
 | --- | --- |
 | `capabilities/automate/doctrine/HANDOVER.md` | Before writing anything — the twelve items, the failure modes, the platform rules |
+| `capabilities/company/doctrine/MATURITY.md` | A workflow is climbing from Level 2 to Level 3, which is what scheduling it unattended means |
 | `capabilities/process/doctrine/PROCESS.md` | The suitability score is being questioned, or the process changed |
 | `capabilities/report/doctrine/REPORTING.md` | The automation's results are going into a cadence report |
 | `capabilities/company/doctrine/REGULATORS-MX.md` | It produces anything a customer reads, or handles personal data |

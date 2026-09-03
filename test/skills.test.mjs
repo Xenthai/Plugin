@@ -178,6 +178,52 @@ check("two wordings of one policy would fail", () => {
   return [forms.size > 1, "the same policy in two wordings was detected as two forms"];
 });
 
+/**
+ * Doctrine is only reachable through a skill's reference table, so a file no skill points at is
+ * unreachable — written, paid for in review time, and never loaded. This caught MATURITY.md an hour
+ * after it was written, which is the same orphaned-record failure the controls doctrine warns about,
+ * committed against itself.
+ */
+check("every doctrine file is reachable from at least one skill", () => {
+  const bodies = names.map((n) => readFileSync(join(SKILLS, n, "SKILL.md"), "utf8")).join("\n");
+  const caps = join(ROOT, "capabilities");
+  const orphans = [];
+  let total = 0;
+  for (const cap of readdirSync(caps, { withFileTypes: true }).filter((e) => e.isDirectory())) {
+    const dir = join(caps, cap.name, "doctrine");
+    if (!existsSync(dir)) continue;
+    for (const file of readdirSync(dir).filter((f) => f.endsWith(".md"))) {
+      total++;
+      if (!bodies.includes(`${cap.name}/doctrine/${file}`)) orphans.push(`${cap.name}/${file}`);
+    }
+  }
+  return [
+    orphans.length === 0,
+    orphans.length ? `unreachable doctrine: ${orphans.join(", ")}` : `${total} doctrine files, all reachable`,
+  ];
+});
+
+/**
+ * Progressive disclosure is the whole reason the doctrine is separate: a skill body stays short and
+ * loads the long reasoning only when its condition applies. A skill with no reference table has
+ * either inlined that reasoning or is missing it, and both are defects worth catching.
+ */
+check("every skill offers progressive disclosure rather than inlining its reasoning", () => {
+  const bare = names.filter((n) => {
+    const t = readFileSync(join(SKILLS, n, "SKILL.md"), "utf8");
+    return !/capabilities\/[a-z]+\/doctrine\/[A-Z-]+\.md/.test(t);
+  });
+  return [
+    bare.length === 0,
+    bare.length ? `no doctrine reference: ${bare.join(", ")}` : `${names.length} skills reference doctrine`,
+  ];
+});
+
+check("an orphaned doctrine file would be caught", () => {
+  const bodies = "capabilities/social/doctrine/COPY.md";
+  return [!bodies.includes("company/doctrine/GHOST.md"), "a doctrine file no skill names was detected as unreachable"];
+});
+
 check("a skill with a third frontmatter key would fail", () => {
   rmSync(SANDBOX, { recursive: true, force: true });
   mkdirSync(SANDBOX, { recursive: true });

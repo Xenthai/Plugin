@@ -178,5 +178,6 @@ a recipient.**
 | File | Read it when |
 | --- | --- |
 | `capabilities/process/doctrine/PROCESS.md` | Before the session, always. §4 governance fields and §5 scoring provenance are the two you will use most |
+| `capabilities/company/doctrine/MATURITY.md` | Closing the mapping — the six-month phase framework and what each phase owes |
 | The company's `PROCESSES.md` | Before asking anything — phase 3 already captured the systems and exceptions this session builds on |
 | `skills/process-map/SKILL.md` | Only if `PROCESSES.md` turns out to be missing. Then stop and run phase 3 in its own session |
