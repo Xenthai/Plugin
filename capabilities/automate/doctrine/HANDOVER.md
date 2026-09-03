@@ -207,6 +207,78 @@ output metric dressed as an outcome, and a director will discount it correctly.
 
 ---
 
+## 5b. The document is read by the operator, not by the person who signed it
+
+Every rule above is about what the handover document must contain. This one is about whether the
+person who needs it can read it, and it is the rule most likely to be skipped because the document
+looks finished without it.
+
+Two different people touch a handover:
+
+- **The director signs it.** They read the scope, the liability and the cost. They read it once,
+  calmly, at a desk, and they are used to reading contracts.
+- **The operator uses it.** They read the failure section, on the floor, at the moment the thing
+  has already gone wrong, under time pressure, possibly on a phone. They read it exactly when
+  reading is hardest.
+
+The plugin's other client-facing documents are written for the director — *usted*, conclusion
+first, tables underneath. A handover document written that way puts the failure instructions in
+the register of a contract, and a control the operator cannot execute is not a control. Worse, the
+gap is invisible from the practice's side: the director signs, everyone agrees the document is
+good, and the first time anyone finds out otherwise is the first failure.
+
+There is a second reason not to trust the signature as evidence. Management is routinely unaware of
+the real exceptions in a process — the same finding that forces the baseline measure to come from
+the person who does the work, not from the person who describes it. A director's judgement that a
+document is clear is a judgement about a document describing work they do not perform.
+
+### The screen, and why there are two numbers
+
+`node bin/legible.mjs <file>` reports Szigriszt-Pazos perspicuity on the INFLESZ scale — the
+Spanish-validated adaptation of Flesch, not a translated English formula, because Spanish carries
+about two syllables per word against English's one and a half, so an English index reports every
+Spanish text as harder than it reads.
+
+| Number | Value | What it is |
+| --- | --- | --- |
+| Floor | 55 | Below the scale's own *normal* band. A handover document under this is a defect, not a style preference |
+| Target | 65 | The scale's *bastante fácil*. What the failure-recovery section specifically should clear, because that is the part read under pressure |
+
+Two numbers rather than one because the document is not uniform. The scope and cost sections can sit
+in the normal band; the section that says what to do when the automation is wrong should be easier
+than the rest of the document, and it is usually written harder, because it is written last and by
+whoever built the thing.
+
+**Words per sentence is the term you control.** Syllables per word barely moves in Spanish — the
+vocabulary of a business process is what it is. So a score below the floor is almost always a
+sentence-length problem, and the fix is to cut sentences in half rather than to hunt for shorter
+words.
+
+### The score is a screen, not the test
+
+A readability index is an output metric, and it fails in exactly the way this doctrine warns about
+everywhere else: it measures a property of the text, not whether anybody can act on it. A page of
+short sentences made entirely of jargon — *"Valide el payload. Escale al owner. Registre el
+incidente en la bitácora."* — scores well and is unusable. The index catches long sentences. It
+cannot catch a document that names things by their internal system names rather than by what the
+operator calls them.
+
+So the number is a gate on the way to the real test, which is this:
+
+> Hand the document to the operator who will actually use it. Ask them to perform the failure step
+> from it. Time it. **Say nothing** — no hints, no clarifying, no "well, what it means is". Note
+> every place they stopped, re-read, or guessed.
+
+That is a usability test with one participant, which sounds weak and is not: a document that one
+real operator cannot follow unaided will not be followed by the next one either, and the places
+they stopped are the exact edits to make. Record who performed it and what they got stuck on, in
+`AUTOMATIONS.md` alongside the acceptance, because that record is the evidence that the handover
+was a handover rather than a delivery.
+
+If the operator cannot perform the failure step from the document, the automation is not accepted.
+Not "accepted with a note" — the failure path *is* the deliverable, and an automation whose failure
+path only its builder can execute has been handed to nobody.
+
 ## 6. Sign the acceptance
 
 Record it as a journal `approval` row naming the person and the date, and state in the report what

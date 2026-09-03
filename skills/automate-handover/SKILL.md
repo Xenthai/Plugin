@@ -54,8 +54,32 @@ because nobody decided.**
 **Can the client switch it off, alone, without calling Xenth AI?**
 
 If not, the handover is incomplete regardless of how well the automation works. A client who cannot
-switch it off does not own it, whatever the contract says. Write the off instruction first and check
-it with the person who would have to use it.
+switch it off does not own it, whatever the contract says. Write the off instruction first.
+
+Then check it, and check it against the right person. **The director signs this document; the
+operator uses it** — on the floor, after the thing has already gone wrong, under time pressure. A
+failure instruction written in the register of a contract is a control the operator cannot execute,
+and the practice cannot see that from its side: the director signs, everyone agrees the document is
+good, and the first anyone learns otherwise is the first failure.
+
+Screen it before you take it to them:
+
+```bash
+node "${CLAUDE_PLUGIN_ROOT}/bin/legible.mjs" <path to AUTOMATIONS.md>
+```
+
+Floor 55, target 65 on the INFLESZ scale, measured over the document's prose only. Below the floor
+the fix is almost always sentence length — in Spanish, words per sentence is the term you control.
+`capabilities/automate/doctrine/HANDOVER.md` **§5b** carries why there are two numbers.
+
+**The score is a screen, not the test.** A page of short jargon sentences scores well and is
+unusable. The test is this, and it is the last gate before acceptance:
+
+> Hand the document to the operator who will use it. Ask them to perform the failure step from it.
+> Time it. **Say nothing.** Note every place they stopped, re-read, or guessed.
+
+If they cannot do it, the automation is not accepted — not "accepted with a note". The failure path
+is the deliverable. Record who ran the test and where they got stuck, in `AUTOMATIONS.md`.
 
 ## Take the before measurement, or say you did not
 

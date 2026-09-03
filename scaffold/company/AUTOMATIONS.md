@@ -183,6 +183,27 @@ va a tener un después creíble.
 **Qué significa esa firma:** que el cliente está de acuerdo en que la automatización hace lo que
 este documento dice, y que sabe cómo apagarla. **No** que nunca va a fallar.
 
+#### Prueba de operación
+
+Quien firma no es quien opera. La firma se hace en un escritorio, con calma. La falla se atiende en
+el piso, con prisa. Por eso la firma no alcanza como prueba.
+
+La prueba es esta. Se le entrega este documento a la persona que va a operar la automatización. Se
+le pide que ejecute el paso de falla usando solo el documento. Se le toma el tiempo. **No se le
+ayuda.** Se anota cada punto donde se detuvo, releyó o adivinó.
+
+| Dato | Valor |
+| --- | --- |
+| Quién hizo la prueba de operación | — pendiente — |
+| Puesto de esa persona | — pendiente — |
+| Fecha de la prueba | — pendiente — |
+| ¿Terminó el paso de falla sin ayuda? | — pendiente — |
+| Dónde se detuvo o dudó | — pendiente — |
+| Qué se corrigió en el documento después | — pendiente — |
+
+Si no pudo terminar sin ayuda, la automatización no queda aceptada. No queda "aceptada con
+observación". El paso de falla es el entregable.
+
 ---
 
 ## 3. Lo que no se pudo automatizar
