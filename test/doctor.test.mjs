@@ -18,7 +18,7 @@ const LOCAL = ["node", "browser", "fonts", "engine", "journal"];
 
 const manifest = (id, name, schema) =>
   JSON.stringify(
-    { schema_version: schema, id, name, timezone: "America/Mexico_City", store: { kind: "drive", root: "1DOCTORROOTXXXXXXXXXXXXXXXXXXXXXX" } },
+    { schema_version: schema, id, name, locale: "es-MX", timezone: "America/Mexico_City", store: { kind: "drive", root: "1DOCTORROOTXXXXXXXXXXXXXXXXXXXXXX" } },
     null,
     2
   );
@@ -97,7 +97,7 @@ const withRoot = (dir, root) => {
   mkdirSync(path, { recursive: true });
   writeFileSync(
     join(path, ".company.json"),
-    JSON.stringify({ schema_version: 1, id: `co-${dir}`, name: `Co ${dir}`, store: { kind: "drive", root } }, null, 2)
+    JSON.stringify({ schema_version: 1, id: `co-${dir}`, name: `Co ${dir}`, locale: "es-MX", store: { kind: "drive", root } }, null, 2)
   );
   return path;
 };
@@ -159,6 +159,30 @@ check("that run left exactly one health row in the bound company's journal: code
       !/[\\/]/.test(detail),
     `rows=${all.length} result=${row?.result} detail=${detail}`,
   ];
+});
+
+/**
+ * `locale` was in every manifest and read by nothing, which is worse than not having the field: it
+ * looks like a control and was decoration. Every client-facing part of this plugin is Spanish by
+ * construction — the scaffolds, the report templates, the report tool's own prose, and the
+ * readability index whose scale and syllable rules are Spanish-only. A manifest declaring en-US
+ * would have produced Spanish documents while claiming otherwise, so the field gates now.
+ */
+check("a non-Spanish locale FAILS the company check rather than silently producing Spanish", () => {
+  for (const [locale, label] of [["en-US", "english"], [null, "absent"], ["", "empty"]]) {
+    const dir = join(SANDBOX, `locale-${label}`);
+    mkdirSync(dir, { recursive: true });
+    writeFileSync(
+      join(dir, ".company.json"),
+      JSON.stringify({ schema_version: 1, id: "co-x", name: "Co X", locale, store: { kind: "drive", root: "1XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" } }),
+      "utf8"
+    );
+    const r = doctor(dir, ["--json"]);
+    if (r.code !== 1 || r.by.company?.status !== "FAIL" || r.by.company?.code !== "company:fail(unsupported-locale)") {
+      return [false, `${label}: exit ${r.code}, status ${r.by.company?.status}, code ${r.by.company?.code}`];
+    }
+  }
+  return [true, "en-US, absent and empty are each refused with unsupported-locale"];
 });
 
 check("a manifest from a newer plugin (schema_version 99) FAILS the company check and exits 1", () => {

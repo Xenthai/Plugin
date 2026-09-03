@@ -126,7 +126,28 @@ const checkCompany = (cwd) => {
         { id, name, path: ctx.path }
       );
     }
-    return result("company", "OK", `${name} (${id}) bound by ${ctx.path}, store ${root}`, null, { id, name, path: ctx.path });
+    /**
+     * `locale` was declared in every manifest and read by nothing, which is worse than not having
+     * the field: it looks like a control and is decoration. Every client-facing part of this plugin
+     * is Spanish by construction — the scaffolds, the report templates, `bin/report.mjs`'s own
+     * prose, and `bin/legible.mjs`, whose scale, syllable rules and bands are Spanish-only. A
+     * manifest declaring `en-US` would still produce Spanish documents while claiming otherwise.
+     *
+     * So the field now gates rather than describes. The day a non-Spanish client arrives, this
+     * refusal names exactly what has to be built instead of letting the engagement start on a
+     * promise the toolchain cannot keep.
+     */
+    const locale = ctx.company.locale;
+    if (typeof locale !== "string" || !/^es(-|$)/i.test(locale)) {
+      return result(
+        "company",
+        "FAIL",
+        `${name} (${id}) declares locale ${JSON.stringify(locale)}. Every client-facing part of this plugin is Spanish by construction — the scaffolds, the report templates and the readability index, whose scale and syllable rules are Spanish-only. A non-Spanish locale would produce Spanish documents while the manifest claimed otherwise, so it is refused rather than ignored`,
+        "unsupported-locale",
+        { id, name, path: ctx.path, locale: locale ?? null }
+      );
+    }
+    return result("company", "OK", `${name} (${id}) bound by ${ctx.path}, store ${root}, locale ${locale}`, null, { id, name, path: ctx.path, locale });
   }
   if (ctx.reason === "no-manifest") {
     return result(

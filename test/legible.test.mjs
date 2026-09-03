@@ -160,6 +160,25 @@ check("--json carries the floor, the target and every term of the formula", () =
   ];
 });
 
+/**
+ * The bug this catches was committed against this repository's own documents: `INSTALL.md` is
+ * English and scored 87 with the band "muy fácil" several times during development. Nothing about
+ * that number could mean anything — the scale is Spanish-validated, the syllable counter implements
+ * Spanish orthography, and the bands are Spanish reading habits — yet it landed inside the plausible
+ * envelope and printed like a measurement. A wrong answer that looks right is the worst class.
+ */
+check("an English document is refused rather than scored, in both directions", () => {
+  const english = run([join(ROOT, "INSTALL.md")]);
+  const spanish = run([join(ROOT, "scaffold", "company", "ROUTINES.md")]);
+  return [
+    english.status === 2 &&
+      /does not read as Spanish/.test(english.stderr) &&
+      spanish.status === 0 &&
+      /bastante fácil|muy fácil|normal/.test(spanish.stdout),
+    `english exit ${english.status}; spanish exit ${spanish.status}`,
+  ];
+});
+
 check("--help exits 0 and names the real test rather than only the score", () => {
   const r = run(["--help"]);
   return [r.status === 0 && /screen, not the test/.test(r.stdout), `exit ${r.status}`];

@@ -249,6 +249,12 @@ in the normal band; the section that says what to do when the automation is wron
 than the rest of the document, and it is usually written harder, because it is written last and by
 whoever built the thing.
 
+**It refuses anything that is not Spanish.** Every part of the index is Spanish-only — the scale, the
+syllable rules, the bands — and on other languages it still lands inside its plausible range and
+still prints a band, so it reads as a measurement and is not one. This plugin's own English
+`INSTALL.md` scored 87 and *muy fácil* before that guard existed. The tool measures a **client's**
+documents; the plugin's own English ones are not its subject.
+
 **Words per sentence is the term you control.** Syllables per word barely moves in Spanish — the
 vocabulary of a business process is what it is. So a score below the floor is almost always a
 sentence-length problem, and the fix is to cut sentences in half rather than to hunt for shorter

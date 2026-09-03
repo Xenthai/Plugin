@@ -52,6 +52,24 @@ export const TARGET = 65;
 const MIN_WORDS = 100;
 const THIN_WORDS = 200;
 
+/**
+ * Refuses text that is not Spanish, because every part of this index is Spanish-only and none of it
+ * fails loudly on English.
+ *
+ * The scale is Spanish-validated, the syllable counter implements Spanish diphthong and hiatus
+ * rules, and the bands are Spanish reading habits. Run on English the result still lands inside the
+ * plausible envelope and still prints a band, so it reads as a measurement and is not one. That is
+ * exactly what happened during development: this plugin's own English `INSTALL.md` scored 87 and
+ * "muy fácil" several times before anyone noticed the number could not mean anything.
+ *
+ * The discriminator is Spanish function-word density, measured over the prose the tool already
+ * extracts. It separates cleanly: this repository's English documents run 7 to 22 per thousand
+ * words, its es-MX scaffolds run 317, and an English document quoting Spanish prompts runs 81.
+ */
+const SPANISH_FUNCTION_WORDS =
+  /\b(que|de|la|el|los|las|en|con|para|se|no|una|del|por|es|su|lo|al|como|más|pero|si|ya|cada|sin)\b/gi;
+const MIN_SPANISH_PER_1000 = 150;
+
 const VOWELS = "aeiouáéíóúüàèìòùâêîôûAEIOUÁÉÍÓÚÜÀÈÌÒÙÂÊÎÔÛ";
 const STRONG = new Set([..."aeoáéóàèòâêôAEOÁÉÓÀÈÒÂÊÔ"]);
 const ACCENTED_WEAK = new Set([..."íúìùîûÍÚÌÙÎÛ"]);
@@ -161,10 +179,12 @@ export const measure = (src) => {
   const sen = sentences(text);
   const score = SZIGRISZT(syl, words.length, sen);
   const band = BANDS.find(([edge]) => score < edge)?.[1] ?? "muy fácil";
+  const spanish = words.length ? ((text.match(SPANISH_FUNCTION_WORDS) ?? []).length / words.length) * 1000 : 0;
   return {
     words: words.length,
     syllables: syl,
     sentences: sen,
+    spanish_per_1000: spanish,
     syllables_per_word: words.length ? syl / words.length : 0,
     words_per_sentence: words.length / sen,
     score,
@@ -221,6 +241,15 @@ const main = () => {
       process.stderr.write(
         `${f}: index ${m.score.toFixed(1)} is outside the plausible envelope ${ENVELOPE.join("..")}. ` +
           "The implementation is wrong, not the document. Do not report this number.\n"
+      );
+      process.exit(2);
+    }
+    if (m.words >= MIN_WORDS && m.spanish_per_1000 < MIN_SPANISH_PER_1000) {
+      process.stderr.write(
+        `${f}: this does not read as Spanish (${m.spanish_per_1000.toFixed(0)} Spanish function words per 1000, ` +
+          `floor ${MIN_SPANISH_PER_1000}). Every part of this index is Spanish-only — the scale, the syllable rules ` +
+          "and the bands — and on other languages it still prints a number and a band that mean nothing. Refusing " +
+          "rather than reporting one. This tool measures a client's own es-MX documents, not the plugin's English ones.\n"
       );
       process.exit(2);
     }
