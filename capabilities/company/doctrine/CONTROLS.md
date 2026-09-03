@@ -207,9 +207,24 @@ now, and they cover different halves:
 | `doctor`, on the manifest | A locale this toolchain cannot honour. Every client-facing part is Spanish by construction — the scaffolds, the report templates, `bin/report.mjs`'s prose, and the readability index whose scale and syllable rules are Spanish-only — so a non-Spanish locale is refused rather than ignored |
 | `status`, on each written document | A document that **was filled** in the wrong language. The scaffold ships in es-MX and a session fills it, and a file with Spanish headings and English content looks finished |
 
-`status` abstains rather than guessing when a document is still mostly `— pendiente —`: a language
-measured over thirty words says nothing, and flagging every fresh scaffold would train an operator
-to ignore the column.
+`status` audits two sets, and the second one is where the visible artefacts live. The eighteen
+scaffolds are named by the plugin, so they can be listed. **A report and a month's plan cannot** —
+they sit in dated subfolders — and those are exactly what a director reads and what goes to review,
+so they are scanned rather than listed.
+
+Three directories are never audited, and the exclusions carry as much weight as the inclusions:
+`journal/` holds English event names by design and is machine-read, `digest/` is written for the
+practice rather than the client, and `feedback/` is about the plugin and must stay English so one
+client's experience can improve every other install. Reporting any of the three as a defect would be
+reporting a correct design as broken, which is how a check earns being ignored.
+
+`status` abstains rather than guessing when a document is still mostly `— pendiente —`. That floor
+is deliberately **far lower than the readability one**: readability is a mean over sentences and
+needs a generous sample, while language is the frequency of a language's commonest words and is
+decisive almost at once — over the first forty words of this repository's files, its English
+documents score 0 per thousand and its es-MX ones 225 to 275. Sharing the readability floor meant
+every short deliverable, a one-page biweekly report included, escaped the check entirely, which is
+the opposite of what a floor is for.
 
 **The failure this closes is a wrong answer that looks right**, which is the class this plugin
 spends most of its rules on. It was also committed here: the readability index scored this plugin's

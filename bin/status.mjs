@@ -101,6 +101,44 @@ const pendingLabels = (text) => {
   return labels;
 };
 
+/**
+ * Client-facing markdown the plugin GENERATES, rather than the fixed scaffold list — a report a
+ * director reads, a plan that goes to review. These are the most visible artefacts an engagement
+ * produces and they were the ones nothing audited, because they live in dated subfolders and the
+ * scaffold list cannot name them.
+ *
+ * The exclusions are as load-bearing as the inclusions. `journal/` carries English event names by
+ * design (`ai_action`, `review_start`) and is machine-read, `digest/` is written for the practice
+ * rather than the client, and `feedback/` is about the plugin and must stay English so one client's
+ * experience can improve every other install. Measuring any of the three would report a defect
+ * where the design is correct, which is how a check gets ignored.
+ */
+const GENERATED_DIRS = ["reports", "content"];
+const NEVER_AUDITED = ["journal", "digest", "feedback"];
+
+const generated = (root) => {
+  const found = [];
+  const walk = (rel, depth) => {
+    if (depth > 3) return;
+    let entries = [];
+    try {
+      entries = readdirSync(join(root, rel), { withFileTypes: true });
+    } catch {
+      return;
+    }
+    for (const e of entries) {
+      const next = rel ? `${rel}/${e.name}` : e.name;
+      if (e.isDirectory()) {
+        if (!NEVER_AUDITED.includes(e.name)) walk(next, depth + 1);
+      } else if (e.name.endsWith(".md")) {
+        found.push(next);
+      }
+    }
+  };
+  for (const dir of GENERATED_DIRS) walk(dir, 1);
+  return found.sort();
+};
+
 const report = expected.map((name) => {
   const path = join(ctx.root, name);
   const exists = existsSync(path);
@@ -123,7 +161,18 @@ const report = expected.map((name) => {
  * Spanish headings and English content looks finished and is a delivery defect. `doctor` guarantees
  * the manifest's locale is Spanish; this guarantees the files match it.
  */
-const wrongLanguage = report.filter((r) => r.exists && r.language?.verdict === false);
+const produced = generated(ctx.root).map((rel) => ({
+  document: rel,
+  exists: true,
+  pending: null,
+  labels: [],
+  language: readsAsSpanish(readFileSync(join(ctx.root, rel), "utf8")),
+  owedBy: null,
+  unowned: false,
+  generated: true,
+}));
+
+const wrongLanguage = [...report, ...produced].filter((r) => r.exists && r.language?.verdict === false);
 
 const missing = report.filter((r) => !r.exists);
 const unowned = report.filter((r) => r.unowned);
@@ -139,6 +188,7 @@ if (args.json) {
         unowned: unowned.map((r) => r.document),
         wrongLanguage: wrongLanguage.map((r) => r.document),
         report,
+        produced,
       },
       null,
       2
@@ -161,6 +211,13 @@ if (args.json) {
     if (args.pending && r.labels.length) {
       for (const l of r.labels.slice(0, 12)) process.stdout.write(`      · ${l}\n`);
       if (r.labels.length > 12) process.stdout.write(`      · … y ${r.labels.length - 12} más\n`);
+    }
+  }
+  if (produced.length) {
+    process.stdout.write(`\n  Entregables generados\n\n`);
+    for (const r of produced) {
+      const lang = r.language?.verdict === false ? "NO ES es-MX" : r.language?.verdict === null ? "sin prosa" : "es-MX";
+      process.stdout.write(`  ${r.document.padEnd(33)} ${lang}\n`);
     }
   }
   process.stdout.write(`\n  ${totalPending} campos pendientes · ${missing.length} documentos ausentes\n`);

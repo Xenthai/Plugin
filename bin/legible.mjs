@@ -71,18 +71,37 @@ const SPANISH_FUNCTION_WORDS =
 const MIN_SPANISH_PER_1000 = 150;
 
 /**
+ * Words of prose needed before the LANGUAGE verdict is trusted — far fewer than the readability
+ * index needs, and deliberately a separate number.
+ *
+ * The two measurements fail differently at small samples. Readability is a mean over sentences, so
+ * a handful of them moves the score several points and `MIN_WORDS` has to be generous. Language is
+ * the frequency of the commonest words in a language, which is decisive almost immediately: over
+ * the first forty words of this repository's files, its English documents score 0 per thousand and
+ * its es-MX ones 225 to 275.
+ *
+ * Sharing the readability floor meant every short client-facing artefact — a one-page biweekly
+ * report, a month's plan — escaped the language check entirely, which is the opposite of what a
+ * floor is for.
+ */
+const MIN_WORDS_FOR_LANGUAGE = 40;
+
+/**
  * Whether a document reads as Spanish, exported so `bin/status.mjs` can audit what actually landed
  * in a company's store without a second copy of this rule. The scaffolds ship in es-MX, but a skill
  * fills them during a session, and nothing until now checked the written result — so a document
  * could carry Spanish headings and English content and look finished.
  *
- * Returns `null` rather than a verdict below the word floor. A document that is still mostly
- * `— pendiente —` has almost no prose, and a density measured over thirty words says nothing.
+ * Returns `null` rather than a verdict below the floor. A document that is still mostly
+ * `— pendiente —` has almost no prose, and flagging every fresh scaffold trains a reader to ignore
+ * the column.
  */
 export const readsAsSpanish = (src) => {
   const text = prose(src);
   const words = text.match(/[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ'-]*/g) ?? [];
-  if (words.length < MIN_WORDS) return { verdict: null, words: words.length, per1000: null, floor: MIN_SPANISH_PER_1000 };
+  if (words.length < MIN_WORDS_FOR_LANGUAGE) {
+    return { verdict: null, words: words.length, per1000: null, floor: MIN_SPANISH_PER_1000 };
+  }
   const per1000 = ((text.match(SPANISH_FUNCTION_WORDS) ?? []).length / words.length) * 1000;
   return { verdict: per1000 >= MIN_SPANISH_PER_1000, words: words.length, per1000, floor: MIN_SPANISH_PER_1000 };
 };

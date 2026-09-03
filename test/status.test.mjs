@@ -73,6 +73,84 @@ check("a document filled in the wrong language is reported and exits non-zero", 
   ];
 });
 
+/**
+ * The scaffold list cannot name a report or a plan, because those live in dated subfolders — so the
+ * most client-visible artefacts an engagement produces were the ones nothing audited. A report goes
+ * to a director and a plan goes to review.
+ *
+ * The exclusions matter as much: `journal/` carries English event names by design and is
+ * machine-read, `digest/` is written for the practice, and `feedback/` is about the plugin and must
+ * stay English so one client's experience improves every other install. Reporting any of the three
+ * as a defect would be reporting a correct design as broken, which is how a check gets ignored.
+ */
+check("generated deliverables are audited, and the journal, digest and feedback are not", () => {
+  const dir = company("generados", ["BRAND.md"]);
+  const write = (rel, body) => {
+    mkdirSync(join(dir, dirname(rel)), { recursive: true });
+    writeFileSync(join(dir, rel), body, "utf8");
+  };
+  const es =
+    "Este documento describe lo que se acordó con la empresa para el mes, en qué plataforma se dice " +
+    "cada cosa y en qué orden, con la fecha de cada pieza y el nombre de quien la aprueba antes de " +
+    "que se produzca cualquier cosa a partir de ella.";
+  const en =
+    "This document describes what was agreed with the company for the month, on which platform each " +
+    "thing gets said and in what order, with the date of every piece and the name of whoever has to " +
+    "approve it before anything is produced from it at all.";
+  write("reports/2026-09/report.md", `# Reporte\n\n${es}\n`);
+  write("content/2026-09/plan.md", `# Plan\n\n${en}\n`);
+  write("journal/execution/2026-09.jsonl", '{"event":"ai_action","actor":"ai","result":"ok"}\n');
+  write("digest/estado.md", `# Digest\n\n${es}\n`);
+  write("feedback/2026-09-03-acme.md", `# Feedback\n\n${en}\n`);
+
+  const r = run("--company", dir, "--json");
+  let j = null;
+  try {
+    j = JSON.parse(r.out);
+  } catch {}
+  const seen = (j?.produced ?? []).map((p) => p.document);
+  const wrong = j?.wrongLanguage ?? [];
+  return [
+    r.code === 1 &&
+      seen.includes("reports/2026-09/report.md") &&
+      seen.includes("content/2026-09/plan.md") &&
+      !seen.some((d) => /^(journal|digest|feedback)\//.test(d)) &&
+      wrong.includes("content/2026-09/plan.md") &&
+      !wrong.includes("reports/2026-09/report.md") &&
+      !wrong.some((d) => /^(journal|digest|feedback)\//.test(d)),
+    `audited=${JSON.stringify(seen)} wrong=${JSON.stringify(wrong)}`,
+  ];
+});
+
+/**
+ * The language floor is far below the readability one on purpose. Readability is a mean over
+ * sentences and needs a generous sample; language is the frequency of a language's commonest words
+ * and is decisive almost at once. Sharing the readability floor meant every short client-facing
+ * artefact — a one-page biweekly report, a month's plan — escaped the check entirely.
+ */
+check("a short English deliverable is still caught, because language needs a smaller sample", () => {
+  const dir = company("corto", ["BRAND.md"]);
+  mkdirSync(join(dir, "reports", "2026-09"), { recursive: true });
+  writeFileSync(
+    join(dir, "reports", "2026-09", "report.md"),
+    "# Report\n\nActivity recorded in the period, with the counts by actor and the review time that a " +
+      "person spent inside each one, plus every figure that the evidence here cannot support at all. " +
+      "Nothing below is a saving, and nothing here says what would have happened without the work, " +
+      "because nobody ran the month twice and there is no second version of it to compare against.\n",
+    "utf8"
+  );
+  const r = run("--company", dir, "--json");
+  let j = null;
+  try {
+    j = JSON.parse(r.out);
+  } catch {}
+  const row = (j?.produced ?? [])[0];
+  return [
+    row?.language?.verdict === false && row.language.words < 100 && row.language.words >= 40,
+    JSON.stringify(row?.language),
+  ];
+});
+
 check("a fresh scaffold with almost no prose abstains rather than being called wrong", () => {
   const dir = company("sinprosa", ["PROOF.md"]);
   writeFileSync(join(dir, "PROOF.md"), "# PROOF\n\n| Afirmación | Fuente |\n| --- | --- |\n| — pendiente — | |\n", "utf8");
