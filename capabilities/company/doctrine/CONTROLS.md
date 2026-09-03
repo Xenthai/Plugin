@@ -226,6 +226,36 @@ documents score 0 per thousand and its es-MX ones 225 to 275. Sharing the readab
 every short deliverable, a one-page biweekly report included, escaped the check entirely, which is
 the opposite of what a floor is for.
 
+### What counts as content, and what does not
+
+The rule is about **content**, never about file names. `BRAND.md`, `reports/`, `digest/` and every
+other path stay as they are: a name is a handle for the operator, and translating handles breaks
+every reference in every skill for no reader's benefit.
+
+Content includes the words inside a rendered asset. Those cannot be audited once they are pixels,
+but the render is deterministic from `content/<periodo>/pieces.json`, so measuring that file measures
+the published result exactly — and it is the last point at which a client's public copy can still be
+checked. Every string in a piece is treated as copy except a short list of tokens (`archetype`,
+`unit`, `art`, `chain`, `target`, `id`, `kind`). That exclusion list is deliberately the inverse of a
+copy-field list: enumerating the copy fields would make a new archetype's text invisible until
+somebody remembered to add it, and an unmeasured field is how the wrong language reaches a published
+asset.
+
+### Two signals, because one of them fails on headlines
+
+Language is judged on Spanish function-word density **or** accent density, whichever clears its
+floor. Requiring both would reinstate the bug that found this: marketing copy is telegraphic —
+*Cotizaciones por semana*, not *las cotizaciones que se hacen por semana* — so it drops the very
+words a density measure counts. A real es-MX chart piece scored 125 per thousand against a floor of
+150 and was reported as foreign.
+
+Accents survive that compression, because the words a headline keeps are the content words and that
+is where Spanish accents live. Across this repository the English documents run 0 to 7 accents per
+thousand words and the es-MX ones 111 to 126, so the two floors sit far from anything real.
+
+**Crying wolf on correct work is the worse failure of the two.** A check that flags a good piece
+teaches its reader to stop looking, and after that it catches nothing at all.
+
 **The failure this closes is a wrong answer that looks right**, which is the class this plugin
 spends most of its rules on. It was also committed here: the readability index scored this plugin's
 own English `INSTALL.md` at 87 and *muy fácil* for a while, because a Spanish formula run on English

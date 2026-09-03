@@ -151,6 +151,72 @@ check("a short English deliverable is still caught, because language needs a sma
   ];
 });
 
+/**
+ * A rendered PNG cannot be audited — its words are pixels — but the render is deterministic from
+ * `pieces.json`, so measuring that measures the published result exactly. This is the only point at
+ * which a client's published copy can still be checked.
+ *
+ * The es-MX case is the one that caught a defect in the check itself. Marketing copy is telegraphic
+ * — *Cotizaciones por semana*, not *las cotizaciones que se hacen por semana* — so it loses the
+ * function words the density measure counts: a real Spanish chart piece scored 125 per thousand
+ * against a floor of 150 and was called foreign. Accents survive that compression, because the words
+ * a headline keeps are the content words. Both floors are asserted, and so is the fact that only one
+ * of them clears.
+ */
+check("copy inside pieces.json is audited, and telegraphic Spanish is not called foreign", () => {
+  const dir = company("piezas", ["BRAND.md"]);
+  mkdirSync(join(dir, "content", "2026-09"), { recursive: true });
+  const es = {
+    q3: {
+      archetype: "chart",
+      eyebrow: "Trimestre 3 · re-medición",
+      headline: "Cotizaciones<br>por semana",
+      beforeLabel: "antes",
+      afterLabel: "ahora",
+      bars: [
+        { label: "Cotización estándar", before: 12, after: 34, quality: "rechazo 8% → 6%" },
+        { label: "Cotización especial", before: 3, after: 7, quality: "rechazo 21% → 19%" },
+        { label: "Refacturación", before: 9, after: 11, quality: "retrabajo 14% → 15%" },
+      ],
+      basis:
+        "Mediana de instancias completadas por semana. Definición congelada 2026-03-02. Medido sobre 12 semanas por Operaciones.",
+    },
+  };
+  writeFileSync(join(dir, "content", "2026-09", "pieces.json"), JSON.stringify(es), "utf8");
+  const good = run("--company", dir, "--json");
+  let gj = null;
+  try {
+    gj = JSON.parse(good.out);
+  } catch {}
+  const lang = (gj?.produced ?? []).find((p) => p.document.endsWith("pieces.json"))?.language;
+
+  const en = JSON.parse(JSON.stringify(es));
+  en.q3.eyebrow = "Quarter three remeasure";
+  en.q3.headline = "Quotes<br>per week";
+  en.q3.beforeLabel = "before";
+  en.q3.afterLabel = "now";
+  en.q3.bars = [
+    { label: "Standard quote", before: 12, after: 34, quality: "rejection 8% to 6%" },
+    { label: "Special quote", before: 3, after: 7, quality: "rejection 21% to 19%" },
+    { label: "Rebilling", before: 9, after: 11, quality: "rework 14% to 15%" },
+  ];
+  en.q3.basis = "Median of instances completed per week. Definition frozen on the second of March. Measured over twelve weeks by Operations.";
+  writeFileSync(join(dir, "content", "2026-09", "pieces.json"), JSON.stringify(en), "utf8");
+  const bad = run("--company", dir, "--json");
+  let bj = null;
+  try {
+    bj = JSON.parse(bad.out);
+  } catch {}
+
+  return [
+    lang?.verdict === true &&
+      lang.per1000 < lang.floor &&
+      lang.accents_per_1000 >= lang.accent_floor &&
+      (bj?.wrongLanguage ?? []).some((d) => d.endsWith("pieces.json")),
+    `es: ${JSON.stringify(lang)}; en flagged: ${JSON.stringify(bj?.wrongLanguage)}`,
+  ];
+});
+
 check("a fresh scaffold with almost no prose abstains rather than being called wrong", () => {
   const dir = company("sinprosa", ["PROOF.md"]);
   writeFileSync(join(dir, "PROOF.md"), "# PROOF\n\n| Afirmación | Fuente |\n| --- | --- |\n| — pendiente — | |\n", "utf8");

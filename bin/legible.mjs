@@ -71,6 +71,26 @@ const SPANISH_FUNCTION_WORDS =
 const MIN_SPANISH_PER_1000 = 150;
 
 /**
+ * The second Spanish signal, and the one that carries short copy.
+ *
+ * Function-word density works on prose and fails on a headline, because marketing copy is
+ * telegraphic — *Cotizaciones por semana*, never *las cotizaciones que se hacen por semana*. A real
+ * es-MX chart piece measured 125 per thousand against a 150 floor and would have been called foreign,
+ * which is worse than missing a defect: a check that cries wolf on correct work trains its reader to
+ * stop looking at it.
+ *
+ * Accents survive that compression, because the words a headline keeps are the content words and
+ * those are where Spanish accents live. Measured across this repository: its English documents run 0
+ * to 7 accents per thousand words, its es-MX ones 111 to 126, and that same chart piece 187.
+ *
+ * The two are combined with OR rather than AND. They fail on different inputs — density on short
+ * copy, accents on a Spanish text that happens to have none — so either one clearing its floor is
+ * evidence, and requiring both would reinstate the failure this fixes.
+ */
+const SPANISH_ACCENTS = /[áéíóúñüÁÉÍÓÚÑÜ¿¡]/g;
+const MIN_ACCENTS_PER_1000 = 40;
+
+/**
  * Words of prose needed before the LANGUAGE verdict is trusted — far fewer than the readability
  * index needs, and deliberately a separate number.
  *
@@ -84,7 +104,44 @@ const MIN_SPANISH_PER_1000 = 150;
  * report, a month's plan — escaped the language check entirely, which is the opposite of what a
  * floor is for.
  */
-const MIN_WORDS_FOR_LANGUAGE = 40;
+const MIN_WORDS_FOR_LANGUAGE = 25;
+
+/**
+ * Keys in a piece whose string value is NOT copy: an archetype name, a unit symbol, a visual token,
+ * a comment. Everything else is treated as words a reader will see.
+ *
+ * The exclusion list is deliberately the inverse of a copy-field list. Enumerating the copy fields
+ * would mean a new archetype's text is invisible to this check until somebody remembers to add it,
+ * and a field that goes unmeasured is exactly how the wrong language reaches a published asset. This
+ * way a new field is measured by default and only an explicit decision removes it.
+ */
+const NOT_COPY = new Set(["archetype", "unit", "art", "chain", "target", "id", "kind"]);
+
+/**
+ * Every word a reader will see in a rendered asset, pulled out of a `pieces.json`.
+ *
+ * The rendered PNG cannot be audited — the words are pixels by then — but the render is
+ * deterministic from this file, so measuring the source measures the output exactly. This is the one
+ * place the client's published copy can be checked before it is an image.
+ */
+export const copyFromPieces = (value, key = null, out = []) => {
+  if (typeof value === "string") {
+    if (key !== null && (NOT_COPY.has(key) || key.startsWith("$"))) return out;
+    if (/[A-Za-zÀ-ÿ]/.test(value)) out.push(value.replace(/<[^>]+>/g, " "));
+    return out;
+  }
+  if (Array.isArray(value)) {
+    for (const v of value) copyFromPieces(v, key, out);
+    return out;
+  }
+  if (value && typeof value === "object") {
+    for (const [k, v] of Object.entries(value)) {
+      if (NOT_COPY.has(k) || k.startsWith("$")) continue;
+      copyFromPieces(v, k, out);
+    }
+  }
+  return out;
+};
 
 /**
  * Whether a document reads as Spanish, exported so `bin/status.mjs` can audit what actually landed
@@ -100,10 +157,18 @@ export const readsAsSpanish = (src) => {
   const text = prose(src);
   const words = text.match(/[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ'-]*/g) ?? [];
   if (words.length < MIN_WORDS_FOR_LANGUAGE) {
-    return { verdict: null, words: words.length, per1000: null, floor: MIN_SPANISH_PER_1000 };
+    return { verdict: null, words: words.length, per1000: null, accents_per_1000: null, floor: MIN_SPANISH_PER_1000 };
   }
   const per1000 = ((text.match(SPANISH_FUNCTION_WORDS) ?? []).length / words.length) * 1000;
-  return { verdict: per1000 >= MIN_SPANISH_PER_1000, words: words.length, per1000, floor: MIN_SPANISH_PER_1000 };
+  const accents = ((text.match(SPANISH_ACCENTS) ?? []).length / words.length) * 1000;
+  return {
+    verdict: per1000 >= MIN_SPANISH_PER_1000 || accents >= MIN_ACCENTS_PER_1000,
+    words: words.length,
+    per1000,
+    accents_per_1000: accents,
+    floor: MIN_SPANISH_PER_1000,
+    accent_floor: MIN_ACCENTS_PER_1000,
+  };
 };
 
 const VOWELS = "aeiouáéíóúüàèìòùâêîôûAEIOUÁÉÍÓÚÜÀÈÌÒÙÂÊÎÔÛ";

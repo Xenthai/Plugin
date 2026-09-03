@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 
-import { readsAsSpanish } from "./legible.mjs";
+import { copyFromPieces, readsAsSpanish } from "./legible.mjs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { readCompany } from "../lib/company.mjs";
@@ -116,6 +116,14 @@ const pendingLabels = (text) => {
 const GENERATED_DIRS = ["reports", "content"];
 const NEVER_AUDITED = ["journal", "digest", "feedback"];
 
+/**
+ * `pieces.json` is audited too, because it is the source of every word inside a rendered asset. The
+ * PNG itself cannot be checked — the copy is pixels by then — but the render is deterministic from
+ * this file, so measuring the source measures the published result exactly. `brand.json` and
+ * `tokens.css` carry values rather than words and are not read.
+ */
+const COPY_JSON = "pieces.json";
+
 const generated = (root) => {
   const found = [];
   const walk = (rel, depth) => {
@@ -130,13 +138,27 @@ const generated = (root) => {
       const next = rel ? `${rel}/${e.name}` : e.name;
       if (e.isDirectory()) {
         if (!NEVER_AUDITED.includes(e.name)) walk(next, depth + 1);
-      } else if (e.name.endsWith(".md")) {
+      } else if (e.name.endsWith(".md") || e.name === COPY_JSON) {
         found.push(next);
       }
     }
   };
   for (const dir of GENERATED_DIRS) walk(dir, 1);
   return found.sort();
+};
+
+/**
+ * The text to measure for one generated file. A `pieces.json` is reduced to the words a reader will
+ * see; anything else is read as the prose it already is.
+ */
+const auditable = (root, rel) => {
+  const raw = readFileSync(join(root, rel), "utf8");
+  if (!rel.endsWith(COPY_JSON)) return raw;
+  try {
+    return copyFromPieces(JSON.parse(raw)).join(". ");
+  } catch {
+    return "";
+  }
 };
 
 const report = expected.map((name) => {
@@ -166,7 +188,7 @@ const produced = generated(ctx.root).map((rel) => ({
   exists: true,
   pending: null,
   labels: [],
-  language: readsAsSpanish(readFileSync(join(ctx.root, rel), "utf8")),
+  language: readsAsSpanish(auditable(ctx.root, rel)),
   owedBy: null,
   unowned: false,
   generated: true,
