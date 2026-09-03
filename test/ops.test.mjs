@@ -104,6 +104,27 @@ check("the install line names the marketplace, not the repository slug", () => {
   ];
 });
 
+/**
+ * Removing the plugin is documented because forgetting how is the normal case: it is done once every
+ * few months, under pressure, on somebody else's machine. Three things have to survive an edit — the
+ * two commands, the order between them, and the fact that a client's own documents are never touched.
+ *
+ * The order is the part that matters. Removing the marketplace first leaves the plugin installed
+ * with no source, which is a state that looks fine until an update or a reinstall is attempted.
+ */
+check("the README documents how to remove the plugin, in the order that works", () => {
+  const readme = read("README.md");
+  const marketplace = json(".claude-plugin/marketplace.json").plugins[0].name;
+  const bad = [];
+  if (!readme.includes(`claude plugin uninstall ${marketplace}@xenthai`)) bad.push("no uninstall command");
+  if (!readme.includes("claude plugin marketplace remove xenthai")) bad.push("no marketplace remove command");
+  const uninstallAt = readme.indexOf("claude plugin uninstall");
+  const removeAt = readme.indexOf("claude plugin marketplace remove");
+  if (uninstallAt === -1 || removeAt === -1 || uninstallAt > removeAt) bad.push("uninstall is not shown before marketplace remove");
+  if (!/journal|documents/i.test(readme.slice(removeAt, removeAt + 900))) bad.push("does not say a client's own records are left alone");
+  return [bad.length === 0, bad.join("; ") || "both commands, in order, with the client's records protected"];
+});
+
 check("the runbook names only skills that ship", () => {
   const install = read("INSTALL.md");
   const shipped = new Set(readdirSync(join(ROOT, "skills")));

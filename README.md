@@ -14,6 +14,8 @@ write a store; it does not know who the clients are.
 
 ## Install
 
+Two commands, in this order. The first adds the catalogue; the second installs from it.
+
 ```bash
 claude plugin marketplace add Xenthai/Marketplace
 ```
@@ -22,13 +24,70 @@ claude plugin marketplace add Xenthai/Marketplace
 claude plugin install xenthai@xenthai
 ```
 
-Updates arrive automatically, once per session. You only receive a version that was deliberately
-released: the `version` field in `plugin.json` is the release gate, so work in progress on `main`
-never reaches an installed copy.
+Three things about those two lines, each of which has cost somebody a failed attempt:
+
+- **`Xenthai/Marketplace` is the catalogue, not this repository.** Adding `Xenthai/Plugin` instead
+  works from a terminal and fails in the desktop app — this repo's manifest is the development one,
+  named `xenthai-dev`, and it points at itself.
+- **The separator is `@`, not `/`.** `xenthai/xenthai` is read as one plugin name, so it is never
+  found and the error says so in a way that sounds like the marketplace is missing.
+- **Both halves really are `xenthai`.** The plugin and the catalogue share a name, so the line looks
+  like a typo and is not one.
 
 Then authorize the connectors it needs. **A plugin cannot declare or install a connector**, so this
 is the one step a person has to do by hand — see [MCP.md](MCP.md) for what to authorize and how to
-verify it actually works.
+verify it actually works. The full first-visit runbook is [INSTALL.md](INSTALL.md), or run
+`/xenthai:setup`, which reads the seven steps back before doing anything.
+
+Updates then arrive automatically, once per session. You only receive a version that was
+deliberately released: the `version` field in `plugin.json` is the release gate, so work in progress
+never reaches an installed copy.
+
+### From a working copy instead
+
+```bash
+claude plugin marketplace add <path to a checkout>
+```
+
+```bash
+claude plugin install xenthai@xenthai-dev
+```
+
+Note the `-dev`: a checkout carries its own catalogue under that name. The two are named apart on
+purpose — Claude Code keeps one marketplace per name, so identical names would mean adding either
+silently replaced the other.
+
+This path costs the auto-update. The plugin then changes when that checkout changes, not when a
+version ships, so an engagement on it has a different relationship to the release gate and somebody
+has to know which one it is on.
+
+## Uninstall
+
+Plugin first, then the catalogue. **In that order** — removing the marketplace first leaves the
+plugin installed with no source it can be updated or reinstalled from.
+
+```bash
+claude plugin uninstall xenthai@xenthai
+```
+
+```bash
+claude plugin marketplace remove xenthai
+```
+
+Add `--keep-data` to the first command to preserve `~/.claude/plugins/data/`. Without it, the
+plugin's persistent data goes too.
+
+Two things it deliberately does **not** remove:
+
+- **The cache**, at `~/.claude/plugins/cache/xenthai/`. Delete it by hand for a clean slate.
+- **Any bound company's documents and journal.** Those live in the engagement folder, not in the
+  plugin — that is a client's record, not this software's, and uninstalling must never touch it.
+
+Check what is left:
+
+```bash
+claude plugin list && claude plugin marketplace list
+```
 
 ---
 
