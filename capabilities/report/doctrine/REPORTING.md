@@ -285,6 +285,72 @@ A client who cannot switch it off alone does not own it.
 - **When a figure is disputed, the report loses.** Record the dispute, name what would settle it, and
   do not defend the number past the evidence.
 
+## 10b. Attribution is contribution analysis, and never a counterfactual
+
+Every cadence eventually reaches the same sentence: *did this work cause the change?* There are only
+two honest ways to answer it and only one of them is available here.
+
+The unavailable one is a counterfactual — what the month would have looked like without the work.
+Establishing that needs the month run twice, once with and once without, which is what a randomised
+trial buys and what a consulting engagement cannot. So every figure of the form "saved 40 hours",
+"3× faster", "would have taken two weeks" is arithmetic performed on a month that did not happen.
+It is not a weak estimate. It is a number about an imaginary object, and a director who asks one
+follow-up question finds that out.
+
+The available one is **contribution analysis** — Mayne's method, designed precisely for programmes
+where a controlled comparison is impossible. Four steps, in order, and the report is not finished
+until all four are written down:
+
+1. **State the mechanism.** How, concretely, would this work have changed the outcome? *"Pieces are
+   drafted from documents the company already had, so review starts from a draft instead of a blank
+   page."* A mechanism is falsifiable. A benefit is not — "improved efficiency" cannot be wrong,
+   which is exactly what makes it worthless as a claim.
+2. **Name the alternative explanations, before the client does.** Seasonality. A person who joined
+   or left. A price change. A campaign nobody logged. The client simply trying harder because
+   someone was watching — the Hawthorne reading, and it is always available. Naming them is what
+   makes the remaining claim credible: an analysis that lists no alternatives reads as advocacy, and
+   a director in this market will read it that way whether or not the numbers are good.
+3. **Claim a plausible, evidenced contribution — not a cause.** *"Consistent with a contribution to
+   X, evidenced by the journal rows in the table above and by the client's own process measure."*
+   That is the strongest honest sentence available, and its strength comes from the two things it
+   declines to say.
+4. **Say what would change your mind.** Name the observation that would falsify the claim. If no
+   observation would, what has been written is a belief, and it should be labelled as one or cut.
+
+### Why the client's memory cannot supply the "before"
+
+The tempting shortcut is to ask. It does not work, and the failure is measured rather than
+suspected: across a systematic review of 32 studies, 22% of people's estimates of their own
+recurring tasks were high by more than 100%, and self-reported time diverges from logged time by a
+median of 47% — reliably in the flattering direction. A baseline built from recall therefore inflates
+every improvement computed against it, and the inflation is invisible because both numbers came from
+the same place.
+
+So when a "before" is needed and no measurement exists, ask for **three to five dated, concrete
+instances** — this invoice, that ticket, this approval, with dates — never an average and never a
+typical case. Specific episodes are recalled far better than rates, and the client can check them.
+
+## 10c. Reading the figures without fooling yourself
+
+The journal produces numbers that look more informative than they are. Five traps, each of which has
+a specific wrong sentence attached to it:
+
+- **Touch time is not cycle time.** The journal measures the minutes a person spent inside a review,
+  not how long the work sat waiting. By Little's Law, `WIP = throughput × cycle time`, so a
+  touch-time figure constrains nothing about throughput on its own. Report cycle time and throughput
+  when they exist, and say plainly that they do not when they don't.
+- **A flow-efficiency figure far outside 5–15% is a data defect, not an achievement.** That band is
+  what knowledge work typically shows. Numbers implying 60% mean the events are wrong — most often
+  `review_start` rows that were never closed, or work that happened with no row at all.
+- **Unmatched review starts make touch time a floor.** The tool reports them separately for exactly
+  that reason. The figure is "at least N minutes", never "N minutes".
+- **An unnamed approval is not an approval.** If the tool reports any, the word *approval* does not
+  appear in the prose about them. Name the defect and name the fix: whoever records the event passes
+  `--actor person:<name>`.
+- **The defects section belongs in the client's report**, not in a private note. Publishing clean
+  numbers while privately knowing the evidence has holes is the single failure this instrument
+  exists to prevent, and doing it once destroys the value of every clean report that follows.
+
 ## 11. Cross-references
 
 | File | Read it when |

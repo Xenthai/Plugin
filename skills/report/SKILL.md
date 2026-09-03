@@ -41,6 +41,25 @@ value the reader estimates, and an estimate is not a measurement. It also refuse
 `piece.basis`, which carries the definition, the measurement dates and who measured. `--pdf` writes
 a vector copy beside the PNG.
 
+## Where the journal exists, and where it does not
+
+**The hooks that write the journal run in Claude Cowork and Claude Code. They are inactive in chat
+on the web and in the Desktop Chat tab** — the surfaces where a plugin's skills still work but its
+hooks are greyed out.
+
+So a report can be asked for in a place where nothing was ever recorded, and the failure is silent:
+no rows, no error, and a report that reads as a clean month.
+
+Two things follow, and neither is optional:
+
+- **Check whether the journal exists before writing a single figure.** An absent journal and a quiet
+  month produce the same empty table and mean opposite things. `bin/report.mjs` refuses and says
+  which it thinks it is; believe it over any assumption that the hooks ran.
+- **When the journal is absent, say so in the report and name the reason.** "No activity recorded in
+  this period, because this engagement's sessions ran on a surface where the recording hooks do not
+  execute" is honest. An empty section with no explanation is the one reading of this a client would
+  be right to hold against the practice.
+
 ## When to run it
 
 | Trigger | What the client is really asking |
@@ -85,31 +104,17 @@ The tool renders runs and escalations as **one value in one cell** so the run co
 lifted out of the table on its own. Keep that discipline in prose: any sentence with the run count
 in it carries the escalation count too.
 
-## Contribution analysis, never a counterfactual
+## Attribution
 
-Attribution is by contribution analysis. Four steps, in order, and the report is not finished until
-all four are written:
+Contribution analysis, in four written steps — mechanism, alternative explanations, an evidenced
+contribution rather than a cause, and what would change your mind. Never a quantified counterfactual
+("saved 40 hours", "3× faster"): nobody ran the month twice. Never a baseline built from what the
+client remembers, which is high by a median of 47% in the flattering direction — ask for three to
+five dated instances instead.
 
-1. **State the mechanism.** How, concretely, would this work have changed the outcome? "Pieces are
-   drafted from documents the company already had, so the review starts from a draft instead of a
-   blank page." A mechanism is falsifiable; a benefit is not.
-2. **Name the alternative explanations, before the client does.** Seasonality. A person who joined
-   or left. A price change. A campaign nobody logged. The client simply trying harder because
-   someone was watching. Naming them is what makes the remaining claim credible — an analysis that
-   lists no alternatives reads as advocacy, and a director in this market will read it that way.
-3. **Claim a plausible, evidenced contribution.** "Consistent with a contribution to X, evidenced by
-   the journal rows in the table above and by the client's own process measure." That sentence is
-   the strongest honest one available.
-4. **Say what would change your mind.** Name the observation that would falsify the claim. If no
-   observation would, you have written a belief.
-
-Never a quantified counterfactual — no "saved 40 hours", no "3× faster", no "would have taken two
-weeks". Nobody ran the month twice. Every such figure is arithmetic on an imagined month.
-
-And never build one from what the client remembers. A systematic review of 32 studies found 22% of
-people's estimates of their own recurring tasks high by more than 100%, and self-reported time
-diverges from logged time by a median of 47% — always in the flattering direction. If you need a
-"before", ask for **three to five dated, concrete instances**, not an average.
+`REPORTING.md` **§10b** carries the four steps in full and the evidence behind both refusals. Read it
+before writing the first attribution sentence, and **§10c** before reading any figure: touch time is
+not cycle time, unmatched review starts make it a floor, and an unnamed approval is not an approval.
 
 ## The three metrics that actually hold up
 
@@ -123,23 +128,9 @@ Those three, together. The first without the second is a number with no accounta
 the second without the first is activity dressed as improvement; the third without either is
 compliance theatre.
 
-## Reading the figures without fooling yourself
-
-- **Touch time is not cycle time.** The journal measures the minutes a person spent inside a
-  review, not how long the work sat waiting. By Little's Law, `WIP = throughput × cycle time`, so a
-  touch-time figure says nothing about throughput on its own. Report cycle time and throughput when
-  you have them, and say plainly that you do not when you don't.
-- **A flow-efficiency figure far outside 5–15% is a data defect, not an achievement.** That band is
-  typical for knowledge work. If your numbers imply 60%, the events are wrong — most likely
-  `review_start` rows that were never closed, or work that happened without any row at all.
-- **Unmatched review starts make the touch-time figure a floor.** The tool reports them separately
-  for exactly that reason. Say "at least N minutes", never "N minutes".
-- **An unnamed approval is not an approval.** If the tool reports any, do not call them approvals
-  anywhere in your prose. Name the defect and say what has to change: whoever records the event
-  passes `--actor person:<name>`.
-- **The defects section goes in the client's report**, not into a private note. A report that
-  publishes clean numbers while you privately know the evidence has holes is the failure mode this
-  whole tool exists to prevent.
+The defects section the tool emits goes **into the client's report**, not into a private note.
+Publishing clean numbers while privately knowing the evidence has holes is the one failure this
+instrument exists to prevent.
 
 ## Who reads it, and where the baseline comes from
 

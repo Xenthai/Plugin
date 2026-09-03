@@ -1,4 +1,5 @@
 import { record, reference } from "../lib/journal.mjs";
+import { readCompany } from "../lib/company.mjs";
 
 /** Tools whose calls are pure reads. Logging them would bury the actions that matter. */
 const READ_ONLY = new Set([
@@ -44,6 +45,21 @@ const main = async () => {
   const event = await readEvent();
   const hook = event.hook_event_name ?? "PostToolUse";
   const tool = event.tool_name ?? null;
+
+  /**
+   * Ambient recording requires a bound company. The hooks here match every tool on every event, so
+   * without this gate a session in an unrelated project — someone else's repository, a personal
+   * scratch directory — would have its tool names, targets and extracted command paths written into
+   * this plugin's own data directory. That is observing far beyond the plugin's stated purpose, and
+   * the published marketplace policy fails a hook that "observes prompts/tool I/O on sessions
+   * unrelated to the plugin's purpose, regardless of whether it makes network calls."
+   *
+   * The invariant this appears to weaken — that a gap in the journal cannot be told apart from an
+   * action that never happened — holds *inside* an engagement, which is the only place it was ever
+   * meant to. `bin/journal.mjs` and the guard's own error path still fall back to the plugin's data
+   * directory, because those are deliberate acts by the operator rather than ambient observation.
+   */
+  if (!readCompany(event.cwd ?? process.cwd()).ok) process.exit(0);
 
   if (hook === "SessionEnd") {
     record(

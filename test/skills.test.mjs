@@ -47,14 +47,35 @@ check("every skill is one level deep, which is the only depth that loads", () =>
   return [nested.length === 0, nested.length ? `nested skills never load: ${nested.join(", ")}` : `${names.length} at depth 1`];
 });
 
-check("every skill declares exactly name and description", () => {
+/**
+ * The Agent Skills spec's six frontmatter fields, and the reason the rule is a subset rather than a
+ * fixed pair.
+ *
+ * Claude Code itself reads roughly twenty frontmatter keys, and `allowed-tools` and `argument-hint`
+ * are used by many of Anthropic's own published skills — so an earlier version of this assertion,
+ * which demanded exactly `name` and `description` and rejected `allowed-tools` as decoration, was
+ * asserting something false.
+ *
+ * The real constraint is portability. A claude.ai upload, the Skills API and the packaging script
+ * accept only these six and reject anything else outright: "Unexpected key(s) in SKILL.md
+ * frontmatter … Allowed properties are: allowed-tools, compatibility, description, license,
+ * metadata, name". Staying inside the six is therefore stricter than Claude Code requires and keeps
+ * every skill here installable through any of those paths.
+ */
+const SPEC_KEYS = new Set(["allowed-tools", "compatibility", "description", "license", "metadata", "name"]);
+
+check("every skill's frontmatter stays inside the six portable spec fields", () => {
   const bad = [];
   for (const n of names) {
     const { keys } = parse(readFileSync(join(SKILLS, n, "SKILL.md"), "utf8"));
-    const ok = keys.length === 2 && keys.includes("name") && keys.includes("description");
-    if (!ok) bad.push(`${n}: ${keys.join("+") || "no frontmatter"}`);
+    if (!keys.includes("name") || !keys.includes("description")) {
+      bad.push(`${n}: missing name or description (${keys.join("+") || "no frontmatter"})`);
+      continue;
+    }
+    const outside = keys.filter((k) => !SPEC_KEYS.has(k));
+    if (outside.length) bad.push(`${n}: ${outside.join(", ")} would be rejected by the Skills API`);
   }
-  return [bad.length === 0, bad.length ? bad.join("; ") : `${names.length} skills, name+description only`];
+  return [bad.length === 0, bad.length ? bad.join("; ") : `${names.length} skills, all inside the spec's six fields`];
 });
 
 check("every skill's name equals its directory", () => {
@@ -224,14 +245,24 @@ check("an orphaned doctrine file would be caught", () => {
   return [!bodies.includes("company/doctrine/GHOST.md"), "a doctrine file no skill names was detected as unreachable"];
 });
 
-check("a skill with a third frontmatter key would fail", () => {
+check("a frontmatter key outside the spec would fail, and a spec key would not", () => {
   rmSync(SANDBOX, { recursive: true, force: true });
   mkdirSync(SANDBOX, { recursive: true });
   const p = join(SANDBOX, "SKILL.md");
+
+  /** `triggers` is used by published skills but appears in no reference and no spec, so it is the
+   *  honest example of a key that would be rejected on upload. */
+  writeFileSync(p, "---\nname: fake\ndescription: Use when testing. \ntriggers: a, b\n---\n\nBody.\n");
+  const outside = parse(readFileSync(p, "utf8")).keys.filter((k) => !SPEC_KEYS.has(k));
+
+  /** `allowed-tools` is spec-legal, and an earlier version of this suite wrongly rejected it. */
   writeFileSync(p, "---\nname: fake\ndescription: Use when testing. \nallowed-tools: Read\n---\n\nBody.\n");
-  const { keys } = parse(readFileSync(p, "utf8"));
-  const passes = keys.length === 2;
-  return [!passes, `fixture declared ${keys.join("+")} and was refused`];
+  const legal = parse(readFileSync(p, "utf8")).keys.filter((k) => !SPEC_KEYS.has(k));
+
+  return [
+    outside.length === 1 && legal.length === 0,
+    `"triggers" refused (${outside.join(",")}); "allowed-tools" accepted as spec-legal`,
+  ];
 });
 
 check("a skill whose name disagrees with its directory would fail", () => {

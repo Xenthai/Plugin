@@ -34,7 +34,8 @@ const NONE = "none";
 const SPLITS = ["train", "test"];
 const KINDS = ["target", "near-miss"];
 const ITEM_FIELDS = ["id", "query", "expected", "split", "kind", "why"];
-const FRONTMATTER_KEYS = ["name", "description"];
+/** The Agent Skills spec's six fields — the set claude.ai, the Skills API and packaging accept. */
+const FRONTMATTER_KEYS = ["allowed-tools", "compatibility", "description", "license", "metadata", "name"];
 
 /** Test-split accuracy below this exits 1: the descriptions do not disambiguate. */
 const PASS_THRESHOLD = 0.8;
@@ -140,8 +141,13 @@ const readSkills = (dir = SKILLS_DIR) =>
 
 /**
  * A skill whose frontmatter name differs from its directory would make every `expected` label in
- * the dataset silently wrong, and any key beyond name and description is decoration Claude Code
- * never reads. Both are refused before a single call is spent.
+ * the dataset silently wrong, and a frontmatter key outside the Agent Skills spec's six fields is
+ * rejected outright on upload to claude.ai or the Skills API. Both are refused before a single call
+ * is spent.
+ *
+ * Note what this does NOT claim: Claude Code itself reads roughly twenty frontmatter keys, and
+ * `allowed-tools` and `argument-hint` are used by Anthropic's own published skills. The constraint
+ * here is portability, not readability.
  */
 const skillProblems = (skills) => {
   const problems = [];
@@ -155,7 +161,7 @@ const skillProblems = (skills) => {
     if (s.name !== s.dir) problems.push(`${at}: frontmatter name "${s.name}" differs from its directory`);
     if (!s.description) problems.push(`${at}: frontmatter has no description`);
     const extra = s.keys.filter((k) => !FRONTMATTER_KEYS.includes(k));
-    if (extra.length) problems.push(`${at}: frontmatter carries keys Claude Code never reads: ${extra.join(", ")}`);
+    if (extra.length) problems.push(`${at}: frontmatter carries keys the Skills API would reject: ${extra.join(", ")}`);
   }
   return problems;
 };

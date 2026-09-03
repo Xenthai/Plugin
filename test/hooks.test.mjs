@@ -155,10 +155,32 @@ check("journal records a failure as result=error", () => {
   return [row.result === "error" && row.event === "error", `result=${row?.result}`];
 });
 
-check("journal writes to plugin data when no company is bound", () => {
-  post("Write", { file_path: "/tmp/x" }, SANDBOX);
-  const r = rows(DATA);
-  return [r.length >= 1 && r.at(-1).company === null, `rows=${r.length}`];
+/**
+ * The hooks match every tool on every event, so an unbound session is somebody else's project. The
+ * published marketplace policy fails a hook that observes tool I/O on sessions unrelated to the
+ * plugin's purpose, and recording a stranger's repository would be exactly that.
+ *
+ * The distinction is what matters here, so both halves are asserted together: ambient hook
+ * recording stops, and a deliberate CLI call by the operator still lands in the plugin's own data
+ * directory. The "a gap cannot be told apart from an action that never happened" invariant applies
+ * inside an engagement, which is where it was always aimed.
+ */
+check("an unbound session is NOT journaled by the hook, but the CLI still records", () => {
+  const before = rows(DATA).length;
+  const hook = post("Write", { file_path: "/tmp/somebody-elses-project.md" }, SANDBOX);
+  const afterHook = rows(DATA).length;
+
+  const res = cli(["--event", "health", "--why", "operator ran the cli with no company bound"], SANDBOX);
+  const afterCli = rows(DATA);
+
+  return [
+    hook.code === 0 &&
+      afterHook === before &&
+      res.status === 0 &&
+      afterCli.length === before + 1 &&
+      afterCli.at(-1).company === null,
+    `hook exit ${hook.code} wrote ${afterHook - before}; cli exit ${res.status} wrote ${afterCli.length - afterHook}`,
+  ];
 });
 
 check("journal survives concurrent hook processes without losing rows", () => {
