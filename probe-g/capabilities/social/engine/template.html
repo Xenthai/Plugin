@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="es-MX">
+<meta charset="utf-8">
+<title>Xenth AI — social template</title>
+<style>
+@font-face { font-family: "Archivo"; src: url("fonts/Archivo[wdth,wght].ttf") format("truetype"); font-weight: 100 900; font-stretch: 62% 125%; }
+@font-face { font-family: "Hanken Grotesk"; src: url("fonts/HankenGrotesk[wght].ttf") format("truetype"); font-weight: 100 900; }
+@font-face { font-family: "JetBrains Mono"; src: url("fonts/JetBrainsMono[wght].ttf") format("truetype"); font-weight: 100 800; }
+
+:root {
+  --ground: #000000; --surface: #08090c; --surface-lift: #0e1116;
+  --ink: #f2f5f9; --ink-soft: #b9c3d1; --ink-muted: #8f9aa9; --ink-faint: #616b78;
+  --signal: #dce9ff; --line: rgba(198, 214, 235, 0.11);
+  --display: "Archivo", sans-serif; --body: "Hanken Grotesk", sans-serif; --mono: "JetBrains Mono", monospace;
+  --stretch-h1: 116%; --stretch-h2: 112%;
+}
+</style>
+<style id="tokens"></style>
+<style>
+html, body { margin: 0; background: var(--ground); }
+body[data-f="vertical-story"] { --pad: 300px 96px 700px; --gap: 40px; --fs-lockup: 48px; --fs-eyebrow: 24px; --fs-kicker: 38px; --fs-h1: 78px; --fs-h2: 76px; --fs-lead: 30px; --fs-mono: 30px; --fs-monolg: 68px; --fs-foot: 26px; --art: 400px; }
+body[data-f="vertical-feed"]  { --pad: 88px; --gap: 38px; --fs-lockup: 42px; --fs-eyebrow: 21px; --fs-kicker: 32px; --fs-h1: 76px; --fs-h2: 70px; --fs-lead: 27px; --fs-mono: 27px; --fs-monolg: 64px; --fs-foot: 23px; --art: 480px; }
+body[data-f="square"]         { --pad: 80px; --gap: 30px; --fs-lockup: 36px; --fs-eyebrow: 18px; --fs-kicker: 27px; --fs-h1: 64px; --fs-h2: 58px; --fs-lead: 23px; --fs-mono: 23px; --fs-monolg: 52px; --fs-foot: 19px; --art: 430px; }
+body[data-f="horizontal"]     { --pad: 64px 72px; --gap: 26px; --fs-lockup: 26px; --fs-eyebrow: 15px; --fs-kicker: 21px; --fs-h1: 50px; --fs-h2: 44px; --fs-lead: 19px; --fs-mono: 19px; --fs-monolg: 40px; --fs-foot: 18px; --art: 380px; }
+
+[data-frame] { position: relative; overflow: hidden; box-sizing: border-box; background: var(--ground); color: var(--ink); padding: var(--pad); display: flex; flex-direction: column; align-items: flex-start; gap: var(--gap); }
+[data-frame] > * { flex: none; }
+[data-body] { flex: 1; width: 100%; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: var(--gap); min-height: 0; }
+[data-body] > * { flex: none; max-width: 100%; }
+
+.lockup { display: flex; align-items: center; gap: 0.45em; font-family: var(--display); font-weight: 600; font-stretch: 106%; font-size: var(--fs-lockup); color: var(--ink); line-height: 1; }
+.lockup svg, .lockup img { height: 1.15em; width: auto; display: block; color: var(--ink); }
+.eyebrow { font-family: var(--mono); font-weight: 500; font-size: var(--fs-eyebrow); letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-muted); }
+.kicker { font-family: var(--display); font-weight: 700; font-stretch: 108%; font-size: var(--fs-kicker); text-transform: uppercase; letter-spacing: 0.02em; line-height: 1.1; color: var(--ink-soft); }
+.kicker em { font-style: normal; color: var(--signal); }
+.h1 { font-family: var(--display); font-weight: 700; font-stretch: var(--stretch-h1); font-size: var(--fs-h1); text-transform: uppercase; line-height: 0.98; letter-spacing: -0.006em; color: var(--ink); margin: 0; }
+.h2 { font-family: var(--display); font-weight: 700; font-stretch: var(--stretch-h2); font-size: var(--fs-h2); text-transform: uppercase; line-height: 1.0; letter-spacing: -0.004em; color: var(--ink); margin: 0; }
+.h1 em, .h2 em, .q em { font-style: normal; color: var(--signal); }
+.poster { font-size: var(--fs-h1); font-stretch: var(--stretch-h1); line-height: 0.96; }
+.lead { font-family: var(--body); font-weight: 400; font-size: var(--fs-lead); line-height: 1.5; color: var(--ink-soft); max-width: min(100%, 44ch); margin: 0; }
+body[data-f="horizontal"] .lead { max-width: min(100%, 52ch); }
+.foot { font-family: var(--mono); font-weight: 500; font-size: var(--fs-foot); letter-spacing: 0.08em; text-transform: uppercase; color: var(--signal); line-height: 1.5; }
+.foot .soft { color: var(--ink-muted); text-transform: none; letter-spacing: 0.02em; }
+
+.record { width: 100%; font-family: var(--mono); }
+.record .row { padding: 0.62em 0; border-top: 1px solid var(--line); }
+.record .row:last-child { border-bottom: 1px solid var(--line); }
+.record .st { font-size: calc(var(--fs-mono) * 0.7); color: var(--ink-faint); letter-spacing: 0.06em; }
+.record .ac { font-size: var(--fs-mono); color: var(--ink-soft); line-height: 1.3; }
+.record .row[data-texture] { opacity: 0.42; }
+.record .row.hot .st { color: var(--ink-muted); font-size: calc(var(--fs-mono) * 0.86); }
+.record .row.hot .ac { color: var(--ink); font-size: var(--fs-monolg); line-height: 1.12; }
+.record .scope { display: block; margin-top: 0.5em; font-size: calc(var(--fs-mono) * 0.8); color: var(--ink-faint); }
+.chart { width: 100%; flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; justify-content: space-between; gap: calc(var(--gap) * 0.9); font-family: var(--mono); }
+[data-body] > .chart { flex: 1 1 auto; }
+.chart .cbar { display: flex; flex-direction: column; gap: 0.3em; border-top: 1px solid var(--line); padding-top: 0.55em; }
+.chart .clabel { font-size: calc(var(--fs-mono) * 0.78); color: var(--ink-muted); letter-spacing: 0.05em; text-transform: uppercase; }
+.chart .ctrack { display: grid; grid-template-columns: minmax(0, 1fr) max-content max-content; align-items: center; column-gap: 0.6em; }
+.chart .cwell { min-width: 0; }
+.chart .cfill { height: 0.5em; background: var(--ink-faint); border-radius: 1px; }
+.chart .ctrack.now .cfill { background: var(--signal); height: 0.62em; }
+.chart .cval { font-size: var(--fs-mono); color: var(--ink-soft); line-height: 1.1; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.chart .ctrack.now .cval { font-size: var(--fs-monolg); color: var(--ink); }
+.chart .cside { font-size: calc(var(--fs-mono) * 0.68); color: var(--ink-faint); letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
+.chart .cqual { font-size: calc(var(--fs-mono) * 0.74); color: var(--ink-muted); }
+.cbasis { font-family: var(--mono); font-size: calc(var(--fs-mono) * 0.72); color: var(--ink-faint); line-height: 1.45; max-width: min(100%, 58ch); }
+
+.list { width: 100%; font-family: var(--mono); }
+.list .it { display: flex; gap: 0.9em; align-items: baseline; padding: 0.62em 0; border-top: 1px solid var(--line); font-size: calc(var(--fs-mono) * 1.2); color: var(--ink-soft); line-height: 1.3; }
+.list .it:last-child { border-bottom: 1px solid var(--line); }
+.list .n { flex: none; font-size: calc(var(--fs-mono) * 0.9); letter-spacing: 0.1em; color: var(--ink-faint); }
+.chain { width: 100%; font-family: var(--mono); }
+.chain .st { position: relative; padding: 0.5em 0 0.5em 1.5em; font-size: calc(var(--fs-mono) * 1.2); color: var(--ink-soft); line-height: 1.32; }
+.chain .st::before { content: ""; position: absolute; left: 0; top: 1.15em; width: 0.7em; height: 1px; background: var(--ink-muted); }
+.chain .st.hi { color: var(--signal); }
+
+.q { font-family: var(--display); font-weight: 700; font-stretch: var(--stretch-h1); font-size: calc(var(--fs-h1) * 1.3); text-transform: uppercase; line-height: 0.94; letter-spacing: -0.006em; color: var(--ink); margin: 0; }
+.quote { font-family: var(--body); font-weight: 400; font-size: calc(var(--fs-h2) * 0.92); line-height: 1.26; color: var(--ink); margin: 0; max-width: min(100%, 26ch); }
+.quote.poster { font-size: calc(var(--fs-h1) * 1.05); line-height: 1.18; max-width: min(100%, 22ch); }
+.quote::before { content: "“"; color: var(--signal); }
+.quote::after { content: "”"; color: var(--signal); }
+.source { font-family: var(--mono); font-size: calc(var(--fs-mono) * 1.15); color: var(--ink-muted); line-height: 1.4; }
+.source b { font-weight: 500; color: var(--ink-soft); }
+
+.details { width: 100%; font-family: var(--mono); display: grid; grid-template-columns: max-content 1fr; column-gap: 1.4em; row-gap: 0.5em; }
+.details dt { font-size: calc(var(--fs-mono) * 0.8); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); align-self: baseline; }
+.details dd { margin: 0; font-size: calc(var(--fs-mono) * 1.6); color: var(--ink); line-height: 1.25; }
+.details dt { font-size: calc(var(--fs-mono) * 0.9); }
+
+.contrast { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+body[data-f="vertical-story"] .contrast, body[data-f="vertical-feed"] .contrast { grid-template-columns: 1fr; }
+.contrast .pane { border-top: 1px solid var(--line); padding-top: 0.7em; }
+.contrast .label { font-family: var(--mono); font-size: calc(var(--fs-mono) * 0.8); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 0.5em; }
+.contrast .after .label { color: var(--signal); }
+.contrast .text { font-family: var(--body); font-size: calc(var(--fs-lead) * 1.35); line-height: 1.38; color: var(--ink-soft); }
+.contrast .after .text { color: var(--ink); }
+
+.art { width: var(--art); height: var(--art); color: var(--ink); align-self: center; }
+.art svg { width: 100%; height: 100%; display: block; }
+body[data-f="horizontal"] .hero { flex-direction: row; align-items: center; justify-content: space-between; }
+body[data-f="horizontal"] .hero .col { max-width: 600px; }
+.col { display: flex; flex-direction: column; align-items: flex-start; gap: var(--gap); }
+</style>
+<body>
+<script>
+const TARGETS = {
+  "vertical-story": { w: 1080, h: 1920, rows: 4 },
+  "vertical-feed": { w: 1080, h: 1350, rows: 7 },
+  "square": { w: 1080, h: 1080, rows: 5 },
+  "horizontal": { w: 1200, h: 630, rows: 3 },
+};
+
+const DEMO_BRAND = { name: "Empresa", foot: ["https://ejemplo.mx"] };
+const DEMO_PIECES = {
+  demo: { archetype: "statement", eyebrow: "Plantilla", headline: "Sin datos<br>inyectados.", lead: "Pasa --pieces, --tokens y --brand al motor de render." },
+};
+
+const params = new URLSearchParams(location.search);
+const targetId = TARGETS[params.get("f")] ? params.get("f") : "square";
+const target = TARGETS[targetId];
+/**
+ * Marks the document when no piece data arrived, so the engine can refuse an asset that rendered
+ * the placeholder. The placeholder is deliberately well composed and therefore passes every
+ * geometric assertion — without this flag a dropped `--pieces` argument ships a green placeholder.
+ */
+if (!window.__xenthPieces) document.documentElement.dataset.demo = "1";
+const pieces = window.__xenthPieces ?? DEMO_PIECES;
+const pieceId = params.get("p") && pieces[params.get("p")] ? params.get("p") : Object.keys(pieces)[0];
+const piece = pieces[pieceId];
+const brand = window.__xenthBrand ?? DEMO_BRAND;
+
+if (window.__xenthTokens) document.getElementById("tokens").textContent = window.__xenthTokens;
+document.body.dataset.f = targetId;
+document.body.dataset.arch = piece.archetype;
+
+const el = (tag, cls, html) => {
+  const node = document.createElement(tag);
+  if (cls) node.className = cls;
+  if (html !== undefined && html !== null) node.innerHTML = html;
+  return node;
+};
+
+const words = (html) => String(html ?? "").replace(/<[^>]+>/g, " ").trim().split(/\s+/).filter(Boolean).length;
+
+/** Poster scale: a short message is the headline and takes the format's largest register. */
+const headline = (html, base) => {
+  const h = el("h2", base + (words(html) <= 8 ? " poster" : ""), html);
+  h.setAttribute("data-headline", "");
+  return h;
+};
+
+/**
+ * Keeps the row marked hot and its neighbours when there are more rows than the format holds.
+ * Content is dropped and the register is kept; shrinking type to fit produces a piece nobody can
+ * read at feed scale.
+ */
+const capRows = (rows, cap) => {
+  if (rows.length <= cap) return rows;
+  const hot = rows.findIndex((r) => r.cls === "hot");
+  if (hot < 0) return rows.slice(0, cap);
+  const before = Math.min(hot, Math.max(1, Math.floor((cap - 1) / 2)));
+  const start = Math.max(0, Math.min(hot - before, rows.length - cap));
+  return rows.slice(start, start + cap);
+};
+
+const lockup = () => {
+  const wrap = el("div", "lockup");
+  if (brand.logo?.svg) wrap.innerHTML = brand.logo.svg;
+  else if (brand.logo?.png) {
+    const img = document.createElement("img");
+    img.src = brand.logo.png;
+    img.alt = brand.name ?? "";
+    wrap.appendChild(img);
+  }
+  wrap.appendChild(el("span", null, brand.name ?? ""));
+  return wrap;
+};
+
+const foot = () => {
+  const lines = [...(brand.foot ?? []), ...(piece.foot ?? [])];
+  const f = el("div", "foot");
+  lines.forEach((line, i) => {
+    const span = el("div", i === 0 ? null : "soft", line);
+    f.appendChild(span);
+  });
+  return f;
+};
+
+const eyebrow = (box) => { if (piece.eyebrow) box.appendChild(el("div", "eyebrow", piece.eyebrow)); };
+
+/** Artwork is decorative: the message is the headline, so the platform may cover part of it. */
+const art = (svg) => {
+  const a = el("div", "art", svg);
+  a.setAttribute("data-texture", "");
+  return a;
+};
+const lead = (box) => { if (piece.lead) box.appendChild(el("p", "lead", piece.lead)); };
+
+const ARCHETYPES = {
+  hero(box, frame) {
+    const col = el("div", "col");
+    eyebrow(col);
+    if (piece.kicker) col.appendChild(el("div", "kicker", piece.kicker));
+    const h = el("h1", "h1", piece.headline);
+    h.setAttribute("data-headline", "");
+    col.appendChild(h);
+    lead(col);
+    frame.classList.add("hero");
+    if (targetId === "horizontal") {
+      col.prepend(frame.firstChild);
+      col.appendChild(foot());
+      col.setAttribute("data-body", "");
+      frame.appendChild(col);
+      if (piece.art) frame.appendChild(art(piece.art));
+      return false;
+    }
+    box.appendChild(col);
+    if (piece.art) box.appendChild(art(piece.art));
+    return true;
+  },
+  record(box) {
+    eyebrow(box);
+    const rec = el("div", "record");
+    capRows(piece.rows ?? [], target.rows).forEach((r) => {
+      const row = el("div", "row" + (r.cls === "hot" ? " hot" : ""));
+      if (r.cls === "dim") row.setAttribute("data-texture", "");
+      row.appendChild(el("div", "st", r.st));
+      const ac = el("div", "ac", r.ac);
+      if (r.cls === "hot") ac.setAttribute("data-headline", "");
+      row.appendChild(ac);
+      if (r.scope) row.appendChild(el("span", "scope", r.scope));
+      rec.appendChild(row);
+    });
+    box.appendChild(rec);
+    lead(box);
+    return true;
+  },
+  statement(box) {
+    eyebrow(box);
+    box.appendChild(headline(piece.headline, "h2"));
+    lead(box);
+    return true;
+  },
+  list(box) {
+    eyebrow(box);
+    if (piece.headline) box.appendChild(headline(piece.headline, "h2"));
+    if (piece.items) {
+      const list = el("div", "list");
+      capRows(piece.items.map((t) => ({ ac: t })), target.rows).forEach((it, i) => {
+        const row = el("div", "it");
+        row.appendChild(el("span", "n", String(i + 1).padStart(2, "0")));
+        row.appendChild(el("span", null, it.ac));
+        list.appendChild(row);
+      });
+      box.appendChild(list);
+    }
+    if (piece.chain) {
+      const chain = el("div", "chain");
+      capRows(piece.chain, target.rows).forEach((s) => chain.appendChild(el("div", "st" + (s.hi ? " hi" : ""), s.text)));
+      box.appendChild(chain);
+    }
+    lead(box);
+    return true;
+  },
+  question(box) {
+    eyebrow(box);
+    const q = el("h2", "q", piece.question);
+    q.setAttribute("data-headline", "");
+    box.appendChild(q);
+    lead(box);
+    return true;
+  },
+  quote(box) {
+    eyebrow(box);
+    const q = el("blockquote", "quote" + (words(piece.quote) <= 14 ? " poster" : ""), piece.quote);
+    q.setAttribute("data-headline", "");
+    box.appendChild(q);
+    if (piece.source) {
+      const s = el("div", "source");
+      s.innerHTML = `<b>${piece.source.name ?? ""}</b>${piece.source.role ? " · " + piece.source.role : ""}`;
+      box.appendChild(s);
+    }
+    lead(box);
+    return true;
+  },
+  announcement(box) {
+    eyebrow(box);
+    box.appendChild(headline(piece.headline, "h2"));
+    if (piece.details?.length) {
+      const dl = el("dl", "details");
+      capRows(piece.details, target.rows).forEach((d) => {
+        dl.appendChild(el("dt", null, d.label));
+        dl.appendChild(el("dd", null, d.value));
+      });
+      box.appendChild(dl);
+    }
+    lead(box);
+    return true;
+  },
+  contrast(box) {
+    eyebrow(box);
+    if (piece.headline) box.appendChild(headline(piece.headline, "h2"));
+    const grid = el("div", "contrast");
+    for (const side of ["before", "after"]) {
+      const data = piece[side] ?? {};
+      const pane = el("div", "pane " + side);
+      pane.appendChild(el("div", "label", data.label ?? (side === "before" ? "Antes" : "Después")));
+      pane.appendChild(el("div", "text", data.text ?? ""));
+      grid.appendChild(pane);
+    }
+    box.appendChild(grid);
+    lead(box);
+    return true;
+  },
+};
+
+/**
+ * Before-and-after comparison for a report.
+ *
+ * Every value is printed as text beside its bar. A bar read by length is a value the reader
+ * estimates, and an estimate is not a measurement — the bar exists to show relative size, the
+ * printed number is the datum. Bars are scaled against the largest value present, never against a
+ * zero-suppressed axis, because a truncated axis is how a small change is made to look large.
+ *
+ * `piece.basis` is required and renders as the last line. It carries the definition, the
+ * measurement dates and who measured, which is what the reporting doctrine demands of every
+ * figure. A chart with no basis line is refused rather than drawn without one.
+ */
+ARCHETYPES.chart = (box) => {
+  eyebrow(box);
+  if (piece.headline) {
+    const h = el("h2", "h2", piece.headline);
+    h.setAttribute("data-headline", "");
+    box.appendChild(h);
+  }
+
+  const bars = capRows(piece.bars ?? [], target.rows);
+  const values = bars.flatMap((b) => [Number(b.before) || 0, Number(b.after) || 0]);
+  const peak = Math.max(...values, 1);
+  const unit = piece.unit ?? "";
+
+  const chart = el("div", "chart");
+  for (const b of bars) {
+    const group = el("div", "cbar");
+    group.appendChild(el("div", "clabel", b.label));
+    for (const side of ["before", "after"]) {
+      const raw = Number(b[side]);
+      if (!Number.isFinite(raw)) continue;
+      const track = el("div", "ctrack" + (side === "after" ? " now" : ""));
+      const well = el("div", "cwell");
+      const fill = el("div", "cfill");
+      fill.style.width = Math.max((raw / peak) * 100, 1.5) + "%";
+      well.appendChild(fill);
+      track.appendChild(well);
+      const v = el("div", "cval", `${raw}${unit}`);
+      if (side === "after") v.setAttribute("data-headline", "");
+      track.appendChild(v);
+      const legend = el("div", "cside", side === "after" ? (piece.afterLabel ?? "ahora") : (piece.beforeLabel ?? "antes"));
+      legend.setAttribute("data-texture", "");
+      track.appendChild(legend);
+      group.appendChild(track);
+    }
+    if (b.quality) group.appendChild(el("div", "cqual", b.quality));
+    chart.appendChild(group);
+  }
+  box.appendChild(chart);
+
+  if (!piece.basis) throw new Error("chart archetype requires piece.basis: the definition, the measurement dates and who measured");
+  box.appendChild(el("div", "cbasis", piece.basis));
+  return true;
+};
+
+const frame = document.createElement("div");
+frame.setAttribute("data-frame", "");
+frame.style.width = target.w + "px";
+frame.style.height = target.h + "px";
+frame.appendChild(lockup());
+
+const body = document.createElement("div");
+body.setAttribute("data-body", "");
+const build = ARCHETYPES[piece.archetype] ?? ARCHETYPES.statement;
+const bodyUsed = build(body, frame);
+if (bodyUsed) {
+  frame.appendChild(body);
+  frame.appendChild(foot());
+}
+document.body.appendChild(frame);
+
+/**
+ * Drops rows from the end while the body overflows. A fixed cap per format was a proxy for "fits";
+ * the browser measures that directly. Content is dropped and the register kept — shrinking type to
+ * fit produces a piece nobody can read at feed scale. The focal row is never dropped.
+ */
+const textSpan = (box) => {
+  const range = document.createRange();
+  let top = Infinity;
+  let bottom = -Infinity;
+  let right = -Infinity;
+  const walker = document.createTreeWalker(box, NodeFilter.SHOW_TEXT);
+  for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+    if (!node.nodeValue.trim()) continue;
+    range.selectNodeContents(node);
+    for (const r of range.getClientRects()) {
+      if (!r.height) continue;
+      top = Math.min(top, r.top);
+      bottom = Math.max(bottom, r.bottom);
+      right = Math.max(right, r.right);
+    }
+  }
+  box.querySelectorAll("svg, img").forEach((e) => {
+    const r = e.getBoundingClientRect();
+    if (!r.height) return;
+    top = Math.min(top, r.top);
+    bottom = Math.max(bottom, r.bottom);
+    right = Math.max(right, r.right);
+  });
+  return Number.isFinite(top) ? { top, bottom, right, height: bottom - top } : null;
+};
+
+const overflowsBody = (bodyBox) => {
+  const span = textSpan(bodyBox);
+  const b = bodyBox.getBoundingClientRect();
+  return !!span && (span.bottom > b.bottom + 1 || span.right > b.right + 1);
+};
+
+const fitDown = () => {
+  const bodyBox = document.querySelector("[data-body]");
+  if (!bodyBox) return;
+  for (let i = 0; i < 40 && overflowsBody(bodyBox); i++) {
+    const rows = [...bodyBox.querySelectorAll(".record .row:not(.hot), .list .it, .chain .st, .details dd, .chart .cbar:not(:first-child)")];
+    const last = rows.at(-1);
+    if (last) {
+      if (last.tagName === "DD") last.previousElementSibling?.remove();
+      last.remove();
+      continue;
+    }
+    const artBox = bodyBox.querySelector(".art");
+    if (artBox) {
+      const size = artBox.getBoundingClientRect().height;
+      if (size <= 200) break;
+      artBox.style.width = artBox.style.height = size - 24 + "px";
+      continue;
+    }
+    break;
+  }
+};
+
+/**
+ * Raises a short headline until the content fills the body or the widest word no longer fits.
+ * Short copy takes poster scale: the register follows the length of the message, and the largest
+ * size that fits is an exact answer the browser can find.
+ */
+const fitUp = () => {
+  const bodyBox = document.querySelector("[data-body]");
+  const head = bodyBox?.querySelector("[data-headline]");
+  if (!bodyBox || !head || !/statement|question|quote|contrast|announcement/.test(piece.archetype)) return;
+  const ratio = () => {
+    const span = textSpan(bodyBox);
+    return span ? span.height / bodyBox.getBoundingClientRect().height : 0;
+  };
+  const base = Number.parseFloat(getComputedStyle(head).fontSize);
+  let scale = 1;
+  for (let step = 0; step < 24; step++) {
+    const next = scale + 0.05;
+    head.style.fontSize = base * next + "px";
+    if (overflowsBody(bodyBox) || ratio() > 0.92) {
+      head.style.fontSize = base * scale + "px";
+      break;
+    }
+    scale = next;
+    if (ratio() >= 0.8) break;
+  }
+};
+
+/**
+ * Fitting waits for the real fonts. Measured before document.fonts.ready, every rect reflects the
+ * fallback face: the display face here is 16% wider and the body face taller, so a headline that
+ * fits in Arial overflows the right edge in Archivo and a block that fits in Segoe overlaps the
+ * foot in Hanken. The render engine waits for the `fitted` flag before measuring.
+ */
+/**
+ * Last resort for a piece with nothing to drop: secondary text — lead, pane text, quote source,
+ * detail values — shrinks in 5% steps toward the format's body register and never below it. The
+ * headline is never touched here; a headline that does not fit is a copy problem, not a layout one.
+ */
+const fitShrink = () => {
+  const bodyBox = document.querySelector("[data-body]");
+  if (!bodyBox || !overflowsBody(bodyBox)) return;
+  const floor = Number.parseFloat(getComputedStyle(document.body).getPropertyValue("--fs-lead"));
+  const secondary = [...bodyBox.querySelectorAll(".lead, .contrast .text, .source, .details dd, .record .scope, .cbasis, .chart .cqual")];
+  if (!secondary.length) return;
+  for (let step = 0; step < 8 && overflowsBody(bodyBox); step++) {
+    let moved = false;
+    for (const el of secondary) {
+      const size = Number.parseFloat(getComputedStyle(el).fontSize);
+      const next = Math.max(floor, size * 0.95);
+      if (next < size - 0.1) {
+        el.style.fontSize = next + "px";
+        moved = true;
+      }
+    }
+    if (!moved) break;
+  }
+};
+
+document.fonts.ready.then(() => {
+  fitDown();
+  fitUp();
+  fitDown();
+  fitShrink();
+  document.documentElement.dataset.fitted = "1";
+});
+</script>
+</body>
+</html>

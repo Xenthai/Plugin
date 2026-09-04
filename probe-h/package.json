@@ -1,0 +1,32 @@
+{
+  "name": "xenthai-plugin",
+  "author": "Xenth AI",
+  "homepage": "https://xenth.ai",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Xenthai/Plugin"
+  },
+  "contributors": [
+    {
+      "name": "Xenth AI",
+      "email": "hola@xenth.ai",
+      "url": "https://xenth.ai"
+    }
+  ],
+  "version": "0.1.0",
+  "private": true,
+  "description": "Engine and utilities for the Xenth AI plugin. Claude Code installs these dependencies when it copies the plugin into its cache, with --ignore-scripts, so nothing here may rely on a lifecycle script.",
+  "license": "FSL",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "playwright-core": "1.58.2"
+  },
+  "scripts": {
+    "test": "node test/run.mjs",
+    "eval:skills": "node test/skill-eval.mjs",
+    "spike:render": "node test/spike/render-spike.mjs"
+  }
+}

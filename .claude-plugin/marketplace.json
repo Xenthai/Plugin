@@ -14,31 +14,18 @@
       "source": "./xenthai"
     },
     {
-      "name": "probe-d",
-      "description": "Probe carrying this plugin's entire manifest at once, with one skill behind it.",
+      "name": "probe-g",
+      "description": "Probe that is a byte-for-byte copy of the plugin, under a different name.",
       "version": "0.0.1",
       "category": "productivity",
-      "source": "./probe-d"
+      "source": "./probe-g"
     },
     {
-      "name": "probe-e",
-      "description": "Probe carrying a minimal manifest and all twenty-one real skills behind it.",
+      "name": "probe-h",
+      "description": "Probe carrying the package manifest and its lockfile, and nothing else.",
       "version": "0.0.1",
       "category": "productivity",
-      "source": "./probe-e"
-    },
-    {
-      "name": "probe-f",
-      "description": "Probe whose catalogue entry carries the fields the failing entry carries.",
-      "version": "0.0.1",
-      "category": "productivity",
-      "source": "./probe-f",
-      "displayName": "Probe F",
-      "homepage": "https://xenth.ai",
-      "author": {
-        "name": "Derian Andre Castillo Franco",
-        "url": "https://xenth.ai"
-      }
+      "source": "./probe-h"
     }
   ]
 }
