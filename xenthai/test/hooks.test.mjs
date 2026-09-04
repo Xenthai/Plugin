@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process";
-import { MAX_ROW_BYTES, record as recordDirect } from "../lib/journal.mjs";
+import { MAX_ROW_BYTES, PLUGIN_VERSION, record as recordDirect } from "../lib/journal.mjs";
 import { mkdirSync, rmSync, writeFileSync, readFileSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -12,10 +12,11 @@ const ROOT = join(HERE, "..");
  * both suites. A shared scratch directory between suites is a race, not a convenience.
  */
 /**
- * The shipped version, read from the manifest rather than written here. A literal made every
- * version bump fail this suite, which put the release gate behind a test edit.
+ * Whatever the journal itself reports as the version, rather than a literal or a manifest read. A
+ * literal made every release fail this suite; a manifest read broke once no manifest declares one.
+ * Asserting against the same value the code under test derives keeps this about the row's shape.
  */
-const VERSION = JSON.parse(readFileSync(join(ROOT, ".claude-plugin", "plugin.json"), "utf8")).version;
+const VERSION = PLUGIN_VERSION;
 
 const SANDBOX = join(HERE, "sandbox", "hooks");
 const CO_A = join(SANDBOX, "company-a");

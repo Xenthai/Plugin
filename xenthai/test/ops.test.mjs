@@ -15,10 +15,18 @@ const cases = [];
 const check = (name, fn) => cases.push([name, fn]);
 
 /** Commands only: the assertion is about what CI executes, not what a comment mentions. */
+/**
+ * Every executable line of the workflow, comments removed.
+ *
+ * It kept only lines matching `run:`, which stopped working the moment a step became a `run: |`
+ * block: the commands then live on the lines that follow and the `run:` line itself carries
+ * nothing. Comments are dropped rather than kept because a comment that quotes the command it warns
+ * against — "installs cleanly with a normal `npm ci`" — reads to a regex exactly like the command.
+ */
 const ciCommands = () =>
   repoRead(".github/workflows/test.yml")
     .split(/\r?\n/)
-    .filter((l) => /\brun:/.test(l))
+    .filter((l) => !/^\s*#/.test(l))
     .join(" ; ");
 
 check("CI installs with --ignore-scripts, the way the runtime does", () => {
@@ -32,8 +40,13 @@ check("CI runs the gate and validates both manifests where they actually live", 
   const yml = ciCommands();
   const bad = [];
   if (!/npm test/.test(yml)) bad.push("no npm test");
-  if (!/plugin validate --strict \.\.\/\.claude-plugin\/marketplace\.json/.test(yml)) bad.push("the catalogue is not validated one level up");
-  if (!/plugin validate --strict \.claude-plugin\/plugin\.json/.test(yml)) bad.push("plugin.json is not validated");
+  if (!/plugin validate --strict/.test(yml)) bad.push("the manifests are not validated with --strict");
+  if (!/\.\.\/\.claude-plugin\/marketplace\.json/.test(yml)) bad.push("the catalogue is not validated one level up");
+  if (!/\.claude-plugin\/plugin\.json/.test(yml)) bad.push("plugin.json is not validated");
+  // --strict fails on any warning, and the absent `version` raises one deliberately. CI has to
+  // tolerate that single warning by name; if it stops doing so, every push fails on a choice this
+  // repository made on purpose.
+  if (!/version: No version specified/.test(yml)) bad.push("CI does not tolerate the deliberate absence of version by name, so --strict will fail on it");
   return [bad.length === 0, bad.join("; ") || "gate plus both manifests"];
 });
 
@@ -109,8 +122,14 @@ check("one catalogue, at the repository root", () => {
   const bad = [];
   if (existsSync(join(ROOT, CATALOGUE))) bad.push(`a second catalogue exists at ${PLUGIN_DIR}/${CATALOGUE}`);
   if (m.name !== CATALOGUE_NAME) bad.push(`the catalogue is named ${m.name}, not ${CATALOGUE_NAME}`);
-  if (m.plugins?.[0]?.version !== json(".claude-plugin/plugin.json").version) bad.push("the entry's version does not match plugin.json");
-  return [bad.length === 0, bad.join("; ") || `${m.name} @ ${m.plugins[0].version}`];
+  // Neither manifest may declare a version. A declared version pins the plugin: the CLI hands an
+  // existing install an update only when that string changes, so every fix merged between two bumps
+  // is unreachable by anyone who already installed. Absent from both, the version resolves to the
+  // commit SHA and every push reaches a client. This asserts the absence, because the failure it
+  // guards is silent — a pinned plugin installs and runs, it just never updates again.
+  if (m.plugins?.[0]?.version !== undefined) bad.push("the catalogue entry declares a version, which pins the plugin and stops updates");
+  if (json(".claude-plugin/plugin.json").version !== undefined) bad.push("plugin.json declares a version, which pins the plugin and stops updates");
+  return [bad.length === 0, bad.join("; ") || `${m.name}, version resolved from the commit`];
 });
 
 check("package.json points at the same repository as the plugin manifest", () => {
@@ -181,10 +200,16 @@ check("the runbook covers the four steps no code can do", () => {
   return [missing.length === 0, missing.length ? `missing: ${missing.join("; ")}` : "all four present"];
 });
 
-check("the changelog names the shipped version", () => {
-  const version = json(".claude-plugin/plugin.json").version;
+// The changelog can no longer be checked against a version field, because there is none — the
+// version is the commit. What is still worth asserting is that the file is kept: a dated entry at
+// the top, and no `[Unreleased]` section, since nothing merged is unshipped any more.
+check("the changelog carries a dated entry and claims nothing is unreleased", () => {
   const log = read("CHANGELOG.md");
-  return [log.includes(version), `plugin.json says ${version}; changelog mentions it: ${log.includes(version)}`];
+  const bad = [];
+  if (/^## \[Unreleased\]/m.test(log)) bad.push("an [Unreleased] section survives, but every push now ships");
+  const dated = log.match(/^## \[[^\]]+\] - \d{4}-\d{2}-\d{2}/m);
+  if (!dated) bad.push("no dated entry heading was found");
+  return [bad.length === 0, bad.join("; ") || `newest entry: ${dated[0].replace("## ", "")}`];
 });
 
 check("repository slug agrees across every manifest that states one", () => {

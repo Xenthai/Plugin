@@ -4,23 +4,27 @@ All notable changes to the Xenth AI Plugin are recorded in this file. The format
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the version numbers follow
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-**The `version` field in `.claude-plugin/plugin.json` is the release gate.** Claude Code re-copies an
-installed plugin only when that field changes, so a client machine holds exactly what a version
-names and nothing merged after it. Three consequences govern this file:
+**There is no release gate any more, and this file is a record rather than a permission.** Neither
+manifest declares a `version`. A declared version pins the plugin — the CLI hands an existing
+install an update only when that string changes — so every fix merged between two bumps was
+unreachable by anyone who had already installed, which is exactly how 0.1.0 sat on client machines
+while four hundred lines of merged work waited here. Absent from both manifests, the version
+resolves to the commit, and every push reaches a client. Three consequences govern this file:
 
-- **Every entry is a version bump, and every bump has an entry.** A bump without an entry ships
-  work nobody described; an entry without a bump describes work no client has.
-- **`[Unreleased]` is what is merged and not shipped.** It is on no client machine. When it ships,
-  it moves under a new version heading in the same commit that bumps the field.
-- **`package.json` carries the same number.** `test/ops.test.mjs` fails when the two disagree, or
-  when this file has no entry for the version the manifest names.
+- **A push is a release.** There is nothing merged and unshipped, so there is no `[Unreleased]`
+  section; `test/ops.test.mjs` fails if one reappears. Write the entry in the commit that ships the
+  work, because there is no later moment when it ships.
+- **The headings are dated, and their labels are names, not gates.** `[0.2.0]` names the release
+  that turned this into a company-wide engagement; it no longer pins anything and no manifest
+  repeats it.
+- **`package.json` keeps its own number**, which npm needs and the plugin system never reads. It is
+  not the plugin's version and nothing checks the two against each other.
 
-Every journal row carries `plugin: <version>`, so the rules a company's pieces were produced under
-are traceable to an entry here. That traceability is only as good as the entry.
-
-## [Unreleased]
-
-Nothing merged and unshipped.
+Every journal row carries `plugin: <version>`, and that value is now the commit the plugin was
+installed from. It identifies exactly one tree, which is what this claim always needed: a row saying
+`0.1.0` never did, because a fresh install copies the clone at HEAD whatever a manifest says, so two
+machines could both write `0.1.0` and hold different code. A row written from a working copy says
+`dev`, which is honest about being unreleasable rather than borrowing a number.
 
 ## [0.2.0] - 2026-09-04
 
@@ -62,6 +66,21 @@ reached a client machine at all.
   verifies against `claude plugin list`, which reads the store's own record — the only thing that
   decides whether a session loads anything.
 
+### Changed — releasing
+
+- **Neither manifest declares a `version`, so every push reaches a client.** A declared version
+  pins the plugin: `claude plugin install` on an already-installed plugin is a no-op, and
+  `claude plugin update` moves nothing while the string is unchanged. Verified both ways on a real
+  install — `update` reported "already at the latest version" against a newer commit, and moved only
+  once the number changed. With the field absent from `.claude-plugin/plugin.json` and from the
+  catalogue entry, the CLI resolves the version to the commit SHA, the way an unversioned
+  marketplace entry already does elsewhere on this machine.
+- **`lib/journal.mjs` reads the version from the install directory rather than a manifest.** An
+  install lives at `<store>/cache/<marketplace>/<plugin>/<version>`, so that directory's name is the
+  version the CLI resolved — the authoritative value, not a copy of it. From a working copy the leaf
+  is the repository folder and the row says `dev`.
+- **`test/ops.test.mjs` asserts the absence of both version fields**, because the failure it guards
+  is silent: a pinned plugin installs, runs, and simply never updates again.
 ### Changed — manifests
 
 - **`license` names the license instead of pointing at the file.** `plugin.json` carried npm's

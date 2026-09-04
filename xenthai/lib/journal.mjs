@@ -1,6 +1,6 @@
 import { appendFileSync, mkdirSync, readFileSync } from "node:fs";
 import { createHash } from "node:crypto";
-import { dirname, join } from "node:path";
+import { basename, dirname, join } from "node:path";
 import { homedir } from "node:os";
 import { fileURLToPath } from "node:url";
 import { readCompany } from "./company.mjs";
@@ -10,13 +10,27 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 /**
  * Version of the plugin that wrote a row. A doctrine rule changes; the pieces produced under the old
  * rule must stay traceable, and `schema` only says how the row is shaped, not who shaped it.
+ *
+ * Read from the directory the CLI copied this plugin into, not from a manifest, because that
+ * directory name IS the version the CLI resolved: an install lives at
+ * `<store>/cache/<marketplace>/<plugin>/<version>`. Neither manifest declares a `version` any more,
+ * on purpose — a declared version pins the plugin, so users receive an update only when that string
+ * changes, and every fix merged between two bumps is unreachable. With it absent the CLI resolves
+ * the version to the commit SHA, so every push reaches a client.
+ *
+ * The gain is not only that updates flow. A row saying `plugin: 0.1.0` never identified a tree,
+ * because a fresh install copies the clone at HEAD whatever the manifest says — two machines could
+ * both write 0.1.0 and hold different code. A row saying `plugin: 9808112abcd` identifies exactly
+ * one commit, which is what the traceability claim always needed.
+ *
+ * Running from a working copy rather than an install, the leaf is the repository's own folder name
+ * and no version exists to report, so it says `dev` — and a `dev` row is honest about being
+ * unreleasable rather than borrowing a number it does not have.
  */
 export const PLUGIN_VERSION = (() => {
-  try {
-    return JSON.parse(readFileSync(join(HERE, "..", ".claude-plugin", "plugin.json"), "utf8")).version ?? "unknown";
-  } catch {
-    return "unknown";
-  }
+  const leaf = basename(join(HERE, ".."));
+  if (/^\d+\.\d+\.\d+/.test(leaf) || /^[0-9a-f]{7,40}$/i.test(leaf)) return leaf;
+  return "dev";
 })();
 
 /**
