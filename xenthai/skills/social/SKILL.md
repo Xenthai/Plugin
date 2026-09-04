@@ -38,7 +38,7 @@ pending fields, so a document that exists but is entirely unfilled shows as the 
 actually is:
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/status.mjs" --json
+node "${CLAUDE_PLUGIN_ROOT}/tools/status.mjs" --json
 ```
 
 | What exists in the store | Phase | Hand off to |
@@ -57,7 +57,7 @@ named phase depends on.
 ## Step 3 — Record that the phase opened
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event phase_start --capability social --why "<phase and what it will produce>"
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event phase_start --capability social --why "<phase and what it will produce>"
 ```
 
 Run `--help` on that script if you need the option list. Do not read its source; it is longer than

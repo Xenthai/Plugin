@@ -3,11 +3,11 @@ import { mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { detect } from "../bin/opportunities.mjs";
+import { detect } from "../tools/opportunities.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, "..");
-const CLI = join(ROOT, "bin", "opportunities.mjs");
+const CLI = join(ROOT, "tools", "opportunities.mjs");
 const SANDBOX = join(HERE, "sandbox", "opportunities");
 const STORE = join(SANDBOX, "store");
 const EXECUTION = join(STORE, "journal", "execution");

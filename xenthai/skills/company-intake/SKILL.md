@@ -91,7 +91,7 @@ count in the baseline's maturity layer, and it is usually the strongest argument
 "They will not share it" is a legitimate constraint to record, not to argue with.
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event phase_end --capability company \
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event phase_end --capability company \
   --why "intake: N files requested, M received, K recorded as non-existent" --target "INTAKE.md"
 ```
 
@@ -99,7 +99,7 @@ Close by reporting what is still open, and by naming the phase that owes each on
 should never have to work out who fills what:
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/status.mjs" --pending
+node "${CLAUDE_PLUGIN_ROOT}/tools/status.mjs" --pending
 ```
 
 Company files change through `Write` and `Edit` only. `capabilities/company/doctrine/CONTROLS.md` carries why, and what the guard refuses versus merely records.

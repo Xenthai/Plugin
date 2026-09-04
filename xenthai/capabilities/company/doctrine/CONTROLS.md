@@ -204,7 +204,7 @@ now, and they cover different halves:
 
 | Where | What it catches |
 | --- | --- |
-| `doctor`, on the manifest | A locale this toolchain cannot honour. Every client-facing part is Spanish by construction — the scaffolds, the report templates, `bin/report.mjs`'s prose, and the readability index whose scale and syllable rules are Spanish-only — so a non-Spanish locale is refused rather than ignored |
+| `doctor`, on the manifest | A locale this toolchain cannot honour. Every client-facing part is Spanish by construction — the scaffolds, the report templates, `tools/report.mjs`'s prose, and the readability index whose scale and syllable rules are Spanish-only — so a non-Spanish locale is refused rather than ignored |
 | `status`, on each written document | A document that **was filled** in the wrong language. The scaffold ships in es-MX and a session fills it, and a file with Spanish headings and English content looks finished |
 
 `status` audits two sets, and the second one is where the visible artefacts live. The eighteen

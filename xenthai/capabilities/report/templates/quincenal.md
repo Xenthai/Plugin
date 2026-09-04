@@ -28,7 +28,7 @@ suficientes para que una mediana signifique algo.
 | --- | --- | --- |
 | — pendiente — | | |
 
-Campos pendientes por documento: correr `bin/status.mjs --pending`.
+Campos pendientes por documento: correr `tools/status.mjs --pending`.
 
 ## Si la quincena estuvo tranquila
 

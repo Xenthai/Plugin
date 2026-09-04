@@ -144,7 +144,7 @@ export const copyFromPieces = (value, key = null, out = []) => {
 };
 
 /**
- * Whether a document reads as Spanish, exported so `bin/status.mjs` can audit what actually landed
+ * Whether a document reads as Spanish, exported so `tools/status.mjs` can audit what actually landed
  * in a company's store without a second copy of this rule. The scaffolds ship in es-MX, but a skill
  * fills them during a session, and nothing until now checked the written result — so a document
  * could carry Spanish headings and English content and look finished.
@@ -296,7 +296,7 @@ export const measure = (src) => {
 
 const HELP = `Xenth AI legible — how hard a Spanish document is to read, on the INFLESZ scale.
 
-  node bin/legible.mjs <file.md> [<file.md> ...] [--json] [--floor ${FLOOR}]
+  node tools/legible.mjs <file.md> [<file.md> ...] [--json] [--floor ${FLOOR}]
 
 Reports Szigriszt-Pazos perspicuity over the document's PROSE — markdown tables, fenced blocks,
 headings and frontmatter are excluded, and the share of the document that was measurable is

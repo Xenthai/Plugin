@@ -28,7 +28,7 @@ An asset that failed a layout assertion is also not a health problem. That is a 
 ## Step 1 — the local checks, by the machine
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/doctor.mjs"
+node "${CLAUDE_PLUGIN_ROOT}/tools/doctor.mjs"
 ```
 
 Run it with `--help` for the options and exit codes; do not read its source. `--json` returns the
@@ -103,13 +103,13 @@ Report one table, every row filled, and say plainly which rows a person performe
 Then record the connector half, which the script cannot know about:
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event health --capability doctor \
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event health --capability doctor \
   --why "connector round trip on the bound company's store" \
   --detail "read:ok write:ok trash:ok comments:ok"
 ```
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event health --capability doctor \
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event health --capability doctor \
   --actor "person:<name>" --why "opened one asset URL in a private window" \
   --detail "public-link:ok"
 ```
@@ -143,7 +143,7 @@ comment's text in `--detail`; the codes are enough.
 
 | File | Read it when |
 | --- | --- |
-| `node "${CLAUDE_PLUGIN_ROOT}/bin/doctor.mjs" --help` | You need the options, exit codes or check names — run it, never read the source |
+| `node "${CLAUDE_PLUGIN_ROOT}/tools/doctor.mjs" --help` | You need the options, exit codes or check names — run it, never read the source |
 | `MCP.md` (plugin root) | A connector call failed, authorization is in doubt, or you need which tool does what |
 | `capabilities/social/doctrine/LAYOUT.md` | A render failed an assertion — composition, not health |
 | `scaffold/company/.company.json.template` | No company is bound and the operator asks how to bind one |

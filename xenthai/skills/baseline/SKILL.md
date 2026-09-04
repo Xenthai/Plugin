@@ -75,13 +75,13 @@ The figure itself lives in `BASELINE.md`. The journal records **what was measure
 instances, over which window, and from which source class** — never the client's numbers.
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event baseline --capability baseline \
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event baseline --capability baseline \
   --why "boundary and metric definitions frozen before any change to <process>" \
   --target "BASELINE.md#<process>" --detail "layer1 boundary+definitions frozen"
 ```
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event baseline --capability baseline \
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event baseline --capability baseline \
   --actor "person:<who measured>" \
   --why "touch time captured for <process> from dated instances walked with the operator" \
   --target "BASELINE.md#<process>" \
@@ -89,13 +89,13 @@ node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event baseline --capability basel
 ```
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event baseline --capability baseline \
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event baseline --capability baseline \
   --why "state fact counted with independent verification" --target "BASELINE.md#estado" \
   --detail "layer2 fact=named_owner counted=7 of=11 verification=owner+peer-separately"
 ```
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event baseline --capability baseline \
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event baseline --capability baseline \
   --why "coverage recorded at baseline" --target "BASELINE.md#cobertura" \
   --detail "layer3 assisted=0 identified=11"
 ```
@@ -104,7 +104,7 @@ Use `source=client-reported` in `--detail` whenever the figure is the client's o
 `--event blocked` when a baseline could not be taken at all:
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event blocked --capability baseline \
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event blocked --capability baseline \
   --why "no written boundary for <process>; baseline not taken" --target "<process>"
 ```
 

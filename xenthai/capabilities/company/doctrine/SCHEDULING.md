@@ -112,7 +112,7 @@ Only one routine is justified on day one:
 
 | Routine | Mechanism | Cadence | Why day one |
 | --- | --- | --- | --- |
-| **Status digest** | Desktop scheduled task running `bin/watch.mjs`, cheapest model | Daily | It is monitoring, not a deliverable. It needs no agreement with the client because it produces nothing they read, and its absence is what makes an abandoned engagement visible |
+| **Status digest** | Desktop scheduled task running `tools/watch.mjs`, cheapest model | Daily | It is monitoring, not a deliverable. It needs no agreement with the client because it produces nothing they read, and its absence is what makes an abandoned engagement visible |
 
 **Every other routine waits for its cadence to be agreed with the client.** `ROUTINES.md` says a
 cadence that does not answer a distinct question is not activated, and that the annual review asks of
@@ -161,7 +161,7 @@ median to be stable.
 
 ### Opportunities scan — semiannual
 
-> Corre `node "${CLAUDE_PLUGIN_ROOT}/bin/opportunities.mjs" --journal <raíz-del-almacén>` y lee la
+> Corre `node "${CLAUDE_PLUGIN_ROOT}/tools/opportunities.mjs" --journal <raíz-del-almacén>` y lee la
 > skill `opportunities` antes de interpretar nada. Cada patrón es una repetición medida, no una
 > recomendación: aplica la prueba de autónomo, recurrente y revisable, y deja los hallazgos en
 > `PROCESSES.md` con su procedencia visible. Si la bitácora no cubre suficientes periodos, dilo y no
@@ -174,7 +174,7 @@ report is a client-facing deliverable that carries claims, and `REPORTING.md` re
 written by a person who can defend it. Schedule a **reminder** instead of the report:
 
 > Recuérdame que hoy toca el reporte <cadencia> de <empresa>. Corre
-> `node "${CLAUDE_PLUGIN_ROOT}/bin/report.mjs" --help` y deja preparado el comando con el mes
+> `node "${CLAUDE_PLUGIN_ROOT}/tools/report.mjs" --help` y deja preparado el comando con el mes
 > correcto, pero **no escribas el reporte ni lo publiques**: la atribución la redacta una persona.
 
 ## 5. Cross-references
@@ -184,4 +184,4 @@ written by a person who can defend it. Schedule a **reminder** instead of the re
 | `<store>/ROUTINES.md` | Always — it records which routines were agreed and how each absence shows |
 | `capabilities/report/doctrine/REPORTING.md` | §2b, on designing absence detection rather than execution |
 | `INSTALL.md` | §6b, for the digest's OS task and the folder share |
-| `bin/watch.mjs --help` | Before quoting anything about the digest |
+| `tools/watch.mjs --help` | Before quoting anything about the digest |

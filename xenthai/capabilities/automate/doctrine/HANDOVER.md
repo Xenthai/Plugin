@@ -234,7 +234,7 @@ document is clear is a judgement about a document describing work they do not pe
 
 ### The screen, and why there are two numbers
 
-`node bin/legible.mjs <file>` reports Szigriszt-Pazos perspicuity on the INFLESZ scale — the
+`node tools/legible.mjs <file>` reports Szigriszt-Pazos perspicuity on the INFLESZ scale — the
 Spanish-validated adaptation of Flesch, not a translated English formula, because Spanish carries
 about two syllables per word against English's one and a half, so an English index reports every
 Spanish text as harder than it reads.
@@ -292,7 +292,7 @@ the signature means: **the client agrees the automation does what the document s
 to turn it off.** Not that it will never fail.
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event approval --actor "person:<name>" \
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event approval --actor "person:<name>" \
   --capability automate --why "automation handover accepted for process <id>" \
   --target "AUTOMATIONS.md"
 ```

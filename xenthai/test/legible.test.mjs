@@ -3,7 +3,7 @@ import { mkdirSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { basename, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { FLOOR, TARGET, measure, prose, sentences, syllables } from "../bin/legible.mjs";
+import { FLOOR, TARGET, measure, prose, sentences, syllables } from "../tools/legible.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, "..");
@@ -21,7 +21,7 @@ const write = (name, body) => {
 };
 
 const run = (args) =>
-  spawnSync(process.execPath, [join(ROOT, "bin", "legible.mjs"), ...args], {
+  spawnSync(process.execPath, [join(ROOT, "tools", "legible.mjs"), ...args], {
     encoding: "utf8",
     cwd: ROOT,
   });

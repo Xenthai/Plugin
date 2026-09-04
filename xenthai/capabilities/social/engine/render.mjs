@@ -132,7 +132,7 @@ const CHANNELS = ["msedge", "chrome", "msedge-beta", "chrome-beta", "chrome-dev"
  * one thing that cannot.
  *
  * Deferring the import moves that failure from load time to the only moment it is real: the first
- * attempt to launch a browser. `bin/doctor.mjs` already resolves it this way; this brings the
+ * attempt to launch a browser. `tools/doctor.mjs` already resolves it this way; this brings the
  * engine into line with the check that reports on it.
  *
  * Cached because a render pass launches once but this is called from a loop's ancestor, and a

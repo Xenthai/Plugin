@@ -59,7 +59,7 @@ third refusal — then it is theirs, declared, not a default.
 ### 3 · No hash chain on the journal; the report's digest anchored in the client's store
 
 A chain is computed by whoever writes the journal, so it detects nothing that party wants hidden. What
-makes a digest mean something is where it comes to rest: `bin/report.mjs` prints the SHA-256 of the
+makes a digest mean something is where it comes to rest: `tools/report.mjs` prints the SHA-256 of the
 bytes it read, and the report is written into the **client's** store, whose revision history the
 practice cannot rewrite.
 

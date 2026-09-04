@@ -87,7 +87,7 @@ more often by models than by people, so every non-informative one is a permanent
 ## Journal
 
 Tool calls are journaled by hooks automatically. Semantic events go through
-`node bin/journal.mjs --event <name> --why "<reason>" [--actor person:<name>]`. Run `--help` for
+`node tools/journal.mjs --event <name> --why "<reason>" [--actor person:<name>]`. Run `--help` for
 the vocabulary; **never add an event outside `lib/journal.mjs`'s `EVENTS`**, and never put client
 content or a secret in `--why` or `--detail`. Rows carry `schema` and `plugin` versions.
 

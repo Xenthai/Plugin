@@ -37,7 +37,7 @@ reached a client machine at all.
   `playwright-core` either, and `capabilities/social/engine/render.mjs` imported it at its top level
   — which made the whole module unloadable on every fresh install, `--help` included, on a module
   resolution error that named a package rather than the missing step. The driver is now resolved with
-  `await import()` at first use, the way `bin/doctor.mjs` already did, and the failure message
+  `await import()` at first use, the way `tools/doctor.mjs` already did, and the failure message
   separates the two absences that were previously conflated: a missing driver is this plugin's own
   install and takes two seconds of npm, a missing browser is the machine's and on macOS and Linux is
   a download.
@@ -81,7 +81,7 @@ reached a client machine at all.
 - **The language a document is written in is now a control** (`CONTROLS.md` §4c), enforced in two
   places because it has two halves. `doctor` refuses a manifest whose `locale` this toolchain cannot
   honour: every client-facing part is Spanish by construction — the scaffolds, the six report
-  templates, `bin/report.mjs`'s prose, and the readability index whose scale and syllable rules are
+  templates, `tools/report.mjs`'s prose, and the readability index whose scale and syllable rules are
   Spanish-only — so a manifest declaring `en-US` would have produced Spanish documents while claiming
   otherwise. `locale` had until then been declared in every manifest and **read by nothing**, which is
   worse than not having the field: it looked like a control and was decoration.
@@ -153,7 +153,7 @@ reached a client machine at all.
 
 ### Fixed
 
-- **`bin/legible.mjs` refuses text that is not Spanish.** Every part of the index is Spanish-only and
+- **`tools/legible.mjs` refuses text that is not Spanish.** Every part of the index is Spanish-only and
   none of it failed loudly on English: this plugin's own `INSTALL.md` scored 87 and *muy fácil*
   several times before the guard existed, because a Spanish formula on English still lands inside its
   plausible range and still prints a band. A wrong answer that looks right is the worst class, and
@@ -220,7 +220,7 @@ reached a client machine at all.
 
 ### Added — earlier in this cycle
 
-- **A digest that runs with nobody present** (`bin/watch.mjs`). The one part of this plugin that can
+- **A digest that runs with nobody present** (`tools/watch.mjs`). The one part of this plugin that can
   honestly be called automatic, because it needs no model: plain arithmetic over a local JSONL file,
   no session, no connector, no network, no API cost. It answers the question no other tool here can —
   **how long has it been quiet** — measured against each client's own median gap between active days
@@ -243,7 +243,7 @@ reached a client machine at all.
 
 ### Added — earlier in this cycle
 
-- **Opportunities capability** (`bin/opportunities.mjs`, `skills/opportunities/`). Reads a company's
+- **Opportunities capability** (`tools/opportunities.mjs`, `skills/opportunities/`). Reads a company's
   own journal and reports what recurred — the document reworked every period, the escalation reason
   that keeps returning, the step that has been failing for months without anyone reporting it. The
   floor counts **distinct periods, not occurrences**, because three edits in one afternoon is one
@@ -254,7 +254,7 @@ reached a client machine at all.
   whether the work is autonomous and reviewable it cannot see. `PROCESS.md` §8 carries what this
   replaces — the execution-time and failure-rate criteria in the suitability score, normally filled
   from recall that runs high by a median of 47%, become measured values with the periods they cover.
-- **A readability floor for the documents an operator has to act on** (`bin/legible.mjs`).
+- **A readability floor for the documents an operator has to act on** (`tools/legible.mjs`).
   Szigriszt-Pazos perspicuity on the INFLESZ scale — Spanish-validated, not a translated Flesch —
   over a document's prose, with markdown tables, fenced blocks and frontmatter excluded. Floor 55,
   target 65 for the failure-recovery section, and the score is stated as a screen rather than the
@@ -266,7 +266,7 @@ reached a client machine at all.
   that fill a document by interviewing a person. Leads with the rule that silently corrupts
   everything downstream in this market: with a director in the room an operator gives the
   director's estimate in their own voice, and no later step can detect it.
-- **Source verification in every report.** `bin/report.mjs` prints the SHA-256 of the exact bytes it
+- **Source verification in every report.** `tools/report.mjs` prints the SHA-256 of the exact bytes it
   read, with the row count and the check command for Windows as well as Unix. Not a hash chain —
   whoever computes one can recompute it, so it proves nothing against the parties who matter. The
   anchor is that the report comes to rest in the client's store, whose revision history this
@@ -415,14 +415,14 @@ reached a client machine at all.
 - **Nine more scaffolds** (es-MX): `INTAKE.md`, `INTERVIEW.md`, `PEOPLE.md`, `SYSTEMS.md`,
   `OFFER.md`, `PRODUCTS.md`, `SERVICES.md`, `CUSTOMERS.md`, `PROCESSES.md`, `BASELINE.md`. Every
   scaffold declares a schema version, so a later change is a migration rather than a guess.
-- **`bin/status.mjs`.** Reports, per document, whether it exists, how many fields are still pending,
+- **`tools/status.mjs`.** Reports, per document, whether it exists, how many fields are still pending,
   and **which phase owes it**. A field nobody owns stays pending forever; the owner map is checked
   against the skills on disk, so a scaffold no phase fills is reported as a plugin defect. Invoked
   by both routers for phase detection — a document that exists but is entirely unfilled reads as
   the unstarted phase it is, which reading the file list alone cannot tell.
-- **`bin/report.mjs` and the `report` skill.** Turns journal rows into an engagement report without
+- **`tools/report.mjs` and the `report` skill.** Turns journal rows into an engagement report without
   copying client content out of the store.
-- **`bin/doctor.mjs` and the `doctor` skill.** Verifies that this machine and the bound company's
+- **`tools/doctor.mjs` and the `doctor` skill.** Verifies that this machine and the bound company's
   connectors can do the work before a session promises it.
 - **Four more test suites.** `skills.test.mjs` holds every skill to the invariants that decide
   whether it loads and fires at all — depth 1, exactly `name` and `description`, name equal to its
@@ -492,7 +492,7 @@ company's own store, bound to a session by a `.company.json` in the working dire
   `PreToolUse` is the company guard: it vetoes exactly two things — a store write with no company
   bound, and a local write outside the bound company's directory — and announces a share instead of
   blocking it. `PostToolUse`, `PostToolUseFailure` and `SessionEnd` journal every tool call.
-- **Journal** (`lib/journal.mjs`, `bin/journal.mjs`). One JSONL row per action in
+- **Journal** (`lib/journal.mjs`, `tools/journal.mjs`). One JSONL row per action in
   `journal/execution/<YYYY-MM>.jsonl`, row schema 1, stamped with the plugin version. Rows carry
   references and a digest, never content; the paths inside a shell command are extracted for audit.
   A fixed vocabulary of sixteen events, twelve of them semantic and recorded through the CLI.

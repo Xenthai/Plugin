@@ -25,7 +25,7 @@ conversation happens to be in. Reporting in English never turns a deliverable in
 Three reads, in this order, because each one can make the next unnecessary:
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/status.mjs" --pending
+node "${CLAUDE_PLUGIN_ROOT}/tools/status.mjs" --pending
 ```
 
 Per document: whether it exists, how many fields are still pending, whether what was written is in
@@ -33,14 +33,14 @@ the right language, and **which skill owes each absent one**. That last column i
 "which phase are we in" — not a guess from the conversation.
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/report.mjs" --journal <store-root> --month <YYYY-MM> --json
+node "${CLAUDE_PLUGIN_ROOT}/tools/report.mjs" --journal <store-root> --month <YYYY-MM> --json
 ```
 
 When was anything last actually done, and by whom. A document that exists says a phase ran; the
 journal says *when*, which is what tells you whether this is a resumption or a restart.
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/doctor.mjs"
+node "${CLAUDE_PLUGIN_ROOT}/tools/doctor.mjs"
 ```
 
 Only if a read failed or a connector looks wrong. A resumption that begins by re-authorising things
@@ -107,4 +107,4 @@ Company files change through `Write` and `Edit` only. `capabilities/company/doct
 | `capabilities/company/doctrine/SESSION.md` | The next step involves asking a person anything |
 | `capabilities/company/doctrine/INTAKE.md` | Documents exist that this engagement did not produce |
 | `capabilities/report/doctrine/REPORTING.md` | A cadence is due |
-| `node bin/status.mjs --help` | Before quoting any column from this file |
+| `node tools/status.mjs --help` | Before quoting any column from this file |

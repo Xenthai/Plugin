@@ -76,14 +76,14 @@ is the source and carries the lineage — and generate a **new** review Doc. The
 a file's contents, so a revision is a new document, which leaves the version history visible.
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event delivery --capability social \
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event delivery --capability social \
   --why "plan published for approval" --target "content/<YYYY-MM>/plan.md"
 ```
 
 Record the approval when it arrives, naming who gave it:
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event approval --actor "person:<name>" \
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event approval --actor "person:<name>" \
   --capability social --why "approved the plan for <period>" --target "content/<YYYY-MM>/plan.md"
 ```
 

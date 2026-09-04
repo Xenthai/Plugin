@@ -13,7 +13,7 @@ You route. You do not capture processes here: phase 3 is `process-map`, phase 4 
 Nothing about a client lives in this repository. Confirm the binding before anything else:
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/doctor.mjs"
+node "${CLAUDE_PLUGIN_ROOT}/tools/doctor.mjs"
 ```
 
 The `company` check either names the bound company or says plainly that none is bound.
@@ -30,7 +30,7 @@ one command reports which documents exist and how many fields in each are still 
 the distinction the table below turns on:
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/status.mjs" --json
+node "${CLAUDE_PLUGIN_ROOT}/tools/status.mjs" --json
 ```
 
 
@@ -53,7 +53,7 @@ later concern, not this one.
 Before handing off to the phase skill:
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event phase_start --capability process \
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event phase_start --capability process \
   --why "phase 3 diagnostico — process inventory" --target "PROCESSES.md"
 ```
 

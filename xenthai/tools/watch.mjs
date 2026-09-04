@@ -242,7 +242,7 @@ export const analyse = (rows, now = Date.now()) => {
 
   signals.push(
     signal("errors", "¿Algo falla de forma sostenida?", errors > 0 ? WATCH : OK, errors,
-      errors > 0 ? "Corre bin/opportunities.mjs para ver si se repite sobre el mismo objetivo entre periodos." : "Sin errores registrados.")
+      errors > 0 ? "Corre tools/opportunities.mjs para ver si se repite sobre el mismo objetivo entre periodos." : "Sin errores registrados.")
   );
 
   signals.push(
@@ -267,7 +267,7 @@ export const analyse = (rows, now = Date.now()) => {
 
 const HELP = `Xenth AI watch — one engagement's health, as counts and dates, with no model in the loop.
 
-  node bin/watch.mjs --journal <dir> [--company <id>] [--out <file>] [--json]
+  node tools/watch.mjs --journal <dir> [--company <id>] [--out <file>] [--json]
 
   --journal <dir>  Company store root, its journal/execution directory, or any directory holding
                    <YYYY-MM>.jsonl files. Required.

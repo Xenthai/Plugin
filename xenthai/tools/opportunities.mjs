@@ -60,7 +60,7 @@ const load = (dir, months) => {
       try {
         rows.push({ ...JSON.parse(text), period });
       } catch {
-        /* a malformed line is a defect bin/report.mjs reports; it carries no pattern */
+        /* a malformed line is a defect tools/report.mjs reports; it carries no pattern */
       }
     }
   }
@@ -188,7 +188,7 @@ export const detect = (rows, min = DEFAULT_MIN_PERIODS) => {
 
 const HELP = `Xenth AI opportunities — what recurred in a company's journal, with the rows behind it.
 
-  node bin/opportunities.mjs --journal <dir> [--min ${DEFAULT_MIN_PERIODS}] [--json]
+  node tools/opportunities.mjs --journal <dir> [--min ${DEFAULT_MIN_PERIODS}] [--json]
 
   --journal <dir>  Company store root, its journal/execution directory, or any directory holding
                    <YYYY-MM>.jsonl files. Required.

@@ -50,7 +50,7 @@ const run = (script, event, cwd, extraEnv = {}) => {
 };
 
 const cli = (args, cwd) =>
-  spawnSync(process.execPath, [join(ROOT, "bin", "journal.mjs"), ...args], {
+  spawnSync(process.execPath, [join(ROOT, "tools", "journal.mjs"), ...args], {
     encoding: "utf8",
     cwd,
     env: { ...process.env, CLAUDE_PLUGIN_DATA: DATA },
@@ -185,7 +185,7 @@ check("an unbound entry with no data directory lands in one stable place, never 
   delete env.CLAUDE_PLUGIN_DATA;
   const home = join(SANDBOX, "fake-home");
   env.CLAUDE_CONFIG_DIR = home;
-  const r = spawnSync(process.execPath, [join(ROOT, "bin", "journal.mjs"), "--event", "health", "--why", "no company, no data dir"], {
+  const r = spawnSync(process.execPath, [join(ROOT, "tools", "journal.mjs"), "--event", "health", "--why", "no company, no data dir"], {
     encoding: "utf8",
     cwd: bare,
     env,

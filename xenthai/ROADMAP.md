@@ -57,10 +57,10 @@ client machine until the `version` field moves.
 | --- | --- |
 | **`process` capability** — phases 3 and 4, breadth before depth, Wanner suitability scoring with the two judgement criteria labelled as judgement | `skills/process*`, `capabilities/process/doctrine/PROCESS.md`, `scaffold/company/PROCESSES.md` |
 | **`baseline` capability** — three layers, company-wide rather than per-channel, with the never-a-single-self-reported-duration rule | `skills/baseline`, `capabilities/baseline/doctrine/MEASUREMENT.md`, `scaffold/company/BASELINE.md` |
-| **`report` capability** — journal rows to an engagement report, contribution framing, never "certified" | `skills/report`, `bin/report.mjs` |
+| **`report` capability** — journal rows to an engagement report, contribution framing, never "certified" | `skills/report`, `tools/report.mjs` |
 | **`company` capability** — documents before questions, and what is sold on what terms | `skills/company-intake`, `skills/company-offer`, `capabilities/company/doctrine/INTAKE.md` |
-| **`doctor` skill** — the MCP checklist as an executable round trip | `skills/doctor`, `bin/doctor.mjs` |
-| **`status` CLI** — pending fields per document and the phase that owes each | `bin/status.mjs`, called by both routers |
+| **`doctor` skill** — the MCP checklist as an executable round trip | `skills/doctor`, `tools/doctor.mjs` |
+| **`status` CLI** — pending fields per document and the phase that owes each | `tools/status.mjs`, called by both routers |
 | **Plugin version on every journal row** | `lib/journal.mjs` `PLUGIN_VERSION` |
 | **CI on GitHub Actions** — `npm ci --ignore-scripts`, the suites, `plugin validate`, no browser download | `.github/workflows/test.yml` |
 | **Install runbook** for a client machine | `INSTALL.md` |
@@ -68,17 +68,17 @@ client machine until the `version` field moves.
 | **`company-new` skill** — the engagement bootstrap: the manifest, the store folder, the health check, the handoff to intake | `skills/company-new` |
 | **`social-presence` skill** — the perishable before, captured at the first session and append-only | `skills/social-presence`, `capabilities/social/doctrine/PRESENCE.md`, `scaffold/company/PRESENCE.md` |
 | **`automate-handover` skill** — acceptance and liability rather than results, with the three-rung autonomy ladder | `skills/automate-handover`, `capabilities/automate/doctrine/HANDOVER.md` |
-| **`opportunities` skill** — what recurred across periods, read from the journal, as questions rather than recommendations | `skills/opportunities`, `bin/opportunities.mjs`, `capabilities/process/doctrine/PROCESS.md` §8 |
-| **Readability floor for operator-facing documents** — Szigriszt-Pazos on the INFLESZ scale, gated across every client-facing scaffold | `bin/legible.mjs`, `capabilities/automate/doctrine/HANDOVER.md` §5b |
+| **`opportunities` skill** — what recurred across periods, read from the journal, as questions rather than recommendations | `skills/opportunities`, `tools/opportunities.mjs`, `capabilities/process/doctrine/PROCESS.md` §8 |
+| **Readability floor for operator-facing documents** — Szigriszt-Pazos on the INFLESZ scale, gated across every client-facing scaffold | `tools/legible.mjs`, `capabilities/automate/doctrine/HANDOVER.md` §5b |
 | **Session doctrine** — who has to be in the room for each question, and who must not be | `capabilities/company/doctrine/SESSION.md`, reached from all eight interviewing skills |
 | **Controls doctrine and the maturity model** — what the plugin refuses versus merely records, and whose level actually moved | `capabilities/company/doctrine/CONTROLS.md`, `MATURITY.md` |
-| **Source verification in every report** — the digest of the bytes a report was computed from, anchored by the client's own store | `bin/report.mjs`, `capabilities/report/doctrine/REPORTING.md` §10d |
-| **`watch` digest** — engagement health as counts and dates, computed with no model, no session and no network, safe to share with the practice | `bin/watch.mjs`, `INSTALL.md` §6b |
+| **Source verification in every report** — the digest of the bytes a report was computed from, anchored by the client's own store | `tools/report.mjs`, `capabilities/report/doctrine/REPORTING.md` §10d |
+| **`watch` digest** — engagement health as counts and dates, computed with no model, no session and no network, safe to share with the practice | `tools/watch.mjs`, `INSTALL.md` §6b |
 | **`feedback` skill** — the second improvement loop: what to fix in the PLUGIN, from evidence, carrying nothing about any company | `skills/feedback` |
 | **Adoption of pre-existing documents** — a store that is not empty when the plugin arrives | `capabilities/company/doctrine/INTAKE.md`, `skills/company-new`, `skills/company-intake` |
 | **`setup` skill** — the whole first visit in order, reporting which of seven steps are done and which are owed | `skills/setup` |
 | **Scheduling doctrine** — which of the three mechanisms a routine belongs on, and the permission stall that silences one | `capabilities/company/doctrine/SCHEDULING.md` |
-| **The language of a document is a control** — `doctor` gates the manifest's locale, `status` audits what actually landed in the store, including reports, plans and the copy inside rendered assets | `bin/doctor.mjs`, `bin/status.mjs`, `bin/legible.mjs`, `capabilities/company/doctrine/CONTROLS.md` §4c |
+| **The language of a document is a control** — `doctor` gates the manifest's locale, `status` audits what actually landed in the store, including reports, plans and the copy inside rendered assets | `tools/doctor.mjs`, `tools/status.mjs`, `tools/legible.mjs`, `capabilities/company/doctrine/CONTROLS.md` §4c |
 | **`chart` archetype and PDF output in the render engine** — values printed as text beside each bar, refuses without `piece.basis`, vector copy beside the PNG | `capabilities/social/engine/template.html`, `render.mjs` |
 | **Six report templates, one per cadence** plus the mapping-close record, each declaring the single question it answers | `capabilities/report/templates/` |
 | **`ROUTINES.md` per company** — the pre-approved planned tasks, with the digest active from day one and absence detection per row | `scaffold/company/ROUTINES.md`, `skills/company-new` |

@@ -34,7 +34,7 @@ the questions you do ask are the ones nothing else could answer.
 **1. What recurred.** Run the detector rather than remembering:
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/opportunities.mjs" --journal <store-root> --json
+node "${CLAUDE_PLUGIN_ROOT}/tools/opportunities.mjs" --journal <store-root> --json
 ```
 
 Read it for *plugin* defects, which are a different reading than the company ones:
@@ -46,7 +46,7 @@ Read it for *plugin* defects, which are a different reading than the company one
 | `review-heavy-target` | A document whose structure fights its task. Usually it needs splitting, which is a scaffold change |
 | `repeated-escalation` | A decision the plugin makes a person take every time, that a written rule could settle once |
 
-**2. What never filled.** `node "${CLAUDE_PLUGIN_ROOT}/bin/status.mjs" --pending`. A field pending
+**2. What never filled.** `node "${CLAUDE_PLUGIN_ROOT}/tools/status.mjs" --pending`. A field pending
 for three months is not a client who forgot. It is a field nobody can answer, asked in a way that
 does not work, or a field that should not exist.
 
@@ -54,7 +54,7 @@ does not work, or a field that should not exist.
 do. A skill nobody invoked in three months is either mis-described — a description is the only
 trigger surface — or it is not needed. Both are findings and they have opposite fixes.
 
-**4. What the digest says.** `node "${CLAUDE_PLUGIN_ROOT}/bin/watch.mjs" --journal <store-root>`. An
+**4. What the digest says.** `node "${CLAUDE_PLUGIN_ROOT}/tools/watch.mjs" --journal <store-root>`. An
 `ACT` that has been standing for weeks means the signal is either unread or unreadable.
 
 **5. Then ask the operator, four questions.** `capabilities/company/doctrine/SESSION.md` governs how
@@ -111,7 +111,7 @@ collection time anchors the fix to the first idea anybody had.
 Then record that the collection happened:
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event lookup --capability feedback \
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event lookup --capability feedback \
   --why "plugin feedback collected for <period>" --target "feedback/<YYYY-MM-DD>.md"
 ```
 
@@ -147,4 +147,4 @@ This is the other half and it runs away from the client, with several months of 
 | `capabilities/company/doctrine/CONTROLS.md` | A finding is about what the guard refuses or merely records |
 | `capabilities/company/doctrine/MATURITY.md` | A finding is about whether the client's own level moved |
 | `ROADMAP.md` | Before proposing anything — it may already be there, or deliberately refused |
-| `node bin/watch.mjs --help` | Before quoting any signal from this file |
+| `node tools/watch.mjs --help` | Before quoting any signal from this file |

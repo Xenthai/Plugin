@@ -79,7 +79,7 @@ line-by-line critique of copy that is deliberately provisional.
 ## Record the phase
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event phase_end --capability social \
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event phase_end --capability social \
   --why "phase 1 complete: BRAND.md and PROOF.md created, N fields pending" \
   --target "BRAND.md"
 ```

@@ -7,7 +7,7 @@ Tool calls are journaled automatically by a hook. Use this only for events a hoo
 meaning of. It exists so a skill can append without a shell redirect, which the company guard
 cannot see.
 
-  node bin/journal.mjs --event <name> --why "<reason>" [--actor person:<name>] [--target <ref>]
+  node tools/journal.mjs --event <name> --why "<reason>" [--actor person:<name>] [--target <ref>]
                        [--capability <name>] [--result ok|error|blocked] [--approval <text>]
                        [--detail <text>] [--session <id>] [--json]
 

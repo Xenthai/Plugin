@@ -153,7 +153,7 @@ is that a client who hears nothing assumes nothing is happening.
 | What was escalated | Every `escalation` with what it was escalated to — a **role**, never a person's private detail |
 | What was blocked | Every `blocked` row, and whether it resolved |
 | Errors | Every `error` and `guard_error`, with what was done |
-| Waiting on the client | Approvals pending, and pending fields per document from `bin/status.mjs` |
+| Waiting on the client | Approvals pending, and pending fields per document from `tools/status.mjs` |
 | Nothing to report | **Say so explicitly.** A quiet fortnight stated plainly is information; a skipped report is not |
 
 **Never** a follower count, a rate, an improvement, or a comparison. If the fortnight produced no
@@ -399,7 +399,7 @@ costs nothing to use: **the report is written into the client's own store, whose
 kept by the storage provider.** This practice can delete a file there; it cannot rewrite a past
 revision or forge its timestamp.
 
-So `bin/report.mjs` prints, in the report body, the SHA-256 of the exact bytes it read, with the file
+So `tools/report.mjs` prints, in the report body, the SHA-256 of the exact bytes it read, with the file
 size and row count, and the command to check it — for Windows and for Unix, because a command the
 reader cannot run is decoration. From the moment the client holds that report, that month's journal
 is pinned: any later edit to it produces a digest that disagrees with a dated document held by the

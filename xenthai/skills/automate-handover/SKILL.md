@@ -65,7 +65,7 @@ good, and the first anyone learns otherwise is the first failure.
 Screen it before you take it to them:
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/legible.mjs" <path to AUTOMATIONS.md>
+node "${CLAUDE_PLUGIN_ROOT}/tools/legible.mjs" <path to AUTOMATIONS.md>
 ```
 
 Floor 55, target 65 on the INFLESZ scale, measured over the document's prose only. Below the floor
@@ -133,7 +133,7 @@ output metric dressed as an outcome, and a director will discount it correctly.
 ## Record the acceptance
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event approval --actor "person:<name>" \
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event approval --actor "person:<name>" \
   --capability automate --why "automation handover accepted for process <id>" \
   --target "AUTOMATIONS.md"
 ```

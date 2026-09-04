@@ -96,7 +96,7 @@ lawyer.
 ## Record the phase
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event baseline --capability social \
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event baseline --capability social \
   --why "presence audit captured: N accounts found, M contradictions, K regulatory observations" \
   --target "PRESENCE.md"
 ```

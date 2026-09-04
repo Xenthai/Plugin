@@ -39,7 +39,7 @@ const STALE_MS = 120_000;
  * dependency either, and `capabilities/social/engine/render.mjs` imports `playwright-core` at its
  * top level. The result on a fresh install is that every render fails on an import error, with a
  * stack trace that names a module rather than the missing step, on the first client machine where
- * anybody tries to produce a piece. `bin/doctor.mjs` already detects it and says what to run; the
+ * anybody tries to produce a piece. `tools/doctor.mjs` already detects it and says what to run; the
  * gap was that nothing ever ran it.
  *
  * SessionStart is the right place and the only cheap one: it fires once per session, its 60s budget
@@ -105,7 +105,7 @@ const ensureEngine = (root) => {
 
   return existsSync(join(root, ENGINE_PROBE))
     ? "The render engine's dependency was missing on this install and has been installed."
-    : `The render engine's dependency is still missing after an install that reported success; run bin/doctor.mjs. Expected ${ENGINE_PROBE} under ${root}.`;
+    : `The render engine's dependency is still missing after an install that reported success; run tools/doctor.mjs. Expected ${ENGINE_PROBE} under ${root}.`;
 };
 
 /**
@@ -152,7 +152,7 @@ const main = () => {
           "Store writes are journaled; local writes outside this directory are blocked."
       : `No company is bound (${company.reason}). Store writes are refused until a .company.json exists in this directory tree. Local work is unaffected.`
   );
-  if (root) lines.push(`Plugin root: ${root} — use this path for bin/journal.mjs and the render engine.`);
+  if (root) lines.push(`Plugin root: ${root} — use this path for tools/journal.mjs and the render engine.`);
 
   /**
    * Last, because it is the only line that reports an action this hook took rather than a fact it

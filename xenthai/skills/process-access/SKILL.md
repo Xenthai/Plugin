@@ -109,16 +109,16 @@ Extend `PROCESSES.md` in the company store with `Edit` — never a shell redirec
 guard cannot see. Leave every unanswered cell as `— pendiente —`.
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event delivery --capability process \
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event delivery --capability process \
   --why "phase 4 access map and scored shortlist captured" --target "PROCESSES.md"
-node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event phase_end --capability process \
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event phase_end --capability process \
   --why "phase 4 mapeo integral complete" --target "PROCESSES.md"
 ```
 
 Record the authorisation separately when it is given, naming the person:
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event approval --actor "person:<name>" \
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event approval --actor "person:<name>" \
   --capability process --why "authorised the automation shortlist" --target "PROCESSES.md"
 ```
 
@@ -146,7 +146,7 @@ after looks good, and the practice ends up arguing about a figure it recorded ho
 earlier.
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event approval --actor "person:<name>" \
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event approval --actor "person:<name>" \
   --capability baseline --why "starting numbers agreed at end of mapping" --target "BASELINE.md"
 ```
 

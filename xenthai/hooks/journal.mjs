@@ -56,7 +56,7 @@ const main = async () => {
    *
    * The invariant this appears to weaken — that a gap in the journal cannot be told apart from an
    * action that never happened — holds *inside* an engagement, which is the only place it was ever
-   * meant to. `bin/journal.mjs` and the guard's own error path still fall back to the plugin's data
+   * meant to. `tools/journal.mjs` and the guard's own error path still fall back to the plugin's data
    * directory, because those are deliberate acts by the operator rather than ambient observation.
    */
   if (!readCompany(event.cwd ?? process.cwd()).ok) process.exit(0);

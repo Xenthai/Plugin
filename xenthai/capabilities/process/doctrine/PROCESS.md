@@ -227,7 +227,7 @@ the flattering direction, and the estimate and the improvement computed against 
 same place, so the inflation is invisible.
 
 Once an engagement has a few periods of journal, both of those criteria can be **measured instead**.
-`bin/opportunities.mjs` reports what recurred and over how many distinct periods, with the rows
+`tools/opportunities.mjs` reports what recurred and over how many distinct periods, with the rows
 behind each pattern. Where a finding covers a process already scored in §5, replace the estimate with
 the measured value and say in the cell that it came from the journal, naming the periods it covers.
 

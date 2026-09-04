@@ -107,7 +107,7 @@ Then **stop** until they respond. Producing thirty pieces on an uncalibrated rea
 expensive mistake this gate exists to prevent.
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event delivery --capability social \
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event delivery --capability social \
   --why "first batch of <period> for review" --target "content/<YYYY-MM>/pieces"
 ```
 

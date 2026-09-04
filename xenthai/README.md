@@ -165,7 +165,7 @@ It records **references, not content**: actor, timestamp, what was touched, a di
 payload, and why. The payload stays in the store that already holds it. That is how the journal
 stays complete enough to be evidence without becoming a second copy of a client's data.
 
-`node bin/journal.mjs --help` to record the semantic events a hook cannot know the meaning of — a
+`node tools/journal.mjs --help` to record the semantic events a hook cannot know the meaning of — a
 person starting a review, an approval with a named approver, an escalation.
 
 ### The company guard
@@ -196,7 +196,7 @@ every tool that has one.
 .claude-plugin/     the plugin manifest
 skills/             one directory per skill, one level deep — the only depth that loads
 hooks/              journal and company guard
-bin/                CLIs a skill invokes without reading their source
+tools/              CLIs a skill invokes without reading their source
 lib/                shared across capabilities: company binding, journal, PNG reader
 capabilities/
   social/
@@ -223,13 +223,13 @@ tool and stops:
 
 | CLI | What it answers |
 | --- | --- |
-| `bin/status.mjs` | Which documents exist, how many fields are pending, which phase owes each, and **whether what was written is actually in es-MX** |
-| `bin/journal.mjs` | Records a semantic event a hook cannot infer — a review, an approval with a named approver, an escalation |
-| `bin/doctor.mjs` | Whether this machine and the bound company's connectors can do the work about to be promised |
-| `bin/report.mjs` | Journal rows to an engagement report, with the SHA-256 of the bytes it read so the client can check it |
-| `bin/watch.mjs` | Engagement health as counts, dates and verdicts, with **no company data in it** — the file the practice is given |
-| `bin/opportunities.mjs` | What recurred across distinct periods, with the rows behind each pattern |
-| `bin/legible.mjs` | How hard an es-MX document is to read, on the INFLESZ scale. Refuses anything that is not Spanish |
+| `tools/status.mjs` | Which documents exist, how many fields are pending, which phase owes each, and **whether what was written is actually in es-MX** |
+| `tools/journal.mjs` | Records a semantic event a hook cannot infer — a review, an approval with a named approver, an escalation |
+| `tools/doctor.mjs` | Whether this machine and the bound company's connectors can do the work about to be promised |
+| `tools/report.mjs` | Journal rows to an engagement report, with the SHA-256 of the bytes it read so the client can check it |
+| `tools/watch.mjs` | Engagement health as counts, dates and verdicts, with **no company data in it** — the file the practice is given |
+| `tools/opportunities.mjs` | What recurred across distinct periods, with the rows behind each pattern |
+| `tools/legible.mjs` | How hard an es-MX document is to read, on the INFLESZ scale. Refuses anything that is not Spanish |
 
 ---
 

@@ -76,9 +76,9 @@ Keep every uncaptured cell as `— pendiente —`. That placeholder is the produ
 inferred fact from reading identically to a captured one six months from now.
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event delivery --capability process \
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event delivery --capability process \
   --why "phase 3 inventory captured" --target "PROCESSES.md"
-node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event phase_end --capability process \
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event phase_end --capability process \
   --why "phase 3 diagnostico complete" --target "PROCESSES.md"
 ```
 

@@ -63,7 +63,7 @@ that is the most common false public claim with no bad intent behind it.
 ## Record the phase
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event phase_end --capability company \
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event phase_end --capability company \
   --why "offer captured: N products, M services, terms and discount limit recorded" \
   --target "OFFER.md"
 ```

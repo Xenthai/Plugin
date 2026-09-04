@@ -80,7 +80,7 @@ applied thirty times.
 ## Record the phase
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event phase_end --capability social \
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event phase_end --capability social \
   --why "phase 2 complete: VOICE.md written, N claims registered, M rejected as unverifiable" \
   --target "VOICE.md"
 ```

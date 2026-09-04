@@ -148,7 +148,7 @@ const location = (cwd) => {
  * needs a lock across concurrent hook processes to be correct at all, since hooks matching one
  * event run in parallel.
  *
- * What makes a digest mean something is where it comes to rest. `bin/report.mjs` prints the SHA-256
+ * What makes a digest mean something is where it comes to rest. `tools/report.mjs` prints the SHA-256
  * of the exact bytes it read, and that report is written into the CLIENT's store, whose revision
  * history is kept by the storage provider and cannot be rewritten by this practice. From the moment
  * the client holds a report, that month's journal is pinned against a dated document nobody here

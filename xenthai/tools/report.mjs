@@ -5,7 +5,7 @@ import { basename, dirname, join, resolve } from "node:path";
 
 const HELP = `Xenth AI report — aggregate a company's execution journal into an auditable report.
 
-  node bin/report.mjs --journal <dir> [--month YYYY-MM] [--out <file>] [--root <folderId>] [--json]
+  node tools/report.mjs --journal <dir> [--month YYYY-MM] [--out <file>] [--root <folderId>] [--json]
 
   --journal <dir>    Company store root, its journal/execution directory, or any directory holding
                      <YYYY-MM>.jsonl files. Required.

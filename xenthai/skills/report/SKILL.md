@@ -53,7 +53,7 @@ no rows, no error, and a report that reads as a clean month.
 Two things follow, and neither is optional:
 
 - **Check whether the journal exists before writing a single figure.** An absent journal and a quiet
-  month produce the same empty table and mean opposite things. `bin/report.mjs` refuses and says
+  month produce the same empty table and mean opposite things. `tools/report.mjs` refuses and says
   which it thinks it is; believe it over any assumption that the hooks ran.
 - **When the journal is absent, say so in the report and name the reason.** "No activity recorded in
   this period, because this engagement's sessions ran on a surface where the recording hooks do not
@@ -75,7 +75,7 @@ Two things follow, and neither is optional:
 ## Running the tool
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/report.mjs" --journal <store-root> --month <YYYY-MM> \
+node "${CLAUDE_PLUGIN_ROOT}/tools/report.mjs" --journal <store-root> --month <YYYY-MM> \
   --root <bound-folder-id> --out reports/<YYYY-MM>/report.md
 ```
 
@@ -157,7 +157,7 @@ Any figure or client name the client might republish needs a live row in `PROOF.
 source, who confirmed it, and its re-verification date. An expired row is not publishable.
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event delivery --capability report \
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event delivery --capability report \
   --why "monthly report published for review" --target "reports/<YYYY-MM>/report.md"
 ```
 
@@ -188,4 +188,4 @@ node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event delivery --capability repor
 | `<store>/PROOF.md` | The report will carry a figure or name the client might republish |
 | `<store>/journal/execution/<YYYY-MM>.jsonl` | A figure looks wrong and you need the rows behind it |
 | `lib/journal.mjs` | You need the exact row shape, or the `EVENTS` vocabulary |
-| `node bin/report.mjs --help` | Before quoting any option from this file |
+| `node tools/report.mjs --help` | Before quoting any option from this file |

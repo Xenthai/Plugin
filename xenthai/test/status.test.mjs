@@ -7,7 +7,7 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, "..");
 const SCAFFOLD = join(ROOT, "scaffold", "company");
 const SANDBOX = join(HERE, "sandbox", "status");
-const TOOL = join(ROOT, "bin", "status.mjs");
+const TOOL = join(ROOT, "tools", "status.mjs");
 
 const docs = readdirSync(SCAFFOLD).filter((f) => f.endsWith(".md"));
 const skills = readdirSync(join(ROOT, "skills"), { withFileTypes: true })

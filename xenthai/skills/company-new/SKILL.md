@@ -51,7 +51,7 @@ nothing is blocked — and report what is there. Then two rules, and the first i
 Record the boundary between what this install can account for and what it inherited:
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event migration --capability company \
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event migration --capability company \
   --why "adopted <N> pre-existing documents from work predating this install" --target "<store root>"
 ```
 
@@ -78,7 +78,7 @@ them. They belong to intake, which asks for the constancia fiscal that settles t
 one. Check first:
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/doctor.mjs" --json
+node "${CLAUDE_PLUGIN_ROOT}/tools/doctor.mjs" --json
 ```
 
 ## Where the engagement folder lives on this machine
@@ -94,8 +94,8 @@ one, and it is the specific failure this file exists to prevent.
 ## Then verify, and only then hand off
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/doctor.mjs"
-node "${CLAUDE_PLUGIN_ROOT}/bin/status.mjs"
+node "${CLAUDE_PLUGIN_ROOT}/tools/doctor.mjs"
+node "${CLAUDE_PLUGIN_ROOT}/tools/status.mjs"
 ```
 
 `doctor` proves the install can reach the store; `status` reports which documents exist and which
@@ -105,7 +105,7 @@ company whose store already held work, the documents `status` finds are the adop
 when you report it, or the operator reads inherited material as material this engagement produced.
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event phase_start --capability company \
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event phase_start --capability company \
   --why "engagement opened: manifest written, store root created, doctor green" \
   --target ".company.json"
 ```

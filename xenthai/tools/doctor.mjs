@@ -31,7 +31,7 @@ const FONT_URL = /url\(\s*["']?fonts\/([^"')]+)["']?\s*\)/g;
 
 const HELP = `Xenth AI doctor — the local health checks nothing else runs, one line per check.
 
-  node bin/doctor.mjs [--json] [--help]
+  node tools/doctor.mjs [--json] [--help]
 
 CHECKS, IN ORDER
   node      Node ${MIN_NODE} or later.
@@ -129,8 +129,8 @@ const checkCompany = (cwd) => {
     /**
      * `locale` was declared in every manifest and read by nothing, which is worse than not having
      * the field: it looks like a control and is decoration. Every client-facing part of this plugin
-     * is Spanish by construction — the scaffolds, the report templates, `bin/report.mjs`'s own
-     * prose, and `bin/legible.mjs`, whose scale, syllable rules and bands are Spanish-only. A
+     * is Spanish by construction — the scaffolds, the report templates, `tools/report.mjs`'s own
+     * prose, and `tools/legible.mjs`, whose scale, syllable rules and bands are Spanish-only. A
      * manifest declaring `en-US` would still produce Spanish documents while claiming otherwise.
      *
      * So the field now gates rather than describes. The day a non-Spanish client arrives, this

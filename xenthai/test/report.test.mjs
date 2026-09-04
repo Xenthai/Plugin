@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, "..");
-const CLI = join(ROOT, "bin", "report.mjs");
+const CLI = join(ROOT, "tools", "report.mjs");
 const SANDBOX = join(HERE, "fixtures", "report-sandbox");
 const STORE = join(SANDBOX, "store");
 const EXECUTION = join(STORE, "journal", "execution");

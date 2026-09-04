@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, "..");
-const DOCTOR = join(ROOT, "bin", "doctor.mjs");
+const DOCTOR = join(ROOT, "tools", "doctor.mjs");
 const SANDBOX = join(HERE, "sandbox", "doctor");
 const BOUND = join(SANDBOX, "bound");
 const FUTURE = join(SANDBOX, "future");
@@ -37,7 +37,7 @@ const setup = () => {
  */
 const brokenPlugin = () => {
   const engine = "capabilities/social/engine";
-  for (const rel of ["bin/doctor.mjs", "lib/company.mjs", "lib/journal.mjs", ".claude-plugin/plugin.json", `${engine}/template.html`]) {
+  for (const rel of ["tools/doctor.mjs", "lib/company.mjs", "lib/journal.mjs", ".claude-plugin/plugin.json", `${engine}/template.html`]) {
     mkdirSync(dirname(join(BROKEN, rel)), { recursive: true });
     copyFileSync(join(ROOT, rel), join(BROKEN, rel));
   }
@@ -48,7 +48,7 @@ const brokenPlugin = () => {
   rmSync(join(BROKEN, engine, "fonts", removedFont));
   rmSync(join(BROKEN, engine, "fonts", removedLicence));
   writeFileSync(join(BROKEN, engine, "formats.json"), '{ "render_targets": { "square": ');
-  return { removedFont, removedLicence, script: join(BROKEN, "bin", "doctor.mjs") };
+  return { removedFont, removedLicence, script: join(BROKEN, "tools", "doctor.mjs") };
 };
 
 const doctor = (cwd, args = [], script = DOCTOR) => {

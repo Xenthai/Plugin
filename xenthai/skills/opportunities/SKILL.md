@@ -15,7 +15,7 @@ process, the people and the client's priorities.
 ## Run it
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/opportunities.mjs" --journal <store-root>
+node "${CLAUDE_PLUGIN_ROOT}/tools/opportunities.mjs" --journal <store-root>
 ```
 
 `--help` lists the options; trust it over this file. `--json` gives the findings as data. `--min`
@@ -80,7 +80,7 @@ Add them as rows with their provenance visible, so a reader can tell a journal-m
 an interviewed one. Then record that the analysis ran:
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event lookup --capability process \
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event lookup --capability process \
   --why "journal reviewed for recurring patterns over <N> periods" --target "PROCESSES.md"
 ```
 
@@ -108,4 +108,4 @@ Company files change through `Write` and `Edit` only. `capabilities/company/doct
 | `capabilities/company/doctrine/SESSION.md` | The findings will be taken into a session with the client |
 | `capabilities/report/doctrine/REPORTING.md` | A finding will appear in a cadence report |
 | `<store>/PROCESSES.md` | Always, before writing anything — findings land there or nowhere |
-| `node bin/opportunities.mjs --help` | Before quoting any option from this file |
+| `node tools/opportunities.mjs --help` | Before quoting any option from this file |

@@ -3,11 +3,11 @@ import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { analyse } from "../bin/watch.mjs";
+import { analyse } from "../tools/watch.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, "..");
-const CLI = join(ROOT, "bin", "watch.mjs");
+const CLI = join(ROOT, "tools", "watch.mjs");
 const SANDBOX = join(HERE, "sandbox", "watch");
 
 const DAY = 86_400_000;

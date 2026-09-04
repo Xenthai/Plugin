@@ -91,7 +91,7 @@ that is what it is.
 ## Record the delivery
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event delivery --capability social \
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event delivery --capability social \
   --why "handoff for <period>: N pieces, M platforms, K rows needing manual attachment" \
   --target "content/<YYYY-MM>/delivery"
 ```

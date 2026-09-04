@@ -34,8 +34,8 @@ If a `.company.json` already exists up the tree, this is not a first visit — s
 bound, and report which of the seven are already done. **A setup that starts over destroys work.**
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/doctor.mjs"
-node "${CLAUDE_PLUGIN_ROOT}/bin/status.mjs"
+node "${CLAUDE_PLUGIN_ROOT}/tools/doctor.mjs"
+node "${CLAUDE_PLUGIN_ROOT}/tools/status.mjs"
 ```
 
 **At a fresh client both of these exit 1, and that is the correct result.** Read them before
@@ -120,7 +120,7 @@ local files, and the journal on this machine is the entire input.
 Read the seven back, each marked done or owed with who owes it. Then:
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/bin/journal.mjs" --event phase_start --capability company \
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event phase_start --capability company \
   --why "setup: <N> of 7 steps done; owed: <list>" --target ".company.json"
 ```
 

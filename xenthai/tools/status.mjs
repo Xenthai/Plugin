@@ -19,7 +19,7 @@ looks finished — those are the two failures this surfaces.
 The language column reads es-MX, "NO ES es-MX", or "sin prosa" when a document is still mostly
 pending and there is too little text to judge.
 
-  node bin/status.mjs [--company <dir>] [--json] [--pending] [--help]
+  node tools/status.mjs [--company <dir>] [--json] [--pending] [--help]
 
   --company <dir>   The engagement directory. Default: the bound company found from the cwd.
   --pending         List the pending field labels, not only the counts.

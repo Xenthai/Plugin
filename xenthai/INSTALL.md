@@ -205,7 +205,7 @@ Instructions, verbatim — replace only the company path:
 El anuncio de inicio de esta sesión trae la línea "Plugin root: <ruta>". Toma esa ruta y corre
 exactamente este comando, nada más:
 
-node "<Plugin root>/bin/watch.mjs" --journal . --out ../digest/estado.md
+node "<Plugin root>/tools/watch.mjs" --journal . --out ../digest/estado.md
 
 Después confirma en una línea si el archivo se escribió y cuál fue el veredicto. No abras ningún
 otro archivo, no leas la bitácora, no interpretes el resultado y no escribas nada más. Si el comando
