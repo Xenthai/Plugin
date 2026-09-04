@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Installs the Xenth AI plugin into Claude Cowork, Claude Code, or both, retrying the two steps
     that fail for reasons that have nothing to do with the plugin.
