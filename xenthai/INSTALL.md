@@ -34,10 +34,17 @@ Two things about those two lines, and each has broken an install:
   which syncs over HTTP and cannot reach a second repository — reporting only that the sync failed.
 - **The part after `@` is the marketplace name**, which `marketplace.json` sets to `xenthai`. The
   plugin before it is also `xenthai`, so the line reads as a repetition and is not one.
-- **Add the marketplace from the terminal or from the app, never both.** The first one writes the
-  source into `settings.json`; the second sends a different shape for the same name — `Xenthai/Plugin`
-  against `https://github.com/Xenthai/Plugin` — and is refused for disagreeing with what is declared.
-  The app shows that as a sync error, which reads like a bad URL and is not one.
+- **The client's app adds the marketplace; the terminal never does.** `claude plugin marketplace add`
+  writes `{"source": "github", "repo": "Xenthai/Plugin"}` into `settings.json`; the app's dialog writes
+  `{"source": "git", "url": "https://github.com/Xenthai/Plugin.git"}`. Same repository, different kind,
+  and whichever comes second is refused. `claude plugin install` is safe from either side.
+- **Read the log before retrying that dialog.** `Error al sincronizar el marketplace` is also what it
+  says when the marketplace is **already there**, so a retry that looks like a failure is often the
+  first attempt having succeeded. `%APPDATA%\Claude\Logs\main.log` carries `Marketplace added` and
+  `Marketplace already present, skipping add` as separate lines.
+- **Cowork keeps its own store**, at `~/.claude/cowork_plugins/`, reached by adding `--cowork` to any
+  plugin command. Installing normally leaves it empty, and a Cowork session mounts that store when it
+  starts — so an already-open session will not see a fresh install.
 
 **The repository has to be reachable from the client's machine.** While it is private, this command
 fails there even though it works on a machine with your credentials — and the failure looks like a

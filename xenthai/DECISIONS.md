@@ -236,10 +236,20 @@ so and `test/ops.test.mjs` asserts they still do.
 hand-edit the file two surfaces write to. **Reverses if** either side normalises the source, at which
 point the order stops mattering.
 
+The exact shapes, since the error names neither: the terminal writes
+`{"source": "github", "repo": "Xenthai/Plugin"}` and the dialog writes
+`{"source": "git", "url": "https://github.com/Xenthai/Plugin.git"}`. `claude plugin install` touches
+no declaration and is safe from either side; only `marketplace add` overwrites.
+
+**The dialog says the same thing when it succeeded.** `Error al sincronizar el marketplace` is also
+what it shows when the marketplace is **already added**, so a retry that looks like a failure is
+often the first attempt having worked. `main.log` separates them — `Marketplace added: xenthai`
+against `Marketplace already present, skipping add: xenthai` — and nothing on screen does.
+
 **What this cost.** Five rounds of published probes, three renames, and one restructure, chasing a
-cause the app had already written to `main.log` in one line. The plugin runs inside that app. Nobody
-opened its log until every remote explanation had been exhausted — see the defect below, which is the
-one worth keeping.
+cause the app had already written to `main.log` in one line, and then two further rounds of the
+operator retrying a dialog that had already succeeded. The plugin runs inside that app. Nobody opened
+its log until every remote explanation had been exhausted — see the defect below.
 
 ---
 

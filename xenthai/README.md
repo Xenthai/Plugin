@@ -34,10 +34,14 @@ Three things about those two lines, each of which has cost somebody a failed att
   found and the error says so in a way that sounds like the marketplace is missing.
 - **Both halves really are `xenthai`.** The plugin and the catalogue share a name, so the line looks
   like a typo and is not one.
-- **Add it from one place only** — the terminal or the app, never both. Whichever goes first writes
-  the source into `settings.json`; the other sends a different shape for the same name,
-  `Xenthai/Plugin` against `https://github.com/Xenthai/Plugin`, and is refused for disagreeing with
-  what is declared. The app renders that as a sync error, which reads like a bad URL and is not one.
+- **Add the marketplace from one place only.** `claude plugin marketplace add` writes
+  `{"source": "github", "repo": "Xenthai/Plugin"}` into `settings.json`; the app's dialog writes
+  `{"source": "git", "url": "https://github.com/Xenthai/Plugin.git"}`. Same repository, different
+  kind, and the second one is refused for disagreeing with the declaration. `claude plugin install`
+  is safe from either side; only `marketplace add` overwrites.
+- **That dialog says the same thing when it already worked.** `Error al sincronizar` also appears when
+  the marketplace is already added. `%APPDATA%\Claude\Logs\main.log` distinguishes them:
+  `Marketplace added` versus `Marketplace already present, skipping add`.
 
 Then authorize the connectors it needs. **A plugin cannot declare or install a connector**, so this
 is the one step a person has to do by hand — see [MCP.md](MCP.md) for what to authorize and how to

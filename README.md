@@ -24,10 +24,18 @@ Both halves really are `xenthai`: the plugin and the catalogue share a name, so 
 repetition and is not one. The separator is `@`, never `/` — `xenthai/xenthai` is read as a single
 plugin name, and the error that follows sounds like the marketplace is missing.
 
-**Add it in one place, not both.** Whichever of the terminal and the desktop app adds it first writes
-the source into `settings.json`, and the other sends a different shape for the same name — `Xenthai/Plugin`
-against `https://github.com/Xenthai/Plugin`. The second one is then refused for disagreeing with the
-declaration, and what it shows is a sync error that reads like a bad URL.
+**Add the marketplace from one place only, and let a client's app be that place.** `claude plugin marketplace add` writes `{"source": "github", "repo": "Xenthai/Plugin"}` into
+`settings.json`; the app's
+dialog writes `{"source": "git", "url": "https://github.com/Xenthai/Plugin.git"}`. Same repository,
+different kind, and a source whose kind disagrees with what is declared for that name is refused.
+
+The dialog reports that as a sync error naming the URL, which is the one thing that is not wrong. It
+says the same thing when the marketplace is **already added** — so a second attempt that looks like a
+failure is often the first one having worked. The app's log settles which: `%APPDATA%\Claude\Logs\main.log`,
+where `Marketplace added` and `Marketplace already present, skipping add` are distinct lines.
+
+Once the app has added it, install from the terminal with the line above and never re-run
+`marketplace add` there — that would overwrite the declaration and break the dialog again.
 
 Then authorize the connectors. **A plugin cannot declare or install a connector**, so that is the
 one step a person has to do by hand — [xenthai/MCP.md](xenthai/MCP.md) lists what to authorize and
