@@ -18,6 +18,27 @@
         "url": "https://xenth.ai"
       },
       "source": "./xenthai"
+    },
+    {
+      "name": "probe-a",
+      "description": "Baseline probe: nothing beyond the fields the two manifests that sync already carry.",
+      "version": "0.0.1",
+      "category": "productivity",
+      "source": "./probe-a"
+    },
+    {
+      "name": "probe-b",
+      "description": "Probe carrying keywords and repository, and nothing else beyond the baseline.",
+      "version": "0.0.1",
+      "category": "productivity",
+      "source": "./probe-b"
+    },
+    {
+      "name": "probe-c",
+      "description": "Probe carrying the hooks block, and nothing else beyond the baseline.",
+      "version": "0.0.1",
+      "category": "productivity",
+      "source": "./probe-c"
     }
   ]
 }
