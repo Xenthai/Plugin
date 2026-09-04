@@ -1,0 +1,12 @@
+{
+  "name": "probe-k",
+  "displayName": "Probe K",
+  "version": "0.0.1",
+  "description": "Probe carrying bin, lib, hooks, scaffold and the runbooks.",
+  "author": {
+    "name": "Derian Andre Castillo Franco",
+    "url": "https://xenth.ai"
+  },
+  "homepage": "https://xenth.ai",
+  "license": "SEE LICENSE IN LICENSE"
+}

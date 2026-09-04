@@ -14,18 +14,25 @@
       "source": "./xenthai"
     },
     {
-      "name": "probe-g",
-      "description": "Probe that is a byte-for-byte copy of the plugin, under a different name.",
+      "name": "probe-i",
+      "description": "Probe carrying capabilities, with the renamed fonts and their licences.",
       "version": "0.0.1",
       "category": "productivity",
-      "source": "./probe-g"
+      "source": "./probe-i"
     },
     {
-      "name": "probe-h",
-      "description": "Probe carrying the package manifest and its lockfile, and nothing else.",
+      "name": "probe-j",
+      "description": "Probe carrying the test directory, its fixtures and their rendered PNGs.",
       "version": "0.0.1",
       "category": "productivity",
-      "source": "./probe-h"
+      "source": "./probe-j"
+    },
+    {
+      "name": "probe-k",
+      "description": "Probe carrying bin, lib, hooks, scaffold and the runbooks.",
+      "version": "0.0.1",
+      "category": "productivity",
+      "source": "./probe-k"
     }
   ]
 }

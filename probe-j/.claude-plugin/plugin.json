@@ -1,0 +1,12 @@
+{
+  "name": "probe-j",
+  "displayName": "Probe J",
+  "version": "0.0.1",
+  "description": "Probe carrying the test directory, its fixtures and their rendered PNGs.",
+  "author": {
+    "name": "Derian Andre Castillo Franco",
+    "url": "https://xenth.ai"
+  },
+  "homepage": "https://xenth.ai",
+  "license": "SEE LICENSE IN LICENSE"
+}

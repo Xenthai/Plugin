@@ -1,0 +1,12 @@
+{
+  "name": "probe-i",
+  "displayName": "Probe I",
+  "version": "0.0.1",
+  "description": "Probe carrying capabilities, with the renamed fonts and their licences.",
+  "author": {
+    "name": "Derian Andre Castillo Franco",
+    "url": "https://xenth.ai"
+  },
+  "homepage": "https://xenth.ai",
+  "license": "SEE LICENSE IN LICENSE"
+}
