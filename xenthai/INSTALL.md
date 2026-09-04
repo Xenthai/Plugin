@@ -16,20 +16,22 @@ Install it if it is not there: https://claude.com/claude-code
 ## 2. The plugin
 
 ```bash
-claude plugin marketplace add Xenthai/Marketplace
+claude plugin marketplace add Xenthai/Plugin
 ```
 
 ```bash
 claude plugin install xenthai@xenthai
 ```
 
+In the desktop app the first line is the same thing done in a dialog: **Plugins → Agregar → Agregar
+marketplace**, then `Xenthai/Plugin` — owner and repository, not a full URL.
+
 Two things about those two lines, and each has broken an install:
 
-- **`Xenthai/Marketplace` is the catalogue, not the plugin.** The plugin's own repository is
-  `Xenthai/Plugin`, and adding *that* as a marketplace works from a terminal and **fails in the
-  desktop app** — its manifest is the development one, named `xenthai-dev`, which points at itself.
-  A marketplace people add lists plugins by their own repository URL, which is what
-  `Xenthai/Marketplace` does.
+- **The repository is both the catalogue and the plugin.** Its `marketplace.json` sits at the root
+  and points at `./xenthai`, a directory in the same repository. A catalogue that points at a
+  *different* repository works from a terminal, which clones it, and **fails in the desktop app**,
+  which syncs over HTTP and cannot reach a second repository — reporting only that the sync failed.
 - **The part after `@` is the marketplace name**, which `marketplace.json` sets to `xenthai`. The
   plugin before it is also `xenthai`, so the line reads as a repetition and is not one.
 
@@ -41,13 +43,8 @@ typo rather than a permission. Either make it public, or install from a local pa
 claude plugin marketplace add <path to a checkout on this machine>
 ```
 
-```bash
-claude plugin install xenthai@xenthai-dev
-```
-
-Note the `-dev`: a working copy carries its own catalogue named `xenthai-dev`, so the install line
-changes with it. Claude Code keeps one marketplace per name, which is why the two are named apart —
-adding one would otherwise silently replace the other.
+Point it at the checkout's root — the catalogue is there, and `./xenthai` resolves from it exactly
+as it does on GitHub. The install line afterwards is unchanged.
 
 The local path costs the auto-update: a plugin installed that way updates when that checkout does,
 not when a version ships. Say which of the two an engagement is on, because the release gate means

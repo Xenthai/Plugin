@@ -7,6 +7,9 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: xenthai
     steps:
       - uses: actions/checkout@v4
 
@@ -14,6 +17,7 @@ jobs:
         with:
           node-version: '22'
           cache: npm
+          cache-dependency-path: xenthai/package-lock.json
 
       # Mirrors how Claude Code installs a plugin's dependencies. Anything needing a lifecycle
       # script installs cleanly with a normal `npm ci` and fails only on a client's machine, so
@@ -24,7 +28,12 @@ jobs:
       # and stops — which left plugin.json, where every hook is declared, unchecked in CI. --strict
       # fails on unrecognized fields and missing metadata that the runtime tolerates: a field the
       # runtime ignores is a field that silently does nothing on a client's machine.
-      - run: npx --yes @anthropic-ai/claude-code@2.1.205 plugin validate --strict .claude-plugin/marketplace.json
+      #
+      # They sit at different levels on purpose: the catalogue is the repository root and the
+      # plugin is ./xenthai beneath it. That is the only shape the desktop app resolves, because
+      # it syncs a marketplace over HTTP and can read files inside that repository but cannot
+      # clone a second one.
+      - run: npx --yes @anthropic-ai/claude-code@2.1.205 plugin validate --strict ../.claude-plugin/marketplace.json
       - run: npx --yes @anthropic-ai/claude-code@2.1.205 plugin validate --strict .claude-plugin/plugin.json
 
       # Ubuntu runners ship Microsoft Edge and Google Chrome, and the render engine resolves

@@ -63,6 +63,16 @@ moves.
 
 ### Changed
 
+- **The repository is now the marketplace, and the plugin moved to `./xenthai` inside it.** The
+  desktop app and Cowork never showed this plugin. The cause was the source form: the app syncs a
+  catalogue over HTTP and can read files inside that repository but cannot clone a second one, so a
+  plugin declared by URL resolves nowhere while the same plugin declared as a relative path
+  resolves. That was measured by publishing both forms in one catalogue and seeing which appeared.
+  The install line for a client is unchanged after `marketplace add Xenthai/Plugin` replaces
+  `Xenthai/Marketplace`; a working-copy install now points at the checkout's root, and the
+  `xenthai-dev` catalogue is gone because one catalogue serves both. `DECISIONS.md` §16 carries the
+  evidence and what would reverse it, and `test/ops.test.mjs` asserts the shape — including that the
+  source is a relative string and never an object, which is the specific form that failed.
 - **Language detection is validated externally**, not on this repository's own files. Both signals
   are named families in the literature (Cole et al. 1997: "short words … diacritics and special
   characters"), and the standard character-n-gram method was deliberately not adopted because it

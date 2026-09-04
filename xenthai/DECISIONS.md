@@ -28,7 +28,8 @@ The only work that is not code. Each of these looks like a defect when it fails 
 | 2026-09-02 | OAuth for seventeen MCP servers | claude.ai connector settings, or `/mcp` in an interactive session | Those capabilities are unavailable until authorised |
 | 2026-09-03 | `${CLAUDE_PLUGIN_ROOT}` resolving inside a skill's shell | A real install on a second machine | Every semantic journal entry from a skill depends on it, and the documentation covers hook commands rather than a skill's later shell command |
 | 2026-09-03 | A first-session dry run against a real company | A client | The suites prove each part in isolation. **Nothing has yet proven the parts compose**, and this is the only item no suite can ever replace |
-| 2026-09-03 | Installing on a client's machine from the marketplace | The repository being reachable from that machine — it is private, so `marketplace add Xenthai/Plugin` fails there while working here | The failure looks like a typo rather than a permission. Until it is public, the alternative is a local-path install, which costs the auto-update |
+| 2026-09-03 | Installing on a client's machine from the marketplace | Nothing. The repository is public and the catalogue resolves in both the terminal and the desktop app — see decision 16 | Kept until an install runs on a machine that is not this one. It has been verified from the outside as served bytes, never as a completed install elsewhere |
+| 2026-09-03 | The plugin appearing in Cowork | A Cowork session that has the marketplace added. Cowork runs in a VM, so a locally installed plugin's `~/.claude/` is not that machine's | Assumed fixed by decision 16 and **not measured**. The desktop dialog was the same root cause, and this is the same fix reaching a second surface |
 
 ---
 
@@ -183,6 +184,33 @@ becomes genuinely per-install and cannot be read from `.company.json`.
 **Reverses never.** The ceiling exists because the published finding behind this plugin's design is
 that over 80% of a system prompt was removed with no measurable loss, diagnosed as overconstraining.
 
+### 16 · One repository, catalogue at its root, plugin at `./xenthai`
+
+The desktop app never showed this plugin, and neither did Cowork. Five explanations were measured and
+disproved — a trailing slash, the branch name, the `"./"` source, non-ASCII characters in the
+manifest, the repository split. Each was a guess about a closed system.
+
+The sixth came from a working example rather than a guess: `fru-dev3/AI-Ready-Life`, confirmed working
+in the app, declares its plugins as `"./health"` — a subdirectory of the same repository that carries
+the catalogue. So the shapes were tested against each other instead of one at a time: one catalogue,
+two entries, a URL source and a relative-path source, published together. **The relative one appeared
+in the app. The URL one did not.**
+
+The mechanism that explains it: the app syncs a marketplace over HTTP. It reads any file inside the
+repository it synced and cannot clone a second one, so a plugin named by URL resolves nowhere and the
+dialog reports only that the sync failed. A terminal clones, so both forms work there — which is why
+this was invisible for a day.
+
+That also retires `Xenthai/Marketplace`. A separate catalogue repository is the correct shape by every
+other argument, and it cannot work in the app, so the argument loses to the measurement. It also
+retires the `xenthai-dev` twin: one catalogue now serves a checkout and GitHub alike, and the twin's
+whole reason was that Claude Code keeps one marketplace per name.
+
+**Rejected:** a catalogue repository separate from the plugin, which keeps the version histories from
+lying about each other. **Reverses if** the desktop app learns to resolve a URL source — at which
+point the split costs one entry rather than a restructure. `test/ops.test.mjs` asserts the shape,
+including that the source is a relative string and never an object.
+
 ---
 
 ## Defects this plugin committed against its own rules
@@ -199,3 +227,4 @@ Kept because each one is the plugin's own doctrine catching the plugin, and the 
 | The trigger dataset expected `none` for four capabilities that existed | An evaluation that penalises the correct answer |
 | The threshold self-test derived its boundary from `1 - 0.8` and was off by one | Floating point, invisible until the dataset reached an exact multiple |
 | A duplicate-policy fingerprint matched any mention of `CONTROLS.md` | A check broad enough to forbid reference does not detect duplication |
+| Five manifest shapes were changed in one day on a guess, before either was tested against the other | H1, zero trust. A closed system answers a comparison and not an opinion, and the comparison cost one commit |
