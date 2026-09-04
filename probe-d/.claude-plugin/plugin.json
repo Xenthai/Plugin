@@ -1,0 +1,99 @@
+{
+  "name": "probe-d",
+  "displayName": "Probe D",
+  "version": "0.0.1",
+  "description": "Probe carrying this plugin's entire manifest at once, with one skill behind it.",
+  "author": {
+    "name": "Derian André Castillo Franco",
+    "url": "https://xenth.ai"
+  },
+  "homepage": "https://xenth.ai",
+  "repository": "https://github.com/Xenthai/Plugin",
+  "license": "SEE LICENSE IN LICENSE",
+  "keywords": [
+    "claude-skill",
+    "claude-code",
+    "consultoria",
+    "automatizacion",
+    "procesos",
+    "gobierno-de-datos",
+    "bitacora",
+    "contenido",
+    "redes-sociales",
+    "es-mx"
+  ],
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/guard-company.mjs\"",
+            "timeout": 10,
+            "statusMessage": "Checking the company bound to this session..."
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/journal.mjs\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/journal.mjs\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/bootstrap.mjs\"",
+            "timeout": 60,
+            "statusMessage": "Preparing the render engine..."
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/journal.mjs\"",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/journal.mjs\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

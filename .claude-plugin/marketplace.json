@@ -8,37 +8,37 @@
   "plugins": [
     {
       "name": "xenthai",
-      "displayName": "Xenth AI Plugin",
       "description": "Applied-AI consulting, executable. Maps a company, produces its communication from the company's own documents, and records every action with its actor and timestamp.",
       "version": "0.1.0",
       "category": "productivity",
-      "homepage": "https://xenth.ai",
-      "author": {
-        "name": "Derian André Castillo Franco",
-        "url": "https://xenth.ai"
-      },
       "source": "./xenthai"
     },
     {
-      "name": "probe-a",
-      "description": "Baseline probe: nothing beyond the fields the two manifests that sync already carry.",
+      "name": "probe-d",
+      "description": "Probe carrying this plugin's entire manifest at once, with one skill behind it.",
       "version": "0.0.1",
       "category": "productivity",
-      "source": "./probe-a"
+      "source": "./probe-d"
     },
     {
-      "name": "probe-b",
-      "description": "Probe carrying keywords and repository, and nothing else beyond the baseline.",
+      "name": "probe-e",
+      "description": "Probe carrying a minimal manifest and all twenty-one real skills behind it.",
       "version": "0.0.1",
       "category": "productivity",
-      "source": "./probe-b"
+      "source": "./probe-e"
     },
     {
-      "name": "probe-c",
-      "description": "Probe carrying the hooks block, and nothing else beyond the baseline.",
+      "name": "probe-f",
+      "description": "Probe whose catalogue entry carries the fields the failing entry carries.",
       "version": "0.0.1",
       "category": "productivity",
-      "source": "./probe-c"
+      "source": "./probe-f",
+      "displayName": "Probe F",
+      "homepage": "https://xenth.ai",
+      "author": {
+        "name": "Derian Andre Castillo Franco",
+        "url": "https://xenth.ai"
+      }
     }
   ]
 }
