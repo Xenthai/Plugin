@@ -1,5 +1,8 @@
 node_modules/
 
+# The Claude desktop app drops delivered files here; they are not part of the plugin.
+Claude outputs/
+
 # Test byproducts
 **/test/sandbox/
 **/test/spike/out/
