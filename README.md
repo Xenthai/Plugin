@@ -14,15 +14,17 @@ claude plugin marketplace add Xenthai/Plugin
 ```
 
 ```bash
-claude plugin install xenthai@xenthai
+claude plugin install xenthai@xenth
 ```
 
 In the desktop app: **Plugins → Agregar → Agregar marketplace**, and type `Xenthai/Plugin` — owner
 and repository, not a full URL. Then add the plugin from the catalogue that appears.
 
-Both halves of the install line really are `xenthai`: the plugin and the catalogue share a name, so
-the line looks like a typo and is not one. The separator is `@`, never `/` — `xenthai/xenthai` is
-read as a single plugin name and the error that follows sounds like the marketplace is missing.
+The separator is `@`, never `/` — `xenthai/xenth` is read as a single plugin name and the error that
+follows sounds like the marketplace is missing. The plugin is `xenthai`; the catalogue it comes from
+is `xenth`. They are named apart on purpose: Claude Code keeps one marketplace per name, so a
+catalogue sharing a name with an entry already registered somewhere cannot be added beside it, and
+the app reports only that the sync failed.
 
 Then authorize the connectors. **A plugin cannot declare or install a connector**, so that is the
 one step a person has to do by hand — [xenthai/MCP.md](xenthai/MCP.md) lists what to authorize and

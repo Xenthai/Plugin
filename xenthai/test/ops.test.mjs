@@ -77,6 +77,15 @@ check("CI downloads no browser — the runner already has one", () => {
 const PLUGIN_DIR = "xenthai";
 const CATALOGUE = ".claude-plugin/marketplace.json";
 
+/**
+ * The catalogue is `xenth` while the plugin is `xenthai`, and the difference is load-bearing.
+ * Claude Code keeps one marketplace per name, so a catalogue reusing a name already registered from
+ * a different source cannot be added beside it — the desktop app refuses with nothing but "the sync
+ * failed", which reads as a bad URL. A name nothing else can already hold removes that failure mode
+ * for every client machine, not just the one where it was found.
+ */
+const CATALOGUE_NAME = "xenth";
+
 check("the catalogue declares the plugin as a path inside this repository, never a URL", () => {
   const source = repoJson(CATALOGUE).plugins?.[0]?.source;
   const bad = [];
@@ -91,11 +100,17 @@ check("the catalogue declares the plugin as a path inside this repository, never
   return [bad.length === 0, bad.join("; ") || `${JSON.stringify(source)} resolves to a real plugin manifest`];
 });
 
+check("the catalogue and the plugin are named apart", () => {
+  const marketplace = repoJson(CATALOGUE).name;
+  const plugin = json(".claude-plugin/plugin.json").name;
+  return [marketplace !== plugin && marketplace === CATALOGUE_NAME, `catalogue ${marketplace} · plugin ${plugin}`];
+});
+
 check("one catalogue, at the repository root", () => {
   const m = repoJson(CATALOGUE);
   const bad = [];
   if (existsSync(join(ROOT, CATALOGUE))) bad.push(`a second catalogue exists at ${PLUGIN_DIR}/${CATALOGUE}`);
-  if (m.name !== "xenthai") bad.push(`the catalogue is named ${m.name}, not xenthai`);
+  if (m.name !== CATALOGUE_NAME) bad.push(`the catalogue is named ${m.name}, not ${CATALOGUE_NAME}`);
   if (m.plugins?.[0]?.version !== json(".claude-plugin/plugin.json").version) bad.push("the entry's version does not match plugin.json");
   return [bad.length === 0, bad.join("; ") || `${m.name} @ ${m.plugins[0].version}`];
 });
@@ -106,11 +121,7 @@ check("package.json points at the same repository as the plugin manifest", () =>
   return [a === b, `plugin: ${a} · package: ${b}`];
 });
 
-/**
- * Both halves of the install line are `xenthai` — the plugin and the catalogue share a name — so it
- * reads like a typo and is not one. Deriving each half from the manifests is what keeps the three
- * runbooks honest when either name moves.
- */
+/** Each half is derived from its manifest, so the runbooks cannot drift when either name moves. */
 check("all three runbooks name the catalogue's repository and the install line", () => {
   const marketplace = repoJson(CATALOGUE).name;
   const plugin = json(".claude-plugin/plugin.json").name;
