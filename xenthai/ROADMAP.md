@@ -1,7 +1,7 @@
 # Roadmap
 
 > Ideas, not commitments. Each one says what it is, why it earns a place, and what it waits on.
-> Ordered by horizon, and within a horizon by how much it de-risks the rest. Version 0.1.0 is the
+> Ordered by horizon, and within a horizon by how much it de-risks the rest. Version 0.2.0 is the
 > baseline everything below is measured against.
 
 ## Principles that shape every item

@@ -11,6 +11,12 @@ const ROOT = join(HERE, "..");
  * deleted a sibling suite's sandbox mid-run — surfacing on Windows as EBUSY on rmdir and killing
  * both suites. A shared scratch directory between suites is a race, not a convenience.
  */
+/**
+ * The shipped version, read from the manifest rather than written here. A literal made every
+ * version bump fail this suite, which put the release gate behind a test edit.
+ */
+const VERSION = JSON.parse(readFileSync(join(ROOT, ".claude-plugin", "plugin.json"), "utf8")).version;
+
 const SANDBOX = join(HERE, "sandbox", "hooks");
 const CO_A = join(SANDBOX, "company-a");
 const CO_B = join(SANDBOX, "company-b");
@@ -121,7 +127,7 @@ check("journal records a write as a reference, never the content, with a schema 
   const text = JSON.stringify(all);
   return [
     row.schema === 1 &&
-      row.plugin === "0.1.0" &&
+      row.plugin === VERSION &&
       row.event === "ai_action" &&
       row.company === "co-a-0001" &&
       row.target?.file_path?.endsWith("brand.md") &&

@@ -1,17 +1,40 @@
 {
+  "$schema": "https://code.claude.com/schemas/marketplace.json",
   "name": "xenthai",
   "description": "Xenth AI — Applied-AI consulting, executable. People decide, the AI executes, and everything is recorded.",
   "owner": {
-    "name": "Xenth AI",
+    "name": "Derian André Castillo Franco",
+    "email": "hola@xenth.ai",
     "url": "https://xenth.ai"
   },
   "plugins": [
     {
       "name": "xenthai",
+      "displayName": "Xenth AI Plugin",
+      "source": "./xenthai",
       "description": "Applied-AI consulting, executable. Maps a company, produces its communication from the company's own documents, and records every action with its actor and timestamp.",
-      "version": "0.1.0",
-      "category": "productivity",
-      "source": "./xenthai"
+      "version": "0.2.0",
+      "author": {
+        "name": "Derian André Castillo Franco",
+        "email": "hola@xenth.ai",
+        "url": "https://xenth.ai"
+      },
+      "homepage": "https://xenth.ai",
+      "repository": "https://github.com/Xenthai/Plugin",
+      "license": "FSL-1.1-ALv2",
+      "keywords": [
+        "claude-skill",
+        "claude-code",
+        "consultoria",
+        "automatizacion",
+        "procesos",
+        "gobierno-de-datos",
+        "bitacora",
+        "contenido",
+        "redes-sociales",
+        "es-mx"
+      ],
+      "category": "productivity"
     }
   ]
 }

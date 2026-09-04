@@ -20,9 +20,61 @@ are traceable to an entry here. That traceability is only as good as the entry.
 
 ## [Unreleased]
 
-Merged and on no client machine. The plugin at 0.1.0 covers social only; everything below is what
-turns it into a company-wide engagement, and none of it is installable until the `version` field
-moves.
+Nothing merged and unshipped.
+
+## [0.2.0] - 2026-09-04
+
+Everything 0.1.0 did not cover. 0.1.0 was social only; this turns the plugin into a company-wide
+engagement — intake, the process inventory and its scoring, the baseline, the reporting, the
+routines and the first-visit setup — and adds the installation fixes without which none of it
+reached a client machine at all.
+
+### Fixed — installation
+
+- **The render engine no longer breaks when its dependency is absent.** `package.json` claimed the
+  CLI installs a plugin's dependencies when it copies the plugin into its cache. It does not, in any
+  version tested. `node_modules` is gitignored, correctly, so no marketplace clone carries
+  `playwright-core` either, and `capabilities/social/engine/render.mjs` imported it at its top level
+  — which made the whole module unloadable on every fresh install, `--help` included, on a module
+  resolution error that named a package rather than the missing step. The driver is now resolved with
+  `await import()` at first use, the way `bin/doctor.mjs` already did, and the failure message
+  separates the two absences that were previously conflated: a missing driver is this plugin's own
+  install and takes two seconds of npm, a missing browser is the machine's and on macOS and Linux is
+  a download.
+- **`hooks/bootstrap.mjs` installs that dependency at SessionStart** when the plugin's copy lacks
+  it, which is what its `statusMessage` has always promised and what its 60s timeout was always
+  sized for. One `existsSync` on every session after the first. Locked in the system temp directory
+  and keyed by plugin root, because npm is not safe to run concurrently against one prefix and four
+  sessions can open at once. Fails open, like the journal hook.
+- **`scripts/install.ps1` installs into either plugin store, or both,** retrying the steps that fail
+  for reasons that are not this plugin's. Cowork and Claude Code keep separate stores — Cowork's
+  under `~/.claude/cowork_plugins`, reached with the undocumented `--cowork` — and installing into
+  one leaves the other empty with no hint that a second store exists. On a machine with Defender
+  real-time protection enabled, `marketplace add` and `install` fail intermittently with `EPERM` on
+  a rename or `EBUSY` on a remove, because the scanner holds a handle on the files the CLI has just
+  written at the moment the CLI moves them into place; observed failing five times and succeeding on
+  the sixth with nothing changed between attempts. The script is UTF-8 with a byte-order mark,
+  without which Windows PowerShell reads it as ANSI and its non-ASCII characters desynchronise the
+  parser.
+- **`claude plugin details` is not proof of installation**, and treating it as proof reported a
+  failed install as complete. It resolves a plugin from the marketplace catalogue whether or not it
+  is installed, so it will list all 21 skills for a plugin that was never installed. The installer
+  verifies against `claude plugin list`, which reads the store's own record — the only thing that
+  decides whether a session loads anything.
+
+### Changed — manifests
+
+- **`license` names the license instead of pointing at the file.** `plugin.json` carried npm's
+  `SEE LICENSE IN LICENSE`, which is not a license identifier; it now carries `FSL-1.1-ALv2`, the
+  abbreviation the LICENSE file declares for itself. `package.json` takes the npm form, which is
+  what npm accepts for a license outside the SPDX list. The two were exactly reversed.
+- **Both manifests declare their `$schema`**, so an editor validates them before the CLI does.
+- **The marketplace entry carries the metadata the manifest carries** — displayName, author,
+  homepage, repository, license and keywords — so the catalogue and the installed plugin describe
+  themselves the same way instead of the catalogue describing less.
+- **`test/hooks.test.mjs` reads the shipped version from the manifest** instead of asserting a
+  literal `0.1.0`, which made every version bump fail this repository's own test suite and put the
+  release gate behind a test edit.
 
 ### Added
 

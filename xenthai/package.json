@@ -13,10 +13,10 @@
       "url": "https://xenth.ai"
     }
   ],
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "Engine and utilities for the Xenth AI plugin. Claude Code installs these dependencies when it copies the plugin into its cache, with --ignore-scripts, so nothing here may rely on a lifecycle script.",
-  "license": "FSL",
+  "license": "SEE LICENSE IN LICENSE",
   "type": "module",
   "engines": {
     "node": ">=20"

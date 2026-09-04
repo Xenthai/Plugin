@@ -1,7 +1,8 @@
 {
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "xenthai",
   "displayName": "Xenth AI Plugin",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Xenth AI Plugin. Applied-AI consulting, executable: maps a company, produces its communication from the company's own documents, and records every action with its actor and timestamp. Company-agnostic — all client material lives in that company's store.",
   "author": {
     "name": "Xenth AI",
@@ -9,7 +10,7 @@
   },
   "homepage": "https://xenth.ai",
   "repository": "https://github.com/Xenthai/Plugin",
-  "license": "SEE LICENSE IN LICENSE",
+  "license": "FSL-1.1-ALv2",
   "keywords": [
     "claude-skill",
     "claude-code",
