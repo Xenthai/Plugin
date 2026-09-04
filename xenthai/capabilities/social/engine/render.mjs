@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-import { chromium } from "playwright-core";
 import { mkdirSync, readFileSync, statSync, existsSync } from "node:fs";
 import { dirname, join, resolve, isAbsolute } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -121,6 +120,38 @@ const parseColorExpectations = (list) =>
 
 const CHANNELS = ["msedge", "chrome", "msedge-beta", "chrome-beta", "chrome-dev"];
 
+/**
+ * The render driver, resolved at first use instead of at module load.
+ *
+ * A static `import { chromium } from "playwright-core"` at the top of this file makes the whole
+ * module unloadable when the dependency is absent — `--help`, `--list`, an argument-validation
+ * error, every path that never touches a browser, all fail on a module resolution error that names
+ * a package rather than the missing step. And the dependency IS absent on every fresh install: it
+ * is gitignored, so no marketplace clone carries it, and installing a plugin does not install its
+ * dependencies. So the plugin has to work without it and say something useful when a render is the
+ * one thing that cannot.
+ *
+ * Deferring the import moves that failure from load time to the only moment it is real: the first
+ * attempt to launch a browser. `bin/doctor.mjs` already resolves it this way; this brings the
+ * engine into line with the check that reports on it.
+ *
+ * Cached because a render pass launches once but this is called from a loop's ancestor, and a
+ * repeated dynamic import of a missing module repeats the resolution cost for the same answer.
+ */
+let driver = null;
+const renderDriver = async () => {
+  if (driver) return driver;
+  try {
+    ({ chromium: driver } = await import("playwright-core"));
+  } catch (err) {
+    const absent = new Error("the render driver is not installed");
+    absent.driverMissing = true;
+    absent.detail = String(err && err.message).split("\n")[0].slice(0, 200);
+    throw absent;
+  }
+  return driver;
+};
+
 const cachedChannel = () => {
   const dir = process.env.CLAUDE_PLUGIN_DATA;
   if (!dir) return null;
@@ -132,6 +163,7 @@ const cachedChannel = () => {
 };
 
 const launch = async (preferred) => {
+  const chromium = await renderDriver();
   const order = [preferred, cachedChannel(), ...CHANNELS].filter(Boolean);
   const tried = [];
   for (const channel of [...new Set(order)]) {
@@ -322,6 +354,23 @@ const run = async () => {
   try {
     ({ browser, channel } = await launch(args.channel));
   } catch (err) {
+    /**
+     * Two different absences, and telling them apart is the whole point. A missing driver is this
+     * plugin's own install being incomplete and takes two seconds to fix. A missing browser is the
+     * machine's, and on macOS and Linux is a download. Printing the browser advice for a driver
+     * error sends the operator to install 150 MB of Chromium to solve an 8 MB npm install.
+     */
+    if (err.driverMissing) {
+      process.stderr.write(
+        `${err.message}: playwright-core is not present in this install.\n` +
+          `  ${err.detail}\n\n` +
+          "It downloads no browser and takes about two seconds. In the plugin root, run:\n" +
+          "  npm install --ignore-scripts\n\n" +
+          "A session normally does this for you at session start, so this message means the engine\n" +
+          "was run before any session had opened, or that the install could not reach the registry.\n"
+      );
+      process.exit(2);
+    }
     process.stderr.write(
       `${err.message}\n${(err.tried ?? []).map((t) => "  " + t).join("\n")}\n\n` +
         "On macOS and Linux a system browser is often absent. Install one once with:\n" +

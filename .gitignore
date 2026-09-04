@@ -3,6 +3,7 @@ node_modules/
 # Test byproducts
 **/test/sandbox/
 **/test/spike/out/
+**/test/fixtures/out/
 
 # Never commit a client's material or its journal. Both belong in that company's own store,
 # and this repo is public.
