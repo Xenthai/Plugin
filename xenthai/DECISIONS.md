@@ -28,8 +28,8 @@ The only work that is not code. Each of these looks like a defect when it fails 
 | 2026-09-02 | OAuth for seventeen MCP servers | claude.ai connector settings, or `/mcp` in an interactive session | Those capabilities are unavailable until authorised |
 | 2026-09-03 | `${CLAUDE_PLUGIN_ROOT}` resolving inside a skill's shell | A real install on a second machine | Every semantic journal entry from a skill depends on it, and the documentation covers hook commands rather than a skill's later shell command |
 | 2026-09-03 | A first-session dry run against a real company | A client | The suites prove each part in isolation. **Nothing has yet proven the parts compose**, and this is the only item no suite can ever replace |
-| 2026-09-03 | Installing on a client's machine from the marketplace | Nothing. The repository is public and the catalogue resolves in both the terminal and the desktop app — see decision 16 | Kept until an install runs on a machine that is not this one. It has been verified from the outside as served bytes, never as a completed install elsewhere |
-| 2026-09-03 | The plugin appearing in Cowork | A Cowork session that has the marketplace added. Cowork runs in a VM, so a locally installed plugin's `~/.claude/` is not that machine's | Assumed fixed by decision 16 and **not measured**. The desktop dialog was the same root cause, and this is the same fix reaching a second surface |
+| 2026-09-03 | Installing on a client's machine from the marketplace | Nothing. The repository is public, the catalogue resolves, and decision 17 says which surface adds it | Kept until an install runs on a machine that is not this one. Verified from the outside as served bytes, never as a completed install elsewhere — and on this machine the two surfaces were added in the order that fails |
+| 2026-09-03 | The plugin appearing in Cowork | A new Cowork session. Cowork keeps its own store at `~/.claude/cowork_plugins/`, reached with `--cowork`; it was empty, so the plugin was never there to be missing | Installed there now, 21 skills on disk. **Not measured in a session** — a running one mounts the store at start and will not see it |
 
 ---
 
@@ -207,9 +207,39 @@ retires the `xenthai-dev` twin: one catalogue now serves a checkout and GitHub a
 whole reason was that Claude Code keeps one marketplace per name.
 
 **Rejected:** a catalogue repository separate from the plugin, which keeps the version histories from
-lying about each other. **Reverses if** the desktop app learns to resolve a URL source — at which
-point the split costs one entry rather than a restructure. `test/ops.test.mjs` asserts the shape,
-including that the source is a relative string and never an object.
+lying about each other. **Reverses if** a URL source is shown to resolve in the app — see the
+correction below, which is why that is now an open question rather than a settled one.
+`test/ops.test.mjs` asserts the shape.
+
+**Corrected on 2026-09-03.** The mechanism above is not established. The run that produced it —
+`prueba` appearing and `xenthai` not — also carried the settings mismatch of decision 17, which
+alone explains why that entry never appeared. Two causes were present and only one was varied. What
+survives is that a relative source **works**; that a URL source fails does not.
+
+### 17 · The marketplace is added from one place, and the terminal is not it
+
+The desktop app refused to add this catalogue for a day, saying only that the sync failed. Its own
+log says the rest: the app sends `https://github.com/Xenthai/Plugin`, `claude plugin marketplace add`
+had already written `{source: github, repo: Xenthai/Plugin}` into `settings.json` under the same name,
+and the app refuses a source whose kind disagrees with what is declared for that name.
+
+Both are correct spellings of the same repository. Neither side normalises to the other, and the
+error surfaces as a URL problem, so the operator retypes the URL — which is the one thing that cannot
+help.
+
+The rule is therefore about **order, not shape**: whichever surface the client will actually use adds
+the marketplace, and the other inherits the declaration from `settings.json`. For a client that is
+the app, because that is where they work; the terminal picks it up afterwards. All three runbooks say
+so and `test/ops.test.mjs` asserts they still do.
+
+**Rejected:** editing `settings.json` by hand to match. It works and it teaches an operator to
+hand-edit the file two surfaces write to. **Reverses if** either side normalises the source, at which
+point the order stops mattering.
+
+**What this cost.** Five rounds of published probes, three renames, and one restructure, chasing a
+cause the app had already written to `main.log` in one line. The plugin runs inside that app. Nobody
+opened its log until every remote explanation had been exhausted — see the defect below, which is the
+one worth keeping.
 
 ---
 
@@ -228,3 +258,5 @@ Kept because each one is the plugin's own doctrine catching the plugin, and the 
 | The threshold self-test derived its boundary from `1 - 0.8` and was off by one | Floating point, invisible until the dataset reached an exact multiple |
 | A duplicate-policy fingerprint matched any mention of `CONTROLS.md` | A check broad enough to forbid reference does not detect duplication |
 | Five manifest shapes were changed in one day on a guess, before either was tested against the other | H1, zero trust. A closed system answers a comparison and not an opinion, and the comparison cost one commit |
+| The desktop app wrote the cause to `main.log` and it went unread through five rounds of published probes | H5 then H8, in that order. The diagnostic priority puts misconfiguration first and anchors on raw data, and a local log **is** the raw data. Every probe was an inference about a closed system that had already answered in plain text |
+| A doctor fixture reimplemented `licenceFor` instead of reading the directory | A test that copies production logic drifts from it silently, and passes while doing so |

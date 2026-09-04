@@ -62,29 +62,25 @@ check("CI downloads no browser — the runner already has one", () => {
 });
 
 /**
- * The shape of this repository answers a measured failure, and it is asserted rather than
- * remembered because it looks arbitrary and reverting it costs a day.
+ * Catalogue at the repository root, plugin in ./xenthai beneath it — the shape `fru-dev3/AI-Ready-Life`
+ * uses and the only one observed working in the desktop app.
  *
- * The desktop app syncs a marketplace over HTTP. It can read any file inside the repository it
- * synced and it cannot clone a second one, so a plugin declared by URL — the form that works from a
- * terminal, which does clone — never resolves there, and the dialog reports only that the sync
- * failed. A plugin declared as a path relative to the catalogue resolves, because those files
- * arrived with the catalogue. That was measured: two entries in one catalogue, one of each form.
- * The relative one appeared in the app; the URL one did not.
- *
- * Hence the layout: catalogue at the repository root, plugin in ./xenthai beneath it.
+ * It is asserted rather than remembered because it looks arbitrary. Be honest about how well it is
+ * established: a relative source is known to resolve in the app, and a plugin declared by URL was
+ * never cleanly shown to fail, because the run that suggested it also carried a settings mismatch
+ * that alone explains the failure. So this pins what works and claims nothing about what does not.
  */
 const PLUGIN_DIR = "xenthai";
 const CATALOGUE = ".claude-plugin/marketplace.json";
 
 /**
- * The catalogue is `xenth` while the plugin is `xenthai`, and the difference is load-bearing.
- * Claude Code keeps one marketplace per name, so a catalogue reusing a name already registered from
- * a different source cannot be added beside it — the desktop app refuses with nothing but "the sync
- * failed", which reads as a bad URL. A name nothing else can already hold removes that failure mode
- * for every client machine, not just the one where it was found.
+ * One name, added from one place. Whichever of the terminal and the desktop app adds the marketplace
+ * first writes its source into settings.json, and the other sends a different shape for the same
+ * name — `Xenthai/Plugin` against `https://github.com/Xenthai/Plugin`. The second is refused for
+ * disagreeing with the declaration, and the app renders that as a sync error that reads like a bad
+ * URL. The runbooks say so; this asserts they still do.
  */
-const CATALOGUE_NAME = "xenth";
+const CATALOGUE_NAME = "xenthai";
 
 check("the catalogue declares the plugin as a path inside this repository, never a URL", () => {
   const source = repoJson(CATALOGUE).plugins?.[0]?.source;
@@ -100,10 +96,12 @@ check("the catalogue declares the plugin as a path inside this repository, never
   return [bad.length === 0, bad.join("; ") || `${JSON.stringify(source)} resolves to a real plugin manifest`];
 });
 
-check("the catalogue and the plugin are named apart", () => {
-  const marketplace = repoJson(CATALOGUE).name;
-  const plugin = json(".claude-plugin/plugin.json").name;
-  return [marketplace !== plugin && marketplace === CATALOGUE_NAME, `catalogue ${marketplace} · plugin ${plugin}`];
+check("every runbook warns that adding from both places is refused", () => {
+  const bad = [];
+  for (const [label, text] of [["README.md", read("README.md")], ["INSTALL.md", read("INSTALL.md")], ["the repository README", repoRead("README.md")]]) {
+    if (!/settings\.json/.test(text) || !/https:\/\/github\.com\/Xenthai\/Plugin/.test(text)) bad.push(`${label} does not name both shapes and where they are declared`);
+  }
+  return [bad.length === 0, bad.join("; ") || "all three warn, naming both shapes"];
 });
 
 check("one catalogue, at the repository root", () => {

@@ -21,7 +21,7 @@ claude plugin marketplace add Xenthai/Plugin
 ```
 
 ```bash
-claude plugin install xenthai@xenth
+claude plugin install xenthai@xenthai
 ```
 
 Three things about those two lines, each of which has cost somebody a failed attempt:
@@ -30,11 +30,14 @@ Three things about those two lines, each of which has cost somebody a failed att
   `./xenthai`, this directory. A catalogue in one repository pointing at a plugin in another works
   from a terminal, which clones, and fails in the desktop app, which syncs over HTTP and cannot
   reach a second repository.
-- **The separator is `@`, not `/`.** `xenthai/xenth` is read as one plugin name, so it is never
+- **The separator is `@`, not `/`.** `xenthai/xenthai` is read as one plugin name, so it is never
   found and the error says so in a way that sounds like the marketplace is missing.
-- **The plugin is `xenthai`, the catalogue is `xenth`.** Named apart because Claude Code keeps one
-  marketplace per name: a catalogue that reuses a name already registered from another source cannot
-  be added beside it, and the desktop app reports only that the sync failed.
+- **Both halves really are `xenthai`.** The plugin and the catalogue share a name, so the line looks
+  like a typo and is not one.
+- **Add it from one place only** — the terminal or the app, never both. Whichever goes first writes
+  the source into `settings.json`; the other sends a different shape for the same name,
+  `Xenthai/Plugin` against `https://github.com/Xenthai/Plugin`, and is refused for disagreeing with
+  what is declared. The app renders that as a sync error, which reads like a bad URL and is not one.
 
 Then authorize the connectors it needs. **A plugin cannot declare or install a connector**, so this
 is the one step a person has to do by hand — see [MCP.md](MCP.md) for what to authorize and how to
@@ -69,11 +72,11 @@ Plugin first, then the catalogue. **In that order** — removing the marketplace
 plugin installed with no source it can be updated or reinstalled from.
 
 ```bash
-claude plugin uninstall xenthai@xenth
+claude plugin uninstall xenthai@xenthai
 ```
 
 ```bash
-claude plugin marketplace remove xenth
+claude plugin marketplace remove xenthai
 ```
 
 Add `--keep-data` to the first command to preserve `~/.claude/plugins/data/`. Without it, the

@@ -20,7 +20,7 @@ claude plugin marketplace add Xenthai/Plugin
 ```
 
 ```bash
-claude plugin install xenthai@xenth
+claude plugin install xenthai@xenthai
 ```
 
 In the desktop app the first line is the same thing done in a dialog: **Plugins → Agregar → Agregar
@@ -32,10 +32,12 @@ Two things about those two lines, and each has broken an install:
   and points at `./xenthai`, a directory in the same repository. A catalogue that points at a
   *different* repository works from a terminal, which clones it, and **fails in the desktop app**,
   which syncs over HTTP and cannot reach a second repository — reporting only that the sync failed.
-- **The part after `@` is the marketplace name**, which `marketplace.json` sets to `xenth`. The
-  plugin before it is `xenthai`. They are named apart because Claude Code keeps one marketplace per
-  name — reusing a name already registered from a different source blocks the add, and the desktop
-  app reports only that the sync failed.
+- **The part after `@` is the marketplace name**, which `marketplace.json` sets to `xenthai`. The
+  plugin before it is also `xenthai`, so the line reads as a repetition and is not one.
+- **Add the marketplace from the terminal or from the app, never both.** The first one writes the
+  source into `settings.json`; the second sends a different shape for the same name — `Xenthai/Plugin`
+  against `https://github.com/Xenthai/Plugin` — and is refused for disagreeing with what is declared.
+  The app shows that as a sync error, which reads like a bad URL and is not one.
 
 **The repository has to be reachable from the client's machine.** While it is private, this command
 fails there even though it works on a machine with your credentials — and the failure looks like a

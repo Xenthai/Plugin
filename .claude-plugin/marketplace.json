@@ -1,5 +1,5 @@
 {
-  "name": "xenth",
+  "name": "xenthai",
   "description": "Xenth AI — Applied-AI consulting, executable. People decide, the AI executes, and everything is recorded.",
   "owner": {
     "name": "Derian André Castillo Franco",
@@ -12,27 +12,6 @@
       "version": "0.1.0",
       "category": "productivity",
       "source": "./xenthai"
-    },
-    {
-      "name": "probe-i",
-      "description": "Probe carrying capabilities, with the renamed fonts and their licences.",
-      "version": "0.0.1",
-      "category": "productivity",
-      "source": "./probe-i"
-    },
-    {
-      "name": "probe-j",
-      "description": "Probe carrying the test directory, its fixtures and their rendered PNGs.",
-      "version": "0.0.1",
-      "category": "productivity",
-      "source": "./probe-j"
-    },
-    {
-      "name": "probe-k",
-      "description": "Probe carrying bin, lib, hooks, scaffold and the runbooks.",
-      "version": "0.0.1",
-      "category": "productivity",
-      "source": "./probe-k"
     }
   ]
 }

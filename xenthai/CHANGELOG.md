@@ -63,16 +63,27 @@ moves.
 
 ### Changed
 
-- **The repository is now the marketplace, and the plugin moved to `./xenthai` inside it.** The
-  desktop app and Cowork never showed this plugin. The cause was the source form: the app syncs a
-  catalogue over HTTP and can read files inside that repository but cannot clone a second one, so a
-  plugin declared by URL resolves nowhere while the same plugin declared as a relative path
-  resolves. That was measured by publishing both forms in one catalogue and seeing which appeared.
-  The install line for a client is unchanged after `marketplace add Xenthai/Plugin` replaces
-  `Xenthai/Marketplace`; a working-copy install now points at the checkout's root, and the
-  `xenthai-dev` catalogue is gone because one catalogue serves both. `DECISIONS.md` §16 carries the
-  evidence and what would reverse it, and `test/ops.test.mjs` asserts the shape — including that the
-  source is a relative string and never an object, which is the specific form that failed.
+- **The marketplace is added from one surface only, and the runbooks say which.** The desktop app
+  refused to add this catalogue for a day, reporting only that the sync failed. Its own log carried
+  the cause: the app sends `https://github.com/Xenthai/Plugin`, `claude plugin marketplace add` had
+  already written `{source: github, repo: Xenthai/Plugin}` into `settings.json` under the same name,
+  and a source whose kind disagrees with what is declared is refused. Both spell the same repository;
+  neither side normalises to the other; the error reads as a URL problem, so the operator retypes the
+  URL, which cannot help. `DECISIONS.md` §17 carries it, and §16's stated mechanism is corrected there
+  — the run that produced it carried this mismatch too, so only one of two causes was ever varied.
+- **The bundled fonts were renamed off their upstream `Archivo[wdth,wght].ttf` form.** A bracket has
+  to be percent-encoded in a URL and quoted in a shell, the axes it documents are already inside the
+  file, and the cost is paid by whichever consumer forgets. `doctor` derives each licence filename
+  from its font's, so that derivation moved with them — and its fixture, which had reimplemented the
+  same derivation instead of reading the directory, now lists what is on disk.
+- **The repository is now the marketplace, and the plugin moved to `./xenthai` inside it.** This is
+  the shape `fru-dev3/AI-Ready-Life` uses and the only one observed working in the desktop app: a
+  relative source resolves there. The stronger claim first made here — that a URL source *fails* —
+  does not hold, because the run behind it also carried the settings mismatch above, which alone
+  explains that failure. One of two causes was varied. The install line for a client is unchanged
+  after `marketplace add Xenthai/Plugin` replaces `Xenthai/Marketplace`; a working-copy install now
+  points at the checkout's root, and the `xenthai-dev` catalogue is gone because one catalogue serves
+  both. `DECISIONS.md` §16 carries what is established and what is not.
 - **Language detection is validated externally**, not on this repository's own files. Both signals
   are named families in the literature (Cole et al. 1997: "short words … diacritics and special
   characters"), and the standard character-n-gram method was deliberately not adopted because it

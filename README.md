@@ -14,17 +14,20 @@ claude plugin marketplace add Xenthai/Plugin
 ```
 
 ```bash
-claude plugin install xenthai@xenth
+claude plugin install xenthai@xenthai
 ```
 
 In the desktop app: **Plugins → Agregar → Agregar marketplace**, and type `Xenthai/Plugin` — owner
 and repository, not a full URL. Then add the plugin from the catalogue that appears.
 
-The separator is `@`, never `/` — `xenthai/xenth` is read as a single plugin name and the error that
-follows sounds like the marketplace is missing. The plugin is `xenthai`; the catalogue it comes from
-is `xenth`. They are named apart on purpose: Claude Code keeps one marketplace per name, so a
-catalogue sharing a name with an entry already registered somewhere cannot be added beside it, and
-the app reports only that the sync failed.
+Both halves really are `xenthai`: the plugin and the catalogue share a name, so the line reads as a
+repetition and is not one. The separator is `@`, never `/` — `xenthai/xenthai` is read as a single
+plugin name, and the error that follows sounds like the marketplace is missing.
+
+**Add it in one place, not both.** Whichever of the terminal and the desktop app adds it first writes
+the source into `settings.json`, and the other sends a different shape for the same name — `Xenthai/Plugin`
+against `https://github.com/Xenthai/Plugin`. The second one is then refused for disagreeing with the
+declaration, and what it shows is a sync error that reads like a bad URL.
 
 Then authorize the connectors. **A plugin cannot declare or install a connector**, so that is the
 one step a person has to do by hand — [xenthai/MCP.md](xenthai/MCP.md) lists what to authorize and
