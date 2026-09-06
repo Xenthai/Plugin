@@ -58,11 +58,12 @@ Point it at the checkout's root — the catalogue is there, and `./xenthai` reso
 as it does on GitHub. The install line afterwards is unchanged.
 
 The local path costs the auto-update: a plugin installed that way updates when that checkout does,
-not when a version ships. Say which of the two an engagement is on, because the release gate means
-different things for each.
+not when `main` does. Say which of the two an engagement is on — the journal stamps a working copy's
+rows `dev`, which is how a report tells them apart afterwards.
 
-Updates otherwise arrive automatically, once per session, and only for a version that was
-deliberately released: the `version` field in `plugin.json` is the release gate.
+Updates otherwise arrive automatically, once per session, and **every push reaches the client**:
+neither manifest declares a `version`, so the CLI resolves it to the commit SHA. A declared version
+would pin the install and never move it again.
 
 ## 3. Authorize Google Drive — the step nobody can automate
 

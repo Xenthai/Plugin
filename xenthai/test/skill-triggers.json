@@ -509,6 +509,38 @@
       "split": "train",
       "kind": "near-miss",
       "why": "Updating the mapping names its own domain, so the process router owns it. Resume would be right only if the question were which phase to update at all."
+    },
+    {
+      "id": "zapier-tables-discover-es",
+      "query": "Revisa qué tengo conectado en Zapier y dime qué tablas hay. No me acuerdo cómo se llaman ni qué campos traen.",
+      "expected": "zapier-mcp-ops",
+      "split": "train",
+      "kind": "target",
+      "why": "Naming Zapier and asking what is connected without naming a table is the exact state the description claims: the IDs differ per client and are discovered live."
+    },
+    {
+      "id": "zapier-send-whatsapp-en",
+      "query": "Send a WhatsApp message to the lead who wrote in this morning, through our Zapier connection, and make sure it gets logged somewhere.",
+      "expected": "zapier-mcp-ops",
+      "split": "test",
+      "kind": "target",
+      "why": "Sending through a connected channel plus the audit-trail requirement is section 4 of the skill; no other skill touches Zapier MCP."
+    },
+    {
+      "id": "zapier-empty-search-es",
+      "query": "Busqué en la tabla de Zapier y no salió nada, así que el cliente no tiene registros. ¿Confirmas?",
+      "expected": "zapier-mcp-ops",
+      "split": "train",
+      "kind": "near-miss",
+      "why": "The premise is the failure mode the description warns about: find_record caps results, so absence is not established. Expected zapier-mcp-ops to run the protocol, never a confirmation."
+    },
+    {
+      "id": "automation-handover-not-zapier-es",
+      "query": "El flujo de Zapier ya lleva un mes corriendo solo. Quiero entregárselo al cliente y que quede claro de quién es la responsabilidad si falla.",
+      "expected": "automate-handover",
+      "split": "test",
+      "kind": "near-miss",
+      "why": "Zapier is named but the request is acceptance and liability, which is automate-handover; zapier-mcp-ops operates an account, it does not hand one over."
     }
   ]
 }

@@ -48,9 +48,11 @@ is the one step a person has to do by hand — see [MCP.md](MCP.md) for what to 
 verify it actually works. The full first-visit runbook is [INSTALL.md](INSTALL.md), or run
 `/xenthai:setup`, which reads the seven steps back before doing anything.
 
-Updates then arrive automatically, once per session. You only receive a version that was
-deliberately released: the `version` field in `plugin.json` is the release gate, so work in progress
-never reaches an installed copy.
+Updates then arrive automatically, once per session, and **every push reaches a client** — neither
+manifest declares a `version`, so the CLI resolves it to the commit SHA. A declared version pins the
+plugin instead: `install` becomes a no-op and `update` moves nothing while the string is unchanged,
+which was verified both ways on a real install. The consequence to work with is that `main` is what
+clients run, so nothing lands there that is not finished.
 
 ### From a working copy instead
 
@@ -66,9 +68,9 @@ There is deliberately no second catalogue for development. Claude Code keeps one
 name, so a `-dev` twin meant adding either silently replaced the other, and the wrong one was live
 without saying so. One catalogue, two sources, and you pick which is added.
 
-This path costs the auto-update. The plugin then changes when that checkout changes, not when a
-version ships, so an engagement on it has a different relationship to the release gate and somebody
-has to know which one it is on.
+This path costs the auto-update. The plugin then changes when that checkout changes rather than when
+`main` does, so an engagement on it can silently be behind or ahead, and somebody has to know which
+of the two it is on. The journal says which: a working copy stamps its rows `dev`.
 
 ## Uninstall
 
@@ -102,7 +104,7 @@ claude plugin list && claude plugin marketplace list
 
 ## What it does today
 
-Twenty skills. Two are routers that bind the session and decide which phase a company is in; the
+Twenty-two skills. Two are routers that bind the session and decide which phase a company is in; the
 rest do one thing each.
 
 | | Skill | When it runs |
@@ -110,6 +112,7 @@ rest do one thing each.
 | **Setup** | `setup` | The first visit. Reads the seven steps back before running anything, then reports which are owed and by whom |
 | | `company-new` | Writes the `.company.json` that binds a session to exactly one company, and adopts whatever the store already holds |
 | | `doctor` | Whether this machine and the bound company's connectors can do the work about to be promised |
+| | `resume` | Where the engagement stands and what the next step is. The one entry point a client's own staff can remember |
 | **Mapping** | `company-intake` | Asks for the files the company already has instead of interviewing for every fact |
 | | `company-offer` | What it sells and on what terms — stock, lead times, CFDI, the discount limit and who authorises exceeding it |
 | | `process-map` | Phase 3, the *Diagnóstico*: every process it actually runs, breadth before depth |
@@ -123,7 +126,8 @@ rest do one thing each.
 | | `social-plan` | The editorial plan. Ends at an approval gate rather than producing anything |
 | | `social-produce` | Copy, then render. Refuses to emit an asset that breaches a platform limit |
 | | `social-handoff` | The delivery package: schedule, assets, and an honest note about what still needs a hand |
-| **Closing the loop** | `automate-handover` | Acceptance and liability, not results. The test is whether the client can switch it off alone |
+| **Closing the loop** | `zapier-mcp-ops` | Operating a client's Zapier account over MCP: discover what is connected, read and write without guessing a schema, and log what was sent |
+| | `automate-handover` | Acceptance and liability, not results. The test is whether the client can switch it off alone |
 | | `report` | The journal read back, per cadence, with what the evidence cannot support |
 | | `opportunities` | What recurred across periods, as questions rather than recommendations |
 | | `feedback` | What to fix in **this plugin**, from evidence, carrying nothing about any company |

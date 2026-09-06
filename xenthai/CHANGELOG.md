@@ -26,6 +26,34 @@ installed from. It identifies exactly one tree, which is what this claim always 
 machines could both write `0.1.0` and hold different code. A row written from a working copy says
 `dev`, which is honest about being unreleasable rather than borrowing a number.
 
+## [0.2.1] - 2026-09-05
+
+### Added
+
+- **`zapier-mcp-ops`** — operating a client's Zapier account over MCP without hardcoding anything.
+  Every identifier that varies per client (`table_id`, field keys `f1`/`f2`, `selected_api`, the real
+  `tool_name`) is discovered at runtime, because a value recalled from another session is a wrong
+  answer that looks like a finding. Three failure modes it exists to prevent, each of which costs the
+  client rather than the operator: firing `create_record` to learn a schema writes a real empty row
+  into their table; `find_record` caps results at roughly three, so a broad search returning little is
+  the cap and not an absence; and several apps seed a placeholder contact on first connect that reads
+  as real traffic. It also carries the cost model — **each successful call burns 2 tasks** from the
+  client's plan while inspection is free — which is what makes "explore with the meta-tools, execute
+  deliberately" a rule rather than a preference. An outbound message is recorded twice on purpose: in
+  the client's own audit table when no Zap does it, and in the engagement journal, which are different
+  records for different readers.
+- **Four trigger cases for it**, two targets and two near-misses. One near-miss asserts that "I
+  searched and found nothing, so there are no records" routes here to run the protocol rather than
+  confirming the premise; the other asserts that a Zapier flow being handed to a client is
+  `automate-handover`, since naming the vendor is not what decides the skill.
+
+### Fixed — records that had gone stale
+
+- **The skill table listed twenty skills and was missing `resume`.** It now lists all twenty-two.
+- **`README.md` and `INSTALL.md` still described the `version` field as the release gate**, which
+  this release cycle removed. Both now say what is true: every push reaches a client, and a working
+  copy stamps its journal rows `dev`.
+
 ## [0.2.0] - 2026-09-04
 
 Everything 0.1.0 did not cover. 0.1.0 was social only; this turns the plugin into a company-wide
