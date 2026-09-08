@@ -2,6 +2,8 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
+import { syncedButAbsent } from "./journal-sync.mjs";
+
 /**
  * Reads a company's execution journal and reports what RECURRED, with the rows behind each pattern.
  *
@@ -35,6 +37,23 @@ const DEFAULT_MIN_PERIODS = 3;
 const BIAS =
   "Esta lista sólo ve lo que pasó por el plugin. No ve el proceso que nadie ha tocado todavía, y " +
   "ése suele ser el que más vale. Úsela para priorizar entre lo conocido, nunca como un inventario.";
+
+/**
+ * The company root that a `--journal` path belongs to, tried as the path itself and as its parents,
+ * because the option accepts the store root, the `journal/` folder or the month directory. Failure
+ * is silent and returns nothing: this decorates a refusal, and a refusal must not itself fail.
+ */
+const safeSyncedButAbsent = (dir) => {
+  for (const candidate of [dir, join(dir, ".."), join(dir, "..", "..")]) {
+    try {
+      const months = syncedButAbsent(candidate);
+      if (months.length) return months;
+    } catch {
+      /* no receipts there */
+    }
+  }
+  return [];
+};
 
 const resolveExecutionDir = (dir) => {
   for (const candidate of [join(dir, "journal", "execution"), join(dir, "execution"), dir]) {
@@ -243,11 +262,16 @@ const main = () => {
 
   const found = resolveExecutionDir(args.journal);
   if (!found) {
+    const elsewhere = safeSyncedButAbsent(args.journal);
     process.stderr.write(
       `no <YYYY-MM>.jsonl files under "${args.journal}".\n\n` +
         "An absent journal is not a company with nothing to improve. The hooks that write it run in\n" +
         "Claude Cowork and Claude Code and are inactive in chat on the web and in the Desktop Chat\n" +
-        "tab, so the file may never have been created. Say which it is.\n"
+        "tab, so the file may never have been created. Say which it is.\n" +
+        (elsewhere.length
+          ? `\nAnd here it is a third thing: the store holds ${elsewhere.join(", ")} and this machine does\n` +
+            "not. Restore them first — tools/journal-sync.mjs --restore --from <dir>.\n"
+          : "")
     );
     process.exit(2);
   }
@@ -269,11 +293,29 @@ const main = () => {
   process.stdout.write(`> ${BIAS}\n\n`);
 
   if (periods.length < min) {
+    /**
+     * A short history has three causes and they are not interchangeable. Two were already named:
+     * a young engagement, and a surface where the hooks never ran. The third is the one this
+     * environment produces — the months exist, in the client's own store, and this machine does not
+     * have them — and saying "vuelva cuando haya más historia" to that is telling somebody to wait
+     * for data they already own. `--journal` may point anywhere, so the store's own receipts beside
+     * it are what settle which case this is.
+     */
+    const elsewhere = safeSyncedButAbsent(args.journal);
     process.stdout.write(
       `**Todavía no hay con qué.** La bitácora cubre ${periods.length} periodo(s) y el umbral es ${min}. ` +
         "Un patrón medido sobre menos periodos que eso es ruido, y reportarlo enseñaría al cliente a " +
-        "ignorar esta sección. Vuelva cuando haya más historia.\n"
+        "ignorar esta sección.\n"
     );
+    if (elsewhere.length) {
+      process.stdout.write(
+        `\n**Pero la historia existe y no está aquí.** El store del cliente tiene ${elsewhere.join(", ")} ` +
+          "y esta máquina no. Restáurelos antes de leer nada — `tools/journal-sync.mjs --restore --from <dir>` — " +
+          "porque un análisis sobre la fracción que sí bajó no es un análisis corto: es uno equivocado.\n"
+      );
+    } else {
+      process.stdout.write("\nVuelva cuando haya más historia.\n");
+    }
     process.exit(0);
   }
 

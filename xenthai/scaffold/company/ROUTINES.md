@@ -1,7 +1,10 @@
 # RUTINAS — <empresa>
 
-> Las tareas planeadas y su periodicidad. Se acuerdan **una vez**, al cerrar el mapeo, y después
-> corren solas sin volver a pedir permiso.
+> Las tareas planeadas y su periodicidad. Cada una se acuerda **una vez** y después corre sola sin
+> volver a pedir permiso. Este documento nace en el setup, no al cerrar el mapeo: el digest de
+> estado ya está corriendo desde el día uno, y una rutina que no está escrita no se puede notar
+> ausente. Las cadencias de reporte sí se acuerdan al cerrar el mapeo, con el cliente, y hasta
+> entonces quedan en `— pendiente —`.
 
 **Esquema:** 1 · **Estado del documento:** — pendiente — · **Acordado el:** <fecha> · **Con quién:** <nombre y puesto>
 
@@ -89,9 +92,16 @@ declarado aquí y el cliente lo acepte con esa condición dicha en voz alta.
 | Re-medición del baseline | Vuelve a medir [BASELINE.md](BASELINE.md) con las definiciones congeladas | Trimestral | — pendiente — | Mismo instrumento, mismos procesos, o la serie se rompe |
 | Recaptura de presencia | Agrega una observación fechada a [PRESENCE.md](PRESENCE.md) | Trimestral | — pendiente — | Nunca edita la anterior |
 | Revisión de contenido sin mantenimiento | Revisa lo publicado que nadie mantiene | Cada 3 años como piso | — pendiente — | La prueba: si dejarlo así estorbaría a una persona no especialista |
-| Escaneo de oportunidades | Lee el journal y propone el siguiente proceso que vale automatizar | Semestral | — pendiente — | Acción repetida sobre el mismo tipo de objetivo, consultas concentradas en un proceso, escalaciones que siempre se resuelven igual |
+| Escaneo de oportunidades | Lee el journal y propone el siguiente proceso que vale automatizar | Mensual | — pendiente — | Acción repetida sobre el mismo tipo de objetivo, consultas concentradas en un proceso, escalaciones que siempre se resuelven igual. **Los dos primeros meses va a decir que no hay historia suficiente** — el piso son 3 periodos distintos — y eso no es que la rutina esté rota |
 | Revisión de accesos | Confirma que [PROCESSES.md](PROCESSES.md) sigue diciendo quién tiene qué | Semestral | — pendiente — | Quien se fue y sigue con acceso es el hallazgo |
 | Salud de la instalación | Corre `doctor` | Mensual | — pendiente — | Barato, y evita descubrir un conector roto en una entrega |
+
+**El digest detecta; el escaneo interpreta.** Son dos renglones y no se duplican. El digest corre
+solo, todos los días, y sólo dice cuántos hallazgos disparó cada detector y cuántos periodos abarca
+el más ancho — sin sujetos, porque no lleva ningún dato de la empresa. El escaneo abre esos mismos
+hallazgos con nombre y objetivo, en sesión, y decide qué significa cada uno; eso necesita el
+proceso, la gente y las prioridades del cliente, y ninguna de las tres cabe en una tarea programada.
+Borrar cualquiera de los dos deja al otro sin la mitad que le falta.
 
 ---
 

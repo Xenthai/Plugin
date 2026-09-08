@@ -52,6 +52,70 @@ Never give the first answer for a rule that only has the second mechanism. That 
 easiest way to lose a client's trust permanently, because the day it happens the record will show
 the rule existed and nothing stopped it.
 
+### 1b. A control that runs on a disk that gets deleted is not a control
+
+Every claim in this file rests on the journal being there afterwards. It is written to
+`<company root>/journal/execution/<YYYY-MM>.jsonl`, which on a laptop is a file that survives and in
+a cloud container is a file that does not: the container is reclaimed when the session ends and the
+evidence goes with it, with nothing raising an error, because a deleted journal and a quiet month
+produce the same empty directory.
+
+What that costs is not the rows. **`opportunities` needs three distinct periods before it reports
+anything, and the quarterly report is the first cadence that may claim a result** — so in that
+environment both are unreachable for ever, and both refuse with a sentence that reads as *this
+engagement is young* when the truth is *the history is being deleted every night*. A refusal for the
+wrong reason is worse than a failure: it is believed.
+
+So the durability of the journal is itself a control, and it is enforced the same way as every other
+one here — deterministically where that is possible, advisory where it is not:
+
+| Surface | What it does | Tier |
+| --- | --- | --- |
+| `doctor`'s `sync` line | FAILS when a closed month is unsynced, or when an ephemeral binding holds any unsynced row | Deterministic |
+| `tools/journal-sync.mjs --check` | Exit 1 on rows this machine holds and the store does not | Deterministic |
+| The SessionStart announcement | Tells the session, while it can still act, that this binding is ephemeral and what it owes | Advisory |
+| The SessionEnd warning | One line to the operator. By then nothing can act | Advisory |
+| The upload itself | A session, through the connector | **Advisory, and unavoidably so** |
+
+That last row is the honest part. **A hook and a CLI hold no connector credentials**, so nothing
+outside a session can put anything in a client's store. The tool stages the exact bytes, records the
+digest and the id, and refuses to claim a delivery it cannot verify — but the act of uploading is
+the model's, which makes it the same tier as every other instruction here. Say that to a client in
+those words rather than describing the journal as automatically preserved.
+
+**A revision is a new file**, as `MCP.md` says for every other document: the connector cannot change
+a file's contents, so a month arrives as `<YYYY-MM>.rev-001.jsonl`, then `rev-002`, each the whole
+month as it stood. Readers take the highest revision, and a gap in the numbering is visible where a
+missing fragment of a split file would not be.
+
+### 1c. The binding is a control, and it was written so that it could not be kept
+
+`company-new` says a manifest never lives in a home directory, because a home-level default is the
+ambient-authority pattern: every session started anywhere under that home binds to that company
+whether or not anybody meant it. The guard, meanwhile, finds the company by walking **up** from the
+session's working directory — and in a cloud container that directory is the home. So there was no
+placement that satisfied both, and the one that worked was the one the doctrine forbids. Measured
+both ways: manifest at the home, a store write is permitted; manifest one level below, where the
+rule asks for it, the same write is refused as unbound.
+
+**A rule the mechanism makes impossible to keep does not get kept. It gets ignored — and then it
+stops protecting the machines where it was right all along.** So the mechanism changed rather than
+the rule:
+
+- **`XENTHAI_COMPANY`** names a manifest and beats the walk-up. It is not a home-level default and
+  does not become one: nothing is found there unless somebody set it for this session, which is
+  explicit authority rather than ambient. **It never falls back.** Set and resolving to nothing,
+  every store write is refused — because an operator who believes they are bound to one company
+  while silently bound to another is the one mistake in this system that is both invisible and
+  permanent.
+- **`"binding": "ephemeral"`** in the manifest permits the home placement where there is genuinely
+  no alternative, and makes `doctor` say what it costs on every run. **Declared, never detected**: a
+  sniff for a container is wrong in both directions, and the expensive direction is permitting the
+  ambient-authority pattern in silence on a machine that was durable all along.
+
+An undeclared manifest at a home directory is a `doctor` FAIL. That is the difference between a rule
+and a preference, and it is the whole point of writing it down here.
+
 ### Where a client policy needs a hook
 
 A policy the client states as absolute — data may not leave this folder, this document may never be

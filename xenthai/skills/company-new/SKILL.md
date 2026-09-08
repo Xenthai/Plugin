@@ -91,6 +91,12 @@ Never place a manifest in a home directory or a shared parent. A home-level defa
 ambient-authority pattern that makes an operator act on the wrong target in every tool that has
 one, and it is the specific failure this file exists to prevent.
 
+**Where the working directory IS the home** — a cloud container — keep the rule one of two ways, in
+this order: set `XENTHAI_COMPANY` to a manifest in its own folder, which beats the directory walk;
+or, only when there is no other directory, declare `"binding": "ephemeral"` and say out loud that
+the disk does not survive the session. `doctor` fails on an undeclared manifest at a home directory.
+`capabilities/company/doctrine/CONTROLS.md` §1c carries why both exist.
+
 ## Then verify, and only then hand off
 
 ```bash
@@ -125,6 +131,7 @@ images. So do not end this session with "listo": end it by reading this back, ma
 | 5 | `digest` folder created and shared with the practice as **Lector** | Continuous monitoring, and it is the only part that runs with nobody present | A person, in Drive's own interface |
 | 6 | The digest routine created **and run once**, approving its prompts | The digest actually appearing. A routine nobody ran once stalls on its first permission prompt and stops in silence | Desktop → Rutinas → Nueva rutina → Local |
 | 7 | `ROUTINES.md` created, with the digest routine already active | Absence detection. **A routine nobody wrote down cannot be noticed missing** | Done, here — see below |
+| 8 | `journal` folder in the store, and the binding declared | The journal outliving the machine. On an ephemeral binding it is the difference between an engagement with evidence and one without | Done, here |
 
 `INSTALL.md` §6b carries the exact commands for 5 and 6. Gmail is **not** on this list: the plugin
 uses it only to send a finished deliverable, sending always needs per-message confirmation, and
@@ -132,14 +139,35 @@ nothing here depends on it. Connect it or not; it changes nothing about setup.
 
 ### Create `ROUTINES.md` here, not at mapping close
 
-The document says routines are agreed once, at mapping close — and that was written before one
-routine existed from day one. The digest is scheduled during setup, so if `ROUTINES.md` does not
-exist yet, **the one routine that is already running is recorded nowhere and its absence cannot be
-detected**, which is the exact failure `capabilities/report/doctrine/REPORTING.md` §2b is about.
+The digest routine is scheduled during setup, so if `ROUTINES.md` does not exist yet, **the one
+routine that is already running is recorded nowhere and its absence cannot be detected** — the exact
+failure `capabilities/report/doctrine/REPORTING.md` §2b is about, committed by the document that
+exists to prevent it.
 
-So create it from `scaffold/company/ROUTINES.md` now. The digest row is already filled and active.
-Every reporting cadence stays `— pendiente —`: those are agreed at mapping close, with the client,
-and a cadence not activated there gets no report.
+Instructing it in prose was not enough: it was skipped in a first session and nobody noticed for two
+days. So run the command, which either exits 0 or does not:
+
+```bash
+node "${CLAUDE_PLUGIN_ROOT}/tools/scaffold.mjs" --document ROUTINES.md
+```
+
+It refuses to overwrite (exit 1) — on a company whose store already held a `ROUTINES.md`, that
+refusal is the correct outcome and the existing file is read, not replaced. Then copy the result
+into the store through the connector: the CLI has no credentials and writes only the local copy.
+
+The digest row ships already filled and active. Every reporting cadence stays `— pendiente —`:
+those are agreed at mapping close, with the client, and a cadence not activated there gets no report.
+
+### If the binding is ephemeral, close the loop before the session ends
+
+```bash
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal-sync.mjs" --stage
+```
+
+Upload the file it names into the company's `journal/` folder, keeping the name, then record the id
+the connector returned with `--receipt --month <YYYY-MM> --file-id <id>`. Nothing outside a session
+can do this: a hook and a CLI hold no credentials. `capabilities/company/doctrine/CONTROLS.md` §1b
+carries why this is an advisory control and how to say so to a client.
 
 Then hand off to `company-intake` — the file request needs nobody present, so it should be sent the
 same day.

@@ -152,9 +152,12 @@ node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event approval --actor "person:
 
 ### 2. Propose the reporting routine
 
-Create `ROUTINES.md` from the scaffold and propose the cadences. **Read
-`capabilities/report/doctrine/REPORTING.md` first** — it says what each cadence may and may not
-claim, and why the quarterly is the first that can report a result at all.
+`ROUTINES.md` exists already — `company-new` writes it at setup, with the digest routine in it. **Fill
+the cadences in that file; never write a scaffold over it.** If it is genuinely absent,
+`tools/scaffold.mjs --document ROUTINES.md` creates it and refuses to overwrite.
+
+**Read `capabilities/report/doctrine/REPORTING.md` first** — it says what each cadence may and may
+not claim, and why the quarterly is the first that can report a result at all.
 
 Propose, do not impose. A routine agreed here in writing **is** its approval, so it runs afterwards
 with no further gate — which is exactly why the agreement has to be explicit and recorded with a

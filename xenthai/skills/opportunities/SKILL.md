@@ -1,6 +1,6 @@
 ---
 name: opportunities
-description: Find what to improve next from a company's own execution journal instead of from another interview — which documents get reworked every period, which escalation keeps coming back, which step has been failing for months without anyone reporting it. Use at a quarterly or semiannual review, when the client asks what to do next or where else AI would help, when an engagement is up for renewal and needs a next phase, or when a process was mapped months ago and the estimates in it were never re-measured. Requires several periods of journal history. For the first mapping of a company that has none, use process-map; for scoring and pricing a shortlist in a session with the client, use process-access.
+description: Find what to improve next from a company's own execution journal instead of from another interview — which documents get reworked every period, which escalation keeps coming back, which step has been failing for months without anyone reporting it. Use at the monthly scan the company's ROUTINES.md schedules, at a quarterly or renewal review, when the client asks what to do next or where else AI would help, or when a process was mapped months ago and the estimates in it were never re-measured. Requires several periods of journal history. For the first mapping of a company that has none, use process-map; for scoring and pricing a shortlist in a session with the client, use process-access.
 ---
 
 # Opportunities — what the journal already knows
@@ -21,6 +21,12 @@ node "${CLAUDE_PLUGIN_ROOT}/tools/opportunities.mjs" --journal <store-root>
 `--help` lists the options; trust it over this file. `--json` gives the findings as data. `--min`
 sets how many distinct periods a pattern must span, and the default of 3 is the floor — lowering it
 below 3 produces findings a busy fortnight can manufacture.
+
+**Run monthly, and expect the first two runs to say there is nothing yet.** The floor is three
+distinct periods, so a monthly scan reports for the first time in month three; that is the routine
+working, not failing, and `ROUTINES.md` says so beside the row. Monthly is the cadence because a
+pattern can only change state once a month — the periods are months — so anything slower is latency
+bought for nothing.
 
 The tool refuses to report anything when the journal covers fewer periods than the threshold. That
 refusal is correct. Say "there is not enough history yet" and stop; do not lower `--min` to produce
@@ -95,6 +101,10 @@ Company files change through `Write` and `Edit` only. `capabilities/company/doct
 - **The journal does not exist at all.** Do not read that as a company with nothing to improve. The
   hooks that write it run in Claude Cowork and Claude Code and are inactive in chat on the web and
   in the Desktop Chat tab, so the file may never have been created. Say which of the two it is.
+- **The history is in the store and not on this machine.** The tool says so when it finds receipts
+  for months that are absent here — the ordinary case in a container whose disk does not survive a
+  session. Restore first (`tools/journal-sync.mjs --restore --from <dir>`). An analysis over the
+  fraction that happened to be downloaded is not a short analysis; it is a wrong one.
 - **No `PROCESSES.md`.** Findings have nowhere to land and nothing to be checked against. Run
   `process-map` first; a list of file paths is not a list of processes.
 - **The client asks which one saves the most.** That is a counterfactual and it does not exist. Give

@@ -5,6 +5,7 @@ import { tmpdir } from "node:os";
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { readCompany } from "../lib/company.mjs";
+import { allMonths } from "../tools/journal-sync.mjs";
 
 /**
  * The render engine's one dependency, and the only file whose absence is worth acting on. Checking
@@ -153,6 +154,39 @@ const main = () => {
       : `No company is bound (${company.reason}). Store writes are refused until a .company.json exists in this directory tree. Local work is unaffected.`
   );
   if (root) lines.push(`Plugin root: ${root} — use this path for tools/journal.mjs and the render engine.`);
+
+  /**
+   * The one fact about this environment that nothing else can tell the session, announced where a
+   * session actually reads it.
+   *
+   * A hook cannot upload — it holds no connector credentials — so this is advisory, and saying so
+   * is part of the announcement: the model is the only thing in the loop that can reach the store,
+   * and if it ends the session without doing it, three days of an engagement's evidence go with the
+   * container. `doctor`'s sync line is the deterministic half; this is what makes it get run.
+   */
+  if (company.ok) {
+    try {
+      const months = allMonths(company.root);
+      const owed = months.reduce((n, m) => n + m.owed, 0);
+      const stored = months.filter((m) => m.storedOnly).map((m) => m.month);
+      if (company.binding?.ephemeral) {
+        lines.push(
+          "EPHEMERAL BINDING: this machine's disk does not survive the session, and the journal is written to it. " +
+            `Before finishing, run tools/journal-sync.mjs --stage and upload what it names into the company's journal/ folder${owed ? ` — ${owed} row(s) are owed already` : ""}. ` +
+            "No hook can do it: only a session reaches the store."
+        );
+      } else if (owed) {
+        lines.push(`${owed} journal row(s) are not in the company's store yet; tools/journal-sync.mjs --check says which months.`);
+      }
+      if (stored.length) {
+        lines.push(
+          `The store holds journal months this machine does not (${stored.join(", ")}). Restore them before reading history, or report and opportunities will measure a fraction of the engagement.`
+        );
+      }
+    } catch {
+      /* the announcement is a convenience; a session must never fail to start over it */
+    }
+  }
 
   /**
    * Last, because it is the only line that reports an action this hook took rather than a fact it

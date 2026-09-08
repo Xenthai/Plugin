@@ -1,4 +1,5 @@
 import { spawnSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { copyFileSync, cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -37,7 +38,7 @@ const setup = () => {
  */
 const brokenPlugin = () => {
   const engine = "capabilities/social/engine";
-  for (const rel of ["tools/doctor.mjs", "lib/company.mjs", "lib/journal.mjs", ".claude-plugin/plugin.json", `${engine}/template.html`]) {
+  for (const rel of ["tools/doctor.mjs", "tools/journal-sync.mjs", "lib/company.mjs", "lib/journal.mjs", ".claude-plugin/plugin.json", `${engine}/template.html`]) {
     mkdirSync(dirname(join(BROKEN, rel)), { recursive: true });
     copyFileSync(join(ROOT, rel), join(BROKEN, rel));
   }
@@ -66,7 +67,7 @@ const doctor = (cwd, args = [], script = DOCTOR) => {
   return { code: res.status, out: res.stdout ?? "", err: res.stderr ?? "", json, by };
 };
 
-const statuses = (by) => ["node", "company", ...LOCAL.slice(1)].map((n) => `${n}=${by[n]?.status ?? "?"}`).join(" ");
+const statuses = (by) => ["node", "company", ...LOCAL.slice(1), "sync"].map((n) => `${n}=${by[n]?.status ?? "?"}`).join(" ");
 
 const rows = (dir) => {
   const month = new Intl.DateTimeFormat("sv-SE", { timeZone: "America/Mexico_City", dateStyle: "short" }).format(new Date()).slice(0, 7);
@@ -136,7 +137,7 @@ check("a real folder id passes and is echoed, so the operator can compare it aga
 
 check("a valid manifest on a healthy machine: every check OK, exit 0", () => {
   const r = doctor(BOUND, ["--json"]);
-  const allOk = ["company", ...LOCAL].every((n) => r.by[n]?.status === "OK");
+  const allOk = ["company", "sync", ...LOCAL].every((n) => r.by[n]?.status === "OK");
   return [
     r.code === 0 && r.json?.ok === true && allOk && r.by.company?.data?.id === "co-doc-0001" && CHANNELS.includes(r.by.browser?.data?.channel),
     `exit ${r.code}; ${statuses(r.by)}; channel=${r.by.browser?.data?.channel}`,
@@ -185,6 +186,119 @@ check("a non-Spanish locale FAILS the company check rather than silently produci
   return [true, "en-US, absent and empty are each refused with unsupported-locale"];
 });
 
+/**
+ * The rule `company-new` states in bold and the guard made impossible to keep: a manifest at a home
+ * directory binds every session started anywhere beneath it. In a cloud container the working
+ * directory IS the home, so the placement the doctrine forbids was the only one that worked, and it
+ * was already being used in the field. Undeclared it is now a defect with a name; declared it is a
+ * working binding that says on every run what it costs.
+ */
+check("an undeclared manifest at the home directory FAILS, and a declared ephemeral one passes and says so", () => {
+  const home = join(SANDBOX, "fake-home");
+  mkdirSync(home, { recursive: true });
+  const write = (binding) =>
+    writeFileSync(
+      join(home, ".company.json"),
+      JSON.stringify({ schema_version: 1, id: "co-home", name: "Home Co", locale: "es-MX", ...(binding ? { binding } : {}), store: { kind: "drive", root: "1HOMEROOTXXXXXXXXXXXXXXXXXXXXXXXX" } }),
+      "utf8"
+    );
+  const at = (args) => {
+    const res = spawnSync(process.execPath, [DOCTOR, ...args], {
+      cwd: home,
+      encoding: "utf8",
+      env: { ...process.env, HOME: home, USERPROFILE: home, CLAUDE_PLUGIN_DATA: DATA },
+      timeout: 120_000,
+    });
+    return JSON.parse(res.stdout).checks.find((c) => c.name === "company");
+  };
+  write(null);
+  const undeclared = at(["--json"]);
+  write("ephemeral");
+  const declared = at(["--json"]);
+  return [
+    undeclared?.code === "company:fail(home-manifest-undeclared)" &&
+      declared?.status === "OK" &&
+      /EPHEMERAL BINDING/.test(declared?.reason ?? "") &&
+      /not reusable between sessions/.test(declared?.reason ?? ""),
+    `undeclared=${undeclared?.code}; declared=${declared?.code}`,
+  ];
+});
+
+/**
+ * The check that would have caught three days of an engagement disappearing with its container. It
+ * is a FAIL rather than a warning on an ephemeral binding because there "later" does not exist, and
+ * only on a closed month for a durable one, so a real machine is not red every afternoon.
+ */
+check("sync FAILS on an ephemeral binding with unsynced rows, and stays OK on a durable one", () => {
+  const make = (name, binding) => {
+    const dir = join(SANDBOX, name);
+    mkdirSync(join(dir, "journal", "execution"), { recursive: true });
+    writeFileSync(
+      join(dir, ".company.json"),
+      JSON.stringify({ schema_version: 1, id: `co-${name}`, name, locale: "es-MX", ...(binding ? { binding } : {}), store: { kind: "drive", root: "1SYNCROOTXXXXXXXXXXXXXXXXXXXXXXXX" } }),
+      "utf8"
+    );
+    const month = new Date().toISOString().slice(0, 7);
+    writeFileSync(join(dir, "journal", "execution", `${month}.jsonl`), '{"event":"ai_action"}\n', "utf8");
+    return dir;
+  };
+  const ephemeral = doctor(make("sync-ephemeral", "ephemeral"), ["--json"]).by.sync;
+  const durable = doctor(make("sync-durable", null), ["--json"]).by.sync;
+  return [
+    ephemeral?.code === "sync:fail(never-synced)" &&
+      /journal-sync/.test(ephemeral?.reason ?? "") &&
+      durable?.status === "OK",
+    `ephemeral=${ephemeral?.code}; durable=${durable?.code}`,
+  ];
+});
+
+/**
+ * A green doctor has to be REACHABLE on an ephemeral binding, and very nearly was not: staging
+ * writes a journal row and this check's own run writes another, so a rule failing on a single
+ * outstanding row would go red the moment after it went green — and `company-new` STOPS on a doctor
+ * that is not green, which would have made an ephemeral engagement impossible to open. Two runs back
+ * to back, with the second one seeing the first one's health row, is exactly that treadmill.
+ */
+check("once the month is in the store, repeated runs stay green while naming the session's own tail", () => {
+  const dir = join(SANDBOX, "sync-settled");
+  mkdirSync(join(dir, "journal", "execution"), { recursive: true });
+  mkdirSync(join(dir, "journal", "sync"), { recursive: true });
+  writeFileSync(
+    join(dir, ".company.json"),
+    JSON.stringify({ schema_version: 1, id: "co-settled", name: "Settled Co", locale: "es-MX", binding: "ephemeral", store: { kind: "drive", root: "1SETTLEDXXXXXXXXXXXXXXXXXXXXXXXXX" } }),
+    "utf8"
+  );
+  const month = new Intl.DateTimeFormat("sv-SE", { timeZone: "America/Mexico_City", dateStyle: "short" }).format(new Date()).slice(0, 7);
+  const first = '{"event":"ai_action"}\n';
+  writeFileSync(join(dir, "journal", "execution", `${month}.jsonl`), first, "utf8");
+  writeFileSync(
+    join(dir, "journal", "sync", `${month}.json`),
+    JSON.stringify({
+      schema: 1,
+      month,
+      company: "co-settled",
+      revisions: [
+        {
+          rev: 1,
+          name: `${month}.rev-001.jsonl`,
+          rows: 1,
+          bytes: Buffer.byteLength(first),
+          digest: `sha256:${createHash("sha256").update(first).digest("hex")}`,
+          file_id: "1UPLOADED",
+          at: new Date().toISOString(),
+        },
+      ],
+    }),
+    "utf8"
+  );
+  const one = doctor(dir, ["--json"]).by.sync;
+  const two = doctor(dir, ["--json"]).by.sync;
+  return [
+    one?.status === "OK" && two?.status === "OK" && /tail/.test(two?.reason ?? ""),
+    `first=${one?.status}; second=${two?.status} — "${(two?.reason ?? "").slice(-60)}"`,
+  ];
+});
+
 check("a manifest from a newer plugin (schema_version 99) FAILS the company check and exits 1", () => {
   const r = doctor(FUTURE, ["--json"]);
   const said = r.by.company?.reason ?? "";
@@ -207,7 +321,13 @@ check("no company bound: company SKIP, the local checks still run, exit 1", () =
   const r = doctor(UNBOUND, ["--json"]);
   const localsOk = LOCAL.every((n) => r.by[n]?.status === "OK");
   return [
-    r.code === 1 && r.by.company?.status === "SKIP" && /no company bound/.test(r.by.company?.reason ?? "") && localsOk && r.json?.summary?.skipped === 1 && r.json?.summary?.failed === 0,
+    r.code === 1 &&
+      r.by.company?.status === "SKIP" &&
+      /no company bound/.test(r.by.company?.reason ?? "") &&
+      localsOk &&
+      r.by.sync?.status === "SKIP" &&
+      r.json?.summary?.skipped === 2 &&
+      r.json?.summary?.failed === 0,
     `exit ${r.code}; ${statuses(r.by)}`,
   ];
 });
@@ -217,7 +337,7 @@ check("text mode prints one status line per check and a summary", () => {
   const lines = r.out.trim().split("\n");
   const statusLines = lines.filter((l) => /^(OK|FAIL|SKIP)\s+\w+\s+\S/.test(l));
   return [
-    r.code === 1 && statusLines.length === 6 && /^SKIP\s+company\s+no company bound/m.test(r.out) && /xenthai \S+ — 5 ok, 0 failed, 1 skipped$/m.test(r.out),
+    r.code === 1 && statusLines.length === 7 && /^SKIP\s+company\s+no company bound/m.test(r.out) && /xenthai \S+ — 5 ok, 0 failed, 2 skipped$/m.test(r.out),
     `exit ${r.code}; status lines=${statusLines.length}; last="${lines.at(-1)}"`,
   ];
 });

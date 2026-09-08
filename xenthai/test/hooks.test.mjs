@@ -259,6 +259,48 @@ check("the permission request records a reference, never the command itself", ()
 });
 
 /**
+ * `report` publishes the escalation count to the client as decisions that passed to a person. A
+ * clarifying question performs nothing, so counting it there inflates that figure silently — a
+ * larger number reads as more governance rather than less — and pollutes the one trail the client
+ * is asked to trust. Both halves are asserted together, because dropping the row entirely would be
+ * the wrong fix: the call itself is still journaled by PostToolUse.
+ */
+check("a permission prompt for a question-only tool is not an escalation, and the call is still recorded", () => {
+  const before = rows(CO_A).length;
+  const prompt = run(
+    "hooks/journal.mjs",
+    { hook_event_name: "PermissionRequest", tool_name: "AskUserQuestion", tool_input: { questions: [{ question: "¿cuál?" }] } },
+    CO_A
+  );
+  const afterPrompt = rows(CO_A).length;
+  post("AskUserQuestion", { questions: [{ question: "¿cuál?" }] }, CO_A);
+  const row = rows(CO_A).at(-1);
+  return [
+    prompt.code === 0 && afterPrompt === before && row.event === "ai_action" && row.tool === "AskUserQuestion",
+    `prompt wrote ${afterPrompt - before} rows; the call itself is ${row?.event}`,
+  ];
+});
+
+/**
+ * A browser session produces one row per call, and eighty-seven of them in one observed day all
+ * read identically with a null target: the trail said a browser was used and nothing about what it
+ * did. The verb the tool chose is a reference, so it is copied; what was typed is the client's
+ * content and stays digested. Asserting both in one case is the point — the row has to gain the
+ * first without gaining the second.
+ */
+check("a browser call records the action verb and the url, and never the keystrokes", () => {
+  const secret = "filtro-de-un-cliente@example.com";
+  post("mcp__Claude_Browser__computer", { action: "type", text: secret, url: "https://mail.google.com/settings" }, CO_A);
+  const row = rows(CO_A).at(-1);
+  return [
+    row.target?.action === "type" &&
+      row.target?.url === "https://mail.google.com/settings" &&
+      !JSON.stringify(row).includes(secret),
+    `action=${row.target?.action} url=${row.target?.url} leaked=${JSON.stringify(row).includes(secret)}`,
+  ];
+});
+
+/**
  * Row size is a correctness property, not a style one: hooks matching an event run in parallel, and
  * O_APPEND is atomic only while a write stays small. A row that grew past the ceiling could
  * interleave with another and corrupt both.

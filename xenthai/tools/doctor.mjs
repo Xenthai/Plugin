@@ -2,8 +2,9 @@
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { readCompany, SCHEMA } from "../lib/company.mjs";
+import { readCompany, MANIFEST_ENV, EPHEMERAL, SCHEMA } from "../lib/company.mjs";
 import { EVENTS, PLUGIN_VERSION, record } from "../lib/journal.mjs";
+import { allMonths } from "./journal-sync.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ENGINE = join(HERE, "..", "capabilities", "social", "engine");
@@ -41,8 +42,12 @@ CHECKS, IN ORDER
   fonts     every font file template.html declares is present under capabilities/social/engine/fonts,
             and every bundled face carries its OFL-*.txt licence text.
   engine    template.html present; formats.json present, parses, and names at least one render target.
-  journal   the journal directory accepts an append: one "health" row summarising this run is written,
-            as status codes, never as paths.
+  sync      the journal rows on this machine are also in the company's store. FAILS on a closed
+            month that was never uploaded, and on an ephemeral binding whose month has no revision
+            at all or whose newest one is over a day old. A session's own tail is reported, never
+            failed: staging writes a row, so a rule failing on one row could never go green.
+  journal   the journal directory accepts an append: one "health" row summarising this run is
+            written last, as status codes, never as paths, so it can summarise the whole run.
 
 STATUS
   OK    the check passed.
@@ -147,7 +152,37 @@ const checkCompany = (cwd) => {
         { id, name, path: ctx.path, locale: locale ?? null }
       );
     }
-    return result("company", "OK", `${name} (${id}) bound by ${ctx.path}, store ${root}, locale ${locale}`, null, { id, name, path: ctx.path, locale });
+    /**
+     * The one placement `company-new` forbids, and the one environment that leaves no alternative.
+     * The guard resolves a company by walking up from the session's working directory, and in a
+     * cloud container that directory IS the home — so the doctrine's rule and the mechanism
+     * disagreed, and the rule lost, silently, in the only environment where it was being broken.
+     *
+     * It is now keepable two ways and enforced in both: bind explicitly with ${MANIFEST_ENV}, which
+     * beats the walk-up and needs no manifest at the home at all, or declare the binding ephemeral
+     * in the manifest and accept what that means. Undeclared, it is a defect with a name rather than
+     * a rule everybody had already learned to ignore.
+     */
+    const binding = ctx.binding ?? {};
+    if (binding.atHome && !binding.ephemeral) {
+      return result(
+        "company",
+        "FAIL",
+        `${name} (${id})'s manifest is at the home directory (${ctx.root}). That is the ambient-authority placement company-new refuses: every session started anywhere under this home binds to this company whether or not anyone meant it. Either point ${MANIFEST_ENV} at a manifest in its own engagement folder, which beats the directory walk, or — in a container whose disk does not survive the session, where there is no other directory — declare "binding": "${EPHEMERAL}" in the manifest and read what that costs in doctor's sync line`,
+        "home-manifest-undeclared",
+        { id, name, path: ctx.path, root: ctx.root }
+      );
+    }
+    const how =
+      (binding.via === "env" ? `declared by ${MANIFEST_ENV}` : `bound by ${ctx.path}`) +
+      (binding.ephemeral ? ", EPHEMERAL BINDING — not reusable between sessions: this disk is destroyed when the session ends, so nothing survives it that was not put in the store" : "");
+    return result("company", "OK", `${name} (${id}) ${how}, store ${root}, locale ${locale}`, binding.ephemeral ? "ephemeral" : null, {
+      id,
+      name,
+      path: ctx.path,
+      locale,
+      binding,
+    });
   }
   if (ctx.reason === "no-manifest") {
     return result(
@@ -158,6 +193,7 @@ const checkCompany = (cwd) => {
     );
   }
   const reasons = {
+    "declared-manifest-missing": `${MANIFEST_ENV} is set to ${ctx.path} and there is no manifest there. Nothing falls back to the directory walk on purpose: an operator who believes they are bound to one company and is silently bound to another is the one mistake here that is both invisible and permanent`,
     "unreadable-manifest": `${ctx.path} is not valid JSON (${firstLine(ctx.detail)})`,
     "incomplete-manifest": `${ctx.path} is missing ${(ctx.missing ?? []).join(", ")}`,
     "future-schema": `${ctx.path} declares schema_version ${ctx.found}; this plugin understands ${SCHEMA}. A newer plugin wrote it — refuse rather than guess`,
@@ -285,6 +321,115 @@ const checkEngine = () => {
 };
 
 /**
+ * Whether the rows on this machine are also in the company's store.
+ *
+ * This is the check that would have caught the failure it exists for. A cloud container's disk is
+ * destroyed when the session ends, and the journal is written to it, so three days of an engagement
+ * disappeared without any tool noticing — and the two things built on the journal, `opportunities`
+ * and the quarterly report, went on refusing for a reason that reads as "this engagement is young"
+ * rather than "the history is being deleted".
+ *
+ * WHEN IT FAILS, and why "any unsynced row" is the wrong rule even here.
+ *
+ * A sync cannot reach zero and stay there, and the reason is structural rather than sloppy: staging
+ * writes a journal row, and so does this very check, one line further down. Any rule that failed on
+ * a single outstanding row would therefore be red the moment after it went green — and `company-new`
+ * STOPS on a doctor that is not green, so that rule would have made an ephemeral engagement
+ * impossible to open at all. A check that cannot be satisfied is not strict; it is broken, and it
+ * gets ignored on the day it is right.
+ *
+ * What actually deserves a failure is a month whose evidence is not in the store AT ALL, and a
+ * revision old enough that the rows since it are no longer a session's tail. So:
+ *
+ * - ephemeral, and a month with rows has no revision → FAIL. This is the observed failure: three
+ *   days of an engagement, never uploaded once.
+ * - ephemeral, unsynced rows, and the newest revision older than a day → FAIL. On a disk that does
+ *   not survive the session, yesterday's revision is not evidence of anything current.
+ * - any binding, a CLOSED month unsynced → FAIL. Nothing will add to it, so nothing excuses it.
+ * - a durable machine's current month → reported, never failed. Failing there would put every
+ *   install that has not uploaded since breakfast in the red.
+ */
+
+/** A revision older than this stops covering the rows written after it. One working day. */
+const REVISION_STALE_MS = 24 * 60 * 60 * 1000;
+
+const monthIn = (zone) => {
+  const fmt = (z) => new Intl.DateTimeFormat("sv-SE", { timeZone: z, dateStyle: "short" }).format(new Date()).slice(0, 7);
+  try {
+    return fmt(zone || "America/Mexico_City");
+  } catch {
+    return fmt("America/Mexico_City");
+  }
+};
+
+const checkSync = (cwd) => {
+  const ctx = readCompany(cwd);
+  if (!ctx.ok) return result("sync", "SKIP", "no company bound, so there is no store to compare against", "no-company");
+  let months;
+  try {
+    months = allMonths(ctx.root);
+  } catch (err) {
+    return result("sync", "FAIL", `could not read the journal's sync state (${firstLine(err.message)})`, "unreadable");
+  }
+  const diverged = months.filter((m) => m.diverged);
+  if (diverged.length) {
+    return result(
+      "sync",
+      "FAIL",
+      `${diverged.map((m) => m.month).join(", ")}: the rows already uploaded are no longer this month's first rows, so the file was rewritten rather than appended to. Run tools/journal-sync.mjs and read what it says before uploading anything over it`,
+      "diverged",
+      { months: diverged.map((m) => m.month) }
+    );
+  }
+  const ephemeral = Boolean(ctx.binding?.ephemeral);
+  /**
+   * The current month in the COMPANY's zone, because that is the zone `lib/journal.mjs` names the
+   * file after. Comparing against UTC would call a live month closed for the first hours of every
+   * month in a western zone, and fail a durable install for rows it has every right to still hold.
+   */
+  const current = monthIn(ctx.company?.timezone);
+  const stale = (m) => {
+    const at = Date.parse(m.lastSyncedAt ?? "");
+    return !Number.isFinite(at) || Date.now() - at > REVISION_STALE_MS;
+  };
+  const unsynced = months.filter((m) => m.owed > 0);
+  const owed = unsynced.filter((m) => (m.month < current ? true : ephemeral && stale(m)));
+  if (owed.length) {
+    const rows = owed.reduce((n, m) => n + m.owed, 0);
+    const never = owed.filter((m) => !m.revision).length === owed.length;
+    return result(
+      "sync",
+      "FAIL",
+      `${rows} row(s) in ${owed.map((m) => m.month).join(", ")} exist only on this machine. ` +
+        (owed.every((m) => m.month < current)
+          ? "Those months are closed and nothing will add to them, so there is no reason left for the store not to hold them"
+          : never
+            ? "This binding is ephemeral and this month has never been uploaded: that disk is destroyed when the session ends, so the engagement's evidence goes with it"
+            : "This binding is ephemeral and the last revision is more than a day old, so those rows are no longer a session's tail") +
+        ". Run tools/journal-sync.mjs --stage, upload what it names, then --receipt",
+      never ? "never-synced" : "owed",
+      { months: owed.map((m) => ({ month: m.month, owed: m.owed })) }
+    );
+  }
+  const total = months.reduce((n, m) => n + m.rows, 0);
+  const pending = unsynced.reduce((n, m) => n + m.owed, 0);
+  return result(
+    "sync",
+    "OK",
+    months.length
+      ? `${total} row(s) across ${months.length} month(s), the store has all but ${pending}` +
+          (pending
+            ? ephemeral
+              ? " — this session's tail, and it is lost with the container unless it is staged before the session ends"
+              : " from the current month, which is owed at month end"
+            : "")
+      : "no journal rows recorded yet, so nothing is owed to the store",
+    String(months.length),
+    { months: months.map((m) => ({ month: m.month, rows: m.rows, synced: m.synced, owed: m.owed })) }
+  );
+};
+
+/**
  * Runs last, so the row it appends can summarise the run. The row is the point as much as the
  * write test is: a client's setup gets diagnosed later from its own journal, without a call.
  */
@@ -334,7 +479,7 @@ const main = async () => {
   }
 
   const cwd = process.cwd();
-  const checks = [checkNode(), checkCompany(cwd), await checkBrowser(), checkFonts(), checkEngine()];
+  const checks = [checkNode(), checkCompany(cwd), await checkBrowser(), checkFonts(), checkEngine(), checkSync(cwd)];
   checks.push(checkJournal(checks));
 
   const summary = {

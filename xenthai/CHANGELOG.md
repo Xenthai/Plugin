@@ -26,6 +26,142 @@ installed from. It identifies exactly one tree, which is what this claim always 
 machines could both write `0.1.0` and hold different code. A row written from a working copy says
 `dev`, which is honest about being unreleasable rather than borrowing a number.
 
+## [0.2.2] - 2026-09-08
+
+Everything found by the first long run in an environment nobody designed for — a Cowork session in
+an ephemeral cloud container, with Gmail, Drive and Calendar connectors and a bridge to the
+operator's machine, over three days and 206 journal rows. The two architectural findings are the
+release: **the journal did not survive that container**, and **the rule about where a manifest may
+live could not be kept there at all.** Neither was a bug anything reported; both were things every
+surface said were fine.
+
+### Added — the journal outlives the machine
+
+- **`tools/journal-sync.mjs`** puts a month of the journal in the client's own store and says what
+  is still owed. The journal is written to `<company root>/journal/execution/<YYYY-MM>.jsonl`, and
+  in a container that path is a disk that is reclaimed when the session ends — silently, because a
+  deleted journal and a quiet month leave the same empty directory. What that cost was never the
+  rows: `opportunities` refuses below three distinct periods and the quarterly report is the first
+  cadence that may claim a result, so **in that environment both were unreachable for ever, and both
+  refused with a sentence that reads as "this engagement is young"** when the truth was that the
+  history was being deleted every night. A refusal for the wrong reason is worse than a failure,
+  because it is believed.
+  - `--stage` freezes the month into `journal/outbox/<YYYY-MM>.rev-<NNN>.jsonl` and names the one
+    file to upload, with its digest and the folder it belongs in. `--receipt` records the id the
+    connector returned, **reading the frozen bytes rather than the live file**, so a receipt can
+    never claim rows that did not go up. `--check` is the gate. `--restore` rebuilds a fresh
+    container's journal from the revisions downloaded into a directory.
+  - **A revision is a new file**, which is the rule `MCP.md` already stated for every other document:
+    the connector's `update_file` cannot change contents. Each revision is the whole month as it
+    stood, and readers take the highest. Split parts were rejected — a missing part truncates a
+    history silently, and a missing revision leaves a visible gap in a numbered sequence.
+  - **The upload is not done here and cannot be.** A CLI and a hook hold no connector credentials,
+    so a session makes it. Everything that can be deterministic is: which rows are owed, what exactly
+    to upload, and whether what came back matches what went up.
+- **`doctor` grows a seventh check, `sync`.** It FAILS — never warns — when an ephemeral binding's
+  month has no revision in the store at all, which is the observed failure exactly; when its newest
+  revision is over a day old, so the rows after it are no longer one session's tail; and when a
+  closed month is unsynced on any machine, because nothing will ever add to it. It does **not** fail
+  on an outstanding row, and that is not leniency: staging writes a journal row and this check's own
+  run writes another, so a rule failing on one row would go red the moment after it went green — and
+  `company-new` STOPS on a doctor that is not green, which would have made an ephemeral engagement
+  impossible to open. The tail is named in the OK line instead, with what is lost if nobody stages
+  before the session ends.
+- **`report` and `opportunities` name the third cause of a short history.** Two were already
+  distinguished — a young engagement, and a surface where the hooks never ran. The third is the one
+  this environment produces: the months exist, in the client's own store, and not on this machine.
+  Both now say so, with the command that fixes it, instead of telling somebody to wait for data they
+  already own.
+- **The SessionStart announcement carries the binding's cost**, so the model reads it while it can
+  still act, and a SessionEnd line tells the operator what is about to be lost. Both are advisory and
+  labelled as such in `CONTROLS.md` §1b: the upload is a session's act, and describing the journal as
+  automatically preserved would be a claim this plugin cannot keep.
+
+### Added — a binding rule that can actually be kept
+
+- **`XENTHAI_COMPANY` names a manifest and beats the directory walk.** `company-new` says in bold
+  that a manifest never lives in a home directory, and `hooks/guard-company.mjs` finds the company by
+  walking **up** from the session's working directory — which in a cloud session **is** the home. So
+  no placement satisfied both, and the one that worked was the one the doctrine forbids. Measured
+  both ways: manifest at the home, a store write is permitted; manifest one level below, where the
+  rule asks for it, the same write is refused as unbound. It had already happened in the field.
+  - The variable is explicit authority, not a home-level default: nothing is found there unless
+    somebody set it for this session. **It never falls back** — set and resolving to nothing, every
+    store write is refused, because an operator who believes they are bound to one company while
+    silently bound to another is the one mistake here that is both invisible and permanent.
+  - Where even that is impossible, `"binding": "ephemeral"` in the manifest permits the home
+    placement and makes `doctor` declare it on every run as not reusable between sessions.
+    **Declared, never detected**: a sniff for a container is wrong in both directions, and the
+    expensive direction is permitting the ambient-authority pattern in silence on a machine that was
+    durable all along. An undeclared manifest at a home directory is now a `doctor` FAIL.
+- **`CONTROLS.md` §1b and §1c** carry both, because 15 skills read that file and neither rule
+  belongs to one of them.
+
+### Changed — the opportunity scan runs monthly
+
+- The scaffold offered it semiannually. The periods it counts are months, so a pattern can only
+  change state once a month, and everything past that is latency bought for nothing. The first two
+  monthly runs will report that there is not enough history — the floor is three distinct periods —
+  and the row now says so, because a routine that looks broken twice gets switched off.
+- **The daily digest and the monthly scan are not duplicates, and `ROUTINES.md` now says why.**
+  `tools/watch.mjs` already runs the same detectors every day and publishes only how many findings
+  fired and how wide the widest was, with no subjects, because it goes in a folder shared with the
+  practice. The scan opens those findings by name, in a session, and decides what each one means —
+  which needs the process, the people and the client's priorities. Deleting either leaves the other
+  missing half of itself.
+
+### Added
+
+- **`tools/scaffold.mjs`** — writes one company document from its scaffold and **never** writes over
+  a file that exists. Until now every document was created by prose ("create it from
+  `scaffold/company/X.md`"), and prose is a step a session can complete without noticing it did not.
+  `ROUTINES.md` is where that was paid: `company-new` instructs it in bold, `status` already reports
+  it as owed, and it was still skipped in a first session and stayed missing for two days — the
+  document whose entire purpose is that **a routine nobody wrote down cannot be noticed missing**
+  went missing unnoticed. `company-new` now runs the command, which exits 0 or does not. The refusal
+  to overwrite is the same rule `company-new` and `company-intake` both state as absolute, enforced
+  for the first time rather than asserted: it exits 1 and leaves the bytes alone, which is the
+  correct outcome on any company whose store already held work. It writes the local copy only — a
+  CLI holds no connector credentials — and the help says so, because a session believing a document
+  reached the store when it did not is the failure this class of tool otherwise creates.
+- **Browser doctrine in `MCP.md`.** A session that changes a client's settings through a web
+  interface is making persistent writes to that client's account, and the guard cannot cover them:
+  it refuses a store write with no company bound and a local write outside the engagement folder,
+  and a click is neither — nor can it become a third refusal, because nothing in a coordinate
+  distinguishes *Guardar* from *Cancelar*. So the control is doctrine plus verification. **Never
+  `type` into a field that already holds a value**: positioning with `End` and typing injected text
+  mid-string and corrupted three of four Gmail filters in one observed episode, one of them left
+  holding a loose token that would have archived mail from any sender containing it. Use `form_input`
+  against the element's ref, or delete the object and recreate it. **Then read the state back and
+  compare it against what you intended** — that re-read is the only reason the corruption above was
+  found at all.
+
+### Fixed
+
+- **A browser call is journaled as something other than "a browser was used".** The tool's own
+  `action` (`screenshot`, `left_click`, `type`) is now copied as a reference, alongside the url that
+  was already carried. Eighty-seven browser calls in one observed day produced eighty-seven rows
+  with a null target, so the three that changed a client's mail filters were indistinguishable from
+  the eighty-four screenshots around them. What was typed is still digested and never copied: the
+  verb is the tool's, the text is the client's.
+- **A clarifying question is no longer counted as an escalation.** `hooks/journal.mjs` recorded every
+  `PermissionRequest` as one, which is right for an action waiting on a person and wrong for
+  `AskUserQuestion`, which performs nothing — nothing was going to happen, so nothing was handed
+  over. `tools/report.mjs` publishes that count to the client as decisions that passed to a person,
+  and the inflation was silent, since a larger number reads as more governance rather than less. The
+  call itself is still recorded by `PostToolUse`, so the journal loses no row; only the label goes.
+
+### Changed
+
+- **`scaffold/company/ROUTINES.md` no longer opens by contradicting the skill that creates it.** Its
+  header said routines are agreed once, at mapping close; `company-new` creates the file during
+  setup, because the digest routine is already running by then. The header now says both: the
+  document is born at setup with the digest row filled, and the reporting cadences are agreed with
+  the client at mapping close and stay `— pendiente —` until they are.
+- **`process-access` fills the `ROUTINES.md` that exists** instead of creating one. By the time
+  mapping closes the file is there, and a fresh scaffold written over it would destroy the digest
+  row and anything else recorded during setup.
+
 ## [0.2.1] - 2026-09-05
 
 ### Added
