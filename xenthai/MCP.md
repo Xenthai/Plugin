@@ -34,7 +34,7 @@ own Drive, never in this repo.
 | Find a company's documents | `search_files` |
 | Read a document, **including its comments** | `read_file_content` (`includeComments: true`) |
 | Read a raw `.md` or `.json` byte-for-byte | `download_file_content` |
-| Write a document, an asset, or a journal file | `create_file` |
+| Write a document, an asset, or a journal revision | `create_file` |
 | Rename or move | `update_file` |
 | Grant a named person access | `share_file` |
 | Inspect who currently has access | `get_file_permissions` |
@@ -52,6 +52,13 @@ exist. The plugin will tell you it is running in local mode rather than pretendi
   option. A scheduler that fetches media by URL therefore needs that permission set **once, by
   hand, on the assets folder**, and everything placed inside inherits it. If this step is skipped,
   imports run with missing images. It belongs in the onboarding checklist for every company.
+
+**The journal lives here too, and for the same reason.** `<store root>/journal/` holds
+`<YYYY-MM>.rev-<NNN>.jsonl`, each revision the whole month as it stood, because `update_file` cannot
+change contents. On a machine whose disk does not survive the session that folder is the only copy
+of the engagement's evidence: `tools/journal-sync.mjs` stages the file and verifies what came back,
+and the upload itself is the session's, since a CLI holds no credentials.
+`capabilities/company/doctrine/CONTROLS.md` §1b carries what may and may not be claimed about that.
 
 **Also worth knowing:** the connector exposes no revisions tool, so the plugin **cannot pin a
 Drive revision** (`keepForever`) before migrating a document. Drive keeps its own revision history
@@ -74,6 +81,40 @@ in the journal is unaffected.
 Only for sending a finished deliverable to a client. Note that **sending anything on someone's
 behalf requires explicit confirmation each time** — it is never automatic, no matter how the
 request is phrased. Without it, deliverables are handed over through the store.
+
+### A browser, when a setting has no API
+
+Some settings a client depends on exist only behind a web interface — mail filters and rules,
+notification preferences, a scheduler's own configuration. A session reaches those by driving a
+browser, and that is legitimate work. What it is **not** is a read.
+
+**Every change made through a browser is a persistent write to the client's own account.** Nothing
+in this plugin can stop one: the company guard vetoes a store write with no company bound and a
+local write outside the engagement folder, and a browser click is neither. It cannot become a third
+veto either, because a guard cannot tell a click on *Guardar* from a click on *Cancelar* — the
+coordinates look the same. So the control here is doctrine plus verification, and both halves are
+mandatory.
+
+**Never `type` into a field that already has a value.** Position the cursor with `End`, `Home` or a
+click, then type, and the text lands somewhere the screenshot did not predict — this is measured,
+not theoretical: editing the *De* field of four Gmail filters that way corrupted three of them, and
+one was left holding a loose token that would have archived mail from **any** sender containing it.
+The failure is silent, because the field afterwards contains text and a screenshot of text reads as
+success. Two ways that work:
+
+- `form_input` addressed to the element's **ref**, which replaces the whole value; or
+- delete the object and create it again from empty fields.
+
+**After any configuration change, read the state back and compare it against what you intended** —
+the saved filter, the saved rule, the saved preference, item by item. Do not treat the click that
+appeared to save as evidence that it saved. The one reason the corrupted filters above were caught
+is that somebody re-read them afterwards.
+
+**The journal records the verb, never the keystrokes.** A browser call is journaled as an
+`ai_action` carrying the tool's own `action` (`screenshot`, `left_click`, `type`) and the url when
+there is one; what was typed is digested, never copied, because it is the client's content. So the
+trail can answer *what did this session change* and cannot answer *what did it say* — which is the
+same split every other row here keeps.
 
 ---
 

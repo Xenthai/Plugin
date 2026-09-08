@@ -2,6 +2,7 @@
 import { createHash } from "node:crypto";
 import { mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { basename, dirname, join, resolve } from "node:path";
+import { syncedButAbsent } from "./journal-sync.mjs";
 
 const HELP = `Xenth AI report — aggregate a company's execution journal into an auditable report.
 
@@ -625,6 +626,31 @@ if (!args.args.journal) {
   process.exit(1);
 }
 
+/**
+ * A third reason a month can be missing, and the only one that is recoverable: it is in the client's
+ * store and not on this machine. In an ephemeral container that is the ordinary case rather than the
+ * exception, and without this line the tool tells a reader to say whether the month was quiet or the
+ * hooks were off, when the true answer is neither. Silent when there are no receipts to read.
+ */
+const storedElsewhere = (dir) => {
+  for (const candidate of [dir, join(dir, ".."), join(dir, "..", "..")]) {
+    try {
+      const months = syncedButAbsent(candidate);
+      if (months.length) {
+        return (
+          `\nThere is a third possibility here, and it is the recoverable one: the company's store holds\n` +
+          `${months.join(", ")} and this machine does not. Restore before reporting —\n` +
+          "tools/journal-sync.mjs --restore --from <dir> — because a report over the fraction that\n" +
+          "happens to be on this disk is not a short report, it is a wrong one.\n"
+        );
+      }
+    } catch {
+      /* no receipts beside that path */
+    }
+  }
+  return "";
+};
+
 const journalRoot = resolve(args.args.journal);
 const found = resolveExecutionDir(journalRoot);
 
@@ -639,7 +665,7 @@ tool call, so there is no gap to detect — the whole file is simply missing.
 
 Say which of the two it is. Presenting an absence of rows as an absence of activity is the one
 reading of this that a client would be right to hold against the practice.
-`
+${storedElsewhere(journalRoot)}`
   );
   process.exit(1);
 }
@@ -654,7 +680,10 @@ if (requested) {
   }
   const missing = requested.filter((month) => !found.months.includes(month));
   if (missing.length) {
-    process.stderr.write(`no journal file for ${missing.join(", ")} in "${found.dir}". Available: ${found.months.join(", ")}.\n`);
+    process.stderr.write(
+      `no journal file for ${missing.join(", ")} in "${found.dir}". Available: ${found.months.join(", ")}.\n` +
+        storedElsewhere(journalRoot)
+    );
     process.exit(1);
   }
 }

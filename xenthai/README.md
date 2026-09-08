@@ -234,6 +234,8 @@ tool and stops:
 | `tools/watch.mjs` | Engagement health as counts, dates and verdicts, with **no company data in it** — the file the practice is given |
 | `tools/opportunities.mjs` | What recurred across distinct periods, with the rows behind each pattern |
 | `tools/legible.mjs` | How hard an es-MX document is to read, on the INFLESZ scale. Refuses anything that is not Spanish |
+| `tools/journal-sync.mjs` | The journal into the client's own store, and what is still owed to it. On a machine whose disk does not survive the session, this is the difference between an engagement with evidence and one without |
+| `tools/scaffold.mjs` | One company document written from its scaffold, refusing to write over anything that exists |
 
 ---
 

@@ -132,6 +132,40 @@ stay, they get marked, and nothing in them is published or reported until somebo
 where each fact came from. That is one question to one person, and it is the difference between
 inheriting useful material and inheriting a claim you cannot defend.
 
+### 5b. When there is no synced folder at all — a session in the cloud
+
+A session running in a cloud container has no Drive for Desktop, no G: drive, and a disk that is
+destroyed when the session ends. Everything above still applies except the one thing it was there to
+buy — **the journal is not durable, and nothing about the session looks any different.** Two
+consequences, and they compound: the binding, and the evidence.
+
+**The binding.** The session's working directory is the container's home, and the company is found by
+walking up from it, so the only placement that works is the one a manifest must never have. Keep the
+rule by pointing the environment at the manifest instead:
+
+```bash
+export XENTHAI_COMPANY="$HOME/acme/.company.json"
+```
+
+That beats the directory walk, so nothing sits at the home at all. It never falls back: set and
+pointing at nothing, every store write is refused rather than silently bound to whatever the walk
+finds. Only where even that is impossible, add `"binding": "ephemeral"` to the manifest — `doctor`
+then passes it and says on every run that it is not reusable between sessions. Undeclared, `doctor`
+fails and names this section.
+
+**The evidence.** The journal has to reach the company's store before the session ends, and no hook
+can do it — a hook and a CLI hold no connector credentials. So the session does it:
+
+```bash
+node "${CLAUDE_PLUGIN_ROOT}/tools/journal-sync.mjs" --stage
+```
+
+Upload the file it names into the company's `journal/` folder keeping the name exactly, then record
+what the connector returned with `--receipt --month <YYYY-MM> --file-id <id>`. The next session
+starts with `--restore --from <dir>` after downloading the highest revision of each month. `doctor`
+fails while anything is owed, and `report` and `opportunities` say when the history they need is in
+the store rather than on this machine.
+
 ## 6. Share the assets folder publicly — by hand, once
 
 Inside the company's Drive folder, create the folder that will hold rendered assets and set it to

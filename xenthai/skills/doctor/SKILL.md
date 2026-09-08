@@ -34,7 +34,7 @@ node "${CLAUDE_PLUGIN_ROOT}/tools/doctor.mjs"
 Run it with `--help` for the options and exit codes; do not read its source. `--json` returns the
 same result as data.
 
-One line per check — `node`, `company`, `browser`, `fonts`, `engine`, `journal` — each `OK`, `FAIL`
+One line per check — `node`, `company`, `browser`, `fonts`, `engine`, `sync`, `journal` — each `OK`, `FAIL`
 or `SKIP` with its reason. It exits 0 only when every line is OK. **A `SKIP` exits 1 too**: a doctor
 that could not verify something does not report clean. It launches and closes the browser it finds
 and never downloads one.
@@ -50,6 +50,7 @@ call — so run it even when everything works.
 | `browser` | None of Edge, Chrome, Edge Beta, Chrome Beta launched | The render engine cannot run. Say so and do not render another way — that output has not been asserted. The machine needs Microsoft Edge or Google Chrome |
 | `fonts` | A face `template.html` declares is missing, or a bundled face lacks its `OFL-*.txt` | The install copied incompletely — the bracketed font filenames are the usual casualty. Reinstall the plugin; never substitute a font, the render asserts the family |
 | `engine` | `template.html` or `formats.json` missing, or `formats.json` does not parse | Reinstall; the render engine refuses to start without them |
+| `sync` | Rows exist on this machine and not in the company's store — a closed month, or any row at all on an ephemeral binding | Run `tools/journal-sync.mjs --stage` and do the upload yourself, below. On an ephemeral binding this is not housekeeping: that disk is destroyed when the session ends, and `report` and `opportunities` are built on those rows |
 | `journal` | The journal directory rejects an append | Nothing is auditable until it is fixed: permissions on the company directory, or on the plugin data directory when no company is bound |
 
 ## Step 2 — the four connector round trips, by you
@@ -88,14 +89,23 @@ cannot do that step. Say so**, ask the operator to do it and tell you what they 
 answer under their name. If `.company.json` carries `store.assets_public`, set it to what was
 observed — with `Edit`, never through the shell.
 
+**5. The journal's own upload, when `sync` is not OK.** This is a round trip like the others and it
+is the one with the engagement's evidence in it. `node "${CLAUDE_PLUGIN_ROOT}/tools/journal-sync.mjs"
+--stage` freezes the month and names one file; create it in the company's `journal/` folder with
+**exactly** that name, then record what the connector returned with `--receipt --month <YYYY-MM>
+--file-id <id>`. The receipt is written from the frozen bytes, so it cannot claim rows that never
+went up. Nothing outside a session can do this step — a hook and a CLI have no credentials — which
+is why it lives here with the other four.
+
 ## Step 3 — report and record
 
 Report one table, every row filled, and say plainly which rows a person performed:
 
 | Check | Result | Evidence | Next step |
 | --- | --- | --- | --- |
-| local — the six lines | | the doctor's summary line | |
+| local — the seven lines | | the doctor's summary line | |
 | read | | folder name matched; file id read | |
+| journal uploaded | | revision name, digest, store id — or "nothing owed" | |
 | write + trash | | probe id created, read back, trashed | |
 | comments | | the comment text that came back | |
 | public link | | who opened it, in a private window, and what they saw | |

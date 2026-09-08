@@ -23,7 +23,7 @@ The only work that is not code. Each of these looks like a defect when it fails 
 
 | Since | What | Waiting on | Why it matters |
 | --- | --- | --- | --- |
-| 2026-09-02 | `node test/skill-eval.mjs` — the routing evaluation over 58 cases | `claude auth login` in an interactive terminal; the CLI answers "Not logged in" | The only instrument that measures whether 20 skills route correctly. A description is their sole trigger surface, and it is what would license cutting descriptions from a 522-character mean toward the 274 first-party median |
+| ~~2026-09-02~~ **unblocked 2026-09-08** | `node test/skill-eval.mjs` — the routing evaluation, now 67 cases | Nothing. It ran twice, 201 calls each: **test split 90.8% then 86.2%** against an 80% gate | The only instrument that measures whether 22 skills route correctly. Two things it settled today. The **standing defect is `process`**, 2/12 then 0/12, losing to `process-map` six times in both runs — a real routing failure, now measured rather than assumed. And **the instrument's own spread is wide**: the same suite moved 4.6 points between two runs an hour apart with almost identical confusion pairs, so a single run's number is not a measurement and a change of a few points is not a result |
 | 2026-09-02 | `/doctor` — Claude Code's own built-in, which rightsizes skills and CLAUDE.md | An interactive terminal; the command does not open in the desktop Code tab | Not the plugin's `doctor` skill. It is the tool for the description-length question above |
 | 2026-09-02 | OAuth for seventeen MCP servers | claude.ai connector settings, or `/mcp` in an interactive session | Those capabilities are unavailable until authorised |
 | 2026-09-03 | `${CLAUDE_PLUGIN_ROOT}` resolving inside a skill's shell | A real install on a second machine | Every semantic journal entry from a skill depends on it, and the documentation covers hook commands rather than a skill's later shell command |
@@ -251,6 +251,140 @@ cause the app had already written to `main.log` in one line, and then two furthe
 operator retrying a dialog that had already succeeded. The plugin runs inside that app. Nobody opened
 its log until every remote explanation had been exhausted — see the defect below.
 
+### 18 · A document owed by a skill is written by a command, not by a sentence
+
+`ROUTINES.md` was instructed in bold by `company-new`, listed as owed by `tools/status.mjs`, and
+still absent for two days after the session that should have created it. Nothing about that session
+looked wrong, because a prose instruction leaves no trace when it is skipped — and the document in
+question is the one whose whole purpose is that a routine nobody wrote down cannot be noticed
+missing. `tools/scaffold.mjs` replaces the sentence with an exit code, and enforces the
+never-overwrite rule that two skills state and neither could hold.
+
+**Rejected:** a stronger wording in the skill, which is what the previous round already tried, and a
+`status` check that would have reported the absence later — the point is to make the omission
+impossible in the session, not legible afterwards. Also rejected: writing the store copy from the
+CLI. It has no credentials, and a tool that appears to deliver and does not is worse than one that
+says the session still owes the upload. **Reverses if** the document set becomes per-company, at
+which point a fixed scaffold list stops being the right source.
+
+### 19 · The escalation count means "a person had to decide", so a question is not one
+
+`hooks/journal.mjs` recorded every `PermissionRequest` as an `escalation`, and `AskUserQuestion` —
+which performs nothing and only asks — landed in the same column that `tools/report.mjs` presents to
+the client as decisions that passed to a person. The inflation is silent and flatters: a larger
+escalation count reads as more governance, not less, so nothing would ever have questioned it.
+
+**Rejected:** counting every prompt and explaining the difference in the report, which pushes a
+definition the reader cannot verify onto the reader. Also rejected: dropping the row entirely — the
+call is still journaled by `PostToolUse`, so what changes is the label, not the record. **Reverses
+if** a question-only tool starts carrying an effect, at which point it is no longer question-only.
+
+### 20 · The browser is journaled by its verb, and governed by doctrine rather than by the guard
+
+A browser-driving session produced 87 rows in one day, each with a null target, so the three calls
+that rewrote a client's Gmail filters were indistinguishable from the 84 screenshots around them.
+Copying the tool's own `action` fixes the trail without touching the content rule: the verb is the
+tool's, the text is the client's and stays digested.
+
+The guard is deliberately not extended. Decision 2 says the plugin refuses exactly two things, and a
+browser click cannot be one of them — a guard cannot tell *Guardar* from *Cancelar*, since both are
+a coordinate. What replaces enforcement is `MCP.md`: never `type` into a populated field, and re-read
+the state after every configuration change. That is weaker, and it is what is actually available.
+
+**Rejected:** a third veto on browser tools, which would prompt on legitimate work and still not
+distinguish saving from cancelling; and journaling the typed text, which would put a client's data
+in a row that exists precisely to avoid holding it. **Reverses if** a browser tool ever exposes a
+structured description of the change it is about to make — that is checkable, and a coordinate is not.
+
+### 21 · The journal's durability is a control, and the upload is a session's act
+
+`lib/journal.mjs` writes to `<company root>/journal/execution/<YYYY-MM>.jsonl`. In a cloud container
+that is a disk reclaimed when the session ends, and the loss is silent, because a deleted journal and
+a quiet month leave the same empty directory. The chain is what makes it critical rather than
+annoying: `opportunities` refuses below three distinct periods and the quarterly report is the first
+cadence that may claim a result, so in that environment both are unreachable for ever — and both
+refuse with a sentence that reads as *this engagement is young*. A refusal for the wrong reason is
+worse than a failure, because nobody investigates it.
+
+The design that was proposed — a `journal-sync` uploading a monthly digest, driven by a `SessionEnd`
+hook — does not work, and both halves are worth recording. **A digest cannot restore either tool**:
+`report` digests the exact bytes it reads and counts events, `opportunities` groups rows by period,
+so what has to survive is the rows. **A hook cannot upload**: hooks and CLIs hold no connector
+credentials, so nothing outside a session can write to a client's store, and a `SessionEnd` hook
+runs when the model is already gone. What was built instead splits the work along that line — the
+CLI stages the exact bytes, verifies what came back and refuses to claim a delivery it cannot prove;
+the session uploads. `CONTROLS.md` §1b names the upload as an advisory control, in the same tier as
+every other instruction, rather than describing the journal as automatically preserved.
+
+**Rejected:** a monthly digest, which would have left both consumers as broken as before while
+looking fixed. Also rejected: uploading split parts instead of whole revisions — smaller, but a
+missing part truncates a history silently while a missing revision leaves a gap in a numbered
+sequence. Also rejected: teaching the three readers to concatenate parts, which would have touched
+`report`, `opportunities` and `watch` for a gain `--restore` already delivers by writing the
+canonical file. **Reverses if** the connector ever gains a real append or content update, at which
+point revisions stop being the only shape available.
+
+### 21b · `doctor` fails on a month with no evidence in the store, not on an outstanding row
+
+The finding asked for a FAIL whenever the current month held rows the store did not. Written that
+way it cannot be satisfied, and the reason is structural: **staging writes a journal row, and the
+sync check's own run writes another.** A rule failing on one outstanding row goes red the moment
+after it goes green — and `company-new` STOPS on a doctor that is not green, so that rule would have
+made an ephemeral engagement impossible to open at all. This was caught by running `doctor` twice in
+a row while walking the lifecycle, not by reading the code.
+
+What deserves a failure is a month with no evidence in the store at all, or a revision old enough
+that the rows after it stopped being a session's tail. So: ephemeral and no revision for the month →
+FAIL, which is the observed failure exactly; ephemeral and the newest revision over a day old →
+FAIL; a closed month unsynced on any binding → FAIL; a session's own tail → reported in the OK line,
+naming what is lost if nobody stages before the session ends.
+
+**Rejected:** failing on any unsynced row, which is unsatisfiable and would have blocked the skill
+that opens an engagement. Also rejected on durable machines: failing on the current month, which
+would put every install that had not uploaded since breakfast in the red — and this plugin's own
+doctrine says a control that interrupts constantly is one the operator learns to click through.
+**Reverses if** a session is ever seen losing more than its tail — then the day-old window is too
+generous and it shortens.
+
+### 22 · The binding is explicit or declared, and never sniffed
+
+`company-new` forbids a manifest in a home directory; the guard resolves the company by walking up
+from the working directory; in a cloud session that directory is the home. Verified both ways — at
+the home a store write is permitted, one level below it is refused as unbound — so the rule could not
+be kept and worked, and it had already been broken in the field. A rule the mechanism makes
+impossible to keep stops protecting the cases where it mattered.
+
+`XENTHAI_COMPANY` beats the walk-up, so the rule becomes keepable rather than conditional, and it
+never falls back: set and resolving to nothing, everything is refused. `"binding": "ephemeral"`
+covers the case where no other directory exists, and `doctor` then declares it on every run.
+
+**Rejected:** detecting the container (`/.dockerenv`, remote-environment variables, `cwd === homedir`
+alone). A sniff is wrong in both directions, and the expensive direction is silently permitting the
+ambient-authority pattern on a machine that was durable all along — the failure the rule exists for.
+`atHome` is still computed, but only to decide whether a declaration is *required*, never to grant
+anything. Also rejected: leaving the doctrine as an absolute and letting people keep violating it,
+which is where this started. **Reverses if** the CLI ever learns which environment it is in from
+something authoritative rather than inferred.
+
+### 23 · The opportunity scan is monthly, and the daily digest is not a duplicate of it
+
+The scaffold offered the scan semiannually. Its detectors count distinct **months**, so a pattern can
+change state at most once a month and any slower cadence is latency bought for nothing. Monthly it
+is, with the first two runs reporting no history — the floor is three periods — stated in the row so
+that a routine which looks broken twice does not get switched off.
+
+`tools/watch.mjs` already runs the same detectors daily into the digest, and that is a different
+question rather than a duplicate: the digest publishes counts and spans with no subjects, because it
+sits in a folder shared with the practice, and the scan opens those findings by name in a session
+where the process, the people and the client's priorities are available. Both rows stay, and
+`ROUTINES.md` now says which is which.
+
+**Rejected:** deleting the scan and leaning on the digest, which would leave nobody interpreting what
+it counts; and keeping the semiannual cadence, which the plugin's own "cadence follows the data's
+refresh rate" rule does not support. **Reverses if** the monthly scan produces nothing new for two
+consecutive quarters — that is the annual-review test in `ROUTINES.md` applied to this routine, and
+it should be applied.
+
 ---
 
 ## Defects this plugin committed against its own rules
@@ -270,3 +404,8 @@ Kept because each one is the plugin's own doctrine catching the plugin, and the 
 | Five manifest shapes were changed in one day on a guess, before either was tested against the other | H1, zero trust. A closed system answers a comparison and not an opinion, and the comparison cost one commit |
 | The desktop app wrote the cause to `main.log` and it went unread through five rounds of published probes | H5 then H8, in that order. The diagnostic priority puts misconfiguration first and anchors on raw data, and a local log **is** the raw data. Every probe was an inference about a closed system that had already answered in plain text |
 | A doctor fixture reimplemented `licenceFor` instead of reading the directory | A test that copies production logic drifts from it silently, and passes while doing so |
+| `AskUserQuestion` was counted as an escalation in the figure the client is handed | The report's own rule that every figure carries a definition it can be audited against |
+| 87 browser calls left 87 rows saying only that a browser was used | The journal's claim to record WHAT was touched, kept for files and dropped for the one write path the guard cannot see |
+| `ROUTINES.md`'s own header contradicted the skill that creates it | One fact, one owner — the rule `test/scaffold.test.mjs` enforces between documents, broken inside one |
+| The journal was written to a disk that gets deleted, and every surface reported healthy | `doctor` exists to find at install what would otherwise be found at delivery — and the delivery here was a quarterly report with no evidence behind it |
+| The manifest rule was stated as absolute in a place where the mechanism made it impossible | H1, zero trust: a rule nobody tested against the guard that enforces it. It was violated in the first session that met the case |

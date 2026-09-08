@@ -55,6 +55,11 @@ Two things follow, and neither is optional:
 - **Check whether the journal exists before writing a single figure.** An absent journal and a quiet
   month produce the same empty table and mean opposite things. `tools/report.mjs` refuses and says
   which it thinks it is; believe it over any assumption that the hooks ran.
+- **A third case: the month is in the client's store and not on this machine.** In a container whose
+  disk does not survive a session that is the ordinary state, not the exception. The tool names it
+  when it finds a receipt for a month it cannot see; restore before reporting
+  (`tools/journal-sync.mjs --restore --from <dir>`), because a report over the fraction that happens
+  to be on this disk understates the engagement and carries a digest that proves nothing.
 - **When the journal is absent, say so in the report and name the reason.** "No activity recorded in
   this period, because this engagement's sessions ran on a surface where the recording hooks do not
   execute" is honest. An empty section with no explanation is the one reading of this a client would

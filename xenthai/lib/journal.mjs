@@ -77,8 +77,16 @@ const KNOWN_EVENTS = new Set(Object.values(EVENTS));
  * Fields whose VALUES are references (a path, a store id) rather than content. Only these are
  * copied from a tool's input; everything else is reduced to a digest, so the journal stays
  * complete enough to be evidence without becoming a second copy of the client's data.
+ *
+ * `action` is here for the browser. A session driving a browser produces one row per call with a
+ * null target — eighty-seven of them in one observed day — so the trail said a browser was used and
+ * nothing about what it did, and the three calls that changed a client's mail filters were
+ * indistinguishable from the eighty-four screenshots around them. `action` is a verb the tool
+ * itself chose (`screenshot`, `left_click`, `type`), never text a person or a page supplied, so
+ * copying it stays inside the rule this list exists to keep. What was typed is NOT copied: that is
+ * the client's content, and the row's digest already proves it.
  */
-const REFERENCE_FIELDS = ["file_path", "path", "notebook_path", "fileId", "parentId", "folderId", "url", "title", "role"];
+const REFERENCE_FIELDS = ["file_path", "path", "notebook_path", "fileId", "parentId", "folderId", "url", "title", "role", "action"];
 
 /**
  * Fields that name a target but can carry a secret or a person, so they are digested. A shell
