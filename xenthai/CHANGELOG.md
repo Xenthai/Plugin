@@ -26,6 +26,92 @@ installed from. It identifies exactly one tree, which is what this claim always 
 machines could both write `0.1.0` and hold different code. A row written from a working copy says
 `dev`, which is honest about being unreleasable rather than borrowing a number.
 
+## [0.3.0] - 2026-09-09
+
+The gaps the plugin's own doctrine already named and nothing filled. `MEASUREMENT.md` said durable
+records are the strongest evidence available and to use them first, always; no skill ever went and
+got them. `ROADMAP.md` reserved the `automate` capability as the highest-priced item in the
+catalogue and left the space between a scored shortlist and a handover empty. `status.mjs` counted
+pending fields and named who owed them, and stopped one step short of a question anybody could ask.
+All three are closed here, and the numbering had to move to make room.
+
+### Changed — two tracks, numbered independently
+
+- **Phase numbers now carry their track.** Comunicación keeps 0, 1 and 2; operación runs 1 to 5. A
+  single sequence asserted a dependency `process/SKILL.md` explicitly denies — *"the process phases
+  do not depend on `BRAND.md`, `VOICE.md` or `PROOF.md`"* — and had no room to grow at either end.
+  **The two existing operación phases keep their numbers**: the Diagnóstico is still 3 and the Mapeo
+  integral still 4, so no journal row changes meaning and nothing in a client's history is
+  invalidated. What changed is that every mention is now qualified, because both tracks have a phase
+  1 and a bare number is ambiguous. Decision 24 carries the reasoning and what would reverse it.
+
+### Added — operación phase 1, the profile
+
+- **`company-profile`** and `capabilities/company/doctrine/PROFILE.md`, writing
+  `scaffold/company/PROFILE.md`. Four questions place a company in one of six operating archetypes,
+  and the archetype decides what phase 3 goes hunting for. `BRAND.md`'s sector field answers which
+  authority can fine them; it never answered what their week looks like, and a veterinary practice
+  and a body shop have almost the same inventory while two companies filed under one construction
+  code have almost nothing in common. Carries the glossary of the trade — the artefact the rule
+  *"name it in the doers' words"* always assumed existed somewhere — and the protocol for a trade
+  nobody in the room has worked.
+
+### Added — operación phase 2, the evidence sweep
+
+- **`company-evidence`** and `capabilities/company/doctrine/EVIDENCE.md`. Derives real volumes,
+  values, conversion rates and response times from the company's own folders, spreadsheets, mail and
+  customer conversations, then contrasts them against what people claimed. **Counting beats asking,
+  and asking beats guessing** — phase 3 keeps its dated instances for the things only a person knows.
+  It runs *before* phase 3 and never after: interview first and the numbers arrive already anchored
+  to the claim. No new document; findings land in `PROCESSES.md` and `SYSTEMS.md`, which already own
+  them.
+
+### Added — the coverage audit
+
+- **`coverage`** and **`tools/coverage.mjs`**. `status.mjs` reports that *Rol responsable* is
+  pending. This reports that it is **blocking**, that the person who holds it is whoever runs the
+  process rather than whoever runs the company, the question written out ready to be read aloud, and
+  a verdict on whether the next phase may start. Gaps resolve to one of four actions — ask, request,
+  derive, observe — and never to "investigate further"; a gap that fits none of them means the field
+  is badly specified. Its label extractor carries the section heading and the grid's column header,
+  because `P1` cannot be matched against a rule or read back to a client and
+  `1. Inventario :: Rol responsable` can be both.
+
+### Added — operación phase 5, the specification
+
+- **`automate-spec`**, `capabilities/automate/doctrine/SPEC.md`, and
+  `scaffold/company/AUTOMATION-SPEC.md`. The buildable description between the shortlist and the
+  handover: acceptance criteria written first, exact field names on both sides, what happens when the
+  record already exists, seven error branches each ending in a notification a named role receives, a
+  test plan whose majority are failures, and the rollout. The autonomy ceiling is set from the
+  candidate's error cost and the three data controls **before** anything is designed, not discovered
+  afterwards.
+- **`capabilities/automate/doctrine/PLATFORMS.md`.** `HANDOVER.md` §1 owned who pays for a platform
+  and there was nothing about what a platform is. Specifications stay platform-independent until
+  their last section; the choice turns on how it bills and who administers it, and a company that
+  already runs one somebody maintains keeps it.
+- **Messaging-channel modality is now a field of `SYSTEMS.md`** (§1b), because it is what decides
+  whether a channel can be automated at all. Three incompatible products share one name, one
+  question separates them, and **automation through unofficial means is refused even when the client
+  asks for it**: the number is printed on their vehicles, and losing it costs more than the
+  automation saves.
+
+### Added — the size of a process
+
+- `PROCESSES.md` gains times-per-month, minutes-per-run, person-hours-per-month and a monthly cost.
+  **The rate comes from the client and is labelled as theirs**, per `HANDOVER.md` §5; with no rate
+  the money columns stay pending and size is expressed in person-hours only. No hours saved, no
+  return, no payback period — here or anywhere. Size orders the shortlist; it promises nothing.
+
+### Changed — routing and bookkeeping
+
+- `process` routes five phases instead of two, and reads the store to decide which is live.
+- `resume`'s table gains the three new phases and the coverage check, and names the track.
+- `status.mjs` `OWNERS` registers `PROFILE.md` and `AUTOMATION-SPEC.md`, and credits
+  `company-evidence` on `PROCESSES.md` and `SYSTEMS.md`.
+- `test/skill-triggers.json` gains eight cases, four of them near-misses against the skills each new
+  one is most likely to lose to.
+
 ## [0.2.2] - 2026-09-08
 
 Everything found by the first long run in an environment nobody designed for — a Cowork session in

@@ -409,3 +409,39 @@ Kept because each one is the plugin's own doctrine catching the plugin, and the 
 | `ROUTINES.md`'s own header contradicted the skill that creates it | One fact, one owner — the rule `test/scaffold.test.mjs` enforces between documents, broken inside one |
 | The journal was written to a disk that gets deleted, and every surface reported healthy | `doctor` exists to find at install what would otherwise be found at delivery — and the delivery here was a quarterly report with no evidence behind it |
 | The manifest rule was stated as absolute in a place where the mechanism made it impossible | H1, zero trust: a rule nobody tested against the guard that enforces it. It was violated in the first session that met the case |
+
+### 24 · Two tracks, numbered independently, and the operación numbers do not move
+
+Phases ran 0 to 4 in one sequence: presence 0, identity 1, voice 2, Diagnóstico 3, Mapeo integral 4.
+Two things were wrong with that before anything was added to it. It asserts a dependency
+`process/SKILL.md` denies in as many words — *"the process phases do not depend on `BRAND.md`,
+`VOICE.md` or `PROOF.md`"* — and it has no room at either end, which is exactly where a profile
+phase and a specification phase belong.
+
+**The evidence that made the cost knowable.** The numbering is prose, not state: `status.mjs`
+`OWNERS` maps documents to skills with no phase number in it, and both `process` §2 and `resume`
+detect the live phase from which documents exist and which fields are pending. So renumbering is a
+documentation change — 76 lines across 17 files, 40 of them the operación track. And the entry above
+in *Blocked, and on whom* still reads **"A first-session dry run against a real company — Waiting on:
+A client"**: no engagement has been mapped, so no journal anywhere carries a `phase 3` row whose
+meaning could shift. The cost of this change will never be lower than it was on the day it was made.
+
+**What was kept, deliberately.** The Diagnóstico stays 3 and the Mapeo integral stays 4. Inserting
+the profile at 1 and the evidence sweep at 2 lands them exactly where they were, so a `--why` string
+written before this release still means what it said. The specification takes 5, which was free.
+
+**Rejected: renumbering both tracks into one sequence 0 to 7.** It doubles the churn and doubles down
+on the dependency the doctrine denies. **Rejected: leaving the numbers alone and adding the new
+capabilities unnumbered**, on the precedent of the nine skills that already have no number. That
+precedent is real and it does not extend here: `setup`, `baseline` and `company-intake` are reached
+when a condition holds, while the profile must precede the inventory and the specification must
+follow the shortlist. An unnumbered mandatory step reads as optional, and the two that would have
+read as optional are the two the client is most likely to want skipped.
+
+**The cost accepted.** Both tracks now have a phase 1, so a bare number is ambiguous and every
+mention has to carry its track. `resume` gained a rule about it under *What makes an answer wrong
+here*.
+
+**Reverses if** the tracks stop being independent — if some future capability genuinely requires a
+voice document before a process can be mapped, one sequence becomes the honest description again.
+

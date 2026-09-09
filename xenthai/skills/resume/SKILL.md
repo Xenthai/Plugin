@@ -65,13 +65,17 @@ involves asking a person anything.
 | No documents at all | Nothing has started | `company-intake` — the file request, which needs nobody present |
 | Documents exist, no `INTAKE.md` | Prior work was adopted, intake never ran | `company-intake`, and read `INTAKE.md` doctrine first: those documents are adopted, not captured |
 | `PRESENCE.md` absent | The perishable before was never captured | `social-presence`, before anything is produced |
-| `BRAND.md` absent | Phase 1 | `social-identity` |
-| `BRAND.md` filled, `VOICE.md` absent | Phase 2 | `social-voice` |
+| `BRAND.md` absent | Comunicación phase 1 | `social-identity` |
+| `BRAND.md` filled, `VOICE.md` absent | Comunicación phase 2 | `social-voice` |
 | `VOICE.md` filled, `SOCIAL.md` absent | The editorial plan | `social-plan` |
-| `PROCESSES.md` absent | Phase 3 | `process-map` |
-| `PROCESSES.md` exists, its pain and access sections pending | Phase 4 | `process-access` |
+| `PROFILE.md` absent | Operación phase 1 | `company-profile` |
+| `PROFILE.md` filled, `PROCESSES.md` absent, folders or mail reachable | Operación phase 2 | `company-evidence` |
+| `PROCESSES.md` absent | Operación phase 3 | `process-map` |
+| `PROCESSES.md` exists, its pain and access sections pending | Operación phase 4 | `process-access` |
+| Shortlist scored, a candidate approved by name and date | Operación phase 5 | `automate-spec` |
 | `BASELINE.md` absent while a process is about to change | The before, and it is perishable | `baseline`, now rather than after |
 | Everything filled, months of journal | The engagement is running | `report` for the cadence that is due, `opportunities` for what to improve next |
+| Anyone asks what is still missing, or a phase is about to start | Not a phase — a check | `coverage`, which answers with questions rather than counts |
 
 Read the table against `status`, not against what anyone remembers about the last session.
 
@@ -82,7 +86,9 @@ Read the table against `status`, not against what anyone remembers about the las
 - **Naming more than one next step.** A client who asks where they are and receives three options
   has been handed the decision they came to have made for them.
 - **Treating an adopted document as a finished phase.** A filled `BRAND.md` inherited from earlier
-  work means phase 1 produced a file, not that its facts have an owner. Say which it is.
+  work means a phase produced a file, not that its facts have an owner. Say which it is.
+- **Reporting a bare phase number.** There are two tracks and both have a phase 1. Always say which
+  track, or the answer is ambiguous to the only person who needed it.
 - **Skipping the language check.** `status` reports whether each document is in the company's own
   language. A document filled in the wrong one looks finished and is a delivery defect.
 

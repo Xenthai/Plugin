@@ -13,9 +13,9 @@
 
 ## 1. El inventario
 
-| Sistema | Para qué se usa | Superficie de integración | Verificado por | Fuente |
-| --- | --- | --- | --- | --- |
-| — pendiente — | | | | |
+| Sistema | Para qué se usa | Superficie de integración | Costo y renovación | Verificado por | Fuente |
+| --- | --- | --- | --- | --- | --- |
+| — pendiente — | | | | | |
 
 **Superficie de integración**, y esta columna la verifica el consultor, no el cliente — es la
 pregunta que los clientes casi nunca pueden contestar:
@@ -29,6 +29,38 @@ pregunta que los clientes casi nunca pueden contestar:
 
 Una fila en `pendiente` no es un hueco menor: es la diferencia entre un proyecto de seis semanas y
 uno que no se puede hacer.
+
+**Costo y renovación** sale de la factura mensual de software que pide `INTAKE.md`. Se registra
+aquí porque la forma más común en que muere una automatización es una tarjeta que se vence en una
+suscripción que nadie recordaba que sostenía todo.
+
+## 1b. Canales de mensajería, y por qué van aparte
+
+La modalidad exacta de cada canal es lo que decide si se puede automatizar. Un cliente dice «usamos
+WhatsApp» y esa frase describe tres productos incompatibles. **Preguntar siempre: «¿contestas desde
+una app instalada en un celular, o desde una plataforma web donde varias personas atienden el mismo
+número?»** — lo primero es la app, lo segundo es la API.
+
+| Canal | Modalidad | ¿Quién contesta? | Superficie de integración | Verificado por |
+| --- | --- | --- | --- | --- |
+| — pendiente — | — pendiente — | — pendiente — *(rol)* | — pendiente — | — pendiente — |
+
+| Modalidad | Qué es | Automatizable |
+| --- | --- | --- |
+| `app-consumidor` | La app normal, en un teléfono | **No** |
+| `app-negocio` | App gratuita: catálogo, etiquetas, respuestas rápidas, mensaje de bienvenida | **No hay API.** Solo lo que la app automatiza sola |
+| `plataforma-api` | API real contra un número de negocio, a través de un proveedor | **Sí.** Es la única vía legítima |
+| `— pendiente —` | Nadie lo ha verificado | No se cotiza sobre esto |
+
+> **Nunca se automatiza un canal por vías no oficiales** — librerías que simulan un cliente web,
+> extensiones que teclean en una sesión, cualquier cosa que maneje la app de consumidor. El número
+> suele estar impreso en vehículos, lonas y tarjetas, y perderlo por un bloqueo cuesta más que todo
+> lo que la automatización iba a ahorrar. Si el cliente insiste: se le expone el riesgo una vez, se
+> registra su decisión como suya, y **aun así no se construye.**
+>
+> La vía oficial tiene restricciones que son insumos de diseño, no notas al pie: una ventana de
+> servicio fuera de la cual solo salen plantillas preaprobadas, plantillas que se aprueban con
+> anticipación, cobro por conversación, y una API que confirma aceptación y no entrega.
 
 ## 2. Qué esperar en México
 

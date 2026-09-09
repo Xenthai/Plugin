@@ -1,9 +1,9 @@
 ---
 name: process-access
-description: Run the phase 4 session — the Mapeo integral — that ranks a company's process pain, records who owns each system and account and what access they can grant, establishes who authorises an automation and what it must never do, and produces a scored automation shortlist. Use when PROCESSES.md exists but its pain, access and authorisation sections are pending, or when the client asks what to automate first or what it would cost. One session. Requires the phase 3 inventory — if PROCESSES.md does not exist yet, use process-map instead.
+description: Run the operación phase 4 session — the Mapeo integral — that ranks a company's process pain, records who owns each system and account and what access they can grant, establishes who authorises an automation and what it must never do, and produces a scored automation shortlist. Use when PROCESSES.md exists but its pain, access and authorisation sections are pending, or when the client asks what to automate first or what it would cost. One session. Requires the phase 3 inventory — if PROCESSES.md does not exist yet, use process-map instead.
 ---
 
-# Phase 4 — Mapeo integral: pain, access, authority, shortlist
+# Operación phase 4 — Mapeo integral: pain, access, authority, shortlist
 
 **Read `capabilities/process/doctrine/PROCESS.md` first**, then the company's existing
 `PROCESSES.md`. This session extends that document; it never rewrites the inventory.
@@ -100,7 +100,7 @@ with a human approval, not an unattended automation.
 research-based launders judgement into evidence.
 
 Then price honestly: **exception handling is roughly 80% of the real build effort and gets budgeted
-as 20%.** The exception rows captured in phase 3 are what the quote stands on. A candidate whose
+as 20%.** The exception rows captured in operación phase 3 are what the quote stands on. A candidate whose
 exceptions were never captured cannot be quoted — say so and offer the capture as its own line item.
 
 ## Writing the deliverable
@@ -110,9 +110,9 @@ guard cannot see. Leave every unanswered cell as `— pendiente —`.
 
 ```bash
 node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event delivery --capability process \
-  --why "phase 4 access map and scored shortlist captured" --target "PROCESSES.md"
+  --why "operacion phase 4 access map and scored shortlist captured" --target "PROCESSES.md"
 node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event phase_end --capability process \
-  --why "phase 4 mapeo integral complete" --target "PROCESSES.md"
+  --why "operacion phase 4 mapeo integral complete" --target "PROCESSES.md"
 ```
 
 Record the authorisation separately when it is given, naming the person:
@@ -129,7 +129,7 @@ the date. Never the credential itself — record the role that holds it.
 
 ## Then close the mapping — two things, in this order
 
-Phase 4 is the last mapping phase, so this session owes the client two closing acts. Neither is
+Phase 4 is the last capture phase of the operación track, so this session owes the client two closing acts. Neither is
 optional, and the order matters.
 
 ### 1. The record of the before, signed
@@ -185,7 +185,7 @@ a recipient.**
   Propose a **short paid discovery as its own line item**, state exactly what it will establish, and
   leave the cell pending until it does. The same applies to the other three questions clients cannot
   answer: who holds the credentials, what the real volume is, what happens today when it fails.
-- **A candidate's process is not standardised** — two doers gave different step lists in phase 3. It
+- **A candidate's process is not standardised** — two doers gave different step lists in operación phase 3. It
   is not a shortlist candidate. Standardising it is prior work with its own price.
 - **The client asks for a quote in this session.** The quote follows from this document; it is not
   this document. Give ranges tied to named unknowns, and never a single number over a pending cell.
@@ -199,5 +199,5 @@ a recipient.**
 | `capabilities/company/doctrine/SESSION.md` | Before any session that fills a document by asking a person |
 | `capabilities/process/doctrine/PROCESS.md` | Before the session, always. §4 governance fields and §5 scoring provenance are the two you will use most |
 | `capabilities/company/doctrine/MATURITY.md` | Closing the mapping — the six-month phase framework and what each phase owes |
-| The company's `PROCESSES.md` | Before asking anything — phase 3 already captured the systems and exceptions this session builds on |
-| `skills/process-map/SKILL.md` | Only if `PROCESSES.md` turns out to be missing. Then stop and run phase 3 in its own session |
+| The company's `PROCESSES.md` | Before asking anything — operación phase 3 already captured the systems and exceptions this session builds on |
+| `skills/process-map/SKILL.md` | Only if `PROCESSES.md` turns out to be missing. Then stop and run operación phase 3 in its own session |

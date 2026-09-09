@@ -1,12 +1,20 @@
 ---
 name: process-map
-description: Run the phase 3 inventory session — the Diagnóstico — that lists every process a company actually runs, who owns each one and which systems it touches, into the company's PROCESSES.md. Use when a company has no PROCESSES.md yet, when the client asks what their processes even are, or when an inventory needs extending with processes nobody wrote down. One session, breadth before depth. Pain, account ownership, authorisation and the scored shortlist are phase 4 — use process-access, and only after this inventory exists.
+description: Run the operación phase 3 inventory session — the Diagnóstico — that lists every process a company actually runs, who owns each one and which systems it touches, into the company's PROCESSES.md. Use when a company has no PROCESSES.md yet, when the client asks what their processes even are, or when an inventory needs extending with processes nobody wrote down. One session, breadth before depth. Pain, account ownership, authorisation and the scored shortlist are operación phase 4 — use process-access, and only after this inventory exists.
 ---
 
-# Phase 3 — Diagnóstico: the process inventory
+# Operación phase 3 — Diagnóstico: the process inventory
 
 **Read `capabilities/process/doctrine/PROCESS.md` first.** It carries the SIPOC boundary prompt, the
 field list, and why this is a table and never a diagram. Do not re-derive any of that here.
+
+**Read `PROFILE.md` in the company store before the session.** Its §4 names the support activities
+this archetype forgets and the trade's unit of measure — that is what turns the generic checklist
+below into a specific hunt. If it does not exist, route to `company-profile` first.
+
+**Read `company-evidence`'s findings if phase 2 ran.** Counts derived from the company's own records
+change what this session asks: a volume already established is not asked for again, and a figure
+that contradicts one is put to the room as a question.
 
 Deliverable: `PROCESSES.md` in the company store, in es-MX, from
 `scaffold/company/PROCESSES.md`. One session.
@@ -22,7 +30,7 @@ An omitted process is invisible; a pending cell is a visible question. So:
 | Remaining two thirds | Depth on the ones the client already calls painful | Steps, decisions, exceptions, frequency and volume |
 | Everything else | Left as `— pendiente —` | Never inferred to look complete |
 
-Depth on a process nobody complains about is the cheapest thing to skip, because phase 4 will
+Depth on a process nobody complains about is the cheapest thing to skip, because operación phase 4 will
 re-order the whole list by pain anyway.
 
 ## Use Porter's split as a checklist, not a taxonomy
@@ -77,16 +85,16 @@ inferred fact from reading identically to a captured one six months from now.
 
 ```bash
 node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event delivery --capability process \
-  --why "phase 3 inventory captured" --target "PROCESSES.md"
+  --why "operacion phase 3 inventory captured" --target "PROCESSES.md"
 node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event phase_end --capability process \
-  --why "phase 3 diagnostico complete" --target "PROCESSES.md"
+  --why "operacion phase 3 diagnostico complete" --target "PROCESSES.md"
 ```
 
 Never put a process name or any client content in `--why` or `--detail`.
 
 Close the session by telling the client two things: which processes are captured and which are
-pending, and that phase 4 (`process-access`) is where pain, access and the automation shortlist come
-from. Do not start phase 4 in the same session.
+pending, and that operación phase 4 (`process-access`) is where pain, access and the automation shortlist
+come from. Do not start it in the same session.
 
 Append the conversation to `INTERVIEW.md`, marking who described each process. **Whoever does the
 work and whoever runs the company describe the same process differently, and the difference is the

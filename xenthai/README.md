@@ -104,8 +104,12 @@ claude plugin list && claude plugin marketplace list
 
 ## What it does today
 
-Twenty-two skills. Two are routers that bind the session and decide which phase a company is in; the
+Twenty-six skills. Two are routers that bind the session and decide which phase a company is in; the
 rest do one thing each.
+
+**The two tracks are numbered independently.** Comunicación runs phases 0, 1 and 2; operación runs
+phases 1 through 5. They do not depend on each other — a process inventory needs no voice document —
+and a bare phase number is ambiguous, so nothing here reports one without its track.
 
 | | Skill | When it runs |
 | --- | --- | --- |
@@ -115,25 +119,29 @@ rest do one thing each.
 | | `resume` | Where the engagement stands and what the next step is. The one entry point a client's own staff can remember |
 | **Mapping** | `company-intake` | Asks for the files the company already has instead of interviewing for every fact |
 | | `company-offer` | What it sells and on what terms — stock, lead times, CFDI, the discount limit and who authorises exceeding it |
-| | `process-map` | Phase 3, the *Diagnóstico*: every process it actually runs, breadth before depth |
-| | `process-access` | Phase 4, the *Mapeo integral*: pain, access, authority, and a scored shortlist |
-| | `process` | The router for those two |
+| | `company-profile` | Operación phase 1 — the operating archetype, the trade's vocabulary, and which processes phase 3 should hunt for |
+| | `company-evidence` | Operación phase 2 — real volumes and rates derived from the company's own records, contrasted against what was claimed |
+| | `process-map` | Operación phase 3, the *Diagnóstico*: every process it actually runs, breadth before depth |
+| | `process-access` | Operación phase 4, the *Mapeo integral*: pain, access, authority, and a scored shortlist |
+| | `process` | The router for the operación track |
+| | `coverage` | What is still missing, as questions addressed to a role — and whether the next phase may start |
 | | `baseline` | The before, while it still exists. It cannot be reconstructed afterwards |
 | **Communication** | `social` | The mandatory entry point for anything published |
 | | `social-presence` | The perishable before: every account that exists, dated, append-only |
-| | `social-identity` | Phase 1 — names, sector, regulator, who approves a public claim, who actually decides |
-| | `social-voice` | Phase 2 — voice derived from what they already published, as word-level rules |
+| | `social-identity` | Comunicación phase 1 — names, sector, regulator, who approves a public claim, who actually decides |
+| | `social-voice` | Comunicación phase 2 — voice derived from what they already published, as word-level rules |
 | | `social-plan` | The editorial plan. Ends at an approval gate rather than producing anything |
 | | `social-produce` | Copy, then render. Refuses to emit an asset that breaches a platform limit |
 | | `social-handoff` | The delivery package: schedule, assets, and an honest note about what still needs a hand |
 | **Closing the loop** | `zapier-mcp-ops` | Operating a client's Zapier account over MCP: discover what is connected, read and write without guessing a schema, and log what was sent |
+| **Building** | `automate-spec` | Operación phase 5 — the buildable specification for one approved candidate, platform-independent until its last section |
 | | `automate-handover` | Acceptance and liability, not results. The test is whether the client can switch it off alone |
 | | `report` | The journal read back, per cadence, with what the evidence cannot support |
 | | `opportunities` | What recurred across periods, as questions rather than recommendations |
 | | `feedback` | What to fix in **this plugin**, from evidence, carrying nothing about any company |
 
 Onboarding is one phase per session, deliberately. A longer instrument measurably reduces both
-starts and completions, and phase 1 ends with something the client can look at — a director who
+starts and completions, and each phase ends with something the client can look at — a director who
 spends an hour answering questions and leaves with a filled-in document has no reason to return.
 
 ---
