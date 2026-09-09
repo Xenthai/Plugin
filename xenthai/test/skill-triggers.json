@@ -541,6 +541,70 @@
       "split": "test",
       "kind": "near-miss",
       "why": "Zapier is named but the request is acceptance and liability, which is automate-handover; zapier-mcp-ops operates an account, it does not hand one over."
+    },
+    {
+      "id": "profile-unknown-trade-es",
+      "query": "Nos contrató una comercializadora de refacciones agrícolas y nadie aquí ha trabajado ese giro. Antes de sentarnos a levantar procesos quiero saber qué tipo de negocio es en la práctica y qué palabras usan, para no llegar preguntando tonterías.",
+      "expected": "company-profile",
+      "split": "train",
+      "kind": "target",
+      "why": "An unfamiliar trade, before the inventory, wanting the archetype and the vocabulary is exactly what company-profile's description claims."
+    },
+    {
+      "id": "profile-sector-label-useless-en",
+      "query": "Their BRAND.md says the sector is 'construcción' but half their revenue is selling finishes over a counter. That label tells me nothing about how their week runs and I need to know what to look for before phase 3.",
+      "expected": "company-profile",
+      "split": "test",
+      "kind": "near-miss",
+      "why": "The surface names BRAND.md and a sector, which points at social-identity; the request is for the operating archetype, which is company-profile's and not that one's."
+    },
+    {
+      "id": "evidence-folder-sweep-es",
+      "query": "Ya tenemos acceso a su Drive y son como cuatrocientas cotizaciones de los últimos dos años. Sácame el ticket promedio real, cuántas se cerraron y cuánto tardan en contestar, antes de la sesión del jueves con el dueño.",
+      "expected": "company-evidence",
+      "split": "train",
+      "kind": "target",
+      "why": "Deriving counts and rates from a folder of the company's own documents, before the interview, is company-evidence and nothing else."
+    },
+    {
+      "id": "evidence-not-baseline-en",
+      "query": "Before we interview anyone I want to go through their mailbox and their quote folder and work out what the real monthly volume is, because the numbers the owner gave us on the call sound optimistic.",
+      "expected": "company-evidence",
+      "split": "test",
+      "kind": "near-miss",
+      "why": "Testing a claim against records reads like baseline, but baseline measures durations with dated instances; deriving volume from documents is company-evidence."
+    },
+    {
+      "id": "coverage-what-is-missing-es",
+      "query": "Antes de la junta del lunes dime qué nos falta y prepárame las preguntas, agrupadas por a quién se las tengo que hacer. Y si ya podemos pasar a la fase de accesos o todavía no.",
+      "expected": "coverage",
+      "split": "train",
+      "kind": "target",
+      "why": "Questions grouped by who answers them plus a go/no-go on the next phase is precisely what coverage adds over status."
+    },
+    {
+      "id": "coverage-not-resume-en",
+      "query": "We have PROCESSES.md filled in but I am not convinced it is solid enough to start scoring candidates. What is actually still weak, and who do I have to go back to?",
+      "expected": "coverage",
+      "split": "test",
+      "kind": "near-miss",
+      "why": "The surface sounds like resume, which reports where the engagement stands; the request is what is missing and from whom, which is coverage's."
+    },
+    {
+      "id": "spec-approved-candidate-es",
+      "query": "El cliente ya aprobó por escrito la primera de la lista corta, la captura de solicitudes al registro. Necesito la especificación completa para que la construya el desarrollador: campos, qué pasa si ya existe el registro, ramas de error y plan de prueba.",
+      "expected": "automate-spec",
+      "split": "train",
+      "kind": "target",
+      "why": "An approved shortlist candidate needing a buildable description with data mapping and error branches is automate-spec's entry condition."
+    },
+    {
+      "id": "spec-not-handover-en",
+      "query": "Which automation platform should we put this on, and can you write up how the whole flow would actually work end to end before we quote it?",
+      "expected": "automate-spec",
+      "split": "test",
+      "kind": "near-miss",
+      "why": "Platform choice reads like automate-handover, which owns ownership of a platform; designing the flow and quoting it is automate-spec, and the platform is its last section."
     }
   ]
 }

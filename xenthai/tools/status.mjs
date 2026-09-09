@@ -39,6 +39,7 @@ neither of which is a cosmetic gap.
  */
 const OWNERS = {
   "INTAKE.md": ["company-intake"],
+  "PROFILE.md": ["company-profile"],
   "PRESENCE.md": ["social-presence"],
   "BRAND.md": ["social-identity"],
   "PROOF.md": ["social-identity", "social-voice"],
@@ -50,10 +51,11 @@ const OWNERS = {
   "OFFER.md": ["company-offer"],
   "PRODUCTS.md": ["company-offer"],
   "SERVICES.md": ["company-offer"],
-  "SYSTEMS.md": ["process-map"],
-  "PROCESSES.md": ["process-map", "process-access", "opportunities"],
+  "SYSTEMS.md": ["process-map", "company-evidence"],
+  "PROCESSES.md": ["process-map", "process-access", "company-evidence", "opportunities"],
   "BASELINE.md": ["baseline"],
   "ROUTINES.md": ["company-new", "report", "process-access"],
+  "AUTOMATION-SPEC.md": ["automate-spec"],
   "AUTOMATIONS.md": ["automate-handover"],
   "INTERVIEW.md": ["every skill that interviews"],
 };

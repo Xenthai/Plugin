@@ -55,7 +55,11 @@ client machine until the `version` field moves.
 
 | Shipped | Where it lives |
 | --- | --- |
-| **`process` capability** — phases 3 and 4, breadth before depth, Wanner suitability scoring with the two judgement criteria labelled as judgement | `skills/process*`, `capabilities/process/doctrine/PROCESS.md`, `scaffold/company/PROCESSES.md` |
+| **`process` capability** — operación phases 3 and 4, breadth before depth, Wanner suitability scoring with the two judgement criteria labelled as judgement | `skills/process*`, `capabilities/process/doctrine/PROCESS.md`, `scaffold/company/PROCESSES.md` |
+| **`company-profile`** — operación phase 1, six operating archetypes from four questions, the trade's glossary, and the adapted hunt list for phase 3 | `skills/company-profile`, `capabilities/company/doctrine/PROFILE.md`, `scaffold/company/PROFILE.md` |
+| **`company-evidence`** — operación phase 2, volumes and rates derived from the company's own records and contrasted against what was claimed. Closes the gap `MEASUREMENT.md` named and nothing filled | `skills/company-evidence`, `capabilities/company/doctrine/EVIDENCE.md` |
+| **`coverage`** — blocking gaps turned into questions addressed to a role, and a verdict on starting the next phase | `skills/coverage`, `tools/coverage.mjs` |
+| **`automate-spec`** — operación phase 5, the buildable specification, platform-independent until its last section, with the autonomy ceiling set before anything is designed | `skills/automate-spec`, `capabilities/automate/doctrine/SPEC.md`, `capabilities/automate/doctrine/PLATFORMS.md`, `scaffold/company/AUTOMATION-SPEC.md` |
 | **`baseline` capability** — three layers, company-wide rather than per-channel, with the never-a-single-self-reported-duration rule | `skills/baseline`, `capabilities/baseline/doctrine/MEASUREMENT.md`, `scaffold/company/BASELINE.md` |
 | **`report` capability** — journal rows to an engagement report, contribution framing, never "certified" | `skills/report`, `tools/report.mjs` |
 | **`company` capability** — documents before questions, and what is sold on what terms | `skills/company-intake`, `skills/company-offer`, `capabilities/company/doctrine/INTAKE.md` |
@@ -124,7 +128,7 @@ Social is the calling card. These are what is sold.
 
 | Item | Why | Waits on |
 | --- | --- | --- |
-| **`automate` capability** — the actual "IA + Flujo" build: one process from the inventory implemented with per-tool permissions, human approval on decisions, and a journal entry for every action including `review_start`/`review_end` so touch time is measurable after the fact | This is `Un proceso conectado`, the highest-priced item in the catalogue. The journal's event vocabulary already carries the events it needs; nothing writes them yet | A first mapped company |
+| **`automate` capability, the build half** — executing a specification with per-tool permissions and a journal entry for every action, including `review_start`/`review_end` so touch time is measurable after the fact. The specification half shipped in 0.3.0 | This is `Un proceso conectado`, the highest-priced item in the catalogue. The specification now exists and is buildable by hand; what is still missing is the plugin executing one and recording itself doing it | A first mapped company, and one specification a client approved |
 | **Regulator claim linting at produce time** — phrase patterns per regulator (PROFECO for comparative and general claims, COFEPRIS for health with disease-reduction claims prohibited outright, CNBV/CONDUSEF for financial) flagged before rendering | Knowing which claims are illegal must happen before drafting, not at review. A sentence the plugin wrote can cost a client a fine | `BRAND.md` records the regulator |
 | **`LEARNINGS.md` per company** with a hard size cap and a promotion ladder: an entry earns its place only if it would change a future decision; when the file is full, entries are promoted into doctrine or deleted | It is loaded into context, so unbounded growth is a permanent token tax. The cap is what forces the distinction between a note and a rule | — |
 

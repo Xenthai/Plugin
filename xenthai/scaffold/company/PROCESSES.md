@@ -74,6 +74,20 @@ Dos reglas más que conviene tener presentes al revisarlo:
 | --- | --- | --- | --- |
 | — pendiente — | — pendiente — | — pendiente — *(se requieren de tres a cinco)* | — pendiente — |
 
+**Tamaño del proceso**
+
+| Veces al mes | Minutos por vez | Horas-persona al mes | Tarifa por hora del rol | Costo mensual | Fuente de la tarifa |
+| --- | --- | --- | --- | --- | --- |
+| — pendiente — | — pendiente — | — pendiente — *(calculado)* | — pendiente — | — pendiente — *(calculado)* | — pendiente — |
+
+> **La tarifa la aporta el cliente y se etiqueta como suya.** Sin tarifa del cliente, las dos
+> columnas de dinero quedan pendientes y el tamaño se expresa solo en horas-persona: es un orden de
+> magnitud, no una cifra de ahorro. **Nada de horas ahorradas, nada de retorno, nada de meses de
+> recuperación** — ni aquí ni en el reporte. El tamaño ordena la lista corta; no promete nada.
+>
+> Las horas-persona salen de veces al mes por minutos por vez. Si los minutos vienen de un promedio
+> declarado en vez de instancias con fecha, el renglón entero se marca como estimado por esa persona.
+
 **Pasos**
 
 | # | Paso | Rol que lo ejecuta | Sistema | ¿Decisión? | Criterio de la decisión |
@@ -125,7 +139,7 @@ Dos reglas más que conviene tener presentes al revisarlo:
 
 ## 3. Dolor priorizado
 
-*(Se captura en la fase 4. Si esta sección está pendiente, la fase 4 aún no se ha realizado.)*
+*(Se captura en la fase 4 de operación. Si esta sección está pendiente, esa fase aún no se ha realizado.)*
 
 | # | Proceso | Con qué frecuencia duele | Qué cuesta cuando falla | Instancias con fecha | Orden por dolor |
 | --- | --- | --- | --- | --- | --- |
@@ -139,7 +153,7 @@ Dos reglas más que conviene tener presentes al revisarlo:
 
 ## 4. Mapa de accesos
 
-*(Se captura en la fase 4. Si esta sección está pendiente, la fase 4 aún no se ha realizado.)*
+*(Se captura en la fase 4 de operación. Si esta sección está pendiente, esa fase aún no se ha realizado.)*
 
 | Sistema | Dueño de la cuenta (rol) | Quién puede otorgar acceso | Licencias o lugares disponibles | ¿Permite cuenta de servicio? | ¿Permite solo lectura? | Dónde vive el segundo factor |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -153,7 +167,7 @@ Dos reglas más que conviene tener presentes al revisarlo:
 
 ## 5. Autorización
 
-*(Se captura en la fase 4. Si esta sección está pendiente, la fase 4 aún no se ha realizado.)*
+*(Se captura en la fase 4 de operación. Si esta sección está pendiente, esa fase aún no se ha realizado.)*
 
 | Pregunta | Respuesta |
 | --- | --- |

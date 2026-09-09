@@ -134,7 +134,7 @@ recurring-task durations skew high when recalled — the attribution is what mak
   it as **client-reported** and say plainly, in the document and to the client, that it cannot
   support a before/after claim. Do not average it, dress it up, or let it become the before.
 - **No process inventory exists.** The denominator for coverage and the list of state-fact subjects
-  are `PROCESSES.md`, written by `process-map` in the phase 3 session. Route there rather than
+  are `PROCESSES.md`, written by `process-map` in the operación phase 3 session. Route there rather than
   inventing an inventory here — an inventory invented while measuring is a denominator chosen to
   suit the numerator.
 - **The intervention has already happened.** Say so. Harvest durable timestamps for the period

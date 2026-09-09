@@ -1,8 +1,8 @@
 # Process doctrine
 
 How a company's work is captured so it can later be automated with a person keeping every
-decision. This is the consultancy's product: the *Diagnóstico* (phase 3) and the *Mapeo integral*
-(phase 4). Read it before capturing a process, and again before scoring one for automation.
+decision. This is the consultancy's product: the *Diagnóstico* (operación phase 3) and the
+*Mapeo integral* (operación phase 4). Read it before capturing a process, and again before scoring one for automation.
 
 Client-facing output is es-MX. This file, and every field name in it, is English.
 
@@ -271,6 +271,6 @@ so the list cannot travel without it.
 
 | File | Read it when |
 | --- | --- |
-| `scaffold/company/PROCESSES.md` | Starting phase 3 — copy it into the company store as the inventory's skeleton |
-| `skills/process-map/SKILL.md` | Running phase 3, the inventory session |
-| `skills/process-access/SKILL.md` | Running phase 4, the pain, access and shortlist session |
+| `scaffold/company/PROCESSES.md` | Starting operación phase 3 — copy it into the company store as the inventory's skeleton |
+| `skills/process-map/SKILL.md` | Running operación phase 3, the inventory session |
+| `skills/process-access/SKILL.md` | Running operación phase 4, the pain, access and shortlist session |
