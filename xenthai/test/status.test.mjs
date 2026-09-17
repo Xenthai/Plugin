@@ -1,15 +1,17 @@
-import { readdirSync, existsSync, mkdirSync, rmSync, copyFileSync, writeFileSync } from "node:fs";
+import { readdirSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, "..");
-const SCAFFOLD = join(ROOT, "scaffold", "company");
+const SCAFFOLD_TOOL = join(ROOT, "tools", "scaffold.mjs");
 const SANDBOX = join(HERE, "sandbox", "status");
 const TOOL = join(ROOT, "tools", "status.mjs");
 
-const docs = readdirSync(SCAFFOLD).filter((f) => f.endsWith(".md"));
+const scaffoldRun = (...args) => spawnSync(process.execPath, [SCAFFOLD_TOOL, ...args], { encoding: "utf8" });
+const docs = scaffoldRun("--list").stdout.trim().split("\n");
+
 const skills = readdirSync(join(ROOT, "skills"), { withFileTypes: true })
   .filter((e) => e.isDirectory())
   .map((e) => e.name);
@@ -20,10 +22,22 @@ const run = (...args) => {
 };
 
 /**
- * A company directory holding the named scaffolds and a valid manifest. Built per case so a case
- * cannot see another's leftovers — the deterministic race that cost a debugging session once.
+ * A family template's own bare name is a placeholder, not a document — `scaffold.mjs` refuses to
+ * write it verbatim, exactly as it would refuse a real session doing the same thing. A fixture asks
+ * for a concrete instance instead; `tools/status.mjs` still reports it under the template's own
+ * path, since that is what its directory-and-pattern check looks for.
  */
-const company = (name, files) => {
+const FAMILY_INSTANCE = {
+  "mapeo-empresa/03-procesos/PXX-nombre.md": "mapeo-empresa/03-procesos/P01-ejemplo.md",
+  "mapeo-empresa/06-specs/AXX-nombre.md": "mapeo-empresa/06-specs/A01-ejemplo.md",
+};
+
+/**
+ * A company directory holding a manifest and the named documents, materialised through
+ * `tools/scaffold.mjs` exactly as a real session would — so a fixture lands at
+ * `mapeo-Prueba <case>/...` and never at the bare `mapeo-empresa/...` template path.
+ */
+const company = (name, docNames) => {
   const dir = join(SANDBOX, name);
   rmSync(dir, { recursive: true, force: true });
   mkdirSync(dir, { recursive: true });
@@ -31,7 +45,11 @@ const company = (name, files) => {
     join(dir, ".company.json"),
     JSON.stringify({ schema_version: 1, id: `${name}-1`, name: `Prueba ${name}`, store: { kind: "drive", root: "1AAA" } })
   );
-  for (const f of files) copyFileSync(join(SCAFFOLD, f), join(dir, f));
+  for (const doc of docNames) {
+    const target = FAMILY_INSTANCE[doc] ?? doc;
+    const r = scaffoldRun("--document", target, "--company", dir);
+    if (r.status !== 0) throw new Error(`fixture setup failed for ${doc}: ${r.stderr}`);
+  }
   return dir;
 };
 
@@ -40,7 +58,7 @@ const check = (name, fn) => cases.push([name, fn]);
 
 /**
  * The half of the language rule that had no enforcement. `doctor` gates the manifest's locale, and
- * the scaffolds ship in es-MX — but a skill fills them during a session, and nothing checked the
+ * the store ships in es-MX — but a skill fills them during a session, and nothing checked the
  * written result. A document carrying Spanish headings and English content looks finished, is read
  * by the company's own people, and is a delivery defect.
  *
@@ -48,7 +66,7 @@ const check = (name, fn) => cases.push([name, fn]);
  * has almost no prose, and a density measured over thirty words would flag every fresh scaffold.
  */
 check("a document filled in the wrong language is reported and exits non-zero", () => {
-  const dir = company("idioma", ["BRAND.md", "VOICE.md"]);
+  const dir = company("idioma", ["comunicacion/BRAND.md", "comunicacion/VOICE.md"]);
   const english = [
     "# VOICE",
     "",
@@ -64,9 +82,9 @@ check("a document filled in the wrong language is reported and exits non-zero", 
     "because a regulator would object to the alternative, the regulator is named as well, since a",
     "rule whose reason nobody remembers is a rule somebody will quietly drop within a few months.",
   ].join("\n");
-  writeFileSync(join(dir, "VOICE.md"), english, "utf8");
+  writeFileSync(join(dir, "comunicacion", "VOICE.md"), english, "utf8");
   const r = run("--company", dir);
-  const spanishOk = /BRAND\.md\s+\S+\s+\S*\s*es-MX/.test(r.out) || /BRAND\.md[^\n]*es-MX/.test(r.out);
+  const spanishOk = /BRAND\.md[^\n]*es-MX/.test(r.out);
   return [
     r.code === 1 && /VOICE\.md[^\n]*NO ES es-MX/.test(r.out) && /IDIOMA EQUIVOCADO/.test(r.out) && spanishOk,
     `exit ${r.code}; ${(r.out.match(/VOICE\.md[^\n]*/) ?? [])[0]}`,
@@ -74,7 +92,7 @@ check("a document filled in the wrong language is reported and exits non-zero", 
 });
 
 /**
- * The scaffold list cannot name a report or a plan, because those live in dated subfolders — so the
+ * The store layout cannot name a report or a plan, because those live in dated subfolders — so the
  * most client-visible artefacts an engagement produces were the ones nothing audited. A report goes
  * to a director and a plan goes to review.
  *
@@ -84,7 +102,7 @@ check("a document filled in the wrong language is reported and exits non-zero", 
  * as a defect would be reporting a correct design as broken, which is how a check gets ignored.
  */
 check("generated deliverables are audited, and the journal, digest and feedback are not", () => {
-  const dir = company("generados", ["BRAND.md"]);
+  const dir = company("generados", ["comunicacion/BRAND.md"]);
   const write = (rel, body) => {
     mkdirSync(join(dir, dirname(rel)), { recursive: true });
     writeFileSync(join(dir, rel), body, "utf8");
@@ -129,7 +147,7 @@ check("generated deliverables are audited, and the journal, digest and feedback 
  * artefact — a one-page biweekly report, a month's plan — escaped the check entirely.
  */
 check("a short English deliverable is still caught, because language needs a smaller sample", () => {
-  const dir = company("corto", ["BRAND.md"]);
+  const dir = company("corto", ["comunicacion/BRAND.md"]);
   mkdirSync(join(dir, "reports", "2026-09"), { recursive: true });
   writeFileSync(
     join(dir, "reports", "2026-09", "report.md"),
@@ -155,16 +173,9 @@ check("a short English deliverable is still caught, because language needs a sma
  * A rendered PNG cannot be audited — its words are pixels — but the render is deterministic from
  * `pieces.json`, so measuring that measures the published result exactly. This is the only point at
  * which a client's published copy can still be checked.
- *
- * The es-MX case is the one that caught a defect in the check itself. Marketing copy is telegraphic
- * — *Cotizaciones por semana*, not *las cotizaciones que se hacen por semana* — so it loses the
- * function words the density measure counts: a real Spanish chart piece scored 125 per thousand
- * against a floor of 150 and was called foreign. Accents survive that compression, because the words
- * a headline keeps are the content words. Both floors are asserted, and so is the fact that only one
- * of them clears.
  */
 check("copy inside pieces.json is audited, and telegraphic Spanish is not called foreign", () => {
-  const dir = company("piezas", ["BRAND.md"]);
+  const dir = company("piezas", ["comunicacion/BRAND.md"]);
   mkdirSync(join(dir, "content", "2026-09"), { recursive: true });
   const es = {
     q3: {
@@ -218,8 +229,8 @@ check("copy inside pieces.json is audited, and telegraphic Spanish is not called
 });
 
 check("a fresh scaffold with almost no prose abstains rather than being called wrong", () => {
-  const dir = company("sinprosa", ["PROOF.md"]);
-  writeFileSync(join(dir, "PROOF.md"), "# PROOF\n\n| Afirmación | Fuente |\n| --- | --- |\n| — pendiente — | |\n", "utf8");
+  const dir = company("sinprosa", ["comunicacion/PROOF.md"]);
+  writeFileSync(join(dir, "comunicacion", "PROOF.md"), "# PROOF\n\n| Afirmación | Fuente |\n| --- | --- |\n| — pendiente — | |\n", "utf8");
   const r = run("--company", dir);
   return [!/NO ES es-MX/.test(r.out) && /sin prosa/.test(r.out), (r.out.match(/PROOF\.md[^\n]*/) ?? [])[0]];
 });
@@ -229,7 +240,7 @@ check("--help exits 0, because a caller reads a non-zero exit as a broken tool",
   return [r.code === 0 && /status/i.test(r.out), `exit ${r.code}, ${r.out.length} bytes of help`];
 });
 
-check("every scaffold on disk has an owning phase", () => {
+check("every store document has an owning phase", () => {
   const r = run("--company", company("full", docs), "--json");
   const report = JSON.parse(r.out);
   return [
@@ -257,7 +268,7 @@ check("a complete set of documents exits 0", () => {
 });
 
 check("a missing document exits 1, because a missing document is a phase that never ran", () => {
-  const r = run("--company", company("partial", ["BRAND.md", "PEOPLE.md"]));
+  const r = run("--company", company("partial", ["comunicacion/BRAND.md"]));
   return [r.code === 1 && /AUSENTE/.test(r.out), `exit ${r.code}; reports AUSENTE: ${/AUSENTE/.test(r.out)}`];
 });
 
@@ -271,7 +282,7 @@ check("a fresh company reports pending fields rather than zero work", () => {
 });
 
 check("--pending names the field, not only the count", () => {
-  const r = run("--company", company("labels", ["PEOPLE.md"]), "--pending");
+  const r = run("--company", company("labels", ["mapeo-empresa/01-personas.md"]), "--pending");
   const bullets = (r.out.match(/^\s+·\s+\S/gm) ?? []).length;
   return [bullets > 0, `${bullets} field labels listed`];
 });
@@ -282,28 +293,34 @@ check("no company bound and no --company exits 1 with a usable message", () => {
   return [r.status === 1 && usable, `exit ${r.status}; suggests --company: ${usable}`];
 });
 
-check("the owner map covers exactly the scaffolds on disk, in both directions", () => {
+check("the store table covers exactly the documents status reports, in both directions", () => {
   const r = run("--company", company("cover", docs), "--json");
   const report = JSON.parse(r.out);
   const covered = report.report.map((d) => d.document).sort();
-  const onDisk = [...docs].sort();
+  /**
+   * `07-datos/README.md` is a convenience stub `scaffold.mjs` can materialise; the store table
+   * carries the directory it lives in, `07-datos/`, since the SSOT document is the folder of
+   * extracts, not that one placeholder file.
+   */
+  const onDisk = docs.map((d) => (d === "mapeo-empresa/07-datos/README.md" ? "mapeo-empresa/07-datos/" : d)).sort();
   const same = covered.join(",") === onDisk.join(",");
   return [same, same ? `${covered.length} documents match` : `report ${covered.length} vs disk ${onDisk.length}`];
 });
 
 check("a new scaffold with no owner would be reported as a plugin defect", () => {
-  const dir = company("ghost", ["BRAND.md"]);
-  writeFileSync(join(dir, "GHOST.md"), "# Ghost\n\n**Esquema:** 1\n\n— pendiente —\n");
-  copyFileSync(join(dir, "GHOST.md"), join(SCAFFOLD, "GHOST.md"));
+  const dir = company("ghost", ["comunicacion/BRAND.md"]);
+  const ghostPath = join(ROOT, "scaffold", "company", "comunicacion", "GHOST.md");
+  writeFileSync(ghostPath, "# Ghost\n\n**Esquema:** 1\n\n— pendiente —\n");
+  writeFileSync(join(dir, "comunicacion", "GHOST.md"), "# Ghost\n\n**Esquema:** 1\n\n— pendiente —\n");
   try {
     const r = run("--company", dir, "--json");
     const report = JSON.parse(r.out);
     return [
-      report.unowned.includes("GHOST.md") && r.code === 1,
+      report.unowned.includes("comunicacion/GHOST.md") && r.code === 1,
       `unowned: ${report.unowned.join(", ") || "none"} — the tool refuses a document no phase fills`,
     ];
   } finally {
-    rmSync(join(SCAFFOLD, "GHOST.md"), { force: true });
+    rmSync(ghostPath, { force: true });
   }
 });
 
@@ -320,7 +337,6 @@ for (const [name, fn] of cases) {
   console.log(`${ok ? "PASS" : "FAIL"}  ${name}${detail ? `  ->  ${detail}` : ""}`);
 }
 rmSync(SANDBOX, { recursive: true, force: true });
-if (existsSync(join(SCAFFOLD, "GHOST.md"))) rmSync(join(SCAFFOLD, "GHOST.md"));
 console.log("");
 console.log(`${cases.length - failed}/${cases.length} passed  (${docs.length} documents, ${skills.length} skills)`);
 process.exit(failed ? 1 : 0);

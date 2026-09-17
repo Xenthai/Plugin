@@ -23,7 +23,7 @@ which skill, which tool, which event, how many times, over how many periods.
 
 That is not a privacy nicety. It is what allows one client's experience to improve every other
 client's install without their material travelling anywhere. If a finding cannot be stated without
-naming the company or quoting its documents, it is a company finding — put it in `PROCESSES.md` and
+naming the company or quoting its documents, it is a company finding — put it in `03-procesos/` and
 leave it out of here.
 
 ## Where the signal comes from, in order
@@ -130,7 +130,7 @@ This is the other half and it runs away from the client, with several months of 
 ## STOP conditions
 
 - **A finding cannot be stated without naming the company or quoting its documents.** It is a
-  company finding. `PROCESSES.md` owns it, and it does not travel.
+  company finding. `03-procesos/` owns it, and it does not travel.
 - **The only evidence is an impression** — yours or the operator's, with no count and no quoted
   sentence. Record it as an open question, not as a finding.
 - **A change is proposed for a single client's preference.** Say so plainly and put it in that

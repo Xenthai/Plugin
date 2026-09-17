@@ -46,7 +46,7 @@ rule belongs here: **the billing unit is a design input, and the spec states the
 consumption before a platform is chosen.**
 
 **Verify prices and limits at the moment of quoting, from the vendor's own page, and write them into
-`SYSTEMS.md` with the date consulted.** Never from memory and never from this file: they change, and
+`02-inventario.md` with the date consulted.** Never from memory and never from this file: they change, and
 a stale figure in a quote is the consultant's error, not the vendor's.
 
 ## 3 · Messaging channels: the modality decides everything
@@ -64,7 +64,7 @@ or Instagram, or Messenger — and that sentence describes three incompatible pr
 platform where more than one person answers the same number?"* The first is the app. The second is
 the API.
 
-Record the answer in `SYSTEMS.md` as the channel's integration surface. A channel whose modality is
+Record the answer in `02-inventario.md` as the channel's integration surface. A channel whose modality is
 `— pendiente —` cannot be quoted, exactly like any other system.
 
 ### The rule that does not bend
@@ -106,12 +106,12 @@ enquiry. That is most of the value of a first automation, at zero cost and zero 
 it, measure it, and let the result argue for the API. A company that has seen a greeting message
 work will fund the platform; one that has been quoted for it cold will not.
 
-## 4 · What goes in `SYSTEMS.md` and what goes in the spec
+## 4 · What goes in `02-inventario.md` and what goes in the spec
 
 | Fact | Lives in |
 | --- | --- |
-| Which platform the company has, who administers it, what it costs, when it renews | `SYSTEMS.md`, and `AUTOMATIONS.md` once something runs on it |
-| The exact modality of each messaging channel | `SYSTEMS.md`, as that channel's integration surface |
+| Which platform the company has, who administers it, what it costs, when it renews | `02-inventario.md`, and `06-specs/REGISTRO.md` once something runs on it |
+| The exact modality of each messaging channel | `02-inventario.md`, as that channel's integration surface |
 | Expected monthly consumption of the platform's billing unit | The specification, before the platform is named |
 | Which platform this automation runs on, and why that one | The specification's closing section |
 
@@ -121,5 +121,5 @@ work will fund the platform; one that has been quoted for it cold will not.
 | --- | --- |
 | `capabilities/automate/doctrine/HANDOVER.md` | §1 first. It owns who pays for and administers a platform, and the refusal case |
 | `capabilities/automate/doctrine/SPEC.md` | The specification this file's choice closes |
-| `scaffold/company/SYSTEMS.md` | Where modality, cost and administrator are recorded |
+| `scaffold/company/mapeo-empresa/02-inventario.md` | Where modality, cost and administrator are recorded |
 | `skills/zapier-mcp-ops/SKILL.md` | Operating one specific hosted platform over MCP — an instance of §2, not a substitute for it |

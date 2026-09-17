@@ -1,8 +1,8 @@
-# INTERVIEW — <empresa>
+# 04-evidencia/ENTREVISTAS (A2 §5, X6) — <empresa>
 
 > El registro de lo que dijo cada persona, con quién lo dijo y cuándo.
 > Es una **fuente citable**: cuando un hecho de otro documento salió de una conversación, apunta
-> aquí. Nada se publica desde este archivo sin pasar por [PROOF.md](PROOF.md).
+> aquí. Nada se publica desde este archivo sin pasar por [PROOF.md](../../comunicacion/PROOF.md).
 
 **Esquema:** 1 · **Última sesión:** <fecha>
 
@@ -64,5 +64,5 @@ dirección y quien hace el trabajo, porque ahí es donde viven las excepciones q
 | --- | --- | --- | --- |
 | — pendiente — | | | |
 
-El registro de lo solicitado por archivo vive en [INTAKE.md](INTAKE.md); aquí sólo lo que se pidió
+El registro de lo solicitado por archivo vive en [01-empresa.md](../01-empresa.md); aquí sólo lo que se pidió
 de palabra dentro de una sesión.

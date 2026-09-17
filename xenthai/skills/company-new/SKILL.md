@@ -43,7 +43,7 @@ nothing is blocked — and report what is there. Then two rules, and the first i
 
 - **Never create a scaffold on top of a file that already exists.** That destroys the only copy of
   work somebody did, and no later session can tell it happened.
-- **An inherited document is adopted, not captured.** It has no name in `INTERVIEW.md`, no
+- **An inherited document is adopted, not captured.** It has no name in `04-evidencia/ENTREVISTAS.md`, no
   `PROOF.md` row and no measurer — so nothing in it may be published, reported or automated against
   until its provenance is re-established. `capabilities/company/doctrine/INTAKE.md` carries why, and
   the one case where keeping an unverified figure is still right.
@@ -130,16 +130,16 @@ images. So do not end this session with "listo": end it by reading this back, ma
 | 4 | Assets folder shared **anyone with the link** | Scheduler imports. Skipping it is the most common silent failure | A person, in Drive's own interface |
 | 5 | `digest` folder created and shared with the practice as **Lector** | Continuous monitoring, and it is the only part that runs with nobody present | A person, in Drive's own interface |
 | 6 | The digest routine created **and run once**, approving its prompts | The digest actually appearing. A routine nobody ran once stalls on its first permission prompt and stops in silence | Desktop → Rutinas → Nueva rutina → Local |
-| 7 | `ROUTINES.md` created, with the digest routine already active | Absence detection. **A routine nobody wrote down cannot be noticed missing** | Done, here — see below |
+| 7 | `09-rutinas.md` created, with the digest routine already active | Absence detection. **A routine nobody wrote down cannot be noticed missing** | Done, here — see below |
 | 8 | `journal` folder in the store, and the binding declared | The journal outliving the machine. On an ephemeral binding it is the difference between an engagement with evidence and one without | Done, here |
 
 `INSTALL.md` §6b carries the exact commands for 5 and 6. Gmail is **not** on this list: the plugin
 uses it only to send a finished deliverable, sending always needs per-message confirmation, and
 nothing here depends on it. Connect it or not; it changes nothing about setup.
 
-### Create `ROUTINES.md` here, not at mapping close
+### Create `09-rutinas.md` here, not at mapping close
 
-The digest routine is scheduled during setup, so if `ROUTINES.md` does not exist yet, **the one
+The digest routine is scheduled during setup, so if `09-rutinas.md` does not exist yet, **the one
 routine that is already running is recorded nowhere and its absence cannot be detected** — the exact
 failure `capabilities/report/doctrine/REPORTING.md` §2b is about, committed by the document that
 exists to prevent it.
@@ -148,10 +148,10 @@ Instructing it in prose was not enough: it was skipped in a first session and no
 days. So run the command, which either exits 0 or does not:
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/tools/scaffold.mjs" --document ROUTINES.md
+node "${CLAUDE_PLUGIN_ROOT}/tools/scaffold.mjs" --document mapeo-empresa/09-rutinas.md
 ```
 
-It refuses to overwrite (exit 1) — on a company whose store already held a `ROUTINES.md`, that
+It refuses to overwrite (exit 1) — on a company whose store already held a `09-rutinas.md`, that
 refusal is the correct outcome and the existing file is read, not replaced. Then copy the result
 into the store through the connector: the CLI has no credentials and writes only the local copy.
 

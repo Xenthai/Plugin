@@ -1,8 +1,8 @@
-# PROFILE — <empresa>
+# 00-PERFIL (A2 §3) — <empresa>
 
 > Qué tipo de negocio es esto en la práctica, y qué cambia eso en el mapeo.
 > Único dueño del arquetipo operativo y del glosario del giro.
-> [BRAND.md](BRAND.md) es dueño del sector y su regulador; este archivo es dueño de cómo corre el día.
+> [BRAND.md](../comunicacion/BRAND.md) es dueño del sector y su regulador; este archivo es dueño de cómo corre el día.
 
 **Esquema:** 1 · **Levantado con:** — pendiente (rol) — · **Fecha:** <fecha>
 

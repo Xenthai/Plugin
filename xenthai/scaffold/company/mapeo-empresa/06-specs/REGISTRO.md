@@ -1,4 +1,4 @@
-# AUTOMATIZACIONES — <empresa>
+# 06-specs/REGISTRO (A7 §S8) — AUTOMATIZACIONES — <empresa>
 
 > Qué corre solo, qué hace cuando se equivoca, y cómo se apaga.
 > Es el documento de aceptación, no de resultados.
@@ -20,7 +20,7 @@ instancias suficientes para que un número signifique algo.
 
 ## 1. Inventario
 
-| # | Proceso | Id en [PROCESSES.md](PROCESSES.md) | Plataforma | Peldaño | Desde | Estado |
+| # | Proceso | Id en [03-procesos/INDICE.md](../03-procesos/INDICE.md) | Plataforma | Peldaño | Desde | Estado |
 | --- | --- | --- | --- | --- | --- | --- |
 | 1 | — pendiente — | | | | | |
 
@@ -67,7 +67,7 @@ reruteé por accidente porque nadie decidió.
 
 **Por defecto, para salida comercial: se detiene.** Reencaminar es tomar una decisión sin autoridad
 —sustituir un producto, ajustar una cantidad, cambiar un precio son decisiones comerciales, y
-[PROCESSES.md](PROCESSES.md) dice quién puede tomarlas. Además, una automatización detenida produce
+[03-procesos/INDICE.md](../03-procesos/INDICE.md) dice quién puede tomarlas. Además, una automatización detenida produce
 una escalación que alguien ve en una hora; una que reruteó produce un resultado plausible y
 equivocado que aparece semanas después, por un cliente.
 
@@ -142,7 +142,7 @@ se descubre semanas después.
 **La forma más común en que muere una automatización es una tarjeta que se vence en una suscripción
 que nadie recordaba que sostenía todo.** Por eso la fecha de renovación es un campo.
 
-**Si los datos salen a un proveedor**, eso es un hecho de [SYSTEMS.md](SYSTEMS.md) y, cuando pasan
+**Si los datos salen a un proveedor**, eso es un hecho de [02-inventario.md](../02-inventario.md) y, cuando pasan
 datos personales, un hecho del aviso de privacidad.
 
 ### Qué registra en la bitácora

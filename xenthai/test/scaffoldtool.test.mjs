@@ -1,5 +1,5 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { dirname, join, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 
@@ -52,7 +52,10 @@ check("--help exits 0, because a caller reads a non-zero exit as a broken tool",
 check("--list names exactly the scaffolds that ship", () => {
   const r = run("--list");
   const listed = r.out.trim().split("\n").sort();
-  const onDisk = readdirSync(SCAFFOLD).filter((f) => f.endsWith(".md")).sort();
+  const onDisk = readdirSync(SCAFFOLD, { recursive: true })
+    .filter((f) => f.endsWith(".md"))
+    .map((f) => f.split(sep).join("/"))
+    .sort();
   return [
     r.code === 0 && JSON.stringify(listed) === JSON.stringify(onDisk),
     `${listed.length} listed, ${onDisk.length} on disk`,
@@ -60,15 +63,16 @@ check("--list names exactly the scaffolds that ship", () => {
 });
 
 /**
- * The failure the tool exists for. `company-new` instructs `ROUTINES.md` in bold and `status`
+ * The failure the tool exists for. `company-new` instructs `09-rutinas.md` in bold and `status`
  * reports it as owed, and it was still skipped in a first session and stayed missing for two days.
  */
-check("ROUTINES.md is written into the engagement folder, with the company's real name", () => {
+check("09-rutinas.md is written into the engagement folder, with the company's real name", () => {
   const dir = company("nueva");
-  const r = run("--document", "ROUTINES.md", "--company", dir);
-  const text = existsSync(join(dir, "ROUTINES.md")) ? readFileSync(join(dir, "ROUTINES.md"), "utf8") : "";
+  const r = run("--document", "mapeo-empresa/09-rutinas.md", "--company", dir);
+  const target = join(dir, "mapeo-Refaccionaria Álvarez", "09-rutinas.md");
+  const text = existsSync(target) ? readFileSync(target, "utf8") : "";
   return [
-    r.code === 0 && text.startsWith("# RUTINAS — Refaccionaria Álvarez") && !text.includes("<empresa>"),
+    r.code === 0 && text.startsWith("# 09-rutinas (A7 §S5) — RUTINAS — Refaccionaria Álvarez") && !text.includes("<empresa>"),
     `exit ${r.code}; first line "${text.split("\n")[0]}"`,
   ];
 });
@@ -81,9 +85,10 @@ check("ROUTINES.md is written into the engagement folder, with the company's rea
 check("an existing document is never overwritten, and the exit says so", () => {
   const dir = company("heredada");
   const theirs = "# RUTINAS — trabajo previo del cliente\n\nEsto lo escribió alguien más.\n";
-  writeFileSync(join(dir, "ROUTINES.md"), theirs, "utf8");
-  const r = run("--document", "ROUTINES.md", "--company", dir);
-  const after = readFileSync(join(dir, "ROUTINES.md"), "utf8");
+  mkdirSync(join(dir, "mapeo-Refaccionaria Álvarez"), { recursive: true });
+  writeFileSync(join(dir, "mapeo-Refaccionaria Álvarez", "09-rutinas.md"), theirs, "utf8");
+  const r = run("--document", "mapeo-empresa/09-rutinas.md", "--company", dir);
+  const after = readFileSync(join(dir, "mapeo-Refaccionaria Álvarez", "09-rutinas.md"), "utf8");
   return [
     r.code === 1 && after === theirs && /already exists/.test(r.err),
     `exit ${r.code}; bytes intact: ${after === theirs}`,
@@ -92,8 +97,9 @@ check("an existing document is never overwritten, and the exit says so", () => {
 
 check("--json reports the refusal as data, not only as an exit code", () => {
   const dir = company("json-heredada");
-  writeFileSync(join(dir, "PROOF.md"), "previo\n", "utf8");
-  const r = run("--document", "PROOF.md", "--company", dir, "--json");
+  mkdirSync(join(dir, "comunicacion"), { recursive: true });
+  writeFileSync(join(dir, "comunicacion", "PROOF.md"), "previo\n", "utf8");
+  const r = run("--document", "comunicacion/PROOF.md", "--company", dir, "--json");
   let parsed = {};
   try {
     parsed = JSON.parse(r.out);
@@ -113,14 +119,14 @@ check("a path in --document is refused rather than escaping either directory", (
 });
 
 check("no company bound and no --company exits 2 with a usable message", () => {
-  const r = run("--document", "ROUTINES.md");
+  const r = run("--document", "mapeo-empresa/09-rutinas.md");
   return [r.code === 2 && /no company bound/.test(r.err), `exit ${r.code}; ${r.err.trim().slice(0, 50)}`];
 });
 
 check("an unknown option is refused instead of being ignored", () => {
   const dir = company("opcion");
-  const r = run("--document", "ROUTINES.md", "--company", dir, "--overwrite");
-  return [r.code === 2 && !existsSync(join(dir, "ROUTINES.md")), `exit ${r.code}`];
+  const r = run("--document", "mapeo-empresa/09-rutinas.md", "--company", dir, "--overwrite");
+  return [r.code === 2 && !existsSync(join(dir, "mapeo-Refaccionaria Álvarez", "09-rutinas.md")), `exit ${r.code}`];
 });
 
 /**
@@ -140,7 +146,7 @@ check("the help says the store copy is still the session's job", () => {
 check("company-new invokes the tool rather than describing the copy", () => {
   const skill = readFileSync(join(ROOT, "skills", "company-new", "SKILL.md"), "utf8");
   return [
-    /tools\/scaffold\.mjs" --document ROUTINES\.md/.test(skill),
+    /tools\/scaffold\.mjs" --document mapeo-empresa\/09-rutinas\.md/.test(skill),
     skill.includes("scaffold.mjs") ? "named" : "still prose only",
   ];
 });

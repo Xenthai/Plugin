@@ -1,6 +1,6 @@
 ---
 name: process-map
-description: Run the operación phase 3 inventory session — the Diagnóstico — that lists every process a company actually runs, who owns each one and which systems it touches, into the company's PROCESSES.md. Use when a company has no PROCESSES.md yet, when the client asks what their processes even are, or when an inventory needs extending with processes nobody wrote down. One session, breadth before depth. Pain, account ownership, authorisation and the scored shortlist are operación phase 4 — use process-access, and only after this inventory exists.
+description: Run the operación phase 3 inventory session — the Diagnóstico — that lists every process a company actually runs, who owns each one and which systems it touches, into the company's 03-procesos/. Use when a company has no 03-procesos/ yet, when the client asks what their processes even are, or when an inventory needs extending with processes nobody wrote down. One session, breadth before depth. Pain, account ownership, authorisation and the scored shortlist are operación phase 4 — use process-access, and only after this inventory exists.
 ---
 
 # Operación phase 3 — Diagnóstico: the process inventory
@@ -8,7 +8,7 @@ description: Run the operación phase 3 inventory session — the Diagnóstico �
 **Read `capabilities/process/doctrine/PROCESS.md` first.** It carries the SIPOC boundary prompt, the
 field list, and why this is a table and never a diagram. Do not re-derive any of that here.
 
-**Read `PROFILE.md` in the company store before the session.** Its §4 names the support activities
+**Read `00-PERFIL.md` in the company store before the session.** Its §4 names the support activities
 this archetype forgets and the trade's unit of measure — that is what turns the generic checklist
 below into a specific hunt. If it does not exist, route to `company-profile` first.
 
@@ -16,8 +16,8 @@ below into a specific hunt. If it does not exist, route to `company-profile` fir
 change what this session asks: a volume already established is not asked for again, and a figure
 that contradicts one is put to the room as a question.
 
-Deliverable: `PROCESSES.md` in the company store, in es-MX, from
-`scaffold/company/PROCESSES.md`. One session.
+Deliverable: `03-procesos/` in the company store, in es-MX, from
+`scaffold/company/mapeo-empresa/03-procesos/INDICE.md`. One session.
 
 ## Breadth before depth — the rule that decides the session
 
@@ -77,7 +77,7 @@ lists into one that nobody runs.
 
 ## Writing the deliverable
 
-Copy `scaffold/company/PROCESSES.md` into the company store as `PROCESSES.md` and fill it. Use
+Copy `scaffold/company/mapeo-empresa/03-procesos/INDICE.md` into the company store as `03-procesos/INDICE.md` and fill it. Use
 `Write` and `Edit` — never a shell redirect, which the company guard cannot see.
 
 Keep every uncaptured cell as `— pendiente —`. That placeholder is the product: it is what stops an
@@ -85,9 +85,9 @@ inferred fact from reading identically to a captured one six months from now.
 
 ```bash
 node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event delivery --capability process \
-  --why "operacion phase 3 inventory captured" --target "PROCESSES.md"
+  --why "operacion phase 3 inventory captured" --target "03-procesos/"
 node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event phase_end --capability process \
-  --why "operacion phase 3 diagnostico complete" --target "PROCESSES.md"
+  --why "operacion phase 3 diagnostico complete" --target "03-procesos/"
 ```
 
 Never put a process name or any client content in `--why` or `--detail`.
@@ -96,7 +96,7 @@ Close the session by telling the client two things: which processes are captured
 pending, and that operación phase 4 (`process-access`) is where pain, access and the automation shortlist
 come from. Do not start it in the same session.
 
-Append the conversation to `INTERVIEW.md`, marking who described each process. **Whoever does the
+Append the conversation to `04-evidencia/ENTREVISTAS.md`, marking who described each process. **Whoever does the
 work and whoever runs the company describe the same process differently, and the difference is the
 finding** — record both attributions rather than reconciling them into one account.
 
@@ -121,5 +121,5 @@ finding** — record both attributions rather than reconciling them into one acc
 | --- | --- |
 | `capabilities/company/doctrine/SESSION.md` | Before any session that fills a document by asking a person |
 | `capabilities/process/doctrine/PROCESS.md` | Before the session, always. Field list, SIPOC prompt, table-not-diagram reasoning, Mexican specifics |
-| `scaffold/company/PROCESSES.md` | At the start of writing — it is the skeleton to copy |
+| `scaffold/company/mapeo-empresa/03-procesos/INDICE.md` | At the start of writing — it is the skeleton to copy |
 | `skills/process-access/SKILL.md` | Only to tell the client what comes next. Never run it in this session |

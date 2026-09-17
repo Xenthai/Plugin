@@ -1,4 +1,4 @@
-# BRAND — <empresa>
+# BRAND (X9 — fuera del playbook) — <empresa>
 
 > Quién es la empresa, a quién le vende y qué nunca dice.
 > Este documento es la especificación: si algo no está aquí, no se sabe.
@@ -28,7 +28,7 @@ financieros suman CNBV y CONDUSEF.
 
 ## 2. Autoridad
 
-Vive en [PEOPLE.md](PEOPLE.md), que es su único dueño: quién firma las afirmaciones públicas, quién
+Vive en [01-personas.md](../mapeo-empresa/01-personas.md), que es su único dueño: quién firma las afirmaciones públicas, quién
 decide de verdad, y quién es dueño de cada acceso. Aquí no se duplica.
 
 Sólo un recordatorio, porque es el dato que más cuesta cuando está mal: **"quién decide de verdad"
@@ -43,7 +43,7 @@ trabajo se aprueba y luego se cae.
 — pendiente —
 
 Esa frase es lo único de posicionamiento que vive aquí. El catálogo, los precios y los términos
-son de [OFFER.md](OFFER.md); quién compra, por qué y qué objeta es de
+son de [OFERTA.md](../mapeo-empresa/01-oferta/OFERTA.md); quién compra, por qué y qué objeta es de
 [CUSTOMERS.md](CUSTOMERS.md).
 
 Se escribe como prosa, a partir de preguntar qué intenta lograr el comprador, qué le sale mal hoy

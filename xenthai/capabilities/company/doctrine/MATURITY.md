@@ -118,7 +118,7 @@ And the sentence that is this practice's entire process-mapping pitch, written b
 > **Tribal knowledge gets encoded and reused rather than walking out the door when someone leaves.**
 
 Note what that implies for pricing and sequencing. The absence of written procedure is already
-measured in `BASELINE.md` as the tribal-knowledge count. **Level 4 is that count going down**, and
+measured in `08-linea-base.md` as the tribal-knowledge count. **Level 4 is that count going down**, and
 it is a number the client can check without trusting the practice's judgement.
 
 One more, on scale versus quality:
@@ -195,7 +195,7 @@ the list, which is why its output belongs in the quarterly rather than being sav
 
 ## 7. Record it, or it is an opinion
 
-The client's level and phase belong in `BASELINE.md`'s maturity layer, per department, with a date —
+The client's level and phase belong in `08-linea-base.md`'s maturity layer, per department, with a date —
 because a level asserted in a meeting is a feeling, and a level recorded with the artefact that
 proves it is a measurement.
 

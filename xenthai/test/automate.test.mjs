@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, "..");
 const DOCTRINE = join(ROOT, "capabilities", "automate", "doctrine", "HANDOVER.md");
-const SCAFFOLD = join(ROOT, "scaffold", "company", "AUTOMATIONS.md");
+const SCAFFOLD = join(ROOT, "scaffold", "company", "mapeo-empresa", "06-specs", "REGISTRO.md");
 const SKILL = join(ROOT, "skills", "automate-handover", "SKILL.md");
 
 const cases = [];

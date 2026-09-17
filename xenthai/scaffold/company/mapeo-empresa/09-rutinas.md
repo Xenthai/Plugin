@@ -1,4 +1,4 @@
-# RUTINAS — <empresa>
+# 09-rutinas (A7 §S5) — RUTINAS — <empresa>
 
 > Las tareas planeadas y su periodicidad. Cada una se acuerda **una vez** y después corre sola sin
 > volver a pedir permiso. Este documento nace en el setup, no al cerrar el mapeo: el digest de
@@ -87,13 +87,13 @@ declarado aquí y el cliente lo acepte con esa condición dicha en voz alta.
 | Rutina | Qué hace | Cadencia | ¿Activa? | Notas |
 | --- | --- | --- | --- | --- |
 | Digest de estado | Escribe `digest/estado.md` con conteos, fechas y veredictos del compromiso | Diaria | **Sí, desde el día uno** | Lo que calcula es aritmética sobre la bitácora local, así que el resultado no puede estar mal y nadie tiene que revisarlo. Corre dentro de una sesión programada, así que necesita esta máquina prendida y la app abierta. **No lleva ningún dato de la empresa** — ni nombres de archivo, ni personas, ni contenido. La carpeta `digest` se comparte con Xenth AI como Lector y el cliente la puede revocar cuando quiera |
-| Barrido de afirmaciones | Revisa [PROOF.md](PROOF.md) por afirmaciones cuya fecha de reverificación se vence en 60 días | Mensual | — pendiente — | Una afirmación cierta en marzo se republica en diciembre si nada la revisa |
-| Producción contra el plan | Genera las piezas del plan aprobado | Según [SOCIAL.md](SOCIAL.md) | — pendiente — | |
-| Re-medición del baseline | Vuelve a medir [BASELINE.md](BASELINE.md) con las definiciones congeladas | Trimestral | — pendiente — | Mismo instrumento, mismos procesos, o la serie se rompe |
-| Recaptura de presencia | Agrega una observación fechada a [PRESENCE.md](PRESENCE.md) | Trimestral | — pendiente — | Nunca edita la anterior |
+| Barrido de afirmaciones | Revisa [PROOF.md](../comunicacion/PROOF.md) por afirmaciones cuya fecha de reverificación se vence en 60 días | Mensual | — pendiente — | Una afirmación cierta en marzo se republica en diciembre si nada la revisa |
+| Producción contra el plan | Genera las piezas del plan aprobado | Según [SOCIAL.md](../comunicacion/SOCIAL.md) | — pendiente — | |
+| Re-medición del baseline | Vuelve a medir [08-linea-base.md](08-linea-base.md) con las definiciones congeladas | Trimestral | — pendiente — | Mismo instrumento, mismos procesos, o la serie se rompe |
+| Recaptura de presencia | Agrega una observación fechada a [PRESENCE.md](../comunicacion/PRESENCE.md) | Trimestral | — pendiente — | Nunca edita la anterior |
 | Revisión de contenido sin mantenimiento | Revisa lo publicado que nadie mantiene | Cada 3 años como piso | — pendiente — | La prueba: si dejarlo así estorbaría a una persona no especialista |
 | Escaneo de oportunidades | Lee el journal y propone el siguiente proceso que vale automatizar | Mensual | — pendiente — | Acción repetida sobre el mismo tipo de objetivo, consultas concentradas en un proceso, escalaciones que siempre se resuelven igual. **Los dos primeros meses va a decir que no hay historia suficiente** — el piso son 3 periodos distintos — y eso no es que la rutina esté rota |
-| Revisión de accesos | Confirma que [PROCESSES.md](PROCESSES.md) sigue diciendo quién tiene qué | Semestral | — pendiente — | Quien se fue y sigue con acceso es el hallazgo |
+| Revisión de accesos | Confirma que [03-procesos/INDICE.md](03-procesos/INDICE.md) sigue diciendo quién tiene qué | Semestral | — pendiente — | Quien se fue y sigue con acceso es el hallazgo |
 | Salud de la instalación | Corre `doctor` | Mensual | — pendiente — | Barato, y evita descubrir un conector roto en una entrega |
 
 **El digest detecta; el escaneo interpreta.** Son dos renglones y no se duplican. El digest corre

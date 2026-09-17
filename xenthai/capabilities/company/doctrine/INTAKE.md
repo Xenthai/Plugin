@@ -25,7 +25,7 @@ The document request is **the first thing that happens**, before any interview s
 client fills it in their own time. Gathering files is the one part of onboarding that does not
 need the consultant present, so it must never occupy a session.
 
-Record every request and its outcome in the company's `INTAKE.md`. That ledger is what makes the
+Record every request and its outcome in the company's `01-empresa.md`. That ledger is what makes the
 next session efficient: it says what arrived, what is still missing, and — crucially — **what
 each gap blocks**, so the client can see the cost of not sending a file rather than being nagged.
 
@@ -37,13 +37,13 @@ drip-feed requests across sessions.
 | Ask for | Unblocks | Fallback when it does not exist |
 | --- | --- | --- |
 | Constancia de situación fiscal (SAT) | Legal name, RFC, régimen, fiscal address — every one of them exact | Ask; these are not guessable and a wrong legal name reaches a contract |
-| Org chart, or the payroll list of names and roles | `PEOPLE.md`: who exists, what they are called, what they do | Build it live from the director's description, and mark it derived |
-| Price list, quote template, service catalogue | `OFFER.md`: what is sold, at what price, on what terms. Also the quoting process's real inputs | Interview, and mark every figure as client-reported |
+| Org chart, or the payroll list of names and roles | `01-empresa.md` § Organigrama real: who exists, what they are called, what they do | Build it live from the director's description, and mark it derived |
+| Price list, quote template, service catalogue | `01-oferta/OFERTA.md`: what is sold, at what price, on what terms. Also the quoting process's real inputs | Interview, and mark every figure as client-reported |
 | A recent real quote and a recent real invoice | The quoting process end to end, its actual fields, its systems, and the CFDI touchpoint | Walk one instance live; ask for a screenshot rather than a description |
-| The list of systems in use, or the monthly software invoice | `SYSTEMS.md`: what exists, and the software bill names systems people forget to mention | Ask what they open on a normal morning; that surfaces more than "what systems do you use" |
+| The list of systems in use, or the monthly software invoice | `02-inventario.md`: what exists, and the software bill names systems people forget to mention | Ask what they open on a normal morning; that surfaces more than "what systems do you use" |
 | Existing brand manual, or the logo files | `DESIGN.md` tokens and the logo; SVG preferred, PNG accepted | Derive from the website and mark it derived pending confirmation |
 | The last three months of published posts | `VOICE.md` extraction, and the social baseline's visible public state | Extract from the live accounts; screenshot and date it |
-| Any written procedure, manual or checklist | `PROCESSES.md` steps without an interview, and the tribal-knowledge count | Their absence **is** the finding: it is the tribal-knowledge measurement |
+| Any written procedure, manual or checklist | `03-procesos/` steps without an interview, and the tribal-knowledge count | Their absence **is** the finding: it is the tribal-knowledge measurement |
 | Whatever the customer objects to, in writing — emails, WhatsApp threads | `CUSTOMERS.md` objections in the customer's own words, which is worth more than a summary | Ask for three real examples rather than a characterisation |
 
 ## Extraction rules
@@ -100,13 +100,13 @@ them:
 
 | The rule | What it needs | What an inherited document has |
 | --- | --- | --- |
-| A fact carries whose answer it is | A name in `INTERVIEW.md` | Nobody. The person who said it may not work there any more |
+| A fact carries whose answer it is | A name in `04-evidencia/ENTREVISTAS.md` | Nobody. The person who said it may not work there any more |
 | A publishable claim needs a live row | A `PROOF.md` row with a source, a confirmer and a re-verification date | A claim with no row, or a row nobody here wrote |
-| A figure states who measured it and when | A measurer and a date in `BASELINE.md` | A number with no method and no date |
+| A figure states who measured it and when | A measurer and a date in `08-linea-base.md` | A number with no method and no date |
 
 So an adopted document is **content of unknown provenance**, which is a third state — not
 `— pendiente —`, and not captured. Mark it as what it is, at the top of the document and in
-`INTAKE.md`: adopted on this date, from work that predates this install, provenance unverified.
+`01-empresa.md`: adopted on this date, from work that predates this install, provenance unverified.
 
 Then the rule that follows is short: **nothing from an adopted document is published, quoted in a
 report, or automated against until its provenance is re-established.** Re-establishing it is cheap —

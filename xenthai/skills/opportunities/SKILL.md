@@ -1,6 +1,6 @@
 ---
 name: opportunities
-description: Find what to improve next from a company's own execution journal instead of from another interview — which documents get reworked every period, which escalation keeps coming back, which step has been failing for months without anyone reporting it. Use at the monthly scan the company's ROUTINES.md schedules, at a quarterly or renewal review, when the client asks what to do next or where else AI would help, or when a process was mapped months ago and the estimates in it were never re-measured. Requires several periods of journal history. For the first mapping of a company that has none, use process-map; for scoring and pricing a shortlist in a session with the client, use process-access.
+description: Find what to improve next from a company's own execution journal instead of from another interview — which documents get reworked every period, which escalation keeps coming back, which step has been failing for months without anyone reporting it. Use at the monthly scan the company's 09-rutinas.md schedules, at a quarterly or renewal review, when the client asks what to do next or where else AI would help, or when a process was mapped months ago and the estimates in it were never re-measured. Requires several periods of journal history. For the first mapping of a company that has none, use process-map; for scoring and pricing a shortlist in a session with the client, use process-access.
 ---
 
 # Opportunities — what the journal already knows
@@ -24,7 +24,7 @@ below 3 produces findings a busy fortnight can manufacture.
 
 **Run monthly, and expect the first two runs to say there is nothing yet.** The floor is three
 distinct periods, so a monthly scan reports for the first time in month three; that is the routine
-working, not failing, and `ROUTINES.md` says so beside the row. Monthly is the cadence because a
+working, not failing, and `09-rutinas.md` says so beside the row. Monthly is the cadence because a
 pattern can only change state once a month — the periods are months — so anything slower is latency
 bought for nothing.
 
@@ -49,16 +49,16 @@ Apply the test in order. A finding that fails any step is not a proposal:
 1. **Autonomous, recurring and reviewable.** Recurring is what the tool proved. Autonomous and
    reviewable it cannot see. **Reviewable is the one people skip** — if nobody can say what good
    looks like, there is no check, and unattended operation is unreachable forever.
-2. **Name the process it belongs to.** Open `PROCESSES.md`. If the work maps to a process already
+2. **Name the process it belongs to.** Open `03-procesos/`. If the work maps to a process already
    in the inventory, the finding is *evidence about that process*. If it maps to nothing there, the
    finding is that a process runs which nobody wrote down — record it in §7 and treat it as
    inventory work, not automation work.
-3. **Check who owns it and who authorises it.** §4 and §5 of `PROCESSES.md`. A candidate whose
+3. **Check who owns it and who authorises it.** §2 and §3 of `03-procesos/INDICE.md`. A candidate whose
    owner is unknown is not a candidate; it is a question for the next session.
 
 ## The best thing this replaces is an estimate
 
-`PROCESSES.md` §6 scores automation viability, and two of its research-backed criteria — execution
+`05-backlog.md` §2 scores automation viability, and two of its research-backed criteria — execution
 time and failure rate — are normally filled from what somebody remembers. Those estimates run high
 by a median of 47% in the flattering direction.
 
@@ -81,13 +81,13 @@ answer to "what hurts today" still outranks it.
 
 ## Where the findings go
 
-Findings live in `PROCESSES.md` — the shortlist has one owner and this does not create a second.
+Findings live in `03-procesos/` — the shortlist has one owner and this does not create a second.
 Add them as rows with their provenance visible, so a reader can tell a journal-measured value from
 an interviewed one. Then record that the analysis ran:
 
 ```bash
 node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event lookup --capability process \
-  --why "journal reviewed for recurring patterns over <N> periods" --target "PROCESSES.md"
+  --why "journal reviewed for recurring patterns over <N> periods" --target "03-procesos/"
 ```
 
 Company files change through `Write` and `Edit` only. `capabilities/company/doctrine/CONTROLS.md` carries why, and what the guard refuses versus merely records.
@@ -105,7 +105,7 @@ Company files change through `Write` and `Edit` only. `capabilities/company/doct
   for months that are absent here — the ordinary case in a container whose disk does not survive a
   session. Restore first (`tools/journal-sync.mjs --restore --from <dir>`). An analysis over the
   fraction that happened to be downloaded is not a short analysis; it is a wrong one.
-- **No `PROCESSES.md`.** Findings have nowhere to land and nothing to be checked against. Run
+- **No `03-procesos/`.** Findings have nowhere to land and nothing to be checked against. Run
   `process-map` first; a list of file paths is not a list of processes.
 - **The client asks which one saves the most.** That is a counterfactual and it does not exist. Give
   them the periods, the occurrences and the measured time, and let them choose.
@@ -117,5 +117,5 @@ Company files change through `Write` and `Edit` only. `capabilities/company/doct
 | `capabilities/process/doctrine/PROCESS.md` | Always — the viability criteria and what may be scored |
 | `capabilities/company/doctrine/SESSION.md` | The findings will be taken into a session with the client |
 | `capabilities/report/doctrine/REPORTING.md` | A finding will appear in a cadence report |
-| `<store>/PROCESSES.md` | Always, before writing anything — findings land there or nowhere |
+| `<store>/03-procesos/` | Always, before writing anything — findings land there or nowhere |
 | `node tools/opportunities.mjs --help` | Before quoting any option from this file |

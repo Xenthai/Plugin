@@ -1,6 +1,6 @@
 # Scheduling doctrine — where a routine runs, and how it fails
 
-`ROUTINES.md` in a company's store records **which** routines were agreed and how their absence
+`09-rutinas.md` in a company's store records **which** routines were agreed and how their absence
 becomes visible. This file is about **where** each one actually runs, because the three available
 mechanisms fail in different ways and choosing wrong produces a routine that looks configured and
 silently never runs.
@@ -114,7 +114,7 @@ Only one routine is justified on day one:
 | --- | --- | --- | --- |
 | **Status digest** | Desktop scheduled task running `tools/watch.mjs`, cheapest model | Daily | It is monitoring, not a deliverable. It needs no agreement with the client because it produces nothing they read, and its absence is what makes an abandoned engagement visible |
 
-**Every other routine waits for its cadence to be agreed with the client.** `ROUTINES.md` says a
+**Every other routine waits for its cadence to be agreed with the client.** `09-rutinas.md` says a
 cadence that does not answer a distinct question is not activated, and that the annual review asks of
 each row whether anyone read it. Provisioning six routines at setup produces exactly the outcome that
 rule exists to prevent: a client trained to ignore all of them.
@@ -142,7 +142,7 @@ the shortest window that leaves time to re-confirm before it expires.
 
 ### Baseline re-measure — quarterly
 
-> Vuelve a medir lo que `BASELINE.md` ya define, con **las mismas definiciones congeladas** que están
+> Vuelve a medir lo que `08-linea-base.md` ya define, con **las mismas definiciones congeladas** que están
 > en el documento. Mismos procesos, mismo instrumento, misma unidad. Si una definición ya no aplica,
 > **no la cambies**: anótalo como defecto de la serie y di por qué, porque cambiar la definición
 > rompe la comparación con todas las mediciones anteriores. Agrega la medición nueva con su fecha y
@@ -164,10 +164,10 @@ median to be stable.
 > Corre `node "${CLAUDE_PLUGIN_ROOT}/tools/opportunities.mjs" --journal <raíz-del-almacén>` y lee la
 > skill `opportunities` antes de interpretar nada. Cada patrón es una repetición medida, no una
 > recomendación: aplica la prueba de autónomo, recurrente y revisable, y deja los hallazgos en
-> `PROCESSES.md` con su procedencia visible. Si la bitácora no cubre suficientes periodos, dilo y no
+> `03-procesos/` con su procedencia visible. Si la bitácora no cubre suficientes periodos, dilo y no
 > bajes el umbral.
 
-### The cadence reports — per the cadences agreed in `ROUTINES.md`
+### The cadence reports — per the cadences agreed in `09-rutinas.md`
 
 These are the one case where a scheduled task is **the wrong answer even though it would work**. A
 report is a client-facing deliverable that carries claims, and `REPORTING.md` requires attribution
@@ -181,7 +181,7 @@ written by a person who can defend it. Schedule a **reminder** instead of the re
 
 | File | Read it when |
 | --- | --- |
-| `<store>/ROUTINES.md` | Always — it records which routines were agreed and how each absence shows |
+| `<store>/09-rutinas.md` | Always — it records which routines were agreed and how each absence shows |
 | `capabilities/report/doctrine/REPORTING.md` | §2b, on designing absence detection rather than execution |
 | `INSTALL.md` | §6b, for the digest's OS task and the folder share |
 | `tools/watch.mjs --help` | Before quoting anything about the digest |

@@ -445,3 +445,79 @@ here*.
 **Reverses if** the tracks stop being independent — if some future capability genuinely requires a
 voice document before a process can be mapped, one sequence becomes the honest description again.
 
+### 25 · The playbook's chapter codes sit beside the plugin's own phase numbers, never in place of them
+
+`CONFORMANCE.md` Ruling 4 found the plugin's operación 1-5 count answering a different question from
+the playbook's own numbering — Fase 0-7 (one per whole chapter A1-A8) and A2's internal Sub-fase
+labels (P, 0, 1, 2, 3) — with no row in either document saying so.
+
+**The evidence.** `A0-marco.md` S6 maps Fase to a whole chapter; A2-mapeo.md S3-7 uses P, 0, 1, 2, 3
+for its own five sub-phases; `README.md` and `tools/coverage.mjs` used a third, unrelated count that
+crosses chapter boundaries (operación 3, the Diagnóstico, is A2 §7; operación 4, the Mapeo integral,
+is A3 §2). Three numbering schemes answering three different questions, one of them silent about
+which chapter it actually implements.
+
+**Rejected: retiring the plugin's own 1-5 count** in favour of citing the playbook chapter alone.
+Decision 24 kept that count on purpose — it is what `--why` strings already reference, what
+`resume` detects from document existence, and what a returning operator remembers session to
+session. Losing it to make room for a chapter code would re-litigate a decision made one release
+earlier for no evidence gained: the two numbers answer different questions and a reader needs both.
+**Rejected: one blanket code per track**, the shape Ruling 4's own first draft proposed
+("operación 1 = A2 Mapeo"). It is imprecise in exactly the way the conflict complained about:
+operación 3 and operación 4 both fall inside what a blanket "A2" would claim, when they are in fact
+A2 §7 and A3 §2 respectively.
+
+**The decision.** Every phase mention in `README.md`, `tools/coverage.mjs`'s `PHASE` table and every
+skill's own description carries the playbook's specific chapter and section beside the plugin's own
+number, written once per document where it helps a reader — never as a replacement, never as a
+blanket per-track code. Comunicación keeps no paired code: no chapter A1-A9 covers that track, which
+`README.md` now states as a deliberate scope boundary rather than leaving it to be misread as a gap
+in the citation.
+
+**Reverses if** the playbook ever restructures its own chapter numbering — at which point every
+citation added here needs a coordinated update, which is the cost this decision accepts in exchange
+for a citation precise enough to trust.
+
+### 26 · The plugin adopts the A2 §2 store layout; the comunicación documents move, they do not translate
+
+`CONFORMANCE.md` Ruling 3 found the plugin's 21 flat, English-named scaffold files holding no
+relation to A2 §2's numbered, foldered layout (`mapeo-<empresa>/00-ESTADO.md` through
+`99-preguntas-abiertas.md`) — a real divergence, not a restatement, confirmed by a verifier run
+against the plugin's own `DECISIONS.md`, which carried no entry defending the flat English layout as
+an argued choice.
+
+**The evidence.** `packages/method/src/data/store.json` in the Web repository is the playbook's own
+machine-readable statement of the layout, one row per document with its path, its signer and its
+owning skill. Every plugin tool that resolved a document by name — `tools/status.mjs`'s `OWNERS`,
+`tools/coverage.mjs`'s `PHASE` and `BLOCKING`, `tools/scaffold.mjs`'s file list — held its own,
+independently hand-typed copy of a subset of that same information, and none of the three agreed
+with the playbook's own section numbers.
+
+**The decision.** The plugin's `scaffold/company/` is restructured into two folders mirroring A2 §2:
+`mapeo-empresa/` for the operación track (renamed to `mapeo-<nombre del cliente>/` once a company is
+bound) and `comunicacion/` for `BRAND.md`, `VOICE.md`, `PROOF.md`, `DESIGN.md`, `SOCIAL.md`,
+`PRESENCE.md`, `CUSTOMERS.md`. `lib/store-layout.mjs` reads the vendored copy of `store.json`
+(`capabilities/method/method.json`) as the single source every tool resolves a document path and an
+owning skill from, so a future rename is one edit in the Web repository followed by one export, not
+a hand-edit in four plugin files that can silently drift apart again.
+
+**The comunicación documents move; they do not translate.** A2 §2 is silent on the comunicación
+track — it is outside the playbook's method (X9) — so nothing in the playbook argues for translating
+`BRAND.md` and its siblings to Spanish names. Moving them under `comunicacion/` is in scope for this
+release because it is required to make the two-folder split real; renaming their files to Spanish is
+a separate, larger cost (every cross-reference inside `capabilities/social/`, every skill that
+writes them, every fixture that copies them) with no argued benefit yet.
+
+**Rejected: renaming the comunicación files to Spanish now**, on the precedent the operación track
+just set. The precedent does not extend automatically: the operación rename was argued from the
+playbook's own text (A2 §2 names the files in Spanish because A2 §2 IS the operación track); no
+playbook chapter names the comunicación files at all, so a Spanish rename there would be invented,
+not derived. **Rejected: leaving the comunicación files at the store root**, unfoldered, on the
+argument that they need no rename. Ruling 3's own layout puts every document under one of the two
+folders; a root-level exception would leave the store partially migrated with no principled
+boundary for what stays and what moves.
+
+**Reverses if** the first client engagement opens the comunicación track for real — at which point
+translating `BRAND.md` and its siblings to their Spanish A2-style names stops being invented and
+starts being informed by what a director actually needs to read.
+

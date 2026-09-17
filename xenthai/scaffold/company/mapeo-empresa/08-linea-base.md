@@ -1,4 +1,4 @@
-# BASELINE — <empresa>
+# 08-linea-base (A8 §S1) — BASELINE — <empresa>
 
 > El "antes" de la operación, medido mientras existía. Es perecedero: una vez que un proceso se
 > toca, su antes ya no se puede reconstruir de memoria.

@@ -8,8 +8,9 @@ description: Run operación phase 2 — derive real volumes, values, response ti
 **Read `capabilities/company/doctrine/EVIDENCE.md` first.** It carries what is read and in which
 order, how to work the volume, and the contrast that is the deliverable. Do not re-derive it here.
 
-No new document. Findings land in `PROCESSES.md` and `SYSTEMS.md`; derived tables go to a working
-file in the store. One session, and nobody from the client needs to be present.
+Findings land in `04-evidencia/HALLAZGOS.md` and `04-evidencia/fuentes.md`; extracts go to
+`07-datos/`. A process's own row in `03-procesos/` still carries its cost, cited back to a
+HALLAZGOS.md entry rather than repeating the derivation — one fact, one owner.
 
 ## 1 · Bind, and fix the scope in writing before opening anything
 
@@ -17,19 +18,19 @@ file in the store. One session, and nobody from the client needs to be present.
 node "${CLAUDE_PLUGIN_ROOT}/tools/doctor.mjs"
 ```
 
-Name the company aloud. Then write into `INTERVIEW.md`, and confirm with whoever authorised it:
+Name the company aloud. Then write into `04-evidencia/fuentes.md`, and confirm with whoever authorised it:
 
 - **Which folders and mailboxes are in scope**, named one by one.
 - **What is out** — by default payroll detail, personnel files, bank statements, anything marked
   personal.
 - **Who authorised it**, with a name and a date.
 
-`INTAKE.md`'s rule on data that arrives unasked applies here at scale, and at scale it matters more:
+`01-empresa.md`'s rule on data that arrives unasked applies here at scale, and at scale it matters more:
 record only what the mapping needs and **say what you left out.**
 
 ```bash
 node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event phase_start --capability company \
-  --why "operacion phase 2 evidence — derive counts from durable records" --target "PROCESSES.md"
+  --why "operacion phase 2 evidence — derive counts from durable records" --target "04-evidencia/HALLAZGOS.md"
 ```
 
 ## 2 · Read the tree before opening a file
@@ -43,7 +44,7 @@ and every later automation joins on it.
 
 ## 3 · Sample the transaction document
 
-`PROFILE.md` §3 names which document this archetype emits. Sample fifteen to thirty, chosen for
+`00-PERFIL.md` §3 names which document this archetype emits. Sample fifteen to thirty, chosen for
 spread across periods and sizes, and extract to a table. From it derive real average value,
 conversion rate, seasonality, and how much a document changes between versions.
 
@@ -54,7 +55,7 @@ between files. Each is a candidate and each is evidence of a process.
 
 Spreadsheets somebody maintains by hand · mail queried by pattern rather than read · customer
 conversations mined for response time, repeated questions and reasons a deal died · the records
-`PROFILE.md` §3 names as this archetype's durable evidence.
+`00-PERFIL.md` §3 names as this archetype's durable evidence.
 
 **The reply-interval distribution is the single most valuable number here** for any company whose
 sales arrive in writing, and it is almost always worse than the figure the owner gave.
@@ -62,8 +63,8 @@ sales arrive in writing, and it is almost always worse than the figure the owner
 ## 5 · Record every number with its denominator
 
 `[archivo: Cotizaciones/2026, n=24, ene–jun]`. A number whose sample cannot be reconstructed is a
-claim with a decimal point. Derived tables go to a working file so the arithmetic can be re-checked
-without reopening the originals.
+claim with a decimal point. Derived tables go into `04-evidencia/HALLAZGOS.md`, and the sample rows
+behind them into `07-datos/`, so the arithmetic can be re-checked without reopening the originals.
 
 **A count is not a duration.** A folder proves twenty-four quotes exist; it does not prove how long
 one took. Duration still comes from dated instances in phase 3.
@@ -80,9 +81,9 @@ Route the questions to `coverage` so they arrive grouped by person rather than a
 
 ```bash
 node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event delivery --capability company \
-  --why "operacion phase 2 evidence derived, N contrasts recorded" --target "PROCESSES.md"
+  --why "operacion phase 2 evidence derived, N contrasts recorded" --target "04-evidencia/HALLAZGOS.md"
 node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event phase_end --capability company \
-  --why "operacion phase 2 complete" --target "PROCESSES.md"
+  --why "operacion phase 2 complete" --target "04-evidencia/HALLAZGOS.md"
 ```
 
 Never put a folder name, a client name, a process name or any figure from the company in `--why` or

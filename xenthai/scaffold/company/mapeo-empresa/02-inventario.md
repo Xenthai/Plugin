@@ -1,8 +1,8 @@
-# SYSTEMS — <empresa>
+# 02-inventario (A2 §4) — <empresa>
 
 > Qué software usa la empresa, qué se puede conectar y qué no.
-> Único dueño del detalle técnico de cada sistema. [PEOPLE.md](PEOPLE.md) es dueño de quién tiene
-> la llave; [PROCESSES.md](PROCESSES.md) es dueño de qué proceso lo toca.
+> Único dueño del detalle técnico de cada sistema. [01-personas.md](01-personas.md) es dueño de quién tiene
+> la llave; [03-procesos/INDICE.md](03-procesos/INDICE.md) es dueño de qué proceso lo toca.
 >
 > **La superficie de integración de este archivo es lo que hace cotizable una automatización.**
 > Sin ella, cualquier precio es una adivinanza.
@@ -30,7 +30,7 @@ pregunta que los clientes casi nunca pueden contestar:
 Una fila en `pendiente` no es un hueco menor: es la diferencia entre un proyecto de seis semanas y
 uno que no se puede hacer.
 
-**Costo y renovación** sale de la factura mensual de software que pide `INTAKE.md`. Se registra
+**Costo y renovación** sale de la factura mensual de software que pide `01-empresa.md`. Se registra
 aquí porque la forma más común en que muere una automatización es una tarjeta que se vence en una
 suscripción que nadie recordaba que sostenía todo.
 
@@ -114,6 +114,16 @@ precisamente por esto.
 
 Esta tabla es la que se convierte en la propuesta de revisión pagada cuando el cliente no puede
 contestar. No se cotiza contra el hueco: se cotiza cerrarlo.
+
+## 6b. Accesos — quién tiene la llave
+
+Quién es dueño de qué credencial. Sin esto se puede producir trabajo que nadie puede publicar, y no
+se puede cotizar una automatización. El detalle técnico de cada sistema —superficie de integración,
+qué datos guarda— está arriba, en §1; aquí sólo quién controla el acceso.
+
+| Sistema o cuenta | Quién es dueño | Quién más tiene acceso | Quién puede dar de alta a otro |
+| --- | --- | --- | --- |
+| — pendiente — | | | |
 
 ## 7. Pendientes
 

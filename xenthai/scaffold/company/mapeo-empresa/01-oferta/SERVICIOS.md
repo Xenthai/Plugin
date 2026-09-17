@@ -1,8 +1,8 @@
-# SERVICES — <empresa>
+# 01-oferta/SERVICIOS (A2 §5) — <empresa>
 
 > Lo que esta empresa vende como trabajo: con entregable, duración y quién lo ejecuta.
 > Único dueño del catálogo de servicios. Los términos comerciales que aplican a todo lo que vende
-> —pago, garantía, descuentos, CFDI— viven en [OFFER.md](OFFER.md).
+> —pago, garantía, descuentos, CFDI— viven en [OFERTA.md](OFERTA.md).
 >
 > Si la empresa no vende servicios, este archivo se queda vacío y se dice por qué. No se borra.
 
@@ -41,7 +41,7 @@ necesita su propio archivo: un producto se agota, un servicio se satura.
 | --- | --- | --- | --- |
 | — pendiente — | | | |
 
-La segunda columna se cruza con [PEOPLE.md](PEOPLE.md): si sólo una persona puede ejecutar un
+La segunda columna se cruza con [01-personas.md](../01-personas.md): si sólo una persona puede ejecutar un
 servicio que se vende seguido, eso es un **único punto de falla comercial**, no sólo operativo.
 
 ## 4. Recurrencia
@@ -51,7 +51,7 @@ servicio que se vende seguido, eso es un **único punto de falla comercial**, no
 | — pendiente — | sí / no | | | |
 
 Un servicio recurrente genera trabajo administrativo repetido —facturar, recordar, renovar— y ése
-es material de primera para el inventario de [PROCESSES.md](PROCESSES.md).
+es material de primera para el inventario de [03-procesos/INDICE.md](../03-procesos/INDICE.md).
 
 ## 5. Reglas que cambian el precio de un servicio
 

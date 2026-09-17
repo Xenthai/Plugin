@@ -1,7 +1,7 @@
-# CUSTOMERS — <empresa>
+# CUSTOMERS (X9 — fuera del playbook) — <empresa>
 
 > Quién le compra a esta empresa y cómo decide.
-> Único dueño del comprador. [OFFER.md](OFFER.md) es dueño de lo que se vende;
+> Único dueño del comprador. [OFERTA.md](../mapeo-empresa/01-oferta/OFERTA.md) es dueño de lo que se vende;
 > [SOCIAL.md](SOCIAL.md) es dueño de en qué canal se publica.
 >
 > **Aquí no hay personas ficticias con nombre inventado.** Las bases de clientes son heterogéneas

@@ -1,4 +1,4 @@
-# INTAKE — <empresa>
+# 01-empresa (A2 §5) — <empresa>
 
 > Qué archivos se pidieron, qué llegó, y qué bloquea lo que falta.
 > Se llena en la primera sesión y se actualiza cuando llega algo. Es el registro que hace
@@ -25,16 +25,16 @@ para que el cliente vea el costo de no mandar un archivo, en vez de recibir reco
 | # | Archivo | Qué desbloquea | Qué bloquea si no llega | Estado |
 | --- | --- | --- | --- | --- |
 | 1 | Constancia de situación fiscal (SAT) | Razón social, RFC, régimen y domicilio exactos | Un nombre legal equivocado llega a un contrato | — pendiente — |
-| 2 | Organigrama o lista de nómina con puestos | [PEOPLE.md](PEOPLE.md) completo | Hay que reconstruirlo hablando, y queda marcado como derivado | — pendiente — |
-| 3 | Lista de precios o catálogo | [PRODUCTS.md](PRODUCTS.md) y [SERVICES.md](SERVICES.md) | Toda cifra queda como reportada por el cliente | — pendiente — |
-| 3b | Un contrato o las condiciones publicadas | [OFFER.md](OFFER.md): pago, garantía, cancelación, CFDI | Se cotiza sin términos y se discuten después | — pendiente — |
-| 3c | Reporte de inventario, o dónde se consulta la existencia | La sección de existencia de [PRODUCTS.md](PRODUCTS.md) | Una cotización automática puede prometer lo que no hay | — pendiente — |
+| 2 | Organigrama o lista de nómina con puestos | [01-personas.md](01-personas.md) completo | Hay que reconstruirlo hablando, y queda marcado como derivado | — pendiente — |
+| 3 | Lista de precios o catálogo | [PRODUCTOS.md](01-oferta/PRODUCTOS.md) y [SERVICIOS.md](01-oferta/SERVICIOS.md) | Toda cifra queda como reportada por el cliente | — pendiente — |
+| 3b | Un contrato o las condiciones publicadas | [OFERTA.md](01-oferta/OFERTA.md): pago, garantía, cancelación, CFDI | Se cotiza sin términos y se discuten después | — pendiente — |
+| 3c | Reporte de inventario, o dónde se consulta la existencia | La sección de existencia de [PRODUCTOS.md](01-oferta/PRODUCTOS.md) | Una cotización automática puede prometer lo que no hay | — pendiente — |
 | 4 | Una cotización reciente **real** | El proceso de cotización con sus campos y sistemas reales | El proceso se mapea de oído, con los huecos que eso deja | — pendiente — |
 | 5 | Una factura reciente **real** | El cruce con CFDI y el proceso de facturación | No se sabe dónde entra el SAT | — pendiente — |
-| 6 | Lista de sistemas, o la factura mensual de software | [SYSTEMS.md](SYSTEMS.md) | No se puede cotizar ninguna automatización | — pendiente — |
-| 7 | Manual de marca, o los archivos del logotipo | [DESIGN.md](DESIGN.md) y el logotipo | Se deriva del sitio y queda pendiente de confirmar | — pendiente — |
-| 8 | Cualquier procedimiento escrito, manual o checklist | Los pasos de [PROCESSES.md](PROCESSES.md) sin entrevista | Su ausencia **es** el hallazgo de conocimiento tribal | — pendiente — |
-| 9 | Tres ejemplos reales de objeciones de clientes | [CUSTOMERS.md](CUSTOMERS.md) en palabras del cliente | Se escribe sobre objeciones supuestas | — pendiente — |
+| 6 | Lista de sistemas, o la factura mensual de software | [02-inventario.md](02-inventario.md) | No se puede cotizar ninguna automatización | — pendiente — |
+| 7 | Manual de marca, o los archivos del logotipo | [DESIGN.md](../comunicacion/DESIGN.md) y el logotipo | Se deriva del sitio y queda pendiente de confirmar | — pendiente — |
+| 8 | Cualquier procedimiento escrito, manual o checklist | Los pasos de [03-procesos/INDICE.md](03-procesos/INDICE.md) sin entrevista | Su ausencia **es** el hallazgo de conocimiento tribal | — pendiente — |
+| 9 | Tres ejemplos reales de objeciones de clientes | [CUSTOMERS.md](../comunicacion/CUSTOMERS.md) en palabras del cliente | Se escribe sobre objeciones supuestas | — pendiente — |
 | 10 | Accesos a las cuentas de redes, o quién los tiene | Publicar cualquier cosa | Se produce trabajo que nadie puede publicar | — pendiente — |
 
 **Estados:** `— pendiente —` · `recibido <fecha>` · `no existe` · `existe pero no lo comparten`
@@ -76,6 +76,38 @@ No existe en ningún archivo, así que pedirlo desperdicia una solicitud:
   el trabajo sí
 - Por qué le compran, en palabras del cliente
 - Qué duele hoy, y cuál de esas cosas la dirección quiere resuelta primero
+
+## Organigrama real
+
+El organigrama formal y el real casi nunca coinciden. Nombres, no puestos: quién decide, quién
+ejecuta, quién revisa, quién es externo. El detalle de rol por persona — de qué responde, a quién
+reporta, cómo se le contacta — vive en [01-personas.md](01-personas.md); aquí sólo la estructura de
+mando.
+
+| Nombre | Cómo le dicen | Puesto | Reporta a | Fuente |
+| --- | --- | --- | --- | --- |
+| — pendiente — | | | | |
+
+La columna **fuente** dice de dónde salió la fila: `organigrama 2026-03`, `nómina`, `derivado de la
+conversación`. Seis meses después un dato derivado se lee igual que uno capturado.
+
+## Autoridad — quién puede decir sí
+
+No se toma de un organigrama: se confirma con una persona. En una empresa mexicana la decisión se
+concentra casi siempre en una sola (~21% tiene consejo), y el organigrama apunta con frecuencia a
+alguien que no puede aprobar nada — capturar al delegado equivocado significa que el trabajo se
+aprueba y luego se cae.
+
+| Decisión | Quién la autoriza | Cómo se confirmó | Límite |
+| --- | --- | --- | --- |
+| Afirmaciones públicas (lo que se publica) | — pendiente — | | |
+| Precios y descuentos | — pendiente — | | hasta qué % sin subir |
+| Automatizar un proceso | — pendiente — | | |
+| Dar de alta o quitar accesos | — pendiente — | | |
+| Movimiento de dinero | — pendiente — | | |
+| Contratar o dar de baja | — pendiente — | | |
+
+**Quién decide de verdad:** — pendiente —
 
 ## Pendientes
 

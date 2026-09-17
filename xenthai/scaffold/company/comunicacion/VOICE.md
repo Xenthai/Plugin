@@ -1,4 +1,4 @@
-# VOICE — <empresa>
+# VOICE (X9 — fuera del playbook) — <empresa>
 
 > Cómo suena esta empresa, en reglas que puede seguir alguien que no es dueño de la marca.
 > Este archivo manda sobre la doctrina general de copy del plugin cuando se contradicen.

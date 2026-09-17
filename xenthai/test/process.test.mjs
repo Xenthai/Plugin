@@ -5,7 +5,8 @@ import { fileURLToPath } from "node:url";
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, "..");
 const DOCTRINE = join(ROOT, "capabilities", "process", "doctrine", "PROCESS.md");
-const SCAFFOLD = join(ROOT, "scaffold", "company", "PROCESSES.md");
+const SCAFFOLD_INDICE = join(ROOT, "scaffold", "company", "mapeo-empresa", "03-procesos", "INDICE.md");
+const SCAFFOLD_FICHA = join(ROOT, "scaffold", "company", "mapeo-empresa", "03-procesos", "PXX-nombre.md");
 
 /**
  * English function words that cannot occur inside a Spanish sentence. A company scaffold is read by
@@ -18,7 +19,10 @@ const cases = [];
 const check = (name, fn) => cases.push([name, fn]);
 
 const doctrine = existsSync(DOCTRINE) ? readFileSync(DOCTRINE, "utf8") : "";
-const scaffold = existsSync(SCAFFOLD) ? readFileSync(SCAFFOLD, "utf8") : "";
+const scaffold =
+  (existsSync(SCAFFOLD_INDICE) ? readFileSync(SCAFFOLD_INDICE, "utf8") : "") +
+  "\n" +
+  (existsSync(SCAFFOLD_FICHA) ? readFileSync(SCAFFOLD_FICHA, "utf8") : "");
 
 check("the process doctrine exists", () => [
   doctrine.length > 4096,

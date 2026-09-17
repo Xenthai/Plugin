@@ -1,4 +1,4 @@
-# PROOF — <empresa>
+# PROOF (X9 — fuera del playbook) — <empresa>
 
 > Registro de afirmaciones. Lo único que puede aparecer en un texto público.
 >

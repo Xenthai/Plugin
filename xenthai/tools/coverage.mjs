@@ -1,11 +1,8 @@
 #!/usr/bin/env node
 import { readFileSync, existsSync, readdirSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { join } from "node:path";
 import { readCompany } from "../lib/company.mjs";
-
-const HERE = dirname(fileURLToPath(import.meta.url));
-const PLUGIN = join(HERE, "..");
+import { STORE_DOCUMENTS, familyDir, familyPattern, resolveForCompany } from "../lib/store-layout.mjs";
 
 const HELP = `Xenth AI coverage — what is still missing, who holds it, and whether the next phase may start.
 
@@ -26,32 +23,43 @@ honestly start, not a cosmetic one.
 `;
 
 /**
- * Which track and phase each document belongs to.
+ * Which track and phase each document belongs to, keyed by its bracket-free template path
+ * (`lib/store-layout.mjs`). The playbook code (A2 §3, A3 §2, A7 X2.5…) is the number that survives a
+ * rename; the plugin's own operación 1-5 count is kept beside it because Decision 24 kept it on
+ * purpose — the two answer different questions and neither replaces the other.
  *
  * The two tracks are numbered independently and both have a phase 1. A bare number is ambiguous
  * everywhere in this plugin, so nothing here reports one without its track.
  */
 const PHASE = {
-  "INTAKE.md": ["—", "intake"],
-  "PRESENCE.md": ["comunicacion", 0],
-  "BRAND.md": ["comunicacion", 1],
-  "PROOF.md": ["comunicacion", 1],
-  "DESIGN.md": ["comunicacion", 1],
-  "CUSTOMERS.md": ["comunicacion", 1],
-  "VOICE.md": ["comunicacion", 2],
-  "SOCIAL.md": ["comunicacion", "plan"],
-  "PROFILE.md": ["operacion", 1],
-  "SYSTEMS.md": ["operacion", 3],
-  "PEOPLE.md": ["operacion", 3],
-  "PROCESSES.md": ["operacion", 3],
-  "AUTOMATION-SPEC.md": ["operacion", 5],
-  "OFFER.md": ["—", "offer"],
-  "PRODUCTS.md": ["—", "offer"],
-  "SERVICES.md": ["—", "offer"],
-  "BASELINE.md": ["—", "baseline"],
-  "ROUTINES.md": ["—", "setup"],
-  "AUTOMATIONS.md": ["—", "handover"],
-  "INTERVIEW.md": ["—", "every session"],
+  "mapeo-empresa/00-ESTADO.md": ["operacion", "—"],
+  "mapeo-empresa/00-PERFIL.md": ["operacion", "1 (A2 §3)"],
+  "mapeo-empresa/01-empresa.md": ["operacion", "3 (A2 §5)"],
+  "mapeo-empresa/01-personas.md": ["operacion", "3 (A2 §5)"],
+  "mapeo-empresa/01-oferta/OFERTA.md": ["—", "offer"],
+  "mapeo-empresa/01-oferta/PRODUCTOS.md": ["—", "offer"],
+  "mapeo-empresa/01-oferta/SERVICIOS.md": ["—", "offer"],
+  "mapeo-empresa/02-inventario.md": ["operacion", "3 (A2 §4)"],
+  "mapeo-empresa/03-procesos/INDICE.md": ["operacion", "3 (A2 §7)"],
+  "mapeo-empresa/03-procesos/PXX-nombre.md": ["operacion", "3 (A2 §7)"],
+  "mapeo-empresa/04-evidencia/HALLAZGOS.md": ["operacion", "3 (A2 §6)"],
+  "mapeo-empresa/04-evidencia/fuentes.md": ["operacion", "3 (A2 §6, §9)"],
+  "mapeo-empresa/04-evidencia/ENTREVISTAS.md": ["—", "every session"],
+  "mapeo-empresa/05-backlog.md": ["operacion", "4 (A3 §2)"],
+  "mapeo-empresa/06-specs/AXX-nombre.md": ["operacion", "5 (A7 · X2.5)"],
+  "mapeo-empresa/06-specs/REGISTRO.md": ["—", "handover"],
+  "mapeo-empresa/07-datos/": ["—", "evidence"],
+  "mapeo-empresa/08-linea-base.md": ["—", "baseline"],
+  "mapeo-empresa/09-rutinas.md": ["—", "setup"],
+  "mapeo-empresa/98-COBERTURA.md": ["operacion", "3 (A2 §8)"],
+  "mapeo-empresa/99-preguntas-abiertas.md": ["operacion", "3 (A2 §8)"],
+  "comunicacion/PRESENCE.md": ["comunicacion", "0"],
+  "comunicacion/BRAND.md": ["comunicacion", "1"],
+  "comunicacion/PROOF.md": ["comunicacion", "1"],
+  "comunicacion/DESIGN.md": ["comunicacion", "1"],
+  "comunicacion/CUSTOMERS.md": ["comunicacion", "1"],
+  "comunicacion/VOICE.md": ["comunicacion", "2"],
+  "comunicacion/SOCIAL.md": ["comunicacion", "plan"],
 };
 
 /**
@@ -62,29 +70,41 @@ const PHASE = {
  * blocks every duration downstream. Everything else is recorded, chased, and does not stop the work.
  *
  * Keep this list short. A list where everything blocks says the same thing as a list where nothing
- * does, and gets ignored the same way.
+ * does, and gets ignored the same way. Each document's regexes mechanise an X4 criterion
+ * (`capabilities/method/tables/x4-criteria.md`) where one exists with the same concept — the
+ * wording stays the tool's own regex, never a criterion retyped by hand:
+ *
+ * | Document | X4 criteria mechanised |
+ * | --- | --- |
+ * | `00-PERFIL.md` | PA1, PA2 — the four location questions and the archetype |
+ * | `02-inventario.md` | IT2, IT3, IT4 — who controls each system, integration surface, channel modality |
+ * | `03-procesos/PXX-nombre.md` | PR4, PR6, PR7 — frequency and minutes, exceptions, authorisation thresholds |
+ * | `04-evidencia/HALLAZGOS.md`, `fuentes.md` | ED1, ED2, ED3 — sample and exclusions, the contrast table, unwritten business rules |
+ * | `01-personas.md` | NE6 — single points of failure |
  */
 const BLOCKING = {
-  "PROFILE.md": [/impide vender el doble/i, /arquetipo/i, /unidad de medida/i],
-  "SYSTEMS.md": [/superficie de integraci/i, /modalidad/i],
-  "PROCESSES.md": [
+  "mapeo-empresa/00-PERFIL.md": [/impide vender el doble/i, /arquetipo/i, /unidad de medida/i],
+  "mapeo-empresa/02-inventario.md": [/superficie de integraci/i, /modalidad/i],
+  "mapeo-empresa/03-procesos/PXX-nombre.md": [
     /rol responsable/i,
     /instancias con fecha/i,
     /excepci/i,
-    /aprobaci[oó]n requerida/i,
+    /aprobaci[oó]n requerida|aprueba/i,
     /superficie de integraci/i,
     /veces al mes/i,
     /minutos por vez/i,
   ],
-  "PEOPLE.md": [/[uú]nico punto de falla/i],
-  "AUTOMATION-SPEC.md": [
+  "mapeo-empresa/04-evidencia/HALLAZGOS.md": [/tabla de contrastes/i, /reglas de negocio no escritas/i],
+  "mapeo-empresa/04-evidencia/fuentes.md": [/qu[eé] quedó fuera/i, /autorizaci[oó]n/i],
+  "mapeo-empresa/01-personas.md": [/[uú]nico punto de falla/i],
+  "mapeo-empresa/06-specs/AXX-nombre.md": [
     /criterio/i,
     /identificador [uú]nico/i,
     /qu[eé] pasa si el registro ya existe/i,
     /escal[oó]n objetivo/i,
-    /qu[eé] rol aprueba/i,
+    /aprueba/i,
   ],
-  "BASELINE.md": [/definici[oó]n operativa/i],
+  "mapeo-empresa/08-linea-base.md": [/definici[oó]n operativa/i],
 };
 
 /**
@@ -94,20 +114,20 @@ const BLOCKING = {
  * Roles, never names. People leave, and a name in a generated agenda is personal data.
  */
 const HOLDER = {
-  "PROFILE.md": "quien dirige la empresa",
-  "BRAND.md": "quien dirige la empresa",
-  "OFFER.md": "quien cotiza",
-  "PRODUCTS.md": "quien cotiza",
-  "SERVICES.md": "quien cotiza",
-  "SYSTEMS.md": "quien administra los sistemas — verificado por el consultor",
-  "PEOPLE.md": "quien dirige la empresa",
-  "PROCESSES.md": "quien ejecuta el proceso",
-  "BASELINE.md": "quien ejecuta el proceso",
-  "AUTOMATIONS.md": "quien va a operar la automatización",
-  "AUTOMATION-SPEC.md": "quien administra los sistemas",
-  "INTAKE.md": "quien tenga los archivos",
-  "PRESENCE.md": "el consultor — se observa, no se pregunta",
-  "ROUTINES.md": "quien dirige la empresa",
+  "mapeo-empresa/00-PERFIL.md": "quien dirige la empresa",
+  "comunicacion/BRAND.md": "quien dirige la empresa",
+  "mapeo-empresa/01-oferta/OFERTA.md": "quien cotiza",
+  "mapeo-empresa/01-oferta/PRODUCTOS.md": "quien cotiza",
+  "mapeo-empresa/01-oferta/SERVICIOS.md": "quien cotiza",
+  "mapeo-empresa/02-inventario.md": "quien administra los sistemas — verificado por el consultor",
+  "mapeo-empresa/01-personas.md": "quien dirige la empresa",
+  "mapeo-empresa/03-procesos/PXX-nombre.md": "quien ejecuta el proceso",
+  "mapeo-empresa/08-linea-base.md": "quien ejecuta el proceso",
+  "mapeo-empresa/06-specs/REGISTRO.md": "quien va a operar la automatización",
+  "mapeo-empresa/06-specs/AXX-nombre.md": "quien administra los sistemas",
+  "mapeo-empresa/01-empresa.md": "quien tenga los archivos",
+  "comunicacion/PRESENCE.md": "el consultor — se observa, no se pregunta",
+  "mapeo-empresa/09-rutinas.md": "quien dirige la empresa",
 };
 
 const PENDING = /—\s*pendiente\s*—/g;
@@ -125,13 +145,21 @@ if (args.help) {
   process.exit(0);
 }
 
-const ctx = args.company ? { ok: true, root: args.company, company: null } : readCompany();
+/**
+ * `--company` reads the manifest inside that directory when there is one, exactly as
+ * `tools/scaffold.mjs` does — so every tool agrees on where `mapeo-<nombre>/` actually is.
+ */
+const ctx = args.company
+  ? { ok: true, root: args.company, company: readCompany(args.company).company ?? null }
+  : readCompany();
 if (!ctx.ok) {
   process.stderr.write(
     `no company bound (${ctx.reason}). Pass --company <dir> or run inside an engagement folder.\n`
   );
   process.exit(1);
 }
+
+const companyName = ctx.company?.name ?? null;
 
 /**
  * status.mjs takes a pending row's FIRST CELL as the label, which is right for a two-column field
@@ -191,10 +219,31 @@ const pendingLabels = (text) => {
   return [...new Set(labels)];
 };
 
-const scaffoldDir = join(PLUGIN, "scaffold", "company");
-const expected = readdirSync(scaffoldDir).filter((f) => f.endsWith(".md"));
+/**
+ * The document identifiers this tool reports on: every non-family entry from
+ * `lib/store-layout.mjs`, plus the family templates' own template path (its blocking fields, if
+ * any, apply to every real instance underneath it — checked per instance below).
+ */
+const expected = STORE_DOCUMENTS.map((d) => d.templatePath);
 
 const isBlocking = (doc, label) => (BLOCKING[doc] ?? []).some((re) => re.test(label));
+
+/** A family document's blocking/pending state is the worst across its real instances. */
+const familyRows = (doc) => {
+  const dir = join(ctx.root, ...familyDir(doc.templatePath, companyName).split("/"));
+  if (!existsSync(dir)) return { exists: false, pending: null, labels: [] };
+  const pattern = familyPattern(doc.templatePath);
+  const files = readdirSync(dir).filter((f) => pattern.test(f));
+  if (files.length === 0) return { exists: false, pending: null, labels: [] };
+  let pending = 0;
+  const labels = [];
+  for (const f of files) {
+    const text = readFileSync(join(dir, f), "utf8");
+    pending += (text.match(PENDING) ?? []).length;
+    labels.push(...pendingLabels(text));
+  }
+  return { exists: true, pending, labels: [...new Set(labels)] };
+};
 
 const rows = expected
   .filter((name) => {
@@ -202,22 +251,23 @@ const rows = expected
     return (PHASE[name]?.[0] ?? "—") === args.track;
   })
   .map((name) => {
-    const path = join(ctx.root, name);
-    const exists = existsSync(path);
-    const text = exists ? readFileSync(path, "utf8") : "";
-    const labels = exists ? pendingLabels(text) : [];
+    const doc = STORE_DOCUMENTS.find((d) => d.templatePath === name);
+    let exists;
+    let pending;
+    let labels;
+    if (doc?.family) {
+      ({ exists, pending, labels } = familyRows(doc));
+    } else {
+      const resolved = resolveForCompany(name, companyName);
+      const path = join(ctx.root, ...resolved.split("/"));
+      exists = existsSync(path);
+      const text = exists ? readFileSync(path, "utf8") : "";
+      pending = exists ? (text.match(PENDING) ?? []).length : null;
+      labels = exists ? pendingLabels(text) : [];
+    }
     const blocking = labels.filter((l) => isBlocking(name, l));
     const [track, phase] = PHASE[name] ?? ["—", "—"];
-    return {
-      document: name,
-      track,
-      phase,
-      exists,
-      pending: exists ? (text.match(PENDING) ?? []).length : null,
-      blocking,
-      labels,
-      holder: HOLDER[name] ?? null,
-    };
+    return { document: name, track, phase, exists, pending, blocking, labels, holder: HOLDER[name] ?? null };
   });
 
 /**
@@ -238,20 +288,20 @@ if (args.json) {
 const pad = (s, n) => String(s).padEnd(n);
 process.stdout.write(`\nCoverage — ${ctx.root}\n\n`);
 process.stdout.write(
-  `${pad("DOCUMENT", 22)}${pad("TRACK", 14)}${pad("PHASE", 15)}${pad("PENDING", 9)}${pad("BLOCKING", 10)}HOLDER\n`
+  `${pad("DOCUMENT", 34)}${pad("TRACK", 14)}${pad("PHASE", 18)}${pad("PENDING", 9)}${pad("BLOCKING", 10)}HOLDER\n`
 );
 for (const r of rows) {
   process.stdout.write(
-    pad(r.document, 22) +
+    pad(r.document, 34) +
       pad(r.track, 14) +
-      pad(r.phase, 15) +
+      pad(r.phase, 18) +
       pad(r.exists ? r.pending : "absent", 9) +
       pad(r.exists ? r.blocking.length : "—", 10) +
       (r.holder ?? "—") +
       "\n"
   );
   const show = args.pending ? r.labels : r.blocking;
-  for (const l of show) process.stdout.write(`${" ".repeat(22)}· ${l}\n`);
+  for (const l of show) process.stdout.write(`${" ".repeat(34)}· ${l}\n`);
 }
 
 process.stdout.write(`\nVerdict: ${verdict}\n`);

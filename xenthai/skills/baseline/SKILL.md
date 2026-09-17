@@ -16,7 +16,7 @@ time by a median 47%. There is no second chance to take it.
 | A process is about to be automated, assisted or redesigned | Take the baseline **first**. This is the whole point of the capability |
 | A check-in falls due | Re-record the same measures, same definitions, same boundary. Point-in-time, never trended |
 | Someone asks for a savings or improvement figure | Check what was frozen. No frozen boundary means no publishable figure — say that before offering one |
-| The company has no `PROCESSES.md` yet | Stop. The inventory is `process-map`'s output; there is no denominator and no list of subjects without it |
+| The company has no `03-procesos/` yet | Stop. The inventory is `process-map`'s output; there is no denominator and no list of subjects without it |
 | The question is what happened this month, or how much the AI did | That is `report`, read back from the journal. Come here only for the *before* a comparison needs |
 
 ## Order of work
@@ -34,7 +34,7 @@ time by a median 47%. There is no second chance to take it.
    not get written down.
 5. **Compute coverage** as processes with assisted execution ÷ processes identified, and record
    both numbers.
-6. **Write `BASELINE.md`** in the company's store from the scaffold, in es-MX.
+6. **Write `08-linea-base.md`** in the company's store from the scaffold, in es-MX.
 7. **Journal each measurement** as it is taken, not in one batch at the end.
 
 **Interview the person who does the work, not their manager.** Decision-making in Mexican
@@ -71,32 +71,32 @@ estimate is refused.
 
 ## Record every measurement in the journal
 
-The figure itself lives in `BASELINE.md`. The journal records **what was measured, how many
+The figure itself lives in `08-linea-base.md`. The journal records **what was measured, how many
 instances, over which window, and from which source class** — never the client's numbers.
 
 ```bash
 node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event baseline --capability baseline \
   --why "boundary and metric definitions frozen before any change to <process>" \
-  --target "BASELINE.md#<process>" --detail "layer1 boundary+definitions frozen"
+  --target "08-linea-base.md#<process>" --detail "layer1 boundary+definitions frozen"
 ```
 
 ```bash
 node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event baseline --capability baseline \
   --actor "person:<who measured>" \
   --why "touch time captured for <process> from dated instances walked with the operator" \
-  --target "BASELINE.md#<process>" \
+  --target "08-linea-base.md#<process>" \
   --detail "layer1 metric=touch_time n=4 window=<YYYY-MM> source=walked-instances"
 ```
 
 ```bash
 node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event baseline --capability baseline \
-  --why "state fact counted with independent verification" --target "BASELINE.md#estado" \
+  --why "state fact counted with independent verification" --target "08-linea-base.md#estado" \
   --detail "layer2 fact=named_owner counted=7 of=11 verification=owner+peer-separately"
 ```
 
 ```bash
 node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event baseline --capability baseline \
-  --why "coverage recorded at baseline" --target "BASELINE.md#cobertura" \
+  --why "coverage recorded at baseline" --target "08-linea-base.md#cobertura" \
   --detail "layer3 assisted=0 identified=11"
 ```
 
@@ -110,7 +110,7 @@ node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event blocked --capability base
 
 ## Non-negotiable in what you write
 
-- Every number in `BASELINE.md` is **"medido y evidenciado, autorreportado"**. Never
+- Every number in `08-linea-base.md` is **"medido y evidenciado, autorreportado"**. Never
   *certificado*, never *verificado* — those words require an accreditation nobody here holds.
 - Every throughput or savings figure carries a **paired quality metric** — error, rework or
   rejection — measured on the same instances. Without it, "items processed" inflates by splitting
@@ -121,7 +121,7 @@ node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event blocked --capability base
   visible engagement. Reach, impressions and revenue need platform-side access and are otherwise
   unavailable, not estimated.
 
-Append the conversation to `INTERVIEW.md`: who reported each duration and volume, verbatim, with
+Append the conversation to `04-evidencia/ENTREVISTAS.md`: who reported each duration and volume, verbatim, with
 the date. A self-reported figure is only defensible later if its source is recoverable, and
 recurring-task durations skew high when recalled — the attribution is what makes that correctable.
 
@@ -134,7 +134,7 @@ recurring-task durations skew high when recalled — the attribution is what mak
   it as **client-reported** and say plainly, in the document and to the client, that it cannot
   support a before/after claim. Do not average it, dress it up, or let it become the before.
 - **No process inventory exists.** The denominator for coverage and the list of state-fact subjects
-  are `PROCESSES.md`, written by `process-map` in the operación phase 3 session. Route there rather than
+  are `03-procesos/`, written by `process-map` in the operación phase 3 session. Route there rather than
   inventing an inventory here — an inventory invented while measuring is a denominator chosen to
   suit the numerator.
 - **The intervention has already happened.** Say so. Harvest durable timestamps for the period
@@ -148,4 +148,4 @@ recurring-task durations skew high when recalled — the attribution is what mak
 | `capabilities/company/doctrine/SESSION.md` | Before any session that fills a document by asking a person |
 | `capabilities/baseline/doctrine/MEASUREMENT.md` | Before the first baseline of an engagement; whenever a client questions a metric, an attribution claim, or why there is no single maturity score; before publishing any outcome figure |
 | `capabilities/company/doctrine/MATURITY.md` | Recording the company's level per area — the artefact that proves a level, and who built it |
-| `scaffold/company/BASELINE.md` | Writing or updating the company's own `BASELINE.md` — it is the es-MX structure the director reads |
+| `scaffold/company/mapeo-empresa/08-linea-base.md` | Writing or updating the company's own `08-linea-base.md` — it is the es-MX structure the director reads |

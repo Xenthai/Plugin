@@ -26,6 +26,59 @@ installed from. It identifies exactly one tree, which is what this claim always 
 machines could both write `0.1.0` and hold different code. A row written from a working copy says
 `dev`, which is honest about being unreleasable rather than borrowing a number.
 
+## [0.4.0] - 2026-09-17
+
+The plugin adopts the playbook's own store layout and phase codes. `CONFORMANCE.md` Ruling 3 found
+the divergence: the playbook's A2 §2 lays out `mapeo-<empresa>/00-ESTADO.md … 99-preguntas-
+abiertas.md`, numbered and foldered; the plugin held 21 flat English files with no relation to that
+shape. `packages/method/src/data/store.json` in the Web repository is now the single source for the
+layout, exported into `capabilities/method/method.json`'s `store` dataset, and `lib/store-layout.mjs`
+reads it rather than restating it.
+
+### Changed — the store, foldered and renamed
+
+- **`mapeo-empresa/` and `comunicacion/` replace 21 flat files.** The operación track now mirrors
+  A2 §2 exactly: `00-ESTADO.md` (new, `resume`'s panel), `00-PERFIL.md` (was `PROFILE.md`),
+  `01-empresa.md` (was `INTAKE.md`, now also carrying `PEOPLE.md`'s organigrama and authority
+  sections), `01-personas.md` (new, `PEOPLE.md`'s roles and single points of failure),
+  `01-oferta/OFERTA.md`, `PRODUCTOS.md`, `SERVICIOS.md` (was `OFFER.md`, `PRODUCTS.md`,
+  `SERVICES.md`), `02-inventario.md` (was `SYSTEMS.md`, now also carrying `PEOPLE.md`'s access
+  table), `03-procesos/INDICE.md` and `PXX-nombre.md` (was the single `PROCESSES.md`, split: its
+  inventory table into `INDICE.md`, its per-process ficha into a template one file per process
+  duplicates, its mapa-de-accesos and autorización sections folded into `INDICE.md`),
+  `04-evidencia/HALLAZGOS.md` and `fuentes.md` (new — `EVIDENCE.md`'s "no new document" rule is
+  retired; A2 §2 gives evidence its own two documents), `04-evidencia/ENTREVISTAS.md` (was
+  `INTERVIEW.md`), `05-backlog.md` (new, `PROCESSES.md` §3 dolor priorizado and §6 scoring),
+  `06-specs/AXX-nombre.md` and `REGISTRO.md` (was `AUTOMATION-SPEC.md` and `AUTOMATIONS.md`),
+  `07-datos/` (new, extracts), `08-linea-base.md` (was `BASELINE.md`), `09-rutinas.md` (was
+  `ROUTINES.md`), `98-COBERTURA.md` and `99-preguntas-abiertas.md` (new, A2 §8's rubric and
+  question ledger). `comunicacion/` keeps `BRAND.md`, `VOICE.md`, `PROOF.md`, `DESIGN.md`,
+  `SOCIAL.md`, `PRESENCE.md`, `CUSTOMERS.md` under their English names for now — moving the folder
+  is in scope for this release, translating the files is deferred (`DECISIONS.md` #26).
+- **`tools/scaffold.mjs` materialises the two-folder layout**, resolving `mapeo-empresa/` to
+  `mapeo-<nombre del cliente>/` once a manifest is readable, and a per-process or per-automation
+  document to a real instance name rather than the family template's own placeholder — which it now
+  refuses to write verbatim, since a literal `PXX-nombre.md` in the store can never be found again
+  by its own pattern check.
+- **`tools/status.mjs` and `tools/coverage.mjs` read the store layout from `lib/store-layout.mjs`**
+  instead of a hand-typed map, and both now read the manifest inside an explicit `--company <dir>`
+  the way `scaffold.mjs` always did — a mismatch there would have one tool write documents the other
+  could never find, once the folder name carried the client's own.
+- **Every plugin phase mention carries the playbook's chapter and section beside the plugin's own
+  operación number** (Ruling 4): operación 1 → A2 §3, operación 2 → A2 §6, operación 3 → A2 §7,
+  operación 4 → A3 §2, operación 5 → A7 · X2.5. The plugin's 1-5 count is kept — Decision 24 kept it
+  on purpose — and README.md's "Two tracks" section says how the two numberings relate.
+- **`tools/coverage.mjs`'s `BLOCKING` regexes are cross-referenced against X4** in a table comment
+  rather than a per-entry one — CONTRIBUTING.md's comment rule forbids a comment on an object-literal
+  entry, and the earlier draft broke `test/method.test.mjs`'s regex-literal scan by looking like one
+  itself.
+
+### Fixed
+
+- **`capabilities/company/doctrine/EVIDENCE.md` §6 no longer says "no new document."** That rule
+  predated A2 §2's own `04-evidencia/HALLAZGOS.md` and `fuentes.md`; keeping it would have had this
+  release's own layout contradict this release's own doctrine.
+
 ## [0.3.0] - 2026-09-09
 
 The gaps the plugin's own doctrine already named and nothing filled. `MEASUREMENT.md` said durable

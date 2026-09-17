@@ -1,8 +1,8 @@
-# PRODUCTS — <empresa>
+# 01-oferta/PRODUCTOS (A2 §5) — <empresa>
 
 > Lo que esta empresa vende como cosa: con existencia, proveedor y tiempo de entrega.
 > Único dueño del catálogo de productos. Los términos comerciales que aplican a todo lo que vende
-> —pago, garantía, descuentos, CFDI— viven en [OFFER.md](OFFER.md).
+> —pago, garantía, descuentos, CFDI— viven en [OFERTA.md](OFERTA.md).
 >
 > Si la empresa no vende productos, este archivo se queda vacío y se dice por qué. No se borra:
 > una empresa que hoy sólo da servicio puede empezar a vender algo el año que entra.
@@ -18,7 +18,7 @@
 | — pendiente — | | | | |
 
 **Todo precio lleva vigencia.** Un precio sin fecha se republica un año después, y ese es el mismo
-error que la caducidad de [PROOF.md](PROOF.md) previene para las afirmaciones.
+error que la caducidad de [PROOF.md](../../comunicacion/PROOF.md) previene para las afirmaciones.
 
 La segunda columna es la que se publica. La clave interna casi nunca sirve frente a un cliente.
 
@@ -32,7 +32,7 @@ necesita su propio archivo.
 | — pendiente — | | | | |
 
 La segunda columna es un sistema concreto, y su superficie de integración vive en
-[SYSTEMS.md](SYSTEMS.md). Si la existencia se consulta en una hoja que alguien actualiza a mano
+[02-inventario.md](../02-inventario.md). Si la existencia se consulta en una hoja que alguien actualiza a mano
 los martes, **una cotización automática puede prometer lo que no hay** — y eso es un hallazgo, no
 un detalle.
 

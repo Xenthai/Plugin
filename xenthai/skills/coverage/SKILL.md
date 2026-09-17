@@ -69,7 +69,7 @@ Nobody wants the same question in three meetings. Reorder the whole set by who a
 **Pedirle además:** <documentos o accesos>
 ```
 
-Blocking questions first, then general to specific. **Roles, not names** — `PROCESSES.md` §4's rule
+Blocking questions first, then general to specific. **Roles, not names** — `03-procesos/INDICE.md` §2's rule
 holds here: people leave, and a name makes the row personal data.
 
 ## 5 · Give the verdict, and never advance in silence

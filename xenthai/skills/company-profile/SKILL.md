@@ -1,6 +1,6 @@
 ---
 name: company-profile
-description: Run operación phase 1 — decide what kind of business this actually is before mapping it, by placing it in an operating archetype, capturing the trade's vocabulary and naming which processes phase 3 should hunt for. Use when a company is bound and PROFILE.md does not exist, when nobody on the team has worked this trade before, when the client's sector label says nothing useful about how their day runs, or when a mapping session is about to start with no idea what to look for. Not the sector field on BRAND.md, which social-identity captures for the regulator. For requesting the company's own documents use company-intake; for deriving quantities from them use company-evidence.
+description: Run operación phase 1 — decide what kind of business this actually is before mapping it, by placing it in an operating archetype, capturing the trade's vocabulary and naming which processes phase 3 should hunt for. Use when a company is bound and 00-PERFIL.md does not exist, when nobody on the team has worked this trade before, when the client's sector label says nothing useful about how their day runs, or when a mapping session is about to start with no idea what to look for. Not the sector field on BRAND.md, which social-identity captures for the regulator. For requesting the company's own documents use company-intake; for deriving quantities from them use company-evidence.
 ---
 
 # Operación phase 1 — profile and archetype
@@ -9,7 +9,7 @@ description: Run operación phase 1 — decide what kind of business this actual
 archetypes, what each one changes downstream, and the rule for a trade nobody understands. Do not
 re-derive any of it here.
 
-Deliverable: `PROFILE.md` in the company store, in es-MX, from `scaffold/company/PROFILE.md`. One
+Deliverable: `00-PERFIL.md` in the company store, in es-MX, from `scaffold/company/mapeo-empresa/00-PERFIL.md`. One
 session, forty-five to sixty minutes.
 
 ## 1 · Bind the company, and name it aloud
@@ -23,7 +23,7 @@ for one — never write a profile into the plugin's own tree.
 
 ```bash
 node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event phase_start --capability company \
-  --why "operacion phase 1 profile — archetype and glossary" --target "PROFILE.md"
+  --why "operacion phase 1 profile — archetype and glossary" --target "00-PERFIL.md"
 ```
 
 ## 2 · Read the trade before the room, when the trade is unfamiliar
@@ -32,7 +32,7 @@ If nobody on the engagement has worked this kind of business, spend the half hou
 chain, the unit the trade measures itself in, the software it actually runs in this country, its
 regulator, its standard metrics, its season.
 
-Record what was read and what was learned in `PROFILE.md`. **Mark every line of it as a hypothesis
+Record what was read and what was learned in `00-PERFIL.md`. **Mark every line of it as a hypothesis
 about the trade, never as a fact about this company**, and confirm each one in the room. Arriving
 with a printed list of "your processes" and reading it out replaces a diagnosis with a template, and
 the client can tell.
@@ -73,7 +73,7 @@ one phase 3 maps first.
 ## 6 · Write the adapted plan
 
 The part that makes the profile worth a session rather than a form. From the doctrine's §3 table,
-write into `PROFILE.md`:
+write into `00-PERFIL.md`:
 
 - Which support activities this archetype forgets, so phase 3 goes looking for them by name.
 - Where this archetype's durable evidence lives, which is phase 2's shopping list.
@@ -91,9 +91,9 @@ ready. `company-intake` owns the request; this session names what to request.
 
 ```bash
 node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event delivery --capability company \
-  --why "operacion phase 1 profile captured" --target "PROFILE.md"
+  --why "operacion phase 1 profile captured" --target "00-PERFIL.md"
 node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event phase_end --capability company \
-  --why "operacion phase 1 complete, archetype assigned" --target "PROFILE.md"
+  --why "operacion phase 1 complete, archetype assigned" --target "00-PERFIL.md"
 ```
 
 Never put the archetype, the trade, a process name or any client content in `--why` or `--detail`.
@@ -124,5 +124,5 @@ Company files change through `Write` and `Edit` only. `capabilities/company/doct
 | `capabilities/company/doctrine/PROFILE.md` | Before the session, always. The four questions, the six archetypes, the glossary rule |
 | `capabilities/company/doctrine/SESSION.md` | Before any session that fills a document by asking a person |
 | `capabilities/company/doctrine/REGULATORS-MX.md` | When the trade's regulator has to be named |
-| `scaffold/company/PROFILE.md` | At the start of writing — it is the skeleton to copy |
+| `scaffold/company/mapeo-empresa/00-PERFIL.md` | At the start of writing — it is the skeleton to copy |
 | `skills/company-evidence/SKILL.md` | Only to say what comes next. Never run it in this session |

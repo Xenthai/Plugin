@@ -1,4 +1,4 @@
-# SOCIAL — <empresa>
+# SOCIAL (X9 — fuera del playbook) — <empresa>
 
 > Dónde publica esta empresa, con qué ritmo, sobre qué, y a quién le habla.
 

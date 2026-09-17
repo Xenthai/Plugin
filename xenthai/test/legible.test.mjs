@@ -1,6 +1,6 @@
 import { spawnSync } from "node:child_process";
 import { mkdirSync, readdirSync, rmSync, writeFileSync } from "node:fs";
-import { basename, dirname, join } from "node:path";
+import { basename, dirname, join, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { FLOOR, TARGET, measure, prose, sentences, syllables } from "../tools/legible.mjs";
@@ -169,7 +169,7 @@ check("--json carries the floor, the target and every term of the formula", () =
  */
 check("an English document is refused rather than scored, in both directions", () => {
   const english = run([join(ROOT, "INSTALL.md")]);
-  const spanish = run([join(ROOT, "scaffold", "company", "ROUTINES.md")]);
+  const spanish = run([join(ROOT, "scaffold", "company", "mapeo-empresa", "09-rutinas.md")]);
   return [
     english.status === 2 &&
       /does not read as Spanish/.test(english.stderr) &&
@@ -196,9 +196,17 @@ check("--help exits 0 and names the real test rather than only the score", () =>
  * would push a client-facing document under it silently.
  */
 check("every scaffold the client receives stays at or above the floor", () => {
-  const files = readdirSync(join(ROOT, "scaffold", "company"))
+  /**
+   * A folder-index note, not a data-capturing document — too short for the scale to say anything
+   * ("fragments of at least 500 words"), and padding it with filler prose to clear a word count
+   * would be the fabrication the floor itself exists to catch.
+   */
+  const NO_PROSE = ["mapeo-empresa/07-datos/README.md"];
+  const files = readdirSync(join(ROOT, "scaffold", "company"), { recursive: true })
     .filter((f) => f.endsWith(".md"))
-    .map((f) => join(ROOT, "scaffold", "company", f));
+    .map((f) => f.split(sep).join("/"))
+    .filter((f) => !NO_PROSE.includes(f))
+    .map((f) => join(ROOT, "scaffold", "company", ...f.split("/")));
   const r = run([...files, "--json"]);
   let d = null;
   try {

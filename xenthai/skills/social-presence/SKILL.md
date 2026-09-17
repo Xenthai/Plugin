@@ -27,7 +27,7 @@ is.
 
 ## The document is append-only
 
-Copy `scaffold/company/PRESENCE.md` into the store and fill it. Then treat it as a ledger:
+Copy `scaffold/company/comunicacion/PRESENCE.md` into the store and fill it. Then treat it as a ledger:
 
 - **A dated observation is never edited.** When something changes, add a row to §3 and a row to the
   capture history. Correcting September's figure in December destroys the before.
@@ -101,7 +101,7 @@ node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event baseline --capability soc
   --target "PRESENCE.md"
 ```
 
-Append the conversation to `INTERVIEW.md` — who confirmed which account is official, and who did
+Append the conversation to `04-evidencia/ENTREVISTAS.md` — who confirmed which account is official, and who did
 not recognise one. **A senior person not recognising an account is itself the finding**, and it is
 only recoverable if the exchange was written down.
 

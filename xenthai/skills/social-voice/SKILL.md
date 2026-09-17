@@ -87,7 +87,7 @@ node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event phase_end --capability so
 
 Company files change through `Write` and `Edit` only. `capabilities/company/doctrine/CONTROLS.md` carries why, and what the guard refuses versus merely records.
 
-Append the conversation to `INTERVIEW.md`, including the phrases the client rejected. A rejected
+Append the conversation to `04-evidencia/ENTREVISTAS.md`, including the phrases the client rejected. A rejected
 phrase is the most reusable output of a voice session — it is what stops the same wording being
 proposed again next quarter.
 

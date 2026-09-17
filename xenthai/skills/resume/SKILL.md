@@ -63,17 +63,17 @@ involves asking a person anything.
 | What `status` shows | The phase that is live | Hand off to |
 | --- | --- | --- |
 | No documents at all | Nothing has started | `company-intake` — the file request, which needs nobody present |
-| Documents exist, no `INTAKE.md` | Prior work was adopted, intake never ran | `company-intake`, and read `INTAKE.md` doctrine first: those documents are adopted, not captured |
+| Documents exist, no `01-empresa.md` | Prior work was adopted, intake never ran | `company-intake`, and read `01-empresa.md` doctrine first: those documents are adopted, not captured |
 | `PRESENCE.md` absent | The perishable before was never captured | `social-presence`, before anything is produced |
 | `BRAND.md` absent | Comunicación phase 1 | `social-identity` |
 | `BRAND.md` filled, `VOICE.md` absent | Comunicación phase 2 | `social-voice` |
 | `VOICE.md` filled, `SOCIAL.md` absent | The editorial plan | `social-plan` |
-| `PROFILE.md` absent | Operación phase 1 | `company-profile` |
-| `PROFILE.md` filled, `PROCESSES.md` absent, folders or mail reachable | Operación phase 2 | `company-evidence` |
-| `PROCESSES.md` absent | Operación phase 3 | `process-map` |
-| `PROCESSES.md` exists, its pain and access sections pending | Operación phase 4 | `process-access` |
+| `00-PERFIL.md` absent | Operación phase 1 | `company-profile` |
+| `00-PERFIL.md` filled, `03-procesos/` absent, folders or mail reachable | Operación phase 2 | `company-evidence` |
+| `03-procesos/` absent | Operación phase 3 | `process-map` |
+| `03-procesos/` exists, its pain and access sections pending | Operación phase 4 | `process-access` |
 | Shortlist scored, a candidate approved by name and date | Operación phase 5 | `automate-spec` |
-| `BASELINE.md` absent while a process is about to change | The before, and it is perishable | `baseline`, now rather than after |
+| `08-linea-base.md` absent while a process is about to change | The before, and it is perishable | `baseline`, now rather than after |
 | Everything filled, months of journal | The engagement is running | `report` for the cadence that is due, `opportunities` for what to improve next |
 | Anyone asks what is still missing, or a phase is about to start | Not a phase — a check | `coverage`, which answers with questions rather than counts |
 

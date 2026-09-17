@@ -20,7 +20,7 @@ reading all of them. A biweekly report carries no outcome claim, because two wee
 instances for a median to mean anything; a quarterly one may, because that is the shortest window
 in which most mapped processes accumulate enough.
 
-The company's agreed cadences are in its `ROUTINES.md`. A cadence not activated there does not get
+The company's agreed cadences are in its `09-rutinas.md`. A cadence not activated there does not get
 a report.
 
 **Start from the template, never from a blank page.** `capabilities/report/templates/` holds one
@@ -69,7 +69,7 @@ Two things follow, and neither is optional:
 
 | Trigger | What the client is really asking |
 | --- | --- |
-| A cadence in `ROUTINES.md` comes due | Whatever that cadence's question is. Do not answer a different one |
+| A cadence in `09-rutinas.md` comes due | Whatever that cadence's question is. Do not answer a different one |
 | End of a month | "Did we get what we paid for?" |
 | Before a review or renewal | "Is this worth continuing?" |
 | "How much of this did the AI do?" | An output number — give it, but never alone |
@@ -125,7 +125,7 @@ not cycle time, unmatched review starts make it a floor, and an unnamed approval
 
 | Metric | Where it comes from | What it proves | How it fails |
 | --- | --- | --- | --- |
-| The client's own process measure, before and now | `BASELINE.md` in the company store | Improvement, in the client's own unit | Missing baseline, or a unit redefined between the two readings |
+| The client's own process measure, before and now | `08-linea-base.md` in the company store | Improvement, in the client's own unit | Missing baseline, or a unit redefined between the two readings |
 | Automation runs paired with human escalations | This tool, one cell | The system ran *and* a person still holds the decisions | Escalations at zero — nothing was ever handed back, which is a finding, not a success |
 | The unauthorized-action sentence | This tool, generated from the check that ran | That nothing recorded went outside the bound folder | Presenting it as proof of absence; the journal holds only what passed through the plugin |
 
@@ -168,7 +168,7 @@ node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event delivery --capability rep
 
 ## STOP conditions
 
-- **No `BASELINE.md` exists.** Say explicitly, in the report: this describes **activity**, not
+- **No `08-linea-base.md` exists.** Say explicitly, in the report: this describes **activity**, not
   **improvement**. The distinction matters because an activity count is fully compatible with the
   process having got worse, so without a before-measure any improvement claim is the client's own
   estimate wearing a measurement's clothes — and that estimate is reliably wrong in the direction
@@ -188,7 +188,7 @@ node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event delivery --capability rep
 | File | Open it when |
 | --- | --- |
 | `capabilities/company/doctrine/SCHEDULING.md` | A routine is about to be proposed or created — where it runs, and the stall that silences it |
-| `<store>/BASELINE.md` | Always, before writing anything about improvement |
+| `<store>/08-linea-base.md` | Always, before writing anything about improvement |
 | `capabilities/company/doctrine/MATURITY.md` | The quarterly re-measure of level, and the annual question of whose level actually moved |
 | `<store>/PROOF.md` | The report will carry a figure or name the client might republish |
 | `<store>/journal/execution/<YYYY-MM>.jsonl` | A figure looks wrong and you need the rows behind it |

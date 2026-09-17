@@ -1,12 +1,12 @@
 ---
 name: process-access
-description: Run the operación phase 4 session — the Mapeo integral — that ranks a company's process pain, records who owns each system and account and what access they can grant, establishes who authorises an automation and what it must never do, and produces a scored automation shortlist. Use when PROCESSES.md exists but its pain, access and authorisation sections are pending, or when the client asks what to automate first or what it would cost. One session. Requires the phase 3 inventory — if PROCESSES.md does not exist yet, use process-map instead.
+description: Run the operación phase 4 session — the Mapeo integral — that ranks a company's process pain, records who owns each system and account and what access they can grant, establishes who authorises an automation and what it must never do, and produces a scored automation shortlist. Use when 03-procesos/ exists but its pain, access and authorisation sections are pending, or when the client asks what to automate first or what it would cost. One session. Requires the phase 3 inventory — if 03-procesos/ does not exist yet, use process-map instead.
 ---
 
 # Operación phase 4 — Mapeo integral: pain, access, authority, shortlist
 
 **Read `capabilities/process/doctrine/PROCESS.md` first**, then the company's existing
-`PROCESSES.md`. This session extends that document; it never rewrites the inventory.
+`03-procesos/`. This session extends that document; it never rewrites the inventory.
 
 Four outputs, in this order. The order matters: the shortlist is worthless if the authority to act
 on it was never established.
@@ -105,26 +105,26 @@ exceptions were never captured cannot be quoted — say so and offer the capture
 
 ## Writing the deliverable
 
-Extend `PROCESSES.md` in the company store with `Edit` — never a shell redirect, which the company
+Extend `03-procesos/` in the company store with `Edit` — never a shell redirect, which the company
 guard cannot see. Leave every unanswered cell as `— pendiente —`.
 
 ```bash
 node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event delivery --capability process \
-  --why "operacion phase 4 access map and scored shortlist captured" --target "PROCESSES.md"
+  --why "operacion phase 4 access map and scored shortlist captured" --target "03-procesos/"
 node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event phase_end --capability process \
-  --why "operacion phase 4 mapeo integral complete" --target "PROCESSES.md"
+  --why "operacion phase 4 mapeo integral complete" --target "03-procesos/"
 ```
 
 Record the authorisation separately when it is given, naming the person:
 
 ```bash
 node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event approval --actor "person:<name>" \
-  --capability process --why "authorised the automation shortlist" --target "PROCESSES.md"
+  --capability process --why "authorised the automation shortlist" --target "03-procesos/"
 ```
 
 Never put a process name, a system name tied to a client, or any credential in `--why` or `--detail`.
 
-Append the conversation to `INTERVIEW.md`: who ranked the pain, who stated each authorisation, and
+Append the conversation to `04-evidencia/ENTREVISTAS.md`: who ranked the pain, who stated each authorisation, and
 the date. Never the credential itself — record the role that holds it.
 
 ## Then close the mapping — two things, in this order
@@ -134,7 +134,7 @@ optional, and the order matters.
 
 ### 1. The record of the before, signed
 
-Produce the mapping-completion report from `BASELINE.md`, `PRESENCE.md` and `PROCESSES.md`. It
+Produce the mapping-completion report from `08-linea-base.md`, `PRESENCE.md` and `03-procesos/`. It
 contains **no achievement**, because nothing has happened yet — every measure with its definition
 verbatim, its source, its measurement date and who measured it; what is documented versus
 client-reported; what could not be measured and why; and the scope statement saying what a later
@@ -147,14 +147,14 @@ earlier.
 
 ```bash
 node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event approval --actor "person:<name>" \
-  --capability baseline --why "starting numbers agreed at end of mapping" --target "BASELINE.md"
+  --capability baseline --why "starting numbers agreed at end of mapping" --target "08-linea-base.md"
 ```
 
 ### 2. Propose the reporting routine
 
-`ROUTINES.md` exists already — `company-new` writes it at setup, with the digest routine in it. **Fill
+`09-rutinas.md` exists already — `company-new` writes it at setup, with the digest routine in it. **Fill
 the cadences in that file; never write a scaffold over it.** If it is genuinely absent,
-`tools/scaffold.mjs --document ROUTINES.md` creates it and refuses to overwrite.
+`tools/scaffold.mjs --document mapeo-empresa/09-rutinas.md` creates it and refuses to overwrite.
 
 **Read `capabilities/report/doctrine/REPORTING.md` first** — it says what each cadence may and may
 not claim, and why the quarterly is the first that can report a result at all.
@@ -171,7 +171,7 @@ Two things to say while proposing, because they are what make the routine truste
 - **Name what no report will ever contain** — hours saved, reach, revenue, a causal magnitude —
   now, while proposing, rather than when someone asks for a number that does not exist.
 
-Fill `ROUTINES.md` §4: **a report with no named recipient does not get read, and "management" is not
+Fill `09-rutinas.md` §4: **a report with no named recipient does not get read, and "management" is not
 a recipient.**
 
 ## STOP conditions
@@ -199,5 +199,5 @@ a recipient.**
 | `capabilities/company/doctrine/SESSION.md` | Before any session that fills a document by asking a person |
 | `capabilities/process/doctrine/PROCESS.md` | Before the session, always. §4 governance fields and §5 scoring provenance are the two you will use most |
 | `capabilities/company/doctrine/MATURITY.md` | Closing the mapping — the six-month phase framework and what each phase owes |
-| The company's `PROCESSES.md` | Before asking anything — operación phase 3 already captured the systems and exceptions this session builds on |
-| `skills/process-map/SKILL.md` | Only if `PROCESSES.md` turns out to be missing. Then stop and run operación phase 3 in its own session |
+| The company's `03-procesos/` | Before asking anything — operación phase 3 already captured the systems and exceptions this session builds on |
+| `skills/process-map/SKILL.md` | Only if `03-procesos/` turns out to be missing. Then stop and run operación phase 3 in its own session |

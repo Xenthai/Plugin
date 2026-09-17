@@ -76,7 +76,7 @@ drawn. Six months later nobody can tell which shapes were told to us and which w
 So: **one structured table per process — every field its own column, split into thematic blocks so
 that no single block becomes too wide to read — with `— pendiente —` in anything not captured.** A
 twenty-column table is as unreadable as a diagram is unauditable; the blocks are how both are
-avoided. `scaffold/company/PROCESSES.md` is the shape.
+avoided. `scaffold/company/mapeo-empresa/03-procesos/INDICE.md` is the shape.
 
 ---
 
@@ -271,6 +271,6 @@ so the list cannot travel without it.
 
 | File | Read it when |
 | --- | --- |
-| `scaffold/company/PROCESSES.md` | Starting operación phase 3 — copy it into the company store as the inventory's skeleton |
+| `scaffold/company/mapeo-empresa/03-procesos/INDICE.md` | Starting operación phase 3 — copy it into the company store as the inventory's skeleton |
 | `skills/process-map/SKILL.md` | Running operación phase 3, the inventory session |
 | `skills/process-access/SKILL.md` | Running operación phase 4, the pain, access and shortlist session |

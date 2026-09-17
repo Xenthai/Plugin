@@ -1,8 +1,8 @@
 {
   "source": {
     "repo": "Xenthai/Web",
-    "commit": "a5c49154ed0556a2b897246bff8965375e591af3",
-    "committedAt": "2026-09-17T15:04:56-06:00"
+    "commit": "eb0e0c9d8275580302fea2e08d804b13e0591116",
+    "committedAt": "2026-09-17T15:17:17-06:00"
   },
   "datasets": {
     "phases": {
@@ -2924,121 +2924,242 @@
           "id": "mapeo-estado",
           "source": {
             "chapter": "A2",
-            "section": "Artefactos que deja"
+            "section": "S2"
           },
-          "path": "00-ESTADO.md",
-          "contents": "Avance por sub-fase, pendientes que bloquean, decisiones y por quién",
+          "path": "mapeo-<empresa>/00-ESTADO.md",
+          "contents": "Panel de control. Avance por sub-fase, pendientes que bloquean, decisiones y por quién. Se regenera completo al cerrar cada sesión.",
           "signedBy": "Consultor responsable",
-          "ownerSkill": "mapeo-inicio"
+          "ownerSkill": "resume"
         },
         {
           "id": "mapeo-perfil",
           "source": {
             "chapter": "A2",
-            "section": "Artefactos que deja"
+            "section": "S3"
           },
-          "path": "00-PERFIL.md",
-          "contents": "Cuatro respuestas, arquetipo justificado, glosario y plan adaptado",
+          "path": "mapeo-<empresa>/00-PERFIL.md",
+          "contents": "Cuatro respuestas, arquetipo justificado, glosario del giro y plan adaptado",
           "signedBy": "Consultor · validado por dirección",
-          "ownerSkill": "mapeo-perfil"
-        },
-        {
-          "id": "mapeo-inventario",
-          "source": {
-            "chapter": "A2",
-            "section": "Artefactos que deja"
-          },
-          "path": "02-inventario.md",
-          "contents": "Sistemas, accesos, costo de la pila, integrabilidad y modalidad de canales",
-          "signedBy": "Responsable de sistemas del cliente",
-          "ownerSkill": "mapeo-inventario"
+          "ownerSkill": "company-profile"
         },
         {
           "id": "mapeo-empresa",
           "source": {
             "chapter": "A2",
-            "section": "Artefactos que deja"
+            "section": "S5"
           },
-          "path": "01-empresa.md",
-          "contents": "Ingreso por línea, organigrama real, restricción principal, clientes, intentos fallidos",
+          "path": "mapeo-<empresa>/01-empresa.md",
+          "contents": "Brief de negocio: ingreso por línea, restricción principal de crecimiento, clientes, estacionalidad e intentos fallidos, más la sección de organigrama real (dueños de la relación, no del org chart formal)",
           "signedBy": "Dirección general del cliente",
-          "ownerSkill": "mapeo-negocio"
+          "ownerSkill": "company-intake"
         },
         {
-          "id": "mapeo-evidencia-hallazgos",
+          "id": "mapeo-personas",
           "source": {
             "chapter": "A2",
-            "section": "Artefactos que deja"
+            "section": "S5"
           },
-          "path": "04-evidencia/HALLAZGOS.md",
-          "contents": "Cifras reales con método de cálculo, tabla de contrastes, reglas no escritas, y los extractos en 07-datos/",
-          "signedBy": "Consultor responsable",
-          "ownerSkill": "mapeo-evidencia"
+          "path": "mapeo-<empresa>/01-personas.md",
+          "contents": "Roles, de qué responde cada uno y los cuellos de botella de una sola persona por proceso",
+          "signedBy": "Dirección general del cliente",
+          "ownerSkill": "process-map"
         },
         {
-          "id": "mapeo-evidencia-fuentes",
+          "id": "mapeo-oferta",
           "source": {
             "chapter": "A2",
-            "section": "Artefactos que deja"
+            "section": "S5"
           },
-          "path": "04-evidencia/fuentes.md",
-          "contents": "Qué se revisó, cuándo, con qué muestra, qué quedó fuera y quién autorizó",
-          "signedBy": "Cliente y XenthAI",
-          "ownerSkill": "mapeo-evidencia"
+          "path": "mapeo-<empresa>/01-oferta/OFERTA.md",
+          "contents": "Términos comerciales que aplican a todo lo que vende la empresa: precio, descuento y su límite de autorización",
+          "signedBy": "Dirección general del cliente",
+          "ownerSkill": "company-offer"
         },
         {
-          "id": "mapeo-procesos-ficha",
+          "id": "mapeo-oferta-productos",
           "source": {
             "chapter": "A2",
-            "section": "Artefactos que deja"
+            "section": "S5"
           },
-          "path": "03-procesos/PXX-*.md",
-          "contents": "Pasos, volumen, tiempo, costo, excepciones y veredicto de higiene",
-          "signedBy": "Dueño del proceso",
-          "ownerSkill": "mapeo-procesos"
+          "path": "mapeo-<empresa>/01-oferta/PRODUCTOS.md",
+          "contents": "Lo que la empresa vende como cosa: existencia, proveedor y tiempo de entrega",
+          "signedBy": "Dirección general del cliente",
+          "ownerSkill": "company-offer"
+        },
+        {
+          "id": "mapeo-oferta-servicios",
+          "source": {
+            "chapter": "A2",
+            "section": "S5"
+          },
+          "path": "mapeo-<empresa>/01-oferta/SERVICIOS.md",
+          "contents": "Lo que la empresa vende como trabajo: entregable, duración y quién lo ejecuta",
+          "signedBy": "Dirección general del cliente",
+          "ownerSkill": "company-offer"
+        },
+        {
+          "id": "mapeo-inventario",
+          "source": {
+            "chapter": "A2",
+            "section": "S4"
+          },
+          "path": "mapeo-<empresa>/02-inventario.md",
+          "contents": "Sistemas, quién los controla, costo de la pila, semáforo de integrabilidad y modalidad exacta de cada canal",
+          "signedBy": "Responsable de sistemas del cliente",
+          "ownerSkill": "process-map"
         },
         {
           "id": "mapeo-procesos-indice",
           "source": {
             "chapter": "A2",
-            "section": "Artefactos que deja"
+            "section": "S7"
           },
-          "path": "03-procesos/INDICE.md",
+          "path": "mapeo-<empresa>/03-procesos/INDICE.md",
           "contents": "Procesos ordenados por costo mensual descendente. Entrada directa de A3",
           "signedBy": "Consultor responsable",
-          "ownerSkill": "mapeo-procesos"
+          "ownerSkill": "process-map"
+        },
+        {
+          "id": "mapeo-procesos-ficha",
+          "source": {
+            "chapter": "A2",
+            "section": "S7"
+          },
+          "path": "mapeo-<empresa>/03-procesos/PXX-<nombre>.md",
+          "contents": "Un archivo por proceso: dueño, disparador, pasos, frecuencia, volumen, horas-persona, costo, excepciones, reglas no escritas, evidencia y veredicto de higiene. process-map lo escribe; process-access lo profundiza con dolor, accesos y autorización",
+          "signedBy": "Dueño del proceso",
+          "ownerSkill": "process-map"
+        },
+        {
+          "id": "mapeo-evidencia-hallazgos",
+          "source": {
+            "chapter": "A2",
+            "section": "S6"
+          },
+          "path": "mapeo-<empresa>/04-evidencia/HALLAZGOS.md",
+          "contents": "Cifras reales con método de cálculo, tabla de contrastes entre lo declarado y lo evidenciado, y reglas de negocio no escritas",
+          "signedBy": "Consultor responsable",
+          "ownerSkill": "company-evidence"
+        },
+        {
+          "id": "mapeo-evidencia-fuentes",
+          "source": {
+            "chapter": "A2",
+            "section": "S6"
+          },
+          "path": "mapeo-<empresa>/04-evidencia/fuentes.md",
+          "contents": "Qué se revisó, cuándo, con qué muestra, qué quedó fuera y quién autorizó el acceso",
+          "signedBy": "Cliente y XenthAI",
+          "ownerSkill": "company-evidence"
+        },
+        {
+          "id": "mapeo-evidencia-entrevistas",
+          "source": {
+            "chapter": "A2",
+            "section": "S5"
+          },
+          "path": "mapeo-<empresa>/04-evidencia/ENTREVISTAS.md",
+          "contents": "Lo que dijo cada persona, con quién y cuándo. Fuente citable para cualquier otro documento; nada se publica desde aquí sin pasar por PROOF.md. Toda skill que entrevista escribe aquí",
+          "signedBy": "Consultor responsable",
+          "ownerSkill": "company-intake"
+        },
+        {
+          "id": "mapeo-backlog",
+          "source": {
+            "chapter": "A3",
+            "section": "S2"
+          },
+          "path": "mapeo-<empresa>/05-backlog.md",
+          "contents": "Lista corta priorizada: dolor (§3) y puntaje de viabilidad X3 (§6) de la ficha de proceso, ordenados para decisión de portafolio",
+          "signedBy": "Consultor responsable",
+          "ownerSkill": "process-access"
+        },
+        {
+          "id": "mapeo-specs",
+          "source": {
+            "chapter": "A7",
+            "section": "X2.5"
+          },
+          "path": "mapeo-<empresa>/06-specs/<AXX>-<nombre>.md",
+          "contents": "Una especificación por automatización aprobada, completa para que la construya alguien que no estuvo en la sala",
+          "signedBy": "Aprobada por el rol responsable",
+          "ownerSkill": "automate-spec"
+        },
+        {
+          "id": "mapeo-specs-registro",
+          "source": {
+            "chapter": "A7",
+            "section": "S8"
+          },
+          "path": "mapeo-<empresa>/06-specs/REGISTRO.md",
+          "contents": "Inventario de automatizaciones entregadas: qué corre sola, qué hace al equivocarse, a quién escala y cómo se apaga",
+          "signedBy": "Consultor responsable",
+          "ownerSkill": "automate-handover"
+        },
+        {
+          "id": "mapeo-datos",
+          "source": {
+            "chapter": "A2",
+            "section": "S6"
+          },
+          "path": "mapeo-<empresa>/07-datos/",
+          "contents": "Extractos y muestras citadas desde HALLAZGOS.md: 15 a 30 documentos representativos por proceso o transacción",
+          "signedBy": "Consultor responsable",
+          "ownerSkill": "company-evidence"
+        },
+        {
+          "id": "mapeo-linea-base",
+          "source": {
+            "chapter": "A8",
+            "section": "S1"
+          },
+          "path": "mapeo-<empresa>/08-linea-base.md",
+          "contents": "El antes de la operación, medido mientras existía. Autorreportado y evidenciado, nunca certificado ni verificado",
+          "signedBy": "Consultor responsable",
+          "ownerSkill": "baseline"
+        },
+        {
+          "id": "mapeo-rutinas",
+          "source": {
+            "chapter": "A7",
+            "section": "S5"
+          },
+          "path": "mapeo-<empresa>/09-rutinas.md",
+          "contents": "Tareas planeadas y su periodicidad, acordadas una vez y corriendo sin volver a pedir permiso",
+          "signedBy": "Cliente, con nombre y puesto de quien acordó",
+          "ownerSkill": "company-new"
         },
         {
           "id": "mapeo-cobertura",
           "source": {
             "chapter": "A2",
-            "section": "Artefactos que deja"
+            "section": "S8"
           },
-          "path": "98-COBERTURA.md",
-          "contents": "Rúbrica X4 calificada con los cuatro niveles de evidencia y veredicto",
+          "path": "mapeo-<empresa>/98-COBERTURA.md",
+          "contents": "Rúbrica X4 calificada con los cuatro niveles de evidencia y el veredicto de avance",
           "signedBy": "Consultor responsable",
-          "ownerSkill": "mapeo-cobertura"
+          "ownerSkill": "coverage"
         },
         {
           "id": "mapeo-preguntas-abiertas",
           "source": {
             "chapter": "A2",
-            "section": "Artefactos que deja"
+            "section": "S8"
           },
-          "path": "99-preguntas-abiertas.md",
-          "contents": "Huecos convertidos en preguntas literales, agrupadas por persona",
+          "path": "mapeo-<empresa>/99-preguntas-abiertas.md",
+          "contents": "Huecos convertidos en preguntas literales, agrupadas por persona con el tiempo estimado de conversación",
           "signedBy": "Consultor responsable",
-          "ownerSkill": "mapeo-cobertura"
+          "ownerSkill": "coverage"
         }
       ],
       "communicationDocuments": [
         {
           "id": "comms-brand",
           "source": {
-            "chapter": "scaffold/company",
-            "section": "BRAND.md"
+            "chapter": "X9",
+            "section": "fuera del playbook"
           },
-          "path": "BRAND.md",
+          "path": "comunicacion/BRAND.md",
           "contents": "Quién es la empresa, a quién le vende y qué nunca dice.",
           "signedBy": "quién firma las afirmaciones públicas",
           "ownerSkill": "social-identity"
@@ -3046,10 +3167,10 @@
         {
           "id": "comms-voice",
           "source": {
-            "chapter": "scaffold/company",
-            "section": "VOICE.md"
+            "chapter": "X9",
+            "section": "fuera del playbook"
           },
-          "path": "VOICE.md",
+          "path": "comunicacion/VOICE.md",
           "contents": "Cómo suena esta empresa, en reglas que puede seguir alguien que no es dueño de la marca.",
           "signedBy": "quién firma las afirmaciones públicas",
           "ownerSkill": "social-voice"
@@ -3057,10 +3178,10 @@
         {
           "id": "comms-proof",
           "source": {
-            "chapter": "scaffold/company",
-            "section": "PROOF.md"
+            "chapter": "X9",
+            "section": "fuera del playbook"
           },
-          "path": "PROOF.md",
+          "path": "comunicacion/PROOF.md",
           "contents": "Registro de afirmaciones. Lo único que puede aparecer en un texto público.",
           "signedBy": "quién firma las afirmaciones públicas",
           "ownerSkill": "social-identity"
@@ -3068,10 +3189,10 @@
         {
           "id": "comms-design",
           "source": {
-            "chapter": "scaffold/company",
-            "section": "DESIGN.md"
+            "chapter": "X9",
+            "section": "fuera del playbook"
           },
-          "path": "DESIGN.md",
+          "path": "comunicacion/DESIGN.md",
           "contents": "El sistema visual en tokens que el motor de render lee tal cual, más el porqué de cada uno.",
           "signedBy": "quién firma las afirmaciones públicas",
           "ownerSkill": "social-identity"
@@ -3079,10 +3200,10 @@
         {
           "id": "comms-social",
           "source": {
-            "chapter": "scaffold/company",
-            "section": "SOCIAL.md"
+            "chapter": "X9",
+            "section": "fuera del playbook"
           },
-          "path": "SOCIAL.md",
+          "path": "comunicacion/SOCIAL.md",
           "contents": "Dónde publica esta empresa, con qué ritmo, sobre qué, y a quién le habla.",
           "signedBy": "quién firma las afirmaciones públicas",
           "ownerSkill": "company-intake"
@@ -3090,10 +3211,10 @@
         {
           "id": "comms-presence",
           "source": {
-            "chapter": "scaffold/company",
-            "section": "PRESENCE.md"
+            "chapter": "X9",
+            "section": "fuera del playbook"
           },
-          "path": "PRESENCE.md",
+          "path": "comunicacion/PRESENCE.md",
           "contents": "El estado público y externo de la empresa, observado antes de que nosotros toquemos nada.",
           "signedBy": "quién firma las afirmaciones públicas",
           "ownerSkill": "social-presence"
@@ -3101,46 +3222,13 @@
         {
           "id": "comms-customers",
           "source": {
-            "chapter": "scaffold/company",
-            "section": "CUSTOMERS.md"
+            "chapter": "X9",
+            "section": "fuera del playbook"
           },
-          "path": "CUSTOMERS.md",
+          "path": "comunicacion/CUSTOMERS.md",
           "contents": "Quién le compra a esta empresa y cómo decide.",
           "signedBy": "quién firma las afirmaciones públicas",
           "ownerSkill": "company-intake"
-        },
-        {
-          "id": "comms-offer",
-          "source": {
-            "chapter": "scaffold/company",
-            "section": "OFFER.md"
-          },
-          "path": "OFFER.md",
-          "contents": "Los términos comerciales que aplican a todo lo que vende esta empresa.",
-          "signedBy": "quién firma las afirmaciones públicas",
-          "ownerSkill": "company-offer"
-        },
-        {
-          "id": "comms-products",
-          "source": {
-            "chapter": "scaffold/company",
-            "section": "PRODUCTS.md"
-          },
-          "path": "PRODUCTS.md",
-          "contents": "Lo que esta empresa vende como cosa: con existencia, proveedor y tiempo de entrega.",
-          "signedBy": "quién firma las afirmaciones públicas",
-          "ownerSkill": "company-offer"
-        },
-        {
-          "id": "comms-services",
-          "source": {
-            "chapter": "scaffold/company",
-            "section": "SERVICES.md"
-          },
-          "path": "SERVICES.md",
-          "contents": "Lo que esta empresa vende como trabajo: con entregable, duración y quién lo ejecuta.",
-          "signedBy": "quién firma las afirmaciones públicas",
-          "ownerSkill": "company-offer"
         }
       ]
     }

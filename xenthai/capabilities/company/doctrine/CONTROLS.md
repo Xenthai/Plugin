@@ -244,7 +244,7 @@ survey says.
 ### What the answers change
 
 A "no" to any of the three is not a reason to stop. It is a **scope finding**, and it belongs in
-`PROCESSES.md` §5 alongside the prohibited-actions list:
+`03-procesos/PXX-nombre.md` alongside the prohibited-actions list:
 
 | Answer | What it makes true |
 | --- | --- |

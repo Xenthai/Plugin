@@ -58,7 +58,7 @@ at that cadence.**
 | --- | --- | --- | --- |
 | Biweekly | Is anything broken that nobody told me about? | The journal alone | **Any outcome claim.** Two weeks is too few instances |
 | Monthly | Is the work landing? | Journal, deliveries, first quality signal | A baseline comparison |
-| Quarterly | Did the number we measured before actually change? | A re-measure of `BASELINE.md` | **Attribution.** It states what moved, never why |
+| Quarterly | Did the number we measured before actually change? | A re-measure of `08-linea-base.md` | **Attribution.** It states what moved, never why |
 | Semiannual | Was it us? | Contribution analysis | A magnitude claim or an implied counterfactual |
 | Annual | Was this worth it, and what should we stop doing? | Everything above, plus the claim ledger | Nothing. It is the only one that may recommend not renewing |
 
@@ -86,7 +86,7 @@ Two mechanisms that work, and both cost nothing:
 - **Tell the recipient which day to expect it.** A fixed day, agreed in writing, turns absence into
   something a person notices without being told.
 
-Record per routine, in the company's `ROUTINES.md`, where it runs and what happens when that
+Record per routine, in the company's `09-rutinas.md`, where it runs and what happens when that
 machine is off. **Never promise a cadence that depends on a laptop being open** unless that
 dependency is written down and the client accepted it with the condition said out loud.
 

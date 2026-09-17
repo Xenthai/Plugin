@@ -1,4 +1,4 @@
-# PRESENCIA — <empresa>
+# PRESENCIA (X9 — fuera del playbook) — <empresa>
 
 > El estado público y externo de la empresa, observado antes de que nosotros toquemos nada.
 > Se llena en la **primera** sesión, antes de identidad y antes de voz.

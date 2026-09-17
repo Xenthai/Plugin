@@ -1,8 +1,8 @@
-# ESPECIFICACIÓN — <automatización> · <empresa>
+# 06-specs/<AXX>-<nombre> — ESPECIFICACIÓN (A7 · X2.5) — <automatización> · <empresa>
 
 > Una por automatización aprobada. Lo suficientemente completa para que la construya alguien que no
 > estuvo en la sala, y para que sepa cuándo terminó.
-> [PROCESSES.md](PROCESSES.md) decide **qué** se automatiza. [AUTOMATIONS.md](AUTOMATIONS.md) registra
+> [03-procesos/INDICE.md](../03-procesos/INDICE.md) decide **qué** se automatiza. [REGISTRO.md](REGISTRO.md) registra
 > **quién responde** cuando ya corre. Este archivo es lo que va en medio.
 
 **Esquema:** 1 · **Proceso de origen:** — pendiente — · **Aprobada por:** — pendiente — (rol y fecha)
@@ -15,7 +15,7 @@
 | Campo | Valor |
 | --- | --- |
 | Qué deja de hacer una persona, en una frase | — pendiente — |
-| Costo del error del proceso *(de PROCESSES.md §6, escala 1-5)* | — pendiente — |
+| Costo del error del proceso *(de la ficha de proceso §6, escala 1-5)* | — pendiente — |
 | Los tres controles de datos, ¿se cumplen? | — pendiente — |
 | **Escalón objetivo, y qué lo limita** | — pendiente — |
 
@@ -62,7 +62,7 @@ Del proceso capturado, incluidas las no escritas que apareció la fase 2. **Cada
 
 ## 5. Ramas de error
 
-Los siete modos de falla de `AUTOMATIONS.md` son el piso. **Toda rama termina en un aviso que recibe
+Los siete modos de falla de `REGISTRO.md` son el piso. **Toda rama termina en un aviso que recibe
 un rol con nombre.**
 
 | Modo de falla | Qué hace la automatización | Qué ve el cliente | Quién actúa |

@@ -1,4 +1,4 @@
-# DESIGN — <empresa>
+# DESIGN (X9 — fuera del playbook) — <empresa>
 
 > El sistema visual en tokens que el motor de render lee tal cual, más el porqué de cada uno.
 > El bloque cercado `css` es el contrato: el motor lo inyecta sin transformarlo y **falla en voz alta**
