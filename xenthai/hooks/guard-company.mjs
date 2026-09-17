@@ -1,4 +1,4 @@
-import { readCompany, isInside } from "../lib/company.mjs";
+import { readCompany, isInside, isPersonal, storeLabel } from "../lib/company.mjs";
 import { record } from "../lib/journal.mjs";
 
 /**
@@ -50,12 +50,14 @@ const main = async () => {
   const ctx = readCompany(event.cwd ?? process.cwd());
 
   if (isStoreWrite && !ctx.ok) {
-    block("this session is not bound to a company", [
+    block("this session is not bound to a store", [
       `Tool:   ${tool}`,
       `Reason: ${ctx.reason}`,
       "",
-      "Writing to a company store requires a .company.json in the working directory tree.",
-      "Open the right client folder and try again.",
+      "Writing to a store requires a .company.json in the working directory tree. It declares a",
+      'client\'s store, or your own with "kind": "personal" — the veto is the same either way and',
+      "only the absence of a binding is refused.",
+      "Open the right folder and try again.",
     ]);
   }
 
@@ -64,7 +66,8 @@ const main = async () => {
 
   if (isStoreWrite && /__share_file$/.test(tool)) {
     const email = typeof input.emailAddress === "string" ? input.emailAddress.trim() : "(none)";
-    notice(`sharing ${company.name}'s material with ${email} as ${input.role ?? "?"}. Recorded in the journal.`);
+    const whose = isPersonal(company) ? `your own material in ${company.name}` : `${company.name}'s material`;
+    notice(`sharing ${whose} with ${email} as ${input.role ?? "?"}. Recorded in the journal.`);
     record(
       {
         event: "ai_action",
@@ -80,12 +83,12 @@ const main = async () => {
   if (isLocalWrite) {
     const path = input.file_path ?? input.path ?? input.notebook_path;
     if (typeof path === "string" && !isInside(root, path)) {
-      block("write outside the company directory", [
-        `Bound company: ${company.name}`,
-        `Directory:     ${root}`,
-        `Target path:   ${path}`,
+      block("write outside the bound store's directory", [
+        `Bound store:  ${storeLabel(company)}`,
+        `Directory:    ${root}`,
+        `Target path:  ${path}`,
         "",
-        "This session is bound to a company, so it does not write outside its folder.",
+        "This session is bound to a store, so it does not write outside its folder.",
       ]);
     }
   }

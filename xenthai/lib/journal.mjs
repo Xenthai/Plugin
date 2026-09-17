@@ -3,7 +3,7 @@ import { createHash } from "node:crypto";
 import { basename, dirname, join } from "node:path";
 import { homedir } from "node:os";
 import { fileURLToPath } from "node:url";
-import { readCompany } from "./company.mjs";
+import { readCompany, kindOf } from "./company.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 
@@ -39,8 +39,17 @@ export const PLUGIN_VERSION = (() => {
  */
 export const MAX_ROW_BYTES = 3072;
 
-/** Shape version stamped on every row, so a later change never leaves old rows indistinguishable. */
-export const ROW_SCHEMA = 1;
+/**
+ * Shape version stamped on every row, so a later change never leaves old rows indistinguishable.
+ *
+ * 2 adds `store_kind`. A schema-1 row carries no kind at all, which is precisely why the number had
+ * to move rather than the field being slipped in as nullable: a row without the field is a row
+ * written before the distinction existed, and a reader must be able to tell that from a row whose
+ * store had no kind. Every schema-1 row in a client's store was written under a build that could
+ * only bind to a client, so it can be read as `client` — and that inference is safe only because
+ * the version says which rows it applies to.
+ */
+export const ROW_SCHEMA = 2;
 
 const DEFAULT_ZONE = "America/Mexico_City";
 
@@ -156,7 +165,12 @@ const location = (cwd) => {
   const ctx = readCompany(cwd ?? process.cwd());
   const zone = (ctx.ok && ctx.company.timezone) || DEFAULT_ZONE;
   const base = ctx.ok ? join(ctx.root, "journal", "execution") : join(fallbackBase(), "journal", "execution");
-  return { file: join(base, `${localTime(new Date(), zone).slice(0, 7)}.jsonl`), company: ctx.ok ? ctx.company.id : null, zone };
+  return {
+    file: join(base, `${localTime(new Date(), zone).slice(0, 7)}.jsonl`),
+    company: ctx.ok ? ctx.company.id : null,
+    storeKind: ctx.ok ? kindOf(ctx.company) : null,
+    zone,
+  };
 };
 
 /**
@@ -178,7 +192,7 @@ const location = (cwd) => {
  */
 export const record = (entry, event = {}) => {
   const now = new Date();
-  const { file, company, zone } = location(event.cwd);
+  const { file, company, storeKind, zone } = location(event.cwd);
   mkdirSync(dirname(file), { recursive: true });
   const row = {
     schema: ROW_SCHEMA,
@@ -188,6 +202,12 @@ export const record = (entry, event = {}) => {
     session: event.session_id ?? null,
     turn: event.prompt_id ?? null,
     company,
+    /**
+     * Whose store this row belongs to: `client`, `personal`, or null when nothing was bound. An
+     * audit of a client's journal must never have to take the plugin's word that every row in it
+     * was client work, and before this field the only way to check was to go read the manifest.
+     */
+    store_kind: storeKind,
     actor: entry.actor ?? "ai",
     event: KNOWN_EVENTS.has(entry.event) ? entry.event : `unknown:${entry.event}`,
     tool: entry.tool ?? null,

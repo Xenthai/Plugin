@@ -445,3 +445,48 @@ here*.
 **Reverses if** the tracks stop being independent — if some future capability genuinely requires a
 voice document before a process can be mapped, one sequence becomes the honest description again.
 
+
+### 25 · A store declares whose it is, and an unknown answer is refused
+
+**The decision.** `.company.json` carries `kind`, either `client` or `personal`, defaulting to
+`client`. It changes no veto — bound writes, unbound refuses, as before — and it changes three
+things that were wrong for half the stores the guard protects: the words the guard and `doctor` use,
+the `store_kind` stamped on every journal row, and the fact that the operator's own store can now be
+declared at all. An unrecognised kind is refused rather than defaulted.
+
+**The evidence.** Observed, not theorised. A session set out to build the operator's own store in
+his personal Drive and the guard vetoed every `create_file`: `no-manifest`. The veto was correct —
+nothing was bound — and unfixable within the vocabulary the plugin had, because the only manifest
+that exists describes a company. The available workaround was to write one anyway, naming a personal
+store as a client, which would have written rows into a journal claiming client actions for work no
+client commissioned. The plugin's central claim is that every action is traceable to an actor and a
+purpose; a journal that cannot separate private work from an engagement does not support that claim,
+it only appears to.
+
+**What was rejected.**
+
+- **Exempting personal Drive folders from the guard**, by id or by a "not a client store" escape.
+  This is an allowlist with extra steps, and decision 22's reasoning applies unchanged: the guard
+  has exactly two rules because two rules can be reasoned about. An exemption is a third rule whose
+  failure mode is silence.
+- **Inferring the kind** from the store name, the id, or whether the folder sits in a shared drive.
+  A client whose brand is the word "personal" breaks the first; a shared drive is a deployment
+  detail, not an ownership claim. Every sniff here gets it wrong in both directions, and the
+  expensive direction files a client's material as private.
+- **Defaulting an unknown kind to `client`.** Rejected for the reason `future-schema` is refused:
+  a value this build does not know was written by rules this build does not have, and guessing is
+  how one party's material lands in the other's trail invisibly.
+- **Leaving `ROW_SCHEMA` at 1** and adding `store_kind` as a nullable field. A null would then mean
+  both "written before the distinction existed" and "bound to a store with no kind", which is
+  exactly the indistinguishability the version field exists to prevent.
+- **Renaming the `doctor` check from `company` to `store`.** Correct and deferred: the name appears
+  in status codes, in the check list and in three suites, and bundling a rename into the fix would
+  have made the behavioural change unreviewable. The check keeps its name; its sentences were fixed
+  where they had become false.
+
+**What would reverse it.** A third kind arriving — a household, a nonprofit, a personal store shared
+with a partner — that needs different *behaviour* rather than different words. At that point `kind`
+stops being a label and becomes policy, and policy per kind belongs in the guard as explicit rules,
+not in a string the guard reads for its wording. If instead nobody ever declares `personal` outside
+this operator's own machine, the field is decoration and should be removed rather than kept as a
+setting nothing sets.

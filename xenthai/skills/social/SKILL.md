@@ -23,7 +23,7 @@ without being asked, and do not guess a company from the directory name:
 
 | Condition | What to say |
 | --- | --- |
-| No `.company.json` anywhere up the tree | This session is not bound to a company. Ask which company, and where its store lives, before any work. |
+| No `.company.json` anywhere up the tree | This session is not bound to a store. Ask which company, and where its store lives, before any work. |
 | `schema_version` higher than the plugin understands | The manifest was written by a newer version of this plugin. Refuse and say so — migrating down is guesswork. |
 | Required fields missing | Name exactly which fields, and stop. |
 

@@ -26,6 +26,49 @@ installed from. It identifies exactly one tree, which is what this claim always 
 machines could both write `0.1.0` and hold different code. A row written from a working copy says
 `dev`, which is honest about being unreleasable rather than borrowing a number.
 
+## [0.4.0] - 2026-09-17
+
+A store the plugin had no way to name. Everything here follows from one measured refusal: the guard
+vetoed every write to the operator's **own** Drive, correctly — nothing was bound — and the only way
+through was a manifest calling that store a company, which would have filed private work as a client
+engagement. The veto was right; the vocabulary was missing.
+
+### Added — `kind`, so a manifest can say whose store it is
+
+- **`"kind": "client" | "personal"` in `.company.json`**, defaulting to `client`. It changes **no
+  veto**: a store write is permitted when a session is bound and refused when it is not, exactly as
+  before. What it changes is what the manifest can express, what the guard and `doctor` say out
+  loud, and what every journal row carries.
+- **`kindOf`, `isPersonal`, `storeLabel` and `KINDS`** in `lib/company.mjs`. The kind is read from
+  the manifest and never inferred from a name, an id or a folder — a client whose brand is the word
+  "personal" would be misread by any such guess, and that misreading puts one party's material in
+  the other's audit trail.
+- **An unrecognised kind is refused**, the way `future-schema` is refused. `doctor` reports
+  `company:fail(unknown-kind)` and the guard treats the session as unbound. Reading an unknown kind
+  as a client's store is the one failure here that is both invisible and permanent.
+
+### Changed — the journal distinguishes the two, and the guard stops guessing
+
+- **`ROW_SCHEMA` is 2, and every row carries `store_kind`.** The number moved rather than the field
+  arriving as a nullable extra: a row with no kind is a row written before the distinction existed,
+  and a reader has to be able to tell that from a store that genuinely had none. Every schema-1 row
+  was written by a build that could only bind to a client, so it reads as `client` — an inference
+  that is safe only because the version says which rows it covers. **An audit of a client's journal
+  no longer has to take the plugin's word** that everything in it was client work.
+- **The guard's two refusals are worded for both kinds.** "not bound to a company" became "not
+  bound to a store" and names the `personal` option, because the operator reading it may have no
+  client at all; "outside the company directory" became "outside the bound store's directory".
+- **A share announcement says whose material is leaving** — `your own material in X` rather than
+  `X's material` — so the one notice the guard makes cannot misdescribe what is being shared.
+- **`doctor` prints which of the two is bound**, even when it is the default. A default that stays
+  invisible until it is wrong is the failure that line now prevents.
+
+### Tests
+
+Seven cases across `test/hooks.test.mjs` and `test/doctor.test.mjs`: a personal store writes like a
+client's, an unknown kind is unbound and fails `doctor`, the share notice names the owner, rows
+carry `store_kind` on both sides, and an absent kind still reads as a client. 17/17 suites pass.
+
 ## [0.3.0] - 2026-09-09
 
 The gaps the plugin's own doctrine already named and nothing filled. `MEASUREMENT.md` said durable

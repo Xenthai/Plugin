@@ -187,6 +187,67 @@ check("a non-Spanish locale FAILS the company check rather than silently produci
 });
 
 /**
+ * The kind is printed even when it is the default, because an operator about to write into the
+ * wrong one of the two stores is exactly who reads this line. A default that stays invisible until
+ * it is wrong is what this assertion exists to prevent.
+ */
+check("the company check names WHOSE store is bound, personal or client", () => {
+  const cases = [
+    ["kind-personal", "personal", /PERSONAL store/],
+    ["kind-client", "client", /client store/],
+    ["kind-absent", undefined, /client store/],
+  ];
+  for (const [label, kind, expected] of cases) {
+    const dir = join(SANDBOX, label);
+    mkdirSync(dir, { recursive: true });
+    writeFileSync(
+      join(dir, ".company.json"),
+      JSON.stringify({
+        schema_version: 1,
+        id: `co-${label}`,
+        name: "Store X",
+        ...(kind ? { kind } : {}),
+        locale: "es-MX",
+        store: { kind: "drive", root: "1KINDXXXXXXXXXXXXXXXXXXXXXXXXXXXX" },
+      }),
+      "utf8"
+    );
+    const c = doctor(dir, ["--json"]).by.company;
+    if (c?.status !== "OK" || !expected.test(c?.reason ?? "")) {
+      return [false, `${label}: status ${c?.status}, reason ${c?.reason}`];
+    }
+  }
+  return [true, "personal says so; client and an absent kind both read as a client store"];
+});
+
+/**
+ * Fails closed, for the same reason `future-schema` does. A kind written by a build with rules this
+ * one does not have must not be read as a client's store: that files the operator's own material in
+ * a client's audit trail, and nothing later can tell that it happened.
+ */
+check("an unrecognised kind FAILS rather than defaulting to a client store", () => {
+  const dir = join(SANDBOX, "kind-unknown");
+  mkdirSync(dir, { recursive: true });
+  writeFileSync(
+    join(dir, ".company.json"),
+    JSON.stringify({
+      schema_version: 1,
+      id: "co-odd",
+      name: "Odd Store",
+      kind: "household",
+      locale: "es-MX",
+      store: { kind: "drive", root: "1KINDXXXXXXXXXXXXXXXXXXXXXXXXXXXX" },
+    }),
+    "utf8"
+  );
+  const r = doctor(dir, ["--json"]);
+  return [
+    r.code === 1 && r.by.company?.status === "FAIL" && r.by.company?.code === "company:fail(unknown-kind)",
+    `exit ${r.code}, status ${r.by.company?.status}, code ${r.by.company?.code}`,
+  ];
+});
+
+/**
  * The rule `company-new` states in bold and the guard made impossible to keep: a manifest at a home
  * directory binds every session started anywhere beneath it. In a cloud container the working
  * directory IS the home, so the placement the doctrine forbids was the only one that worked, and it
