@@ -1,5 +1,7 @@
 # Presence doctrine — what may be observed, and what may be claimed from it
 
+Implements: fuera del playbook (X9)
+
 Read this before writing a single row of a company's `PRESENCE.md`. It exists because the ordinary
 practice in this field — comparing a client's engagement rate to an industry benchmark — is not
 merely imprecise. It is undefined, and this document carries the primary sources that establish

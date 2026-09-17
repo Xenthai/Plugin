@@ -1,5 +1,7 @@
 # Standards doctrine — what may be claimed, and what may be copied
 
+Implements: A5 §5
+
 Read this before naming any standard in a client deliverable, and before putting a standard's text
 anywhere — a report, a scaffold, a slide, a prompt, or this plugin's own code.
 

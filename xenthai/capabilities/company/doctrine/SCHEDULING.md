@@ -1,5 +1,7 @@
 # Scheduling doctrine — where a routine runs, and how it fails
 
+Implements: none (mechanics)
+
 `09-rutinas.md` in a company's store records **which** routines were agreed and how their absence
 becomes visible. This file is about **where** each one actually runs, because the three available
 mechanisms fail in different ways and choosing wrong produces a routine that looks configured and

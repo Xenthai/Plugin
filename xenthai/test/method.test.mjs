@@ -93,23 +93,18 @@ check("a fixture with a wrong weights sum is refused by assertX3WeightsSum", () 
 });
 
 /**
- * Table files this PR ships without a doctrine or skill citation yet, and why. PR 2 wires X3, X4,
- * X5, A9, archetypes and the store layout into the doctrine and skill files that will cite these
- * tables by path; until then every table is expected to be unreferenced, which is why every file
- * is named here rather than a subset.
+ * Table files this PR ships without a doctrine or skill citation yet, and why. Rulings 1 and 11
+ * wired X3 and A9 into `PROCESS.md`, `process-access/SKILL.md` and `MATURITY.md`, so those five
+ * tables are no longer listed here. Archetypes, the store layout, X4, X5 and X7 belong to rulings
+ * outside this PR's scope (3, 4, 6) and stay unreferenced until their own doctrine changes land.
  */
 const ALLOWED_UNREFERENCED = {
-  "a9-levels.md": "PR 2 wires A9 into company doctrine",
-  "a9-statements.md": "PR 2 wires A9 into company doctrine",
-  "archetypes.md": "PR 2 wires archetypes into company-profile doctrine",
-  "store-layout.md": "PR 2 wires the A2 store layout into company doctrine",
-  "x3-criteria.md": "PR 2 replaces PROCESS.md S5 with this table per CONFORMANCE.md Ruling 1",
-  "x3-decisions.md": "PR 2 replaces PROCESS.md S5 with this table per CONFORMANCE.md Ruling 1",
-  "x3-scales.md": "PR 2 replaces PROCESS.md S5 with this table per CONFORMANCE.md Ruling 1",
-  "x4-criteria.md": "PR 2 wires X4 into the coverage skill and its doctrine",
-  "x5-catalogue.md": "PR 2 wires X5 into risk doctrine",
-  "x5-matrix.md": "PR 2 wires X5 into risk doctrine",
-  "x7-glossary.md": "PR 2 wires the X7 glossary into doctrine",
+  "archetypes.md": "wired into company-profile doctrine outside this PR's rulings",
+  "store-layout.md": "wired into company doctrine outside this PR's rulings",
+  "x4-criteria.md": "wires into the coverage skill and its doctrine outside this PR's rulings",
+  "x5-catalogue.md": "wires into risk doctrine outside this PR's rulings",
+  "x5-matrix.md": "wires into risk doctrine outside this PR's rulings",
+  "x7-glossary.md": "wires into doctrine outside this PR's rulings",
 };
 
 check("every table file is referenced by doctrine/a skill, or is in ALLOWED_UNREFERENCED with a reason", () => {
@@ -141,6 +136,91 @@ check("every table file is referenced by doctrine/a skill, or is in ALLOWED_UNRE
       ? `unreferenced and not in ALLOWED_UNREFERENCED: ${unexplained.join(", ")}`
       : `${files.length} tables; ${unreferenced.length} unreferenced-but-explained (PR 2), 0 unexplained`,
   ];
+});
+
+/** Every playbook chapter code `method.json`'s `phases` dataset carries, e.g. `A2`, `X3`, `00`. */
+const CHAPTER_CODES = new Set(methodJson.datasets.phases.chapters.map((c) => c.code));
+
+/** The two whole-line special cases an `Implements:` line may hold instead of chapter codes. */
+const SPECIAL_IMPLEMENTS = new Set(["none (mechanics)", "fuera del playbook (X9)"]);
+
+/**
+ * Finds every `capabilities/*\/doctrine/*.md` file as a `{ path, text }` pair, read once here and
+ * reused by both checks below so a doctrine file is never parsed twice for two assertions.
+ */
+function findDoctrineFiles() {
+  const capNames = readdirSync(join(ROOT, "capabilities"), { withFileTypes: true })
+    .filter((e) => e.isDirectory())
+    .map((e) => e.name);
+  return capNames.flatMap((cap) => {
+    const dir = join(ROOT, "capabilities", cap, "doctrine");
+    if (!existsSync(dir)) return [];
+    return readdirSync(dir)
+      .filter((f) => f.endsWith(".md"))
+      .map((f) => {
+        const path = join(dir, f);
+        return { path: `capabilities/${cap}/doctrine/${f}`, text: readFileSync(path, "utf8") };
+      });
+  });
+}
+
+/**
+ * Returns the trimmed `Implements: ...` line immediately following a file's first `# ` heading, or
+ * `null` if the first non-empty line after the heading is not one — a blockquote subtitle counts as
+ * "not one", so the line has to be the very next content, not merely present somewhere in the file.
+ */
+function findImplementsLine(text) {
+  const lines = text.split(/\r?\n/);
+  const h1 = lines.findIndex((l) => l.startsWith("# "));
+  if (h1 === -1) return null;
+  for (let i = h1 + 1; i < lines.length; i += 1) {
+    const line = lines[i].trim();
+    if (line === "") continue;
+    return line.startsWith("Implements:") ? line : null;
+  }
+  return null;
+}
+
+/**
+ * Validates one `Implements:` line's content against `CHAPTER_CODES`. A segment is either one of
+ * the two whole-line special cases (only legal alone, never mixed with a code) or starts with a
+ * chapter code the vendored data actually carries — `A2` out of `A2 §3`, matched on a word
+ * boundary so `A2` does not also accept `A20`.
+ */
+function validateImplements(line) {
+  const content = line.slice("Implements:".length).trim();
+  if (SPECIAL_IMPLEMENTS.has(content)) return { ok: true };
+  const segments = content
+    .split("·")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  if (segments.length === 0) return { ok: false, reason: "empty Implements line" };
+  for (const segment of segments) {
+    const m = /^(00|01|[ABX]\d)\b/.exec(segment);
+    if (!m || !CHAPTER_CODES.has(m[1])) {
+      return { ok: false, reason: `"${segment}" names no chapter in method.json` };
+    }
+  }
+  return { ok: true };
+}
+
+check("every doctrine file carries an Implements line naming a real chapter or an approved special case", () => {
+  const bad = [];
+  for (const { path, text } of findDoctrineFiles()) {
+    const line = findImplementsLine(text);
+    if (!line) {
+      bad.push(`${path}: no Implements line under its H1`);
+      continue;
+    }
+    const result = validateImplements(line);
+    if (!result.ok) bad.push(`${path}: ${result.reason}`);
+  }
+  return [bad.length === 0, bad.length ? bad.join("; ") : `${findDoctrineFiles().length} doctrine files, all valid`];
+});
+
+check("an Implements line naming a chapter absent from method.json is refused", () => {
+  const result = validateImplements("Implements: Z9 §1 · A2 §3");
+  return [!result.ok, result.ok ? "a bad code was NOT refused" : `refused: ${result.reason}`];
 });
 
 /**

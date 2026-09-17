@@ -73,6 +73,38 @@ reads it rather than restating it.
   entry, and the earlier draft broke `test/method.test.mjs`'s regex-literal scan by looking like one
   itself.
 
+### Changed — the doctrine adopts the playbook's method (Rulings 1, 5, 11, 12)
+
+- **`PROCESS.md` §5 replaces the Wanner et al. (ICIS 2019) research score and its judgement ceiling
+  with X3** (`CONFORMANCE.md` Ruling 1): eight weighted criteria, C1–C8, weights summing to 18,
+  linked to the vendored `capabilities/method/tables/x3-criteria.md`, `x3-scales.md` and
+  `x3-decisions.md` rather than restated by hand. The `Puntaje = (Σ calificación × peso ÷ 90) × 100`
+  formula and its three vetoes — C3 or C5 at 1 blocks the start, C4 at 1 or 2 forces resolving the
+  data gap first, no frozen baseline no start — replace the old research-score/expert-judgement
+  split, closing with the ruling's own sentence: the score orders candidates, never states a result,
+  and no improvement figure is ever derived from it. `skills/process-access/SKILL.md` §4 and
+  `scaffold/company/mapeo-empresa/05-backlog.md` §2 carry the same eight criteria and four decision
+  bands. `DECISIONS.md` #9 is narrowed, not repealed, and gets a new #27 recording the adoption.
+- **`MATURITY.md` re-anchors on A9** (Ruling 11, folding Rulings 2, 5 and 10): the company's level is
+  A9's own M0–M4 by the *minimum* of six dimensions, linked to `capabilities/method/tables/
+  a9-levels.md` and `a9-statements.md`. The Anthropic-published 0–4 ladder this file used to present
+  as the client's level is retitled and demoted to a per-person **usage** ladder feeding A9's Gente
+  dimension — never called "maturity" again — and its six-month Evaluate/Pilot/Scale shape is
+  reframed as the pace inside A9 §5's first two quarters (T1+T2), not a second programme length.
+  "Whose level moved" and the artefact-per-level table carry over unchanged. `DECISIONS.md` #28
+  records the adoption.
+- **`REPORTING.md` §10b adopts A8 §3's three attribution methods** (Ruling 12) — Método 1
+  antes-después, Método 2 grupo de comparación, Método 3 prueba escalonada — in place of treating
+  contribution analysis as the only posture available. A magnitude claim is now licensed under
+  Método 2 or 3, reported against the named comparison unit; under Método 1, still the shape of most
+  engagements here, the result stays a contribution with a range and never a caused magnitude, which
+  is the plugin's original refusal, scoped rather than discarded. `skills/report/SKILL.md`'s
+  Attribution section follows the same ladder.
+- **Every `capabilities/*/doctrine/*.md` file carries an `Implements:` line under its H1** naming the
+  playbook chapters and sections it implements, `none (mechanics)` for scheduling doctrine, or
+  `fuera del playbook (X9)` for the comunicación track. `test/method.test.mjs` now asserts the line
+  exists and every code it names is a real chapter in `method.json`.
+
 ### Fixed
 
 - **`capabilities/company/doctrine/EVIDENCE.md` §6 no longer says "no new document."** That rule

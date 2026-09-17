@@ -1,5 +1,7 @@
 # Session doctrine — how to run the hour with a person
 
+Implements: A2 §5 · X6 §1-§3 · X6 §6-§7
+
 `01-empresa.md` says to get facts from documents rather than by asking. This file is for what is left:
 the facts that exist only in somebody's head, and the session where they come out.
 

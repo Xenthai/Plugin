@@ -1,5 +1,7 @@
 # Evidence — harvesting what the company already recorded
 
+Implements: A2 §6
+
 Read before phase 2 of the operación track. It governs deriving quantities from a company's own
 files and records, and contrasting them against what people said.
 

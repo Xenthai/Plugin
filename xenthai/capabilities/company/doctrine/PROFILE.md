@@ -1,5 +1,7 @@
 # Profile — the operating archetype, and why the method bends to it
 
+Implements: A2 §3 · X6 §4
+
 Read before phase 1 of the operación track. It carries the four questions that place any company,
 the six archetypes they resolve to, what each one changes downstream, and the rule for a trade
 nobody in the room understands.

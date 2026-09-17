@@ -1,5 +1,7 @@
 # Copy doctrine
 
+Implements: fuera del playbook (X9)
+
 > How words get written for a company that is not yours, so the result is recognisably theirs and
 > nothing published is unverifiable. Company-independent: a company's own rules live in its
 > `VOICE.md`, and where the two disagree, `VOICE.md` wins.

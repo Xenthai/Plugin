@@ -127,11 +127,20 @@ positive on correct Spanish appears, since crying wolf is the worse failure of t
 
 Not for engagement health, not for company improvement, not for automation suitability. Averaging a
 silence signal against a governance defect hides whichever mattered, and a single improvement number
-is indefensible with one client and no control group. `PROCESSES.md` §6 keeps its two judgement
-criteria in separate columns as a **ceiling** rather than blending them into the research score.
+is indefensible with one client and no control group. `PROCESS.md` §5 keeps its three vetoes above
+the score rather than blending them into it — see the narrowing below for how that score is now
+computed.
 
 **Rejected:** a headline number, which is what a client asks for. **Reverses never** on the improvement
 score; a client's own process measure, before and now, is the honest substitute.
+
+**Narrowed on 2026-09-17** (`CONFORMANCE.md` Ruling 1): this ban stays absolute for performance and
+improvement claims — a client-facing "we improved X%" never comes from an average of unlike
+criteria. It does not extend to every weighted ranking: `PROCESS.md` §5 adopts X3's eight-criterion,
+18-weight formula for prioritisation, with three vetoes that outrank the number. That score orders
+candidates for the backlog; it is never published as, and never becomes, an improvement figure. The
+distinction is what the score is for — ranking what to build next, not reporting what got built —
+not a loophole in the ban.
 
 ### 10 · A cadence report is scheduled as a reminder, not as the report
 
@@ -520,4 +529,80 @@ boundary for what stays and what moves.
 **Reverses if** the first client engagement opens the comunicación track for real — at which point
 translating `BRAND.md` and its siblings to their Spanish A2-style names stops being invented and
 starts being informed by what a director actually needs to read.
+
+### 27 · `PROCESS.md` §5 adopts X3 as the scoring instrument; Wanner et al. and the judgement ceiling retire
+
+`CONFORMANCE.md` Ruling 1 found `PROCESS.md` §5's five-criteria Wanner et al. (ICIS 2019) research
+score, capped by two separately-scored judgement criteria (error cost, regulatory constraint),
+contradicting the playbook's own X3 instrument — eight weighted criteria, a formula normalised to
+20–100, three vetoes and four decision bands. The item's verifier run failed, so the owner ruled
+directly from the plan's pre-existing resolution on 2026-09-17 rather than reissuing it to the
+queue.
+
+**The evidence.** X3 is not a competing rubric invented for this ruling: `03-portafolio/PUNTAJES.md`
+and the ficha of `X3-rubrica-priorizacion.md` §4 are the playbook's own scoring artefacts, cited
+from `A3-portafolio.md` §2 as the reference instrument, and `packages/method/src/data/x3-scoring.json`
+in the Web repository is the machine-readable statement of its eight criteria, weights and formula
+— vendored here as `capabilities/method/tables/x3-criteria.md`, `x3-scales.md` and `x3-decisions.md`.
+
+**The decision.** `PROCESS.md` §5, `skills/process-access/SKILL.md` §4 and
+`scaffold/company/mapeo-empresa/05-backlog.md` §2 replace the five Wanner criteria and the
+two-criterion judgement ceiling with X3's eight criteria (C1–C8, weights summing to 18), the
+`Puntaje = (Σ calificación × peso ÷ 90) × 100` formula, and the three vetoes — C3 or C5 at 1 blocks
+the start; C4 at 1 or 2 forces resolving the data gap first; no frozen baseline, no start — in place
+of the old research-score/ceiling split. `DECISIONS.md` #9 is narrowed, not repealed: see the entry
+above.
+
+**Rejected: keeping Wanner et al. plus the judgement ceiling** as a second, plugin-only instrument
+running alongside X3. Two scoring rubrics for the same shortlist is a worse failure mode than either
+alone — a client sees two numbers for one opportunity and asks which one is real, and there is no
+principled way to answer that does not amount to picking X3 and pretending otherwise. **Rejected:
+keeping the research/judgement framing but relabelling it "X3"** — the two instruments do not share
+criteria (X3 has no "execution time" or "failure rate" criterion, and the plugin's "error cost" and
+"regulatory constraint" are absorbed into X3's C5 risk veto and the committee-authorisation step,
+not restated as separate columns), so this would have shipped X3's name over the old numbers rather
+than the old numbers.
+
+**Reverses if** the playbook itself revises X3 — at which point the vendored tables change under
+`packages/method` and this doctrine follows them, the way it follows every other vendored number.
+
+### 28 · Maturity doctrine re-anchors on A9's six-dimension model; the Anthropic ladder becomes a per-person usage instrument
+
+`CONFORMANCE.md` Ruling 11 (and Ruling 5's owner decision on A9 §5 versus `MATURITY.md` §3) found
+`MATURITY.md` describing itself as the company's maturity model, using an Anthropic-published 0–4
+adoption ladder and a six-month Evaluate/Pilot/Scale shape, while the playbook's own A9 already
+defines the company's level as the minimum of six dimensions (Gente, Datos, Gobernanza, Medición,
+Liderazgo, Promesa) diagnosed against twenty yes/no statements, inside a twelve-month, four-quarter
+route.
+
+**The evidence.** The two constructs measure different axes on different subjects, not one construct
+under two names: A9's M0–M4 is a company-level ceiling on what may be promised, set by the *lowest*
+of six dimensions and evidenced by the statements in `capabilities/method/tables/a9-statements.md`
+against the level descriptions in `a9-levels.md`; the Anthropic ladder describes what one *person*
+can do with the tool, with no dimension and no minimum rule. Forcing them into one scale loses the
+minimum-of-dimensions finding no company-grain scale can produce, and loses the Anthropic ladder's
+own argued evidence — the artefact-per-level rule and the "whose level moved" dependency test —
+which the playbook did not have and which this doctrine is not willing to discard.
+
+**The decision.** `MATURITY.md` re-anchors on A9: the company's level is M0–M4 by the minimum of its
+six dimensions, linked to `a9-levels.md` and `a9-statements.md` rather than restated by hand. The
+Anthropic 0–4 ladder is retitled and demoted to a per-person **usage** ladder feeding A9's Gente
+dimension (never called a "maturity level"), and its published six-month Evaluate/Pilot/Scale shape
+is reframed as the per-department pace nested inside A9 §5's first two quarters (T1 diagnóstico, T2
+despliegue) — the same owner decision that resolved Ruling 5. "Whose level moved" and the
+artefact-per-level table (§7) carry over verbatim: the playbook has no rule of its own that would
+produce either finding, so nothing here is discarded.
+
+**Rejected: keeping the Anthropic ladder as the company-level model.** It has no dimension structure
+and no minimum rule, so it cannot produce A9's central finding — that impeccable data with no
+governance is not a level, because the missing dimension is what decides what can be promised. A
+model that averages or ignores that finding is theatre dressed as measurement, which is exactly what
+A9 §1 exists to refuse. **Rejected: discarding the Anthropic ladder outright** once A9 governs the
+company level — its artefact test and dependency finding are argued evidence the playbook itself has
+no equivalent for, and CONTRIBUTING.md's own rule is that argued evidence is answered in writing, not
+deleted because the parent question was reassigned.
+
+**Reverses if** the playbook adds an artefact-per-person rule of its own to A6 §2, at which point the
+per-person usage ladder is redundant with playbook doctrine and is deleted rather than kept as a
+second name for the same thing.
 

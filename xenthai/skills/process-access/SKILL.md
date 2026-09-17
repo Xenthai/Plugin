@@ -87,17 +87,17 @@ belongs on the prohibited list by default.
 
 ## 4. Score the shortlist
 
-Score each candidate with the **five researched criteria** — execution time, stability, complexity,
-data type, failure rate (Wanner et al., ICIS 2019) — on 1 to 5 where 5 favours automation. Report
-their mean as the research score.
+Score each candidate against X3's eight weighted criteria — `capabilities/method/tables/x3-criteria.md`
+(criterion, weight) and `capabilities/method/tables/x3-scales.md` (the five-point scale) — 1 to 5,
+where 5 favours automation. `Puntaje = (Σ calificación × peso ÷ 90) × 100`; read the result against
+`capabilities/method/tables/x3-decisions.md`'s four bands.
 
-Score **error cost** and **regulatory constraint** on the same scale, in their own two columns,
-labelled in the document as **expert judgement, not research**. They **cap** the candidate; they
-never blend into the research score. A research score of 4.6 with error cost 1 is an assisted step
-with a human approval, not an unattended automation.
+Three vetoes outrank the score: **C3 or C5 at 1 blocks the start**, whatever the total, and needs
+explicit committee authorisation; **C4 at 1 or 2 forces resolving the data gap first** — the
+capture starts, not the opportunity; **no frozen baseline, no start**, whatever the score.
 
-**Never publish a single blended total.** Averaging seven numbers and presenting the result as
-research-based launders judgement into evidence.
+**Never publish a single blended total that folds a veto into the eight-criterion score.** The
+score orders candidates; it never states a result — the vetoes carry the judgement now.
 
 Then price honestly: **exception handling is roughly 80% of the real build effort and gets budgeted
 as 20%.** The exception rows captured in operación phase 3 are what the quote stands on. A candidate whose

@@ -1,5 +1,7 @@
 # Controls doctrine — how a rule is actually enforced
 
+Implements: A5 §1 · A5 §4 · A5 §6
+
 Read this before writing any rule that matters, and before promising a client that something cannot
 happen.
 

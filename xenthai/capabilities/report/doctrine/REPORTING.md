@@ -1,5 +1,7 @@
 # Reporting doctrine — the cadences, and what each one may claim
 
+Implements: A8 §3 · A8 §5 · A8 §6 · A8 §7
+
 Read this before proposing a reporting routine to a company, and before writing any report at any
 cadence.
 
@@ -201,8 +203,9 @@ the attribution is contested.
 Eight to twelve pages, presented in person. **This is the report that earns a renewal**, and it earns
 it by being the hardest on its own claims.
 
-Its spine is **contribution analysis**, which is the only attribution posture the evaluation
-literature permits for one operator, one company, and no control group.
+Its spine is **contribution analysis**, the floor under all three of A8 §3's attribution methods —
+see §10b — and the whole claim whenever no comparison unit exists, which is the case for most
+single-company engagements.
 
 | Section | Content |
 | --- | --- |
@@ -306,21 +309,43 @@ A client who cannot switch it off alone does not own it.
 - **When a figure is disputed, the report loses.** Record the dispute, name what would settle it, and
   do not defend the number past the evidence.
 
-## 10b. Attribution is contribution analysis, and never a counterfactual
+## 10b. Attribution follows A8 §3, and a counterfactual is never quantified without a comparison group
 
-Every cadence eventually reaches the same sentence: *did this work cause the change?* There are only
-two honest ways to answer it and only one of them is available here.
+Every cadence eventually reaches the same sentence: *did this work cause the change?* A8 §3 answers
+it with three methods, increasing in rigour and in cost, and this practice adopts the ladder as
+written rather than the plugin's earlier, narrower rule that no client of this practice ever has a
+comparison group.
 
-The unavailable one is a counterfactual — what the month would have looked like without the work.
-Establishing that needs the month run twice, once with and once without, which is what a randomised
-trial buys and what a consulting engagement cannot. So every figure of the form "saved 40 hours",
-"3× faster", "would have taken two weeks" is arithmetic performed on a month that did not happen.
-It is not a weak estimate. It is a number about an imaginary object, and a director who asks one
-follow-up question finds that out.
+**Método 1 · Antes-después con control de estacionalidad.** Compare against the same period last
+year, not last month. Cheap, and it uses data that already exists — twelve months of history and
+stable volume, or report by trimester below roughly thirty operations a month.
 
-The available one is **contribution analysis** — Mayne's method, designed precisely for programmes
-where a controlled comparison is impossible. Four steps, in order, and the report is not finished
-until all four are written down:
+**Método 2 · Grupo de comparación.** Deploy in one branch, team or line and leave an equivalent one
+unchanged for six to twelve weeks. Isolates seasonality and general changes, which hit both sides
+alike. The cost is political, not technical: someone goes without the tool on purpose, and that is
+explained to them before it happens, not after.
+
+**Método 3 · Prueba escalonada.** The rollout is staged across four or more comparable groups,
+ideally in randomised waves; each group is its own control before its wave and a comparison after.
+The most rigorous of the three, reserved for a Reshape with enough similar units to stage.
+
+**A magnitude claim is licensed only under Método 2 or Método 3**, reported as a difference against
+the named comparison unit — never as a bare percentage with no unit named. **Under Método 1 — the
+case of most engagements here, with one company and no comparison group — the result is a
+contribution with a range, never a caused magnitude.** That is the plugin's original refusal, kept
+exactly, scoped now to the method that actually lacks a comparison group rather than asserted as
+true of every engagement regardless of its shape.
+
+The unavailable path, under any method, is a counterfactual — what the period would have looked like
+without the work. Establishing that needs the period run twice, once with and once without, which is
+what a randomised trial buys and what none of the three methods above substitute for. So every figure
+of the form "saved 40 hours", "3× faster", "would have taken two weeks" is arithmetic performed on a
+period that did not happen. It is not a weak estimate. It is a number about an imaginary object, and
+a director who asks one follow-up question finds that out.
+
+**Contribution analysis** — Mayne's method, designed precisely for programmes where a controlled
+comparison is impossible — is the floor under every method above and the whole claim under Método 1.
+Four steps, in order, and the report is not finished until all four are written down:
 
 1. **State the mechanism.** How, concretely, would this work have changed the outcome? *"Pieces are
    drafted from documents the company already had, so review starts from a draft instead of a blank

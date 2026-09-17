@@ -1,5 +1,7 @@
 # Intake doctrine — documents first, interview last
 
+Implements: A2 §4 · A2 §5
+
 > How a company gets mapped with the least of its people's time.
 > Company-independent. Every rule here trades the client's attention for the consultant's.
 

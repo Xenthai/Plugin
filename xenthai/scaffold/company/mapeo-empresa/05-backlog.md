@@ -22,30 +22,27 @@ realizado.)*
 > proceso que más duele suele ser el que más juicio humano exige, y por lo tanto el más difícil de
 > automatizar. Ambos órdenes se publican por separado a propósito.
 
-## 2. Evaluación de viabilidad de automatización
+## 2. Evaluación de viabilidad de automatización — rúbrica X3
 
-Escala de 1 a 5, donde **5 favorece la automatización**. Éste es el puntaje de orden — el ranking
-con vetos de X3 (`capabilities/method/tables/x3-criteria.md`) es el instrumento de referencia una
-vez que el proceso llega aquí; nunca declara un resultado por sí solo.
+Ocho criterios ponderados, C1 a C8. Peso y qué mide cada uno viven en
+`capabilities/method/tables/x3-criteria.md`; la escala de 1 a 5 por criterio, en
+`capabilities/method/tables/x3-scales.md` — 5 es siempre la condición favorable, incluidos los tres
+criterios invertidos (C5 riesgo, C6 dependencia, C7 resistencia).
 
-**Criterios con respaldo en investigación** — Wanner et al., ICIS 2019:
+**Puntaje** = ( Σ (calificación × peso) ÷ 90 ) × 100 · rango de 20 a 100. La banda de decisión sale
+de `capabilities/method/tables/x3-decisions.md`.
 
-| Proceso | Tiempo de ejecución | Estabilidad | Complejidad | Tipo de dato | Tasa de falla | Puntaje de investigación |
-| --- | --- | --- | --- | --- | --- | --- |
-| — pendiente — | — | — | — | — | — | — |
+| Proceso | C1 | C2 | C3 | C4 | C5 | C6 | C7 | C8 | Puntaje | Decisión |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| — pendiente — | — | — | — | — | — | — | — | — | — | — pendiente — *(arranca ya / cola del trimestre / requiere condición previa / descartado)* |
 
-**Criterios de juicio experto** — no provienen de la literatura citada; son criterio de esta
-consultoría y se reportan por separado:
+**Tres vetos, por encima del puntaje:** C3 o C5 en 1 bloquea el arranque, sin importar el total, y
+exige autorización explícita del comité; C4 en 1 o 2 obliga a resolver primero el dato — arranca la
+captura, no la oportunidad; sin línea base congelada no hay arranque, cualquiera que sea el
+puntaje.
 
-| Proceso | Costo del error | Restricción regulatoria | Recomendación |
-| --- | --- | --- | --- |
-| — pendiente — | — | — | — pendiente — *(automatizable sin supervisión / paso asistido con aprobación humana / no automatizable / requiere estandarizarse antes)* |
-
-> **No se publica un promedio único de los siete criterios.** Promediar criterios de investigación
-> con criterios de juicio y presentar el resultado como respaldado por investigación convertiría un
-> juicio en evidencia. Los dos criterios de juicio funcionan como **techo**: un puntaje de
-> investigación alto con un costo del error de 1 no es candidato a operar sin supervisión, sino un
-> paso asistido con aprobación humana.
+> **El puntaje ordena candidatos; nunca declara un resultado.** Los tres vetos de arriba lo superan
+> en autoridad, y de aquí no sale nunca una cifra de mejora.
 
 ## 3. Lista corta
 

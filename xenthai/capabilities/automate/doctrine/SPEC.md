@@ -1,5 +1,7 @@
 # Spec — the buildable description, between the shortlist and the handover
 
+Implements: A7 §1 · X2.5
+
 Read before phase 5 of the operación track. `05-backlog.md` §2 decides **what** to automate.
 `06-specs/REGISTRO.md` records **who answers for it** once it runs. Between the two there was nothing, and
 this is that nothing: the description complete enough that somebody who was not in the room can

@@ -111,13 +111,16 @@ in it carries the escalation count too.
 
 ## Attribution
 
-Contribution analysis, in four written steps — mechanism, alternative explanations, an evidenced
-contribution rather than a cause, and what would change your mind. Never a quantified counterfactual
-("saved 40 hours", "3× faster"): nobody ran the month twice. Never a baseline built from what the
-client remembers, which is high by a median of 47% in the flattering direction — ask for three to
-five dated instances instead.
+A8 §3's ladder, floor to ceiling. Método 1 (antes-después, no comparison group — most engagements
+here): contribution analysis is the whole claim, in four written steps — mechanism, alternative
+explanations, an evidenced contribution rather than a cause, and what would change your mind.
+Métodos 2 and 3 (grupo de comparación, prueba escalonada) license a magnitude, reported against the
+named comparison unit. Never a quantified counterfactual under Método 1 ("saved 40 hours", "3×
+faster"): nobody ran the month twice. Never a baseline built from what the client remembers, which
+is high by a median of 47% in the flattering direction — ask for three to five dated instances
+instead.
 
-`REPORTING.md` **§10b** carries the four steps in full and the evidence behind both refusals. Read it
+`REPORTING.md` **§10b** carries the three methods and the four contribution steps in full. Read it
 before writing the first attribution sentence, and **§10c** before reading any figure: touch time is
 not cycle time, unmatched review starts make it a floor, and an unnamed approval is not an approval.
 

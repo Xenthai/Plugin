@@ -1,5 +1,7 @@
 # Automation handover doctrine — acceptance, not performance
 
+Implements: A7 §2 · A7 §4
+
 Read this before writing the report that closes an automation build, and before choosing the
 platform it runs on.
 

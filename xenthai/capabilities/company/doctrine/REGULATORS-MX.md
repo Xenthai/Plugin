@@ -1,5 +1,7 @@
 # Mexican regulators — what can be enforced against a client's public claims
 
+Implements: A2 §9 · A5 §6
+
 Read this before any public claim is drafted, and during a presence audit. It exists because
 **knowing which claims are illegal has to happen before drafting, not at review** — a sentence this
 plugin wrote can cost a client a fine, and the fine scales with the client's size.

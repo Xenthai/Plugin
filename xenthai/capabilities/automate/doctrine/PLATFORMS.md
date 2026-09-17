@@ -1,5 +1,7 @@
 # Platforms — choosing one, and the channels that decide what is possible
 
+Implements: A4 §5
+
 Read with `SPEC.md` before writing a specification, and never before the process is mapped.
 `HANDOVER.md` §1 already settles **who owns** the platform. This file settles **what the platform
 is** and, more importantly, what a channel's exact modality allows.
