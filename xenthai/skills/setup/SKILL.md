@@ -63,7 +63,7 @@ ignore this tool's output, and everything else here depends on them not doing th
 | 4 | **Assets folder shared "anyone with the link"** | A person, in Drive's own interface | Scheduler imports. The most common silent failure |
 | 5 | **`digest` folder created, shared with the practice as Lector** | A person, in Drive's own interface | Continuous monitoring |
 | 6 | **The digest routine created, and run once with its prompts approved** | Desktop → Rutinas → Nueva rutina → **Local** | The digest existing at all |
-| 7 | **`ROUTINES.md` created with the digest already active** | `company-new` | Absence detection |
+| 7 | **`09-rutinas.md` created with the digest already active** | `company-new` | Absence detection |
 
 Then step 8, which is not setup but happens the same day: **hand off to `company-intake`.** The file
 request needs nobody present, so it goes out immediately.
@@ -113,7 +113,7 @@ local files, and the journal on this machine is the entire input.
 - **Only the digest gets scheduled today.** Every other routine waits for its cadence to be agreed
   with the client at mapping close — `SCHEDULING.md` §4 holds each one's configuration, ready to
   create in minutes when that happens. Provisioning six routines now trains the client to ignore all
-  of them, which is the exact outcome `ROUTINES.md` refuses.
+  of them, which is the exact outcome `09-rutinas.md` refuses.
 
 ## Close by reporting the state, not by declaring success
 

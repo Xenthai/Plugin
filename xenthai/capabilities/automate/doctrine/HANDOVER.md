@@ -1,5 +1,7 @@
 # Automation handover doctrine — acceptance, not performance
 
+Implements: A7 §2 · A7 §4
+
 Read this before writing the report that closes an automation build, and before choosing the
 platform it runs on.
 
@@ -21,11 +23,11 @@ is a different thing, worth stating plainly so nobody confuses the two rules.
 | --- | --- |
 | The automation runs through the assistant the client already has | Nothing new to license. Preferred by default, and it is the case where Xenth AI's own constraint and the client's interest coincide |
 | The client asks for a workflow platform, self-hosted | Their infrastructure, their data, their cost. **Record who administers the host** — an automation on a server nobody owns is an orphan |
-| The client asks for a workflow platform, vendor-hosted | Their subscription, their cost, **and their data leaves their own systems.** That is a fact for `SYSTEMS.md`, and it is a privacy-notice fact under the 2025 data-protection law when personal data passes through it |
+| The client asks for a workflow platform, vendor-hosted | Their subscription, their cost, **and their data leaves their own systems.** That is a fact for `02-inventario.md`, and it is a privacy-notice fact under the 2025 data-protection law when personal data passes through it |
 | Xenth AI would have to buy a subscription for the automation to work | **Refuse the design.** Rebuild it on what the client already has, or say the automation is not available. A dependency the practice pays for is a dependency the client inherits at renewal |
 
 **Never choose the platform before the process is mapped.** The suitability score in
-`PROCESSES.md` decides whether a process should be automated at all; the platform is a later and
+`03-procesos/` decides whether a process should be automated at all; the platform is a later and
 smaller decision. Choosing the platform first is how a company ends up with a workflow tool looking
 for a workflow.
 
@@ -110,7 +112,7 @@ Twelve items. Anything missing is a gap the client discovers at the worst moment
 
 | # | Item | Why it is in an acceptance document rather than a performance one |
 | --- | --- | --- |
-| 1 | **What it does**, in the process's own terms, with its process id from `PROCESSES.md` | The client must recognise their own process in the description, not ours |
+| 1 | **What it does**, in the process's own terms, with its process id from `03-procesos/` | The client must recognise their own process in the description, not ours |
 | 2 | **What triggers it**, and what happens if the trigger fires twice | Duplicate runs are the most common defect and the easiest to design against |
 | 3 | **What it does NOT do** — the exceptions it escalates rather than handles | The scope boundary is the single most useful line in the document |
 | 4 | **What happens when it is wrong** | See §3. This is the section the whole report exists for |
@@ -120,7 +122,7 @@ Twelve items. Anything missing is a gap the client discovers at the worst moment
 | 8 | **How to turn it off** — one instruction, no dependency on Xenth AI | See the test at the top |
 | 9 | **The platform, its cost, who pays it, who administers it, and its renewal date** | §1 |
 | 10 | **What it writes to the journal** | See §4. An automation that records nothing cannot be measured, defended, or improved |
-| 11 | **The before measurement it will be judged against** | Taken from `BASELINE.md` **before** the automation ran. If it was not taken, say so — that is the finding, and it means this automation will never have a credible after |
+| 11 | **The before measurement it will be judged against** | Taken from `08-linea-base.md` **before** the automation ran. If it was not taken, say so — that is the finding, and it means this automation will never have a credible after |
 | 12 | **What we could not automate and why** | The honest half. It is also the next engagement |
 
 ---
@@ -160,7 +162,7 @@ The reasoning, stated so nobody later mistakes it for an oversight:
 
 - **A reroute is a decision made without authority.** Substituting a product, adjusting a quantity or
   changing a price is a commercial decision, and the client's own authorisation chain — recorded in
-  `PROCESSES.md` — says who may make it. An automation that reroutes has quietly appointed itself.
+  `03-procesos/` — says who may make it. An automation that reroutes has quietly appointed itself.
 - **A break is visible; a clever recovery is not.** A stopped automation produces an escalation
   somebody sees within the hour. A rerouted one produces a plausible wrong result that surfaces
   weeks later, through a customer.
@@ -169,7 +171,7 @@ The reasoning, stated so nobody later mistakes it for an oversight:
   evidence.
 
 Where rerouting genuinely is the right answer — internal research, drafting, exploration, anything
-whose output a person reads before it matters — say so per automation in `AUTOMATIONS.md` and record
+whose output a person reads before it matters — say so per automation in `06-specs/REGISTRO.md` and record
 who decided. **The posture is chosen per automation, not once for the plugin.** What is never
 acceptable is rerouting by accident because nobody decided.
 
@@ -278,7 +280,7 @@ So the number is a gate on the way to the real test, which is this:
 That is a usability test with one participant, which sounds weak and is not: a document that one
 real operator cannot follow unaided will not be followed by the next one either, and the places
 they stopped are the exact edits to make. Record who performed it and what they got stuck on, in
-`AUTOMATIONS.md` alongside the acceptance, because that record is the evidence that the handover
+`06-specs/REGISTRO.md` alongside the acceptance, because that record is the evidence that the handover
 was a handover rather than a delivery.
 
 If the operator cannot perform the failure step from the document, the automation is not accepted.
@@ -294,10 +296,10 @@ to turn it off.** Not that it will never fail.
 ```bash
 node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event approval --actor "person:<name>" \
   --capability automate --why "automation handover accepted for process <id>" \
-  --target "AUTOMATIONS.md"
+  --target "06-specs/REGISTRO.md"
 ```
 
-Then add the automation to `ROUTINES.md` if it runs on a schedule, and add its check to the monthly
+Then add the automation to `09-rutinas.md` if it runs on a schedule, and add its check to the monthly
 report's quality section. **An automation nobody reviews is an automation nobody will notice
 breaking.**
 

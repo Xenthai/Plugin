@@ -1,6 +1,8 @@
 # Session doctrine — how to run the hour with a person
 
-`INTAKE.md` says to get facts from documents rather than by asking. This file is for what is left:
+Implements: A2 §5 · X6 §1-§3 · X6 §6-§7
+
+`01-empresa.md` says to get facts from documents rather than by asking. This file is for what is left:
 the facts that exist only in somebody's head, and the session where they come out.
 
 It applies to every skill that fills a document by talking to a person — `social-identity`,
@@ -33,7 +35,7 @@ their company — ask them to say once, out loud, that they want the operator's 
 official one. Then ask them to stay quiet. That single sentence, said by the boss, is worth more
 than any facilitation technique, and it costs nothing to request.
 
-Record whose answer each fact is. `INTERVIEW.md` exists for this. A fact with a name can be traced
+Record whose answer each fact is. `04-evidencia/ENTREVISTAS.md` exists for this. A fact with a name can be traced
 and corrected later; a fact without one can only be believed or discarded.
 
 ### The corollary the client will get backwards
@@ -66,7 +68,7 @@ tiempo?" gets one answer and you will not know which half it belongs to. Split i
 
 The client sent the constancia fiscal, the price list, the org chart. Opening a session with a
 question those answer tells them their documents were not read, and it spends the goodwill that the
-hard questions later in the session need. Read them first. `INTAKE.md` says which files to request
+hard questions later in the session need. Read them first. `01-empresa.md` says which files to request
 and what each unblocks.
 
 ## 4. Ask for instances, never for averages
@@ -139,4 +141,4 @@ re-ask, which is where clients stop taking the meetings.
 | `capabilities/baseline/doctrine/MEASUREMENT.md` | The session will produce a number anyone might later publish |
 | `capabilities/process/doctrine/PROCESS.md` | The session is a process mapping or scoping one |
 | `capabilities/company/doctrine/CONTROLS.md` | The session will decide who authorises what |
-| `<store>/INTERVIEW.md` | Always, at the end — whose answers these were |
+| `<store>/04-evidencia/ENTREVISTAS.md` | Always, at the end — whose answers these were |

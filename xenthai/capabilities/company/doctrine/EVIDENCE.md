@@ -1,9 +1,11 @@
 # Evidence — harvesting what the company already recorded
 
+Implements: A2 §6
+
 Read before phase 2 of the operación track. It governs deriving quantities from a company's own
 files and records, and contrasting them against what people said.
 
-`INTAKE.md` governs **asking for** documents and extracting facts from them one at a time. This file
+`01-empresa.md` governs **asking for** documents and extracting facts from them one at a time. This file
 governs the other thing: **going through them at scale to derive counts, durations and rates that
 nobody in the company could have told you.**
 
@@ -49,7 +51,7 @@ How a company organises its folders is its process, fossilised. Read it first:
 ### The document that represents one transaction
 
 Every company emits one document per operation — a quote, a purchase order, an invoice, a case
-file, a production order, a service sheet, a sales receipt. `PROFILE.md` §3 names which one this
+file, a production order, a service sheet, a sales receipt. `00-PERFIL.md` §3 names which one this
 archetype emits. Sample **fifteen to thirty**, chosen for spread across periods and sizes rather
 than for convenience, and extract to a table: date · counterparty · what was sold · amount · who
 produced it · whether a later version exists · whether a closing document is associated.
@@ -84,12 +86,12 @@ by hour and weekday, questions that repeat across different customers, objection
 answered, the reason a conversation died, and what the customer asked for that took the company time
 to produce.
 
-`CONTROLS.md` and the privacy rules in `INTAKE.md` apply in full. These are conversations with third
+`CONTROLS.md` and the privacy rules in `01-empresa.md` apply in full. These are conversations with third
 parties who consented to none of this.
 
 ### Records specific to the archetype
 
-`PROFILE.md` §3 names where the durable evidence lives for this kind of business. Go there. It is
+`00-PERFIL.md` §3 names where the durable evidence lives for this kind of business. Go there. It is
 the part of this phase that most changes by trade, and the part most often skipped.
 
 ## 4 · How to work the volume
@@ -119,16 +121,19 @@ mentioned it is always 50% — how is that decided?"* Almost every one of those 
 unwritten business rule, and unwritten business rules are exactly what a phase-5 specification needs
 and never has.
 
-`INTERVIEW.md` already establishes that a contradiction between two people is recorded rather than
+`04-evidencia/ENTREVISTAS.md` already establishes that a contradiction between two people is recorded rather than
 averaged, because the contradiction is the finding. This is the same rule with a document on one
 side.
 
 ## 6 · Where the findings land
 
-**No new document.** `PROCESSES.md` owns processes and `SYSTEMS.md` owns systems; findings go into
-their existing rows with their provenance, and the derived tables go to a working file. A third
-document holding the same facts would break the one-subject-one-file rule and create two answers to
-the same question.
+`04-evidencia/HALLAZGOS.md` owns the derived numbers, the contrast table and the unwritten business
+rules this phase produces; `04-evidencia/fuentes.md` owns what was reviewed and what was not, with
+who authorised it — the A2 §2 store layout gives evidence its own two documents. Neither duplicates
+`03-procesos/` or `02-inventario.md`: a process's own row still carries its frequency and cost,
+sourced back to a HALLAZGOS.md entry rather than restating the derivation inline — one fact, one
+owner, a citation where a second document would otherwise repeat it. The extracts themselves — the
+sample rows, the derived tables — go in `07-datos/`, never a copy of the client's original file.
 
 Provenance for a derived number is the folder, the sample size and the window — `[archivo:
 Cotizaciones/2026, n=24, ene–jun]` — never "the files". A number whose sample cannot be reconstructed
@@ -139,7 +144,7 @@ is a claim with a decimal point.
 - **It must not rename, move or delete anything.** Read only. Everything written goes to the company
   store, through `Write` and `Edit`.
 - **It must not copy content it does not need.** A derived count belongs in the store; the contract
-  it was derived from does not. `INTAKE.md`'s rule on data that arrives unasked applies here at
+  it was derived from does not. `01-empresa.md`'s rule on data that arrives unasked applies here at
   scale, and at scale it matters more.
 - **It must not turn a count into a time.** A folder proves that twenty-four quotes exist. It does
   not prove how long one took to produce. Duration still comes from dated instances in phase 3, and
@@ -156,4 +161,4 @@ is a claim with a decimal point.
 | `capabilities/baseline/doctrine/MEASUREMENT.md` | Before deriving any duration — it draws the line between counting and measuring |
 | `capabilities/company/doctrine/PROFILE.md` | §3 names where this archetype's durable evidence lives |
 | `capabilities/company/doctrine/CONTROLS.md` | Before touching customer conversations or personal data |
-| `scaffold/company/PROCESSES.md` · `scaffold/company/SYSTEMS.md` | The two documents findings land in. There is no third |
+| `scaffold/company/mapeo-empresa/04-evidencia/HALLAZGOS.md` · `scaffold/company/mapeo-empresa/04-evidencia/fuentes.md` | The two documents this phase's own findings land in |

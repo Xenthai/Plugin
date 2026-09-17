@@ -1,17 +1,34 @@
 # Maturity doctrine — is the engagement building capability, or dependency?
 
+Implements: A9 §1-§2 · A9 §5 · A6 §2
+
 Read this when scoping an engagement, at every quarterly report, and before any renewal
 conversation.
 
-It adapts a five-level adoption model and a six-month phase framework published by Anthropic in
-April 2026. **The adaptation is the important part**, and it is not cosmetic: the published model
-describes *a company deploying to itself*, where its own staff become the builders. This practice
-deploys *to a client*. Copying the model without that translation would describe an engagement that
-looks successful and leaves nothing behind.
+**The company's level is the playbook's, and it is not this file's ladder.** A9 sets it as the
+*minimum* of six dimensions — Gente, Datos, Gobernanza, Medición, Liderazgo, Promesa — never their
+average, diagnosed against the twenty yes/no statements in
+`capabilities/method/tables/a9-statements.md` and read against the level descriptions in
+`capabilities/method/tables/a9-levels.md`. A company with five strong dimensions and one at M0 is at
+M0: the low dimension is what decides what may be promised, and it is where the next quarter's plan
+goes.
+
+What this file adds is narrower and sits *inside* A9's Gente dimension: a **per-person usage
+ladder**, adapted from a five-level adoption model Anthropic published in April 2026, that supplies
+the artefact-level evidence A9 §2's Gente statements ask for (§1 below), and a reading of that same
+source's six-month phase framework as the pace inside A9 §5's own first two quarters, not a second
+programme length (§3). **The adaptation is the important part**, and it is not cosmetic: the
+published model describes *a company deploying to itself*, where its own staff become the builders.
+This practice deploys *to a client*. Copying the model without that translation would describe an
+engagement that looks successful and leaves nothing behind.
 
 ---
 
-## 1. The five levels, as they apply to a client
+## 1. The five USAGE levels, per person
+
+**This is not the company's level — that is A9's, above.** Say "usage level," never "maturity," when
+talking to a client: the same word for two different axes is exactly the collision `CONFORMANCE.md`
+Ruling 11 found, and it is why this ladder carries its own name now.
 
 | Level | What the client can do | The published example |
 | --- | --- | --- |
@@ -64,9 +81,12 @@ the client should hear it named at the start rather than discover it at renewal.
 
 ---
 
-## 3. The six-month shape
+## 3. The six-month adoption shape (A9 §5's T1+T2)
 
-Reproduced with its published targets, then what this practice adds to each phase.
+Reproduced with its published targets, then what this practice adds to each phase. **This
+six-month cadence is not a separate programme length: it is the per-department pace inside A9 §5's
+first two quarters (T1 diagnóstico, T2 despliegue); the company-level roadmap remains A9 §5's
+12-month, 4-quarter plan.**
 
 | Phase | When | Target | The published actions | What this practice adds |
 | --- | --- | --- | --- | --- |
@@ -118,7 +138,7 @@ And the sentence that is this practice's entire process-mapping pitch, written b
 > **Tribal knowledge gets encoded and reused rather than walking out the door when someone leaves.**
 
 Note what that implies for pricing and sequencing. The absence of written procedure is already
-measured in `BASELINE.md` as the tribal-knowledge count. **Level 4 is that count going down**, and
+measured in `08-linea-base.md` as the tribal-knowledge count. **Level 4 is that count going down**, and
 it is a number the client can check without trusting the practice's judgement.
 
 One more, on scale versus quality:
@@ -195,7 +215,7 @@ the list, which is why its output belongs in the quarterly rather than being sav
 
 ## 7. Record it, or it is an opinion
 
-The client's level and phase belong in `BASELINE.md`'s maturity layer, per department, with a date —
+The client's level and phase belong in `08-linea-base.md`'s maturity layer, per department, with a date —
 because a level asserted in a meeting is a feeling, and a level recorded with the artefact that
 proves it is a measurement.
 
@@ -219,3 +239,4 @@ theirs.
 | `capabilities/automate/doctrine/HANDOVER.md` | A workflow is climbing from Level 2 to Level 3 — the autonomy ladder governs that step |
 | `capabilities/report/doctrine/REPORTING.md` | The quarterly re-measure, and the annual question of whose level moved |
 | `capabilities/company/doctrine/CONTROLS.md` | Level 4 means admin-provisioned bundles, which is a control surface question |
+| `capabilities/method/tables/a9-statements.md`, `a9-levels.md` | Diagnosing or re-diagnosing the company's A9 §2 level — the six-dimension instrument this per-person ladder feeds (A6 §2), not replaces |

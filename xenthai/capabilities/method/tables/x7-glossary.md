@@ -1,0 +1,41 @@
+| Término | Definición | Sinónimos |
+| --- | --- | --- |
+| Agente | Sistema de IA que recibe un objetivo, decide por sí mismo qué pasos dar y ejecuta acciones con herramientas hasta lograrlo o fallar. Se distingue de un flujo automatizado en que el orden de los pasos no está escrito de antemano. | asistente autónomo |
+| Ajuste fino | Entrenar un modelo ya existente con ejemplos propios para que adopte un formato, un estilo o una tarea específica. No sirve para agregar conocimiento fresco: para eso es la búsqueda documental. | fine-tuning, en inglés |
+| Alucinación | Respuesta de un modelo que suena correcta y no lo es: una cifra, una cita o un hecho inventados con el mismo tono que los verdaderos. Es el riesgo que justifica el humano en el circuito y las evals. | confabulación |
+| API | Puerta programable de un sistema: permite que otro programa lea o escriba datos sin que una persona use la pantalla. Que un sistema tenga API es lo que lo vuelve verde en el semáforo de integrabilidad. | interfaz de programación |
+| Arqueología documental | La sub-fase 2 de A2: reconstruir cómo opera la empresa leyendo sus archivos, correo, hojas de cálculo y conversaciones, en lugar de creerle a la entrevista. |  |
+| Arquetipo | Clasificación operativa del negocio, no su sector: dos empresas de giros opuestos con el mismo arquetipo se diagnostican casi igual. Los seis están en A2 §3. |  |
+| Bloqueante | Criterio de cobertura marcado "Sí" en la columna Bloqueante de X4, sin el cual no se puede construir un portafolio defendible. Un bloqueante en nivel 0 detiene el avance de fase. |  |
+| Búsqueda documental (RAG) | Técnica en la que el sistema busca primero los fragmentos relevantes de los documentos de la empresa y se los entrega al modelo para que responda con ellos. Es la forma normal de que un modelo trabaje con información propia. | retrieval-augmented generation, en inglés |
+| Cinco bloques | Los componentes del *AI-First Operating System* del World Economic Forum —motor de inteligencia, stack adaptativo, rediseño de operaciones, equipos humano-IA y nueva creación de valor— usados como rejilla de diagnóstico en A0 §2. |  |
+| Cobertura | Qué tan completo está el diagnóstico, medido criterio por criterio con la rúbrica del anexo X4. No es un porcentaje de avance: es una calificación con veredicto. |  |
+| Conector | Integración ya construida entre dos sistemas, que se configura en vez de programarse. Baja el costo de una automatización pero ata el proyecto al proveedor que lo mantiene. | conector nativo |
+| Conjunto dorado | Colección de casos con su respuesta correcta acordada, contra la que se mide si un sistema de IA se comporta como debe. Es la base de cualquier eval. | golden set, en inglés |
+| Contexto | Todo lo que el modelo tiene a la vista al responder: la instrucción del sistema, la conversación y los documentos recuperados. Es finito, y lo que no cabe es como si no existiera. | ventana de contexto, para nombrar su límite |
+| Despliegue | Puesta en producción de un proceso conectado: cuando deja de ser prueba y opera sobre el trabajo real, con dueño, monitoreo y plan de reversión. |  |
+| Entorno de pruebas | Copia del sistema donde se ensaya sin tocar datos reales ni afectar a clientes. Sin él no hay forma honesta de probar una automatización que mueve dinero. | sandbox, ambiente de staging |
+| Eval | Prueba automatizada del comportamiento de un sistema de IA: corre el conjunto dorado, compara contra lo esperado y falla cuando la calidad cae. Es a la IA lo que la prueba unitaria al software. | evaluación automatizada |
+| Ficha de proceso | El archivo `PXX-<nombre>.md` con dueño, disparador, pasos, frecuencia, minutos por vez, horas-persona al mes, costo, excepciones, reglas no escritas y veredicto de higiene. Es la unidad mínima sobre la que A3 prioriza. |  |
+| Filtro de higiene | La pregunta que se contesta antes de cerrar cada proceso: ¿funciona bien cuando se hace a mano? Si no, el proceso se marca "rediseñar antes de automatizar". |  |
+| Humano en el circuito | Revisión obligatoria de una persona antes de que un acto automatizado surta efecto. Se exige donde el error es caro, irreversible o afecta a un tercero. | punto de control humano, la forma con la que se nombra hacia el cliente |
+| Idempotencia | Propiedad de una operación que, ejecutada dos veces con la misma entrada, produce el mismo resultado sin duplicarlo. Es lo que impide que un reintento mande dos veces la misma factura. |  |
+| Instrucción del sistema | El texto fijo que define el papel, las reglas y los límites del modelo antes de que llegue la primera pregunta del usuario. Es donde vive la política del proceso conectado. | prompt de sistema |
+| Integrabilidad | Semáforo por sistema del inventario técnico: verde si hay API oficial o conector nativo, amarillo si solo permite exportar e importar archivos, rojo si es cerrado. |  |
+| Inyección de instrucción | Ataque en el que un texto que el sistema lee —un correo, una página, un documento— contiene órdenes que el modelo obedece como si vinieran del operador. Es el riesgo específico de cualquier agente con acceso a contenido externo. | prompt injection, en inglés |
+| Jugadas Deploy, Reshape, Invent | Las tres apuestas simultáneas que describe BCG: desplegar herramientas existentes, rediseñar procesos completos e inventar oferta nueva. No son fases consecutivas. |  |
+| Línea base | Medición del proceso **antes** de intervenirlo: veces al mes, minutos por vez, quién lo hace, cuánto cuesta y con qué tasa de error. Sin ella no se aprueba un proceso conectado. |  |
+| Madurez de ingeniería (I0–I4) | La escala de la Parte B: **I0 Autocompletado · I1 Asistido · I2 Dirigido por especificación · I3 Delegado · I4 Orquestado**. I2 es el destino razonable de la mayoría de los equipos. |  |
+| Madurez de la empresa (M0–M4) | La escala de la Parte A: **M0 Ad hoc · M1 Asistido · M2 Integrado · M3 Rediseñado · M4 Compuesto**. El nivel lo fija lo que la empresa opera de verdad, no lo que tiene contratado. |  |
+| Mapeo | El diagnóstico estructurado de cómo opera la empresa de verdad, con procesos medidos en volumen, tiempo y costo. Es la Fase 1 y el capítulo A2. |  |
+| MCP | Protocolo abierto que estandariza cómo un modelo accede a herramientas y datos de una empresa, de modo que la integración se escribe una vez y sirve para varios asistentes. | Model Context Protocol, en inglés |
+| Modelo de lenguaje | Sistema entrenado sobre grandes volúmenes de texto que predice la continuación más probable de lo que recibe. De ahí salen sus dos caras: escribe bien y puede equivocarse con seguridad. | LLM, modelo fundacional |
+| Nivel de evidencia | La calificación que acompaña a todo dato del mapeo: **verificado · declarado · inferido · ausente**. Un dato sin nivel es una hipótesis disfrazada de hecho. |  |
+| Oportunidad | Candidato a automatizar o asistir con IA, ligado a un proceso medido y con puntaje calculado según X3. Antes del puntaje es una idea, no una oportunidad. |  |
+| Orquestación | Coordinación de varios pasos, modelos o agentes dentro de un mismo flujo, incluyendo qué se ejecuta en qué orden, qué se reintenta y qué se escala a una persona. | coordinación de flujos |
+| Portafolio | El conjunto ordenado de oportunidades con su puntaje, su secuencia y su decisión. Producto de la Fase 2 (A3), no una lista de deseos. |  |
+| Proceso | Unidad de trabajo con dueño, volumen, tiempo y costo medidos. Sin esas cuatro cosas es una descripción, no un proceso en el sentido de este playbook. |  |
+| Proceso conectado | Oportunidad aprobada y especificada, con criterios de aceptación, dueño y presupuesto. Una oportunidad no aprobada no es un proceso conectado. |  |
+| Regla 10-20-70 | El reparto de esfuerzo de BCG en una transformación con IA: 10 % algoritmos, 20 % tecnología y datos, 70 % personas y procesos. Sirve como prueba del plan de trabajo. |  |
+| Regla de negocio no escrita | Condición que gobierna una decisión real y no está documentada en ningún lado —quién autoriza qué, desde qué monto, con qué excepción—. Aparece al contrastar evidencia y es requisito de diseño. |  |
+| Veredicto de cobertura | La conclusión escrita de X4: listo para avanzar, se avanza con reserva, o no se avanza. Se escribe siempre, aunque sea favorable. |  |

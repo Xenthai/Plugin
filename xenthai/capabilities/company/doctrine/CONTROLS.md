@@ -1,5 +1,7 @@
 # Controls doctrine — how a rule is actually enforced
 
+Implements: A5 §1 · A5 §4 · A5 §6
+
 Read this before writing any rule that matters, and before promising a client that something cannot
 happen.
 
@@ -244,7 +246,7 @@ survey says.
 ### What the answers change
 
 A "no" to any of the three is not a reason to stop. It is a **scope finding**, and it belongs in
-`PROCESSES.md` §5 alongside the prohibited-actions list:
+`03-procesos/PXX-nombre.md` alongside the prohibited-actions list:
 
 | Answer | What it makes true |
 | --- | --- |

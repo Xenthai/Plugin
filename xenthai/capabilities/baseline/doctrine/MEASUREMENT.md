@@ -1,5 +1,7 @@
 # Measurement doctrine — the company's "before"
 
+Implements: A8 §1 · A8 §2
+
 Without a before captured while it still existed, the consultancy can never publish an outcome
 figure. Not "publishes a weaker one" — cannot publish one at all, because none was ever measured.
 Everything in this file exists to make one later claim defensible, and to keep every other claim
@@ -163,13 +165,17 @@ Use those first, always. Effort — touch time — is the one thing timestamps c
 is exactly the number a client will happily invent. **Never backfill an effort figure from memory
 without labelling it an unverified client estimate**, in the document, on the number.
 
-## Attribution — contribution, never a counterfactual
+## Attribution — A8 §3's ladder, and a counterfactual is never quantified without a comparison unit
 
-One company, no control group, no random assignment. **No magnitude claim is defensible.** Never
-"we caused 23% of the improvement", and never a figure with an implied counterfactual — "would
-have taken 40 hours without us" — because nobody measured a without-us.
+A8 §3 names three methods, rising in rigour: before-and-after with seasonality control (Método 1),
+a comparison group (Método 2) and a stepped rollout (Método 3). `REPORTING.md` §10b adopts the
+ladder as written. What this file adds is the floor: with one company, one site and no comparison
+unit — Método 1 territory — **no magnitude claim is defensible.** Never "we caused 23% of the
+improvement", and never a figure with an implied counterfactual — "would have taken 40 hours
+without us" — because nobody measured a without-us. A magnitude is licensed only once Método 2 or
+3 supplies the comparison.
 
-What the evaluation literature does permit:
+What the evaluation literature permits at the floor:
 
 | Method | What it needs | What it licenses |
 | --- | --- | --- |
@@ -178,8 +184,8 @@ What the evaluation literature does permit:
 | Process tracing | Same family, much heavier evidentiary work | A single flagship case. Reserve it; do not run it per client |
 | Interrupted time series | Commonly cited guidance wants **eight or more** observations per side | With three to six, illustrative only — never proof |
 
-Contribution analysis is the working default because it is the only one of the four that survives a
-single company with no comparison group. Its price is that alternative explanations must be
+Contribution analysis is the working default under Método 1 because it is the only one of the four
+that survives a single company with no comparison unit. Its price is that alternative explanations must be
 written down and answered — seasonality, a new hire, a price change, the Hawthorne effect of being
 measured at all. An unnamed alternative explanation is the one a sceptical reader supplies.
 

@@ -1,10 +1,12 @@
 # Profile — the operating archetype, and why the method bends to it
 
+Implements: A2 §3 · X6 §4
+
 Read before phase 1 of the operación track. It carries the four questions that place any company,
 the six archetypes they resolve to, what each one changes downstream, and the rule for a trade
 nobody in the room understands.
 
-`INTAKE.md` governs asking for documents. `SESSION.md` governs asking a person anything. This file
+`01-empresa.md` governs asking for documents. `SESSION.md` governs asking a person anything. This file
 governs only one thing: **deciding what kind of business this is before spending a session mapping
 it as if it were another kind.**
 
@@ -64,7 +66,7 @@ This is the whole point of the profile. Everything below is what phase 3 goes hu
 | **E** | Costing after the fact, material purchasing, floor scheduling | Production orders, material receipts | Orders per month and real versus quoted cost |
 | **F** | Credit authorisation, route building, order re-keying | Delivery notes, invoices, statements | Days of stock and days of receivables |
 
-`PROCESSES.md`'s support-activity checklist is deliberately generic. This table is what makes it
+`03-procesos/`'s support-activity checklist is deliberately generic. This table is what makes it
 specific, and specificity is the difference between an inventory that names twelve processes and one
 that names nineteen.
 
@@ -99,7 +101,7 @@ It happens, and pretending otherwise wastes the session. The order is fixed:
    Phase 4 has nothing to prioritise against otherwise.
 
 **What is read before the session is a hypothesis about the trade, never a fact about this company.**
-Mark it as such in `PROFILE.md` and confirm every line of it in the room. A consultant who arrives
+Mark it as such in `00-PERFIL.md` and confirm every line of it in the room. A consultant who arrives
 with a printed list of "your processes" and reads it out has replaced a diagnosis with a template.
 
 ## 6 · The glossary, and why it is not courtesy
@@ -107,7 +109,7 @@ with a printed list of "your processes" and reads it out has replaced a diagnosi
 Every trade has words that mean something specific and something else outside it. Capturing them is
 not politeness; it is the thing that stops a whole inventory being wrong.
 
-`PROCESSES.md` already requires the process be named *in the doers' words*, and `PEOPLE.md` records
+`03-procesos/` already requires the process be named *in the doers' words*, and `01-empresa.md` records
 what the company calls each person. Both rules assume the words have been captured somewhere. This
 is that somewhere.
 
@@ -137,4 +139,4 @@ That last column is where the real errors hide.
 | `capabilities/company/doctrine/INTAKE.md` | The profile session names documents to request; that file governs the request |
 | `capabilities/company/doctrine/REGULATORS-MX.md` | The trade's regulator, which the profile identifies and `social-identity` records |
 | `capabilities/company/doctrine/EVIDENCE.md` | Phase 2 tests the profile's claims against documents |
-| `scaffold/company/PROFILE.md` | The skeleton to copy into the store |
+| `scaffold/company/mapeo-empresa/00-PERFIL.md` | The skeleton to copy into the store |

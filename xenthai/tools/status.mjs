@@ -5,6 +5,7 @@ import { copyFromPieces, readsAsSpanish } from "./legible.mjs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { readCompany } from "../lib/company.mjs";
+import { STORE_DOCUMENTS, familyDir, familyPattern, resolveForCompany } from "../lib/store-layout.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const PLUGIN = join(HERE, "..");
@@ -30,36 +31,6 @@ document is a phase that never ran, and a document in the wrong language is a de
 neither of which is a cosmetic gap.
 `;
 
-/**
- * Which skill is responsible for leaving each document without pending fields.
- *
- * This map is the answer to "who owes this". A document absent from it has no owning phase, which
- * means nothing will ever fill it — the tool reports that as a defect in the plugin, not in the
- * company's data.
- */
-const OWNERS = {
-  "INTAKE.md": ["company-intake"],
-  "PROFILE.md": ["company-profile"],
-  "PRESENCE.md": ["social-presence"],
-  "BRAND.md": ["social-identity"],
-  "PROOF.md": ["social-identity", "social-voice"],
-  "DESIGN.md": ["social-identity"],
-  "CUSTOMERS.md": ["social-identity"],
-  "PEOPLE.md": ["social-identity", "process-map"],
-  "VOICE.md": ["social-voice"],
-  "SOCIAL.md": ["social-plan"],
-  "OFFER.md": ["company-offer"],
-  "PRODUCTS.md": ["company-offer"],
-  "SERVICES.md": ["company-offer"],
-  "SYSTEMS.md": ["process-map", "company-evidence"],
-  "PROCESSES.md": ["process-map", "process-access", "company-evidence", "opportunities"],
-  "BASELINE.md": ["baseline"],
-  "ROUTINES.md": ["company-new", "report", "process-access"],
-  "AUTOMATION-SPEC.md": ["automate-spec"],
-  "AUTOMATIONS.md": ["automate-handover"],
-  "INTERVIEW.md": ["every skill that interviews"],
-};
-
 const PENDING = /—\s*pendiente\s*—/g;
 
 const args = {};
@@ -75,7 +46,15 @@ if (args.help) {
   process.exit(0);
 }
 
-const ctx = args.company ? { ok: true, root: args.company, company: null } : readCompany();
+/**
+ * `--company` reads the manifest inside that directory when there is one, exactly as
+ * `tools/scaffold.mjs` does — so the two tools agree on where `mapeo-<nombre>/` actually is. Before
+ * the store lived in a company-named folder this mattered nowhere; now a mismatch here would have
+ * one tool write documents the other can never find.
+ */
+const ctx = args.company
+  ? { ok: true, root: args.company, company: readCompany(args.company).company ?? null }
+  : readCompany();
 if (!ctx.ok) {
   process.stderr.write(
     `no company bound (${ctx.reason}). Pass --company <dir> or run inside an engagement folder.\n`
@@ -83,8 +62,7 @@ if (!ctx.ok) {
   process.exit(1);
 }
 
-const scaffoldDir = join(PLUGIN, "scaffold", "company");
-const expected = readdirSync(scaffoldDir).filter((f) => f.endsWith(".md"));
+const companyName = ctx.company?.name ?? null;
 
 /**
  * Labels of pending fields: a table row's first cell, or the bold label preceding the marker.
@@ -104,10 +82,10 @@ const pendingLabels = (text) => {
 };
 
 /**
- * Client-facing markdown the plugin GENERATES, rather than the fixed scaffold list — a report a
+ * Client-facing markdown the plugin GENERATES, rather than the fixed store layout — a report a
  * director reads, a plan that goes to review. These are the most visible artefacts an engagement
  * produces and they were the ones nothing audited, because they live in dated subfolders and the
- * scaffold list cannot name them.
+ * store layout cannot name them.
  *
  * The exclusions are as load-bearing as the inclusions. `journal/` carries English event names by
  * design (`ai_action`, `review_start`) and is machine-read, `digest/` is written for the practice
@@ -163,25 +141,92 @@ const auditable = (root, rel) => {
   }
 };
 
-const report = expected.map((name) => {
-  const path = join(ctx.root, name);
+/**
+ * A family document (`PXX-nombre.md`, `AXX-nombre.md`) or a directory-only one (`07-datos/`) is
+ * reported by whether its directory holds at least one real instance, never by exact-path
+ * existence — its store path names a pattern, not a file anybody writes verbatim.
+ */
+const familyStatus = (doc) => {
+  const dir = join(ctx.root, ...familyDir(doc.templatePath, companyName).split("/"));
+  if (!existsSync(dir)) return { exists: false, count: 0 };
+  const pattern = doc.templatePath.endsWith("/") ? null : familyPattern(doc.templatePath);
+  const files = readdirSync(dir).filter((f) => !pattern || pattern.test(f));
+  return { exists: files.length > 0, count: files.length };
+};
+
+const report = STORE_DOCUMENTS.map((doc) => {
+  const displayName = doc.templatePath;
+  if (doc.family) {
+    const { exists, count } = familyStatus(doc);
+    return {
+      document: displayName,
+      exists,
+      pending: null,
+      labels: [],
+      language: null,
+      owedBy: doc.owners,
+      unowned: false,
+      family: true,
+      count,
+    };
+  }
+  const resolved = resolveForCompany(doc.templatePath, companyName);
+  const path = join(ctx.root, ...resolved.split("/"));
   const exists = existsSync(path);
   const text = exists ? readFileSync(path, "utf8") : "";
-  const owners = OWNERS[name] ?? null;
+  return {
+    document: displayName,
+    exists,
+    pending: exists ? (text.match(PENDING) ?? []).length : null,
+    labels: exists ? pendingLabels(text) : [],
+    language: exists ? readsAsSpanish(text) : null,
+    owedBy: doc.owners,
+    unowned: false,
+  };
+});
+
+/**
+ * `scaffold/company/` is the actual allowlist of what a session may write — every `.md` under it
+ * that is not a known store document or a directory-only entry's own placeholder file (`07-datos/
+ * README.md`) is a scaffold this build ships with no owning phase in the vendored store table, and
+ * the tool reports that as a defect in the PLUGIN, not in the company's data, exactly as an
+ * unrecognised document did before the store table existed.
+ */
+const scaffoldOrphans = () => {
+  const known = new Set(STORE_DOCUMENTS.map((d) => d.templatePath));
+  const directoryOnly = STORE_DOCUMENTS.filter((d) => d.templatePath.endsWith("/")).map((d) => d.templatePath);
+  const scaffoldDir = join(PLUGIN, "scaffold", "company");
+  let files = [];
+  try {
+    files = readdirSync(scaffoldDir, { recursive: true })
+      .filter((f) => f.endsWith(".md"))
+      .map((f) => f.split(/[\\/]/).join("/"));
+  } catch {
+    return [];
+  }
+  return files.filter((f) => !known.has(f) && !directoryOnly.some((dir) => f.startsWith(dir)));
+};
+
+const orphanReport = scaffoldOrphans().map((name) => {
+  const resolved = resolveForCompany(name, companyName);
+  const path = join(ctx.root, ...resolved.split("/"));
+  const exists = existsSync(path);
+  const text = exists ? readFileSync(path, "utf8") : "";
   return {
     document: name,
     exists,
     pending: exists ? (text.match(PENDING) ?? []).length : null,
     labels: exists ? pendingLabels(text) : [],
     language: exists ? readsAsSpanish(text) : null,
-    owedBy: owners,
-    unowned: owners === null,
+    owedBy: null,
+    unowned: true,
   };
 });
+report.push(...orphanReport);
 
 /**
- * Documents that exist and do NOT read as Spanish. The scaffolds ship in es-MX and a skill fills
- * them in a session, so this is the only place the written result is checked — a document with
+ * Documents that exist and do NOT read as Spanish. The store layout ships in es-MX and a skill
+ * fills it in a session, so this is the only place the written result is checked — a document with
  * Spanish headings and English content looks finished and is a delivery defect. `doctor` guarantees
  * the manifest's locale is Spanish; this guarantees the files match it.
  */
@@ -221,8 +266,14 @@ if (args.json) {
 } else {
   process.stdout.write(`\n${ctx.company?.name ?? ctx.root}\n\n`);
   for (const r of report) {
-    const state = !r.exists ? "AUSENTE" : r.pending === 0 ? "completo" : `${r.pending} pendientes`;
-    const lang = !r.exists
+    const state = !r.exists
+      ? "AUSENTE"
+      : r.family
+        ? `${r.count} archivo(s)`
+        : r.pending === 0
+          ? "completo"
+          : `${r.pending} pendientes`;
+    const lang = !r.exists || r.family
       ? ""
       : r.language?.verdict === false
         ? "NO ES es-MX"
@@ -230,7 +281,7 @@ if (args.json) {
           ? "sin prosa"
           : "es-MX";
     process.stdout.write(
-      `  ${r.document.padEnd(16)} ${state.padEnd(16)} ${lang.padEnd(12)} ${r.unowned ? "*** sin dueño ***" : r.owedBy.join(", ")}\n`
+      `  ${r.document.padEnd(40)} ${state.padEnd(16)} ${lang.padEnd(12)} ${r.unowned ? "*** sin dueño ***" : r.owedBy.join(", ")}\n`
     );
     if (args.pending && r.labels.length) {
       for (const l of r.labels.slice(0, 12)) process.stdout.write(`      · ${l}\n`);

@@ -39,13 +39,13 @@ node "${CLAUDE_PLUGIN_ROOT}/tools/status.mjs" --json
 
 | What is in the company store | Phase | Route to |
 | --- | --- | --- |
-| No `PROFILE.md` | **1 — Perfil** | `company-profile` |
-| `PROFILE.md` exists, no `PROCESSES.md`, and the company's folders or mail are reachable | **2 — Evidencia** | `company-evidence` |
-| No `PROCESSES.md`, and nothing is reachable to sweep | **3 — Diagnóstico** | `process-map`, and say that phase 2 was skipped for lack of material |
-| `PROFILE.md` exists, no `PROCESSES.md` | **3 — Diagnóstico** | `process-map` |
-| `PROCESSES.md` exists, but its pain-point and access sections are still `— pendiente —` | **4 — Mapeo integral** | `process-access` |
-| `PROCESSES.md` complete, a candidate approved by name and date | **5 — Especificación** | `automate-spec` |
-| `PROCESSES.md` complete, nothing approved | Neither | Ask what changed: a new process to add, a revision after something broke, or a shortlist to re-score. Do not re-run a phase to look busy |
+| No `00-PERFIL.md` | **1 — Perfil** | `company-profile` |
+| `00-PERFIL.md` exists, no `03-procesos/`, and the company's folders or mail are reachable | **2 — Evidencia** | `company-evidence` |
+| No `03-procesos/`, and nothing is reachable to sweep | **3 — Diagnóstico** | `process-map`, and say that phase 2 was skipped for lack of material |
+| `00-PERFIL.md` exists, no `03-procesos/` | **3 — Diagnóstico** | `process-map` |
+| `03-procesos/` exists, but its pain-point and access sections are still `— pendiente —` | **4 — Mapeo integral** | `process-access` |
+| `03-procesos/` complete, a candidate approved by name and date | **5 — Especificación** | `automate-spec` |
+| `03-procesos/` complete, nothing approved | Neither | Ask what changed: a new process to add, a revision after something broke, or a shortlist to re-score. Do not re-run a phase to look busy |
 
 **Each phase is one session.** Compressing two into one produces an inventory nobody had time to
 check and an access map built on it.
@@ -68,7 +68,7 @@ Before handing off to the phase skill:
 
 ```bash
 node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event phase_start --capability process \
-  --why "operacion phase 3 diagnostico — process inventory" --target "PROCESSES.md"
+  --why "operacion phase 3 diagnostico — process inventory" --target "03-procesos/"
 ```
 
 Use `--why "operacion phase 4 mapeo integral — pain, access and automation shortlist"` for phase 4,
@@ -111,4 +111,4 @@ Never put client content in `--why` or `--detail`. The name of a process is clie
 | `skills/process-access/SKILL.md` | Routing to phase 4 |
 | `skills/automate-spec/SKILL.md` | Routing to phase 5 |
 | `skills/coverage/SKILL.md` | Before every route, and at the close of every session |
-| `scaffold/company/PROCESSES.md` | Phase 3 needs the inventory skeleton to copy into the store |
+| `scaffold/company/mapeo-empresa/03-procesos/INDICE.md` | Phase 3 needs the inventory skeleton to copy into the store |

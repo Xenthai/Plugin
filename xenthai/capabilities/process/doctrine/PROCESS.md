@@ -1,5 +1,7 @@
 # Process doctrine
 
+Implements: A2 §7 · A3 §2 · X3
+
 How a company's work is captured so it can later be automated with a person keeping every
 decision. This is the consultancy's product: the *Diagnóstico* (operación phase 3) and the
 *Mapeo integral* (operación phase 4). Read it before capturing a process, and again before scoring one for automation.
@@ -76,7 +78,7 @@ drawn. Six months later nobody can tell which shapes were told to us and which w
 So: **one structured table per process — every field its own column, split into thematic blocks so
 that no single block becomes too wide to read — with `— pendiente —` in anything not captured.** A
 twenty-column table is as unreadable as a diagram is unauditable; the blocks are how both are
-avoided. `scaffold/company/PROCESSES.md` is the shape.
+avoided. `scaffold/company/mapeo-empresa/03-procesos/INDICE.md` is the shape.
 
 ---
 
@@ -131,39 +133,41 @@ usually falls out of the answer.
 
 ---
 
-## 5. Automation suitability scoring
+## 5. Automation suitability scoring — the X3 rubric
 
-Score 1 to 5 where **5 favours automation**. Two groups, and the report must keep them apart.
+Score with the playbook's own instrument, not a house rubric. Eight weighted criteria, C1 through
+C8, sourced from `capabilities/method/tables/x3-criteria.md` (criterion, what it measures, weight)
+and `capabilities/method/tables/x3-scales.md` (the five-point scale per criterion, 1 to 5, where 5
+is always the favourable condition — including on the three inverted criteria, C5 risk, C6
+dependency, C7 resistance). Weights sum to 18.
 
-### Researched criteria — Wanner et al., ICIS 2019
+### Formula
 
-Five criteria for process selection, from published research on RPA process selection:
+```
+Puntaje = ( Σ (calificación × peso) ÷ 90 ) × 100
+90 = suma de pesos (18) × calificación máxima (5)
+Rango posible: 20 a 100
+```
 
-| Criterion | 5 (favours automation) | 1 (resists it) |
-| --- | --- | --- |
-| **Execution time** | Long manual run per item | Seconds; the run is not the cost |
-| **Stability** | Steps unchanged for a year or more | Changes monthly; the automation would be rework |
-| **Complexity** | Few steps, one or two systems, few branches | Many systems, deep branching, judgement mid-flow |
-| **Data type** | Structured input — form, table, database row | Unstructured — email prose, voice notes, photos |
-| **Failure rate** | Runs deviate rarely today | Deviates often; see the exception warning below |
+Read the result against `capabilities/method/tables/x3-decisions.md`'s four bands — arranca ya (80
+to 100), cola del trimestre (65 to 79), requiere condición previa (50 to 64), descartado (20 to
+49).
 
-Report the mean of these five as the **research score**, and say it is a research-grounded score.
+### Three vetoes, above the score
 
-### Expert-judgement criteria — scored, and labelled as judgement
+1. **C3 or C5 at 1 blocks the start**, whatever the total: it requires explicit committee
+   authorisation and a human-in-the-loop decision (§4 above).
+2. **C4 at 1 or 2 forces resolving the data gap first.** The opportunity does not start; the
+   capture that unblocks it does.
+3. **No frozen baseline, no start**, whatever the score.
 
-| Criterion | 5 | 1 |
-| --- | --- | --- |
-| **Error cost** | A wrong run is cheap and visible | A wrong run moves money, files with a regulator, or reaches a client |
-| **Regulatory constraint** | No regulator involved | The action is regulated and the approval is legally required |
+**Never publish a single blended total that folds a veto into the eight-criterion score.**
+Averaging judgement into the same number as the weighted criteria launders one into the other —
+exactly the fabrication this plugin exists to avoid. The vetoes carry that judgement now, kept
+separate from the score exactly the way the plugin's two former expert-judgement columns used to.
 
-These two **did not appear as scored criteria in the literature relied on here**. They are our own
-judgement, and the report says so in that many words. They are scored on the same scale and shown in
-their **own two columns**.
-
-**Never publish a single blended total.** Averaging seven numbers and presenting the result as
-research-based launders judgement into evidence — exactly the fabrication this plugin exists to
-avoid. The two judgement criteria act as a **cap**: a research score of 4.6 with error cost 1 is not
-a candidate for unattended automation, it is a candidate for an assisted step with a human approval.
+**This score orders candidates; it never states a result. The three vetoes above outrank it. No
+improvement figure is ever derived from it.**
 
 ---
 
@@ -220,10 +224,10 @@ prohibited-actions list from them directly — no committee will produce it.
 
 ## 8. After a few periods, the journal beats the interview
 
-§5 scores automation suitability, and two of its research-backed criteria — execution time and
-failure rate — are normally filled with what somebody remembers. That is the weakest evidence in the
-whole document: self-estimates of one's own recurring work run high by a median of 47%, always in
-the flattering direction, and the estimate and the improvement computed against it come from the
+§5 scores automation suitability, and two of its eight criteria — **C2 volumen** and **C8 tiempo a
+primer valor** — are normally filled with what somebody remembers. That is the weakest evidence in
+the whole document: self-estimates of one's own recurring work run high by a median of 47%, always
+in the flattering direction, and the estimate and the improvement computed against it come from the
 same place, so the inflation is invisible.
 
 Once an engagement has a few periods of journal, both of those criteria can be **measured instead**.
@@ -231,13 +235,13 @@ Once an engagement has a few periods of journal, both of those criteria can be *
 behind each pattern. Where a finding covers a process already scored in §5, replace the estimate with
 the measured value and say in the cell that it came from the journal, naming the periods it covers.
 
-That substitution is the single most valuable thing the journal buys. It turns two columns of a
+That substitution is the single most valuable thing the journal buys. It turns two cells of the
 scoring table from opinion into evidence, and it is the strongest available argument for an
 engagement continuing — not because the numbers flatter anyone, but because they are checkable.
 
-The judgement criteria stay untouched. Cost of error and regulatory constraint are invisible to a
-journal, and §5 keeps them separate from the research criteria precisely so that a measurement
-cannot quietly acquire their authority.
+The vetoes stay untouched. Risk (C5) and data quality (C4) are invisible to a journal — a journal
+records that something recurred, never whether recurring it is safe or well-formed — and §5 keeps
+them as vetoes precisely so that a measurement cannot quietly acquire their authority.
 
 ### Three properties this measurement has to keep
 
@@ -271,6 +275,6 @@ so the list cannot travel without it.
 
 | File | Read it when |
 | --- | --- |
-| `scaffold/company/PROCESSES.md` | Starting operación phase 3 — copy it into the company store as the inventory's skeleton |
+| `scaffold/company/mapeo-empresa/03-procesos/INDICE.md` | Starting operación phase 3 — copy it into the company store as the inventory's skeleton |
 | `skills/process-map/SKILL.md` | Running operación phase 3, the inventory session |
 | `skills/process-access/SKILL.md` | Running operación phase 4, the pain, access and shortlist session |

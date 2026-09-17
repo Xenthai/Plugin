@@ -127,11 +127,20 @@ positive on correct Spanish appears, since crying wolf is the worse failure of t
 
 Not for engagement health, not for company improvement, not for automation suitability. Averaging a
 silence signal against a governance defect hides whichever mattered, and a single improvement number
-is indefensible with one client and no control group. `PROCESSES.md` §6 keeps its two judgement
-criteria in separate columns as a **ceiling** rather than blending them into the research score.
+is indefensible with one client and no control group. `PROCESS.md` §5 keeps its three vetoes above
+the score rather than blending them into it — see the narrowing below for how that score is now
+computed.
 
 **Rejected:** a headline number, which is what a client asks for. **Reverses never** on the improvement
 score; a client's own process measure, before and now, is the honest substitute.
+
+**Narrowed on 2026-09-17** (`CONFORMANCE.md` Ruling 1): this ban stays absolute for performance and
+improvement claims — a client-facing "we improved X%" never comes from an average of unlike
+criteria. It does not extend to every weighted ranking: `PROCESS.md` §5 adopts X3's eight-criterion,
+18-weight formula for prioritisation, with three vetoes that outrank the number. That score orders
+candidates for the backlog; it is never published as, and never becomes, an improvement figure. The
+distinction is what the score is for — ranking what to build next, not reporting what got built —
+not a loophole in the ban.
 
 ### 10 · A cadence report is scheduled as a reminder, not as the report
 
@@ -445,48 +454,155 @@ here*.
 **Reverses if** the tracks stop being independent — if some future capability genuinely requires a
 voice document before a process can be mapped, one sequence becomes the honest description again.
 
+### 25 · The playbook's chapter codes sit beside the plugin's own phase numbers, never in place of them
 
-### 25 · A store declares whose it is, and an unknown answer is refused
+`CONFORMANCE.md` Ruling 4 found the plugin's operación 1-5 count answering a different question from
+the playbook's own numbering — Fase 0-7 (one per whole chapter A1-A8) and A2's internal Sub-fase
+labels (P, 0, 1, 2, 3) — with no row in either document saying so.
 
-**The decision.** `.company.json` carries `kind`, either `client` or `personal`, defaulting to
-`client`. It changes no veto — bound writes, unbound refuses, as before — and it changes three
-things that were wrong for half the stores the guard protects: the words the guard and `doctor` use,
-the `store_kind` stamped on every journal row, and the fact that the operator's own store can now be
-declared at all. An unrecognised kind is refused rather than defaulted.
+**The evidence.** `A0-marco.md` S6 maps Fase to a whole chapter; A2-mapeo.md S3-7 uses P, 0, 1, 2, 3
+for its own five sub-phases; `README.md` and `tools/coverage.mjs` used a third, unrelated count that
+crosses chapter boundaries (operación 3, the Diagnóstico, is A2 §7; operación 4, the Mapeo integral,
+is A3 §2). Three numbering schemes answering three different questions, one of them silent about
+which chapter it actually implements.
 
-**The evidence.** Observed, not theorised. A session set out to build the operator's own store in
-his personal Drive and the guard vetoed every `create_file`: `no-manifest`. The veto was correct —
-nothing was bound — and unfixable within the vocabulary the plugin had, because the only manifest
-that exists describes a company. The available workaround was to write one anyway, naming a personal
-store as a client, which would have written rows into a journal claiming client actions for work no
-client commissioned. The plugin's central claim is that every action is traceable to an actor and a
-purpose; a journal that cannot separate private work from an engagement does not support that claim,
-it only appears to.
+**Rejected: retiring the plugin's own 1-5 count** in favour of citing the playbook chapter alone.
+Decision 24 kept that count on purpose — it is what `--why` strings already reference, what
+`resume` detects from document existence, and what a returning operator remembers session to
+session. Losing it to make room for a chapter code would re-litigate a decision made one release
+earlier for no evidence gained: the two numbers answer different questions and a reader needs both.
+**Rejected: one blanket code per track**, the shape Ruling 4's own first draft proposed
+("operación 1 = A2 Mapeo"). It is imprecise in exactly the way the conflict complained about:
+operación 3 and operación 4 both fall inside what a blanket "A2" would claim, when they are in fact
+A2 §7 and A3 §2 respectively.
 
-**What was rejected.**
+**The decision.** Every phase mention in `README.md`, `tools/coverage.mjs`'s `PHASE` table and every
+skill's own description carries the playbook's specific chapter and section beside the plugin's own
+number, written once per document where it helps a reader — never as a replacement, never as a
+blanket per-track code. Comunicación keeps no paired code: no chapter A1-A9 covers that track, which
+`README.md` now states as a deliberate scope boundary rather than leaving it to be misread as a gap
+in the citation.
 
-- **Exempting personal Drive folders from the guard**, by id or by a "not a client store" escape.
-  This is an allowlist with extra steps, and decision 22's reasoning applies unchanged: the guard
-  has exactly two rules because two rules can be reasoned about. An exemption is a third rule whose
-  failure mode is silence.
-- **Inferring the kind** from the store name, the id, or whether the folder sits in a shared drive.
-  A client whose brand is the word "personal" breaks the first; a shared drive is a deployment
-  detail, not an ownership claim. Every sniff here gets it wrong in both directions, and the
-  expensive direction files a client's material as private.
-- **Defaulting an unknown kind to `client`.** Rejected for the reason `future-schema` is refused:
-  a value this build does not know was written by rules this build does not have, and guessing is
-  how one party's material lands in the other's trail invisibly.
-- **Leaving `ROW_SCHEMA` at 1** and adding `store_kind` as a nullable field. A null would then mean
-  both "written before the distinction existed" and "bound to a store with no kind", which is
-  exactly the indistinguishability the version field exists to prevent.
-- **Renaming the `doctor` check from `company` to `store`.** Correct and deferred: the name appears
-  in status codes, in the check list and in three suites, and bundling a rename into the fix would
-  have made the behavioural change unreviewable. The check keeps its name; its sentences were fixed
-  where they had become false.
+**Reverses if** the playbook ever restructures its own chapter numbering — at which point every
+citation added here needs a coordinated update, which is the cost this decision accepts in exchange
+for a citation precise enough to trust.
 
-**What would reverse it.** A third kind arriving — a household, a nonprofit, a personal store shared
-with a partner — that needs different *behaviour* rather than different words. At that point `kind`
-stops being a label and becomes policy, and policy per kind belongs in the guard as explicit rules,
-not in a string the guard reads for its wording. If instead nobody ever declares `personal` outside
-this operator's own machine, the field is decoration and should be removed rather than kept as a
-setting nothing sets.
+### 26 · The plugin adopts the A2 §2 store layout; the comunicación documents move, they do not translate
+
+`CONFORMANCE.md` Ruling 3 found the plugin's 21 flat, English-named scaffold files holding no
+relation to A2 §2's numbered, foldered layout (`mapeo-<empresa>/00-ESTADO.md` through
+`99-preguntas-abiertas.md`) — a real divergence, not a restatement, confirmed by a verifier run
+against the plugin's own `DECISIONS.md`, which carried no entry defending the flat English layout as
+an argued choice.
+
+**The evidence.** `packages/method/src/data/store.json` in the Web repository is the playbook's own
+machine-readable statement of the layout, one row per document with its path, its signer and its
+owning skill. Every plugin tool that resolved a document by name — `tools/status.mjs`'s `OWNERS`,
+`tools/coverage.mjs`'s `PHASE` and `BLOCKING`, `tools/scaffold.mjs`'s file list — held its own,
+independently hand-typed copy of a subset of that same information, and none of the three agreed
+with the playbook's own section numbers.
+
+**The decision.** The plugin's `scaffold/company/` is restructured into two folders mirroring A2 §2:
+`mapeo-empresa/` for the operación track (renamed to `mapeo-<nombre del cliente>/` once a company is
+bound) and `comunicacion/` for `BRAND.md`, `VOICE.md`, `PROOF.md`, `DESIGN.md`, `SOCIAL.md`,
+`PRESENCE.md`, `CUSTOMERS.md`. `lib/store-layout.mjs` reads the vendored copy of `store.json`
+(`capabilities/method/method.json`) as the single source every tool resolves a document path and an
+owning skill from, so a future rename is one edit in the Web repository followed by one export, not
+a hand-edit in four plugin files that can silently drift apart again.
+
+**The comunicación documents move; they do not translate.** A2 §2 is silent on the comunicación
+track — it is outside the playbook's method (X9) — so nothing in the playbook argues for translating
+`BRAND.md` and its siblings to Spanish names. Moving them under `comunicacion/` is in scope for this
+release because it is required to make the two-folder split real; renaming their files to Spanish is
+a separate, larger cost (every cross-reference inside `capabilities/social/`, every skill that
+writes them, every fixture that copies them) with no argued benefit yet.
+
+**Rejected: renaming the comunicación files to Spanish now**, on the precedent the operación track
+just set. The precedent does not extend automatically: the operación rename was argued from the
+playbook's own text (A2 §2 names the files in Spanish because A2 §2 IS the operación track); no
+playbook chapter names the comunicación files at all, so a Spanish rename there would be invented,
+not derived. **Rejected: leaving the comunicación files at the store root**, unfoldered, on the
+argument that they need no rename. Ruling 3's own layout puts every document under one of the two
+folders; a root-level exception would leave the store partially migrated with no principled
+boundary for what stays and what moves.
+
+**Reverses if** the first client engagement opens the comunicación track for real — at which point
+translating `BRAND.md` and its siblings to their Spanish A2-style names stops being invented and
+starts being informed by what a director actually needs to read.
+
+### 27 · `PROCESS.md` §5 adopts X3 as the scoring instrument; Wanner et al. and the judgement ceiling retire
+
+`CONFORMANCE.md` Ruling 1 found `PROCESS.md` §5's five-criteria Wanner et al. (ICIS 2019) research
+score, capped by two separately-scored judgement criteria (error cost, regulatory constraint),
+contradicting the playbook's own X3 instrument — eight weighted criteria, a formula normalised to
+20–100, three vetoes and four decision bands. The item's verifier run failed, so the owner ruled
+directly from the plan's pre-existing resolution on 2026-09-17 rather than reissuing it to the
+queue.
+
+**The evidence.** X3 is not a competing rubric invented for this ruling: `03-portafolio/PUNTAJES.md`
+and the ficha of `X3-rubrica-priorizacion.md` §4 are the playbook's own scoring artefacts, cited
+from `A3-portafolio.md` §2 as the reference instrument, and `packages/method/src/data/x3-scoring.json`
+in the Web repository is the machine-readable statement of its eight criteria, weights and formula
+— vendored here as `capabilities/method/tables/x3-criteria.md`, `x3-scales.md` and `x3-decisions.md`.
+
+**The decision.** `PROCESS.md` §5, `skills/process-access/SKILL.md` §4 and
+`scaffold/company/mapeo-empresa/05-backlog.md` §2 replace the five Wanner criteria and the
+two-criterion judgement ceiling with X3's eight criteria (C1–C8, weights summing to 18), the
+`Puntaje = (Σ calificación × peso ÷ 90) × 100` formula, and the three vetoes — C3 or C5 at 1 blocks
+the start; C4 at 1 or 2 forces resolving the data gap first; no frozen baseline, no start — in place
+of the old research-score/ceiling split. `DECISIONS.md` #9 is narrowed, not repealed: see the entry
+above.
+
+**Rejected: keeping Wanner et al. plus the judgement ceiling** as a second, plugin-only instrument
+running alongside X3. Two scoring rubrics for the same shortlist is a worse failure mode than either
+alone — a client sees two numbers for one opportunity and asks which one is real, and there is no
+principled way to answer that does not amount to picking X3 and pretending otherwise. **Rejected:
+keeping the research/judgement framing but relabelling it "X3"** — the two instruments do not share
+criteria (X3 has no "execution time" or "failure rate" criterion, and the plugin's "error cost" and
+"regulatory constraint" are absorbed into X3's C5 risk veto and the committee-authorisation step,
+not restated as separate columns), so this would have shipped X3's name over the old numbers rather
+than the old numbers.
+
+**Reverses if** the playbook itself revises X3 — at which point the vendored tables change under
+`packages/method` and this doctrine follows them, the way it follows every other vendored number.
+
+### 28 · Maturity doctrine re-anchors on A9's six-dimension model; the Anthropic ladder becomes a per-person usage instrument
+
+`CONFORMANCE.md` Ruling 11 (and Ruling 5's owner decision on A9 §5 versus `MATURITY.md` §3) found
+`MATURITY.md` describing itself as the company's maturity model, using an Anthropic-published 0–4
+adoption ladder and a six-month Evaluate/Pilot/Scale shape, while the playbook's own A9 already
+defines the company's level as the minimum of six dimensions (Gente, Datos, Gobernanza, Medición,
+Liderazgo, Promesa) diagnosed against twenty yes/no statements, inside a twelve-month, four-quarter
+route.
+
+**The evidence.** The two constructs measure different axes on different subjects, not one construct
+under two names: A9's M0–M4 is a company-level ceiling on what may be promised, set by the *lowest*
+of six dimensions and evidenced by the statements in `capabilities/method/tables/a9-statements.md`
+against the level descriptions in `a9-levels.md`; the Anthropic ladder describes what one *person*
+can do with the tool, with no dimension and no minimum rule. Forcing them into one scale loses the
+minimum-of-dimensions finding no company-grain scale can produce, and loses the Anthropic ladder's
+own argued evidence — the artefact-per-level rule and the "whose level moved" dependency test —
+which the playbook did not have and which this doctrine is not willing to discard.
+
+**The decision.** `MATURITY.md` re-anchors on A9: the company's level is M0–M4 by the minimum of its
+six dimensions, linked to `a9-levels.md` and `a9-statements.md` rather than restated by hand. The
+Anthropic 0–4 ladder is retitled and demoted to a per-person **usage** ladder feeding A9's Gente
+dimension (never called a "maturity level"), and its published six-month Evaluate/Pilot/Scale shape
+is reframed as the per-department pace nested inside A9 §5's first two quarters (T1 diagnóstico, T2
+despliegue) — the same owner decision that resolved Ruling 5. "Whose level moved" and the
+artefact-per-level table (§7) carry over verbatim: the playbook has no rule of its own that would
+produce either finding, so nothing here is discarded.
+
+**Rejected: keeping the Anthropic ladder as the company-level model.** It has no dimension structure
+and no minimum rule, so it cannot produce A9's central finding — that impeccable data with no
+governance is not a level, because the missing dimension is what decides what can be promised. A
+model that averages or ignores that finding is theatre dressed as measurement, which is exactly what
+A9 §1 exists to refuse. **Rejected: discarding the Anthropic ladder outright** once A9 governs the
+company level — its artefact test and dependency finding are argued evidence the playbook itself has
+no equivalent for, and CONTRIBUTING.md's own rule is that argued evidence is answered in writing, not
+deleted because the parent question was reassigned.
+
+**Reverses if** the playbook adds an artefact-per-person rule of its own to A6 §2, at which point the
+per-person usage ladder is redundant with playbook doctrine and is deleted rather than kept as a
+second name for the same thing.
+

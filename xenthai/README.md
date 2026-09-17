@@ -109,7 +109,12 @@ rest do one thing each.
 
 **The two tracks are numbered independently.** Comunicación runs phases 0, 1 and 2; operación runs
 phases 1 through 5. They do not depend on each other — a process inventory needs no voice document —
-and a bare phase number is ambiguous, so nothing here reports one without its track.
+and a bare phase number is ambiguous, so nothing here reports one without its track. Operación's 1-5
+count is the plugin's own step sequence; it does not align 1:1 with either the playbook's Fase count
+(0-7, one per whole chapter A1-A8) or A2's internal Sub-fase labels (P, 0, 1, 2, 3) — it spans
+chapters A2 through A4, and each phase below carries the specific chapter and section it implements.
+Comunicación's phases keep no paired playbook code: no chapter A1-A9 covers that track at all, which
+is a deliberate scope boundary, not a missing label.
 
 | | Skill | When it runs |
 | --- | --- | --- |
@@ -119,10 +124,10 @@ and a bare phase number is ambiguous, so nothing here reports one without its tr
 | | `resume` | Where the engagement stands and what the next step is. The one entry point a client's own staff can remember |
 | **Mapping** | `company-intake` | Asks for the files the company already has instead of interviewing for every fact |
 | | `company-offer` | What it sells and on what terms — stock, lead times, CFDI, the discount limit and who authorises exceeding it |
-| | `company-profile` | Operación phase 1 — the operating archetype, the trade's vocabulary, and which processes phase 3 should hunt for |
-| | `company-evidence` | Operación phase 2 — real volumes and rates derived from the company's own records, contrasted against what was claimed |
-| | `process-map` | Operación phase 3, the *Diagnóstico*: every process it actually runs, breadth before depth |
-| | `process-access` | Operación phase 4, the *Mapeo integral*: pain, access, authority, and a scored shortlist |
+| | `company-profile` | Operación phase 1 (A2 §3) — the operating archetype, the trade's vocabulary, and which processes phase 3 should hunt for |
+| | `company-evidence` | Operación phase 2 (A2 §6) — real volumes and rates derived from the company's own records, contrasted against what was claimed |
+| | `process-map` | Operación phase 3 (A2 §7), the *Diagnóstico*: every process it actually runs, breadth before depth |
+| | `process-access` | Operación phase 4 (A3 §2), the *Mapeo integral*: pain, access, authority, and a scored shortlist |
 | | `process` | The router for the operación track |
 | | `coverage` | What is still missing, as questions addressed to a role — and whether the next phase may start |
 | | `baseline` | The before, while it still exists. It cannot be reconstructed afterwards |
@@ -134,7 +139,7 @@ and a bare phase number is ambiguous, so nothing here reports one without its tr
 | | `social-produce` | Copy, then render. Refuses to emit an asset that breaches a platform limit |
 | | `social-handoff` | The delivery package: schedule, assets, and an honest note about what still needs a hand |
 | **Closing the loop** | `zapier-mcp-ops` | Operating a client's Zapier account over MCP: discover what is connected, read and write without guessing a schema, and log what was sent |
-| **Building** | `automate-spec` | Operación phase 5 — the buildable specification for one approved candidate, platform-independent until its last section |
+| **Building** | `automate-spec` | Operación phase 5 (A7 · X2.5) — the buildable specification for one approved candidate, platform-independent until its last section |
 | | `automate-handover` | Acceptance and liability, not results. The test is whether the client can switch it off alone |
 | | `report` | The journal read back, per cadence, with what the evidence cannot support |
 | | `opportunities` | What recurred across periods, as questions rather than recommendations |
@@ -226,7 +231,11 @@ capabilities/
   company/
     doctrine/       CONTROLS.md, INTAKE.md, SESSION.md, SCHEDULING.md, MATURITY.md,
                     REGULATORS-MX.md, STANDARDS.md
-scaffold/company/   the blank document set created for a new company, es-MX
+  method/           method.json, tables/*.md — the playbook's method vendored as data, generated
+                    by the Web repository and never edited here (capabilities/method/README.md)
+scaffold/company/   the blank document set created for a new company, es-MX — the A2 §2 layout:
+                    mapeo-empresa/ (operación track, becomes mapeo-<nombre>/) and comunicacion/
+                    (BRAND.md, VOICE.md, PROOF.md, DESIGN.md, SOCIAL.md, PRESENCE.md, CUSTOMERS.md)
 test/               one suite per subsystem, discovered by glob — `npm test` runs all of them
 ```
 

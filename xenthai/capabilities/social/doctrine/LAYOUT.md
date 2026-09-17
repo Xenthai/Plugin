@@ -1,5 +1,7 @@
 # Composition doctrine
 
+Implements: fuera del playbook (X9)
+
 > Numeric rules so a social piece is not decided by iteration.
 > Derived by measuring 40 pieces across 4 formats, then by building the render engine that
 > asserts them. Brand-independent: these are composition rules, not identity.

@@ -9,8 +9,8 @@ description: Run operación phase 5 — write the buildable specification for on
 platform. They carry the required inputs, the autonomy ceiling, what each part is for, and the
 prohibitions. Do not re-derive them here.
 
-Deliverable: one `AUTOMATION-SPEC.md` per approved automation, in es-MX, from
-`scaffold/company/AUTOMATION-SPEC.md`. One session per specification.
+Deliverable: one `mapeo-empresa/06-specs/AXX-nombre.md` per approved automation, in es-MX, from
+`scaffold/company/mapeo-empresa/06-specs/AXX-nombre.md`. One session per specification.
 
 ## 1 · Bind, then verify the inputs before writing a line
 
@@ -29,12 +29,12 @@ produces work nobody chose.
 
 ```bash
 node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event phase_start --capability automate \
-  --why "operacion phase 5 spec — one approved candidate" --target "AUTOMATION-SPEC.md"
+  --why "operacion phase 5 spec — one approved candidate" --target "06-specs/<AXX>-<nombre>.md"
 ```
 
 ## 2 · Set the ceiling before designing anything
 
-Read the candidate's **error cost** from `PROCESSES.md` §6 and the **three data controls** from
+Read the candidate's **error cost** from `05-backlog.md` §2 and the **three data controls** from
 phase 4. They cap the autonomy rung, and the cap is not a preference:
 
 - Error cost 1 or 2 → a human approval stays in the path, whatever the research score says.
@@ -61,9 +61,9 @@ operation. `SPEC.md` §4 says what each must contain. Three that get written thi
 
 **Data.** Exact field names on both sides, and **what happens when the record already exists** —
 update, skip, duplicate or raise. There is no default. Plus the unique identifier that makes a second
-run harmless; `PROFILE.md` §3 names the company's natural key.
+run harmless; `00-PERFIL.md` §3 names the company's natural key.
 
-**Error branches.** `AUTOMATIONS.md`'s seven failure modes are the floor, and **every branch ends in
+**Error branches.** `06-specs/REGISTRO.md`'s seven failure modes are the floor, and **every branch ends in
 a notification a named role receives.** A workflow that fails silently is worse than none, because
 the work stops while everyone believes it is running.
 
@@ -82,15 +82,15 @@ company already runs a platform somebody maintains, that is the platform; migrat
 to a technically better tool nobody in the building understands is a downgrade.
 
 **Verify prices and limits from the vendor's own page at the moment of quoting** and record them in
-`SYSTEMS.md` with the date consulted. Never from memory.
+`02-inventario.md` with the date consulted. Never from memory.
 
 ## 6 · Close
 
 ```bash
 node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event delivery --capability automate \
-  --why "operacion phase 5 spec written, rung <n>, N acceptance criteria" --target "AUTOMATION-SPEC.md"
+  --why "operacion phase 5 spec written, rung <n>, N acceptance criteria" --target "06-specs/<AXX>-<nombre>.md"
 node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event phase_end --capability automate \
-  --why "operacion phase 5 complete for one candidate" --target "AUTOMATION-SPEC.md"
+  --why "operacion phase 5 complete for one candidate" --target "06-specs/<AXX>-<nombre>.md"
 ```
 
 Never put the automation's name, a system name tied to the client, a field name or a credential in
@@ -103,11 +103,11 @@ Company files change through `Write` and `Edit` only. `capabilities/company/doct
 
 ## STOP conditions
 
-- **No company is bound**, or no `PROCESSES.md` with a scored shortlist. Route to `process`.
+- **No company is bound**, or no `03-procesos/` with a scored shortlist. Route to `process`.
 - **The candidate was not approved by a named person on a date.** Get the approval and journal it
   with `--actor`. Do not specify on the strength of enthusiasm in a meeting.
 - **A system in the flow has integration surface `— pendiente —`.** It cannot be specified and it
-  cannot be quoted. `SYSTEMS.md` already says a pending surface is the difference between a six-week
+  cannot be quoted. `02-inventario.md` already says a pending surface is the difference between a six-week
   project and one that cannot be done. Quote the verification separately.
 - **A system is screen-only.** Do not force it. In order of preference: a scheduled export, a
   structured mail bridge, manual entry into something that does integrate, or redesign the process to
@@ -116,7 +116,7 @@ Company files change through `Write` and `Edit` only. `capabilities/company/doct
   once, record their decision as theirs, and **still do not specify it.** `PLATFORMS.md` §3 carries
   why: the number is printed on their vehicles and losing it costs more than the automation saves.
 - **The client asks what it will save in pesos or in hours.** Not here and not anywhere.
-  `HANDOVER.md` §5 governs. Give the before from `BASELINE.md` and let them do the division.
+  `HANDOVER.md` §5 governs. Give the before from `08-linea-base.md` and let them do the division.
 - **The exceptions were never captured.** The candidate cannot be quoted. `PROCESS.md` §5 carries the
   number: exception handling is roughly 80% of the build and gets budgeted as 20%.
 
@@ -128,5 +128,5 @@ Company files change through `Write` and `Edit` only. `capabilities/company/doct
 | `capabilities/automate/doctrine/PLATFORMS.md` | At §5 for the platform, and early for messaging-channel modality |
 | `capabilities/automate/doctrine/HANDOVER.md` | §1 for ownership, §5 for what may never be claimed |
 | `capabilities/company/doctrine/CONTROLS.md` | §4b, before specifying anything touching personal or client data |
-| `scaffold/company/AUTOMATION-SPEC.md` | The skeleton to copy, one per automation |
+| `scaffold/company/mapeo-empresa/06-specs/AXX-nombre.md` | The skeleton to copy, one per automation |
 | `skills/automate-handover/SKILL.md` | Only to say what comes next. Never run it in this session |

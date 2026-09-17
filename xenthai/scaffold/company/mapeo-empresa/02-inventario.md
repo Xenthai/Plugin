@@ -1,0 +1,130 @@
+# 02-inventario (A2 §4) — <empresa>
+
+> Qué software usa la empresa, qué se puede conectar y qué no.
+> Único dueño del detalle técnico de cada sistema. [01-personas.md](01-personas.md) es dueño de quién tiene
+> la llave; [03-procesos/INDICE.md](03-procesos/INDICE.md) es dueño de qué proceso lo toca.
+>
+> **La superficie de integración de este archivo es lo que hace cotizable una automatización.**
+> Sin ella, cualquier precio es una adivinanza.
+
+**Esquema:** 1 · **Fuente principal:** — pendiente (lista del cliente / factura mensual de software / lo que abre en la mañana) — · **Fecha:** <fecha>
+
+---
+
+## 1. El inventario
+
+| Sistema | Para qué se usa | Superficie de integración | Costo y renovación | Verificado por | Fuente |
+| --- | --- | --- | --- | --- | --- |
+| — pendiente — | | | | | |
+
+**Superficie de integración**, y esta columna la verifica el consultor, no el cliente — es la
+pregunta que los clientes casi nunca pueden contestar:
+
+| Valor | Qué significa | Qué implica para el precio |
+| --- | --- | --- |
+| `api` | Tiene API documentada y credenciales obtenibles | Lo más barato y lo más estable |
+| `export` | Sólo exporta archivos (CSV, Excel, PDF) | Funciona, con un paso de archivo en medio |
+| `pantalla` | Sólo interfaz, sin API ni exportación | Frágil y caro; cualquier cambio de interfaz lo rompe |
+| `— pendiente —` | Nadie lo ha verificado todavía | **No se cotiza sobre esto.** Se cotiza una revisión aparte |
+
+Una fila en `pendiente` no es un hueco menor: es la diferencia entre un proyecto de seis semanas y
+uno que no se puede hacer.
+
+**Costo y renovación** sale de la factura mensual de software que pide `01-empresa.md`. Se registra
+aquí porque la forma más común en que muere una automatización es una tarjeta que se vence en una
+suscripción que nadie recordaba que sostenía todo.
+
+## 1b. Canales de mensajería, y por qué van aparte
+
+La modalidad exacta de cada canal es lo que decide si se puede automatizar. Un cliente dice «usamos
+WhatsApp» y esa frase describe tres productos incompatibles. **Preguntar siempre: «¿contestas desde
+una app instalada en un celular, o desde una plataforma web donde varias personas atienden el mismo
+número?»** — lo primero es la app, lo segundo es la API.
+
+| Canal | Modalidad | ¿Quién contesta? | Superficie de integración | Verificado por |
+| --- | --- | --- | --- | --- |
+| — pendiente — | — pendiente — | — pendiente — *(rol)* | — pendiente — | — pendiente — |
+
+| Modalidad | Qué es | Automatizable |
+| --- | --- | --- |
+| `app-consumidor` | La app normal, en un teléfono | **No** |
+| `app-negocio` | App gratuita: catálogo, etiquetas, respuestas rápidas, mensaje de bienvenida | **No hay API.** Solo lo que la app automatiza sola |
+| `plataforma-api` | API real contra un número de negocio, a través de un proveedor | **Sí.** Es la única vía legítima |
+| `— pendiente —` | Nadie lo ha verificado | No se cotiza sobre esto |
+
+> **Nunca se automatiza un canal por vías no oficiales** — librerías que simulan un cliente web,
+> extensiones que teclean en una sesión, cualquier cosa que maneje la app de consumidor. El número
+> suele estar impreso en vehículos, lonas y tarjetas, y perderlo por un bloqueo cuesta más que todo
+> lo que la automatización iba a ahorrar. Si el cliente insiste: se le expone el riesgo una vez, se
+> registra su decisión como suya, y **aun así no se construye.**
+>
+> La vía oficial tiene restricciones que son insumos de diseño, no notas al pie: una ventana de
+> servicio fuera de la cual solo salen plantillas preaprobadas, plantillas que se aprueban con
+> anticipación, cobro por conversación, y una API que confirma aceptación y no entrega.
+
+## 2. Qué esperar en México
+
+No es una lista de opciones, es lo que aparece de verdad — y hay que **preguntar, nunca asumir**:
+
+- **SAP Business One** tiene penetración profunda en el segmento medio mexicano
+- **CONTPAQi** para contabilidad y nómina
+- **Excel más WhatsApp** operando procesos completos, en empresas de cualquier tamaño
+- **CFDI 4.0 del SAT** es obligatorio desde julio de 2023, así que **cualquier proceso de
+  facturación, nómina o gastos lo cruza**. Es línea base, no un hallazgo
+
+Una pregunta que rinde más que "qué sistemas usan": **qué abre en una mañana normal.** Saca las
+hojas de cálculo y los grupos de WhatsApp que nadie llama "sistema" y que de todos modos operan.
+
+## 3. Dónde vive cada dato
+
+Para saber qué se teclea dos veces, y para saber qué datos personales toca una automatización.
+
+| Dato | Dónde se origina | Dónde más se guarda | Se teclea de nuevo |
+| --- | --- | --- | --- |
+| — pendiente — | | | sí / no |
+
+La última columna, sumada, es el conteo de **puntos de doble captura** de la capa de madurez del
+baseline. Se verifica trazando una transacción real de punta a punta — es casi imposible de
+simular, porque la API existe o no existe.
+
+## 4. Qué registra cada sistema hoy
+
+| Sistema | ¿Deja bitácora? | Desde cuándo | Qué guarda | Cuánto lo retiene |
+| --- | --- | --- | --- | --- |
+| — pendiente — | sí / no | | | |
+
+La columna "desde cuándo" se lee de la propia bitácora del sistema, no de lo que alguien recuerde:
+una bitácora que empezó ayer no sirve como "antes".
+
+## 5. Datos personales y regulación
+
+| Sistema | Guarda datos personales | De quién | Restricción que aplica |
+| --- | --- | --- | --- |
+| — pendiente — | sí / no | | |
+
+Si un sistema guarda datos de clientes o de empleados, eso limita qué puede leer una automatización
+y qué se puede registrar en bitácora. La bitácora del plugin guarda **referencias, no contenido**,
+precisamente por esto.
+
+## 6. Lo que falta verificar
+
+| Sistema | Qué falta | Cómo se verificaría | Bloquea |
+| --- | --- | --- | --- |
+| — pendiente — | | | |
+
+Esta tabla es la que se convierte en la propuesta de revisión pagada cuando el cliente no puede
+contestar. No se cotiza contra el hueco: se cotiza cerrarlo.
+
+## 6b. Accesos — quién tiene la llave
+
+Quién es dueño de qué credencial. Sin esto se puede producir trabajo que nadie puede publicar, y no
+se puede cotizar una automatización. El detalle técnico de cada sistema —superficie de integración,
+qué datos guarda— está arriba, en §1; aquí sólo quién controla el acceso.
+
+| Sistema o cuenta | Quién es dueño | Quién más tiene acceso | Quién puede dar de alta a otro |
+| --- | --- | --- | --- |
+| — pendiente — | | | |
+
+## 7. Pendientes
+
+- — pendiente —

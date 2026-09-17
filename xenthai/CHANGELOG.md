@@ -28,46 +28,88 @@ machines could both write `0.1.0` and hold different code. A row written from a 
 
 ## [0.4.0] - 2026-09-17
 
-A store the plugin had no way to name. Everything here follows from one measured refusal: the guard
-vetoed every write to the operator's **own** Drive, correctly — nothing was bound — and the only way
-through was a manifest calling that store a company, which would have filed private work as a client
-engagement. The veto was right; the vocabulary was missing.
+The plugin adopts the playbook's own store layout and phase codes. `CONFORMANCE.md` Ruling 3 found
+the divergence: the playbook's A2 §2 lays out `mapeo-<empresa>/00-ESTADO.md … 99-preguntas-
+abiertas.md`, numbered and foldered; the plugin held 21 flat English files with no relation to that
+shape. `packages/method/src/data/store.json` in the Web repository is now the single source for the
+layout, exported into `capabilities/method/method.json`'s `store` dataset, and `lib/store-layout.mjs`
+reads it rather than restating it.
 
-### Added — `kind`, so a manifest can say whose store it is
+### Changed — the store, foldered and renamed
 
-- **`"kind": "client" | "personal"` in `.company.json`**, defaulting to `client`. It changes **no
-  veto**: a store write is permitted when a session is bound and refused when it is not, exactly as
-  before. What it changes is what the manifest can express, what the guard and `doctor` say out
-  loud, and what every journal row carries.
-- **`kindOf`, `isPersonal`, `storeLabel` and `KINDS`** in `lib/company.mjs`. The kind is read from
-  the manifest and never inferred from a name, an id or a folder — a client whose brand is the word
-  "personal" would be misread by any such guess, and that misreading puts one party's material in
-  the other's audit trail.
-- **An unrecognised kind is refused**, the way `future-schema` is refused. `doctor` reports
-  `company:fail(unknown-kind)` and the guard treats the session as unbound. Reading an unknown kind
-  as a client's store is the one failure here that is both invisible and permanent.
+- **`mapeo-empresa/` and `comunicacion/` replace 21 flat files.** The operación track now mirrors
+  A2 §2 exactly: `00-ESTADO.md` (new, `resume`'s panel), `00-PERFIL.md` (was `PROFILE.md`),
+  `01-empresa.md` (was `INTAKE.md`, now also carrying `PEOPLE.md`'s organigrama and authority
+  sections), `01-personas.md` (new, `PEOPLE.md`'s roles and single points of failure),
+  `01-oferta/OFERTA.md`, `PRODUCTOS.md`, `SERVICIOS.md` (was `OFFER.md`, `PRODUCTS.md`,
+  `SERVICES.md`), `02-inventario.md` (was `SYSTEMS.md`, now also carrying `PEOPLE.md`'s access
+  table), `03-procesos/INDICE.md` and `PXX-nombre.md` (was the single `PROCESSES.md`, split: its
+  inventory table into `INDICE.md`, its per-process ficha into a template one file per process
+  duplicates, its mapa-de-accesos and autorización sections folded into `INDICE.md`),
+  `04-evidencia/HALLAZGOS.md` and `fuentes.md` (new — `EVIDENCE.md`'s "no new document" rule is
+  retired; A2 §2 gives evidence its own two documents), `04-evidencia/ENTREVISTAS.md` (was
+  `INTERVIEW.md`), `05-backlog.md` (new, `PROCESSES.md` §3 dolor priorizado and §6 scoring),
+  `06-specs/AXX-nombre.md` and `REGISTRO.md` (was `AUTOMATION-SPEC.md` and `AUTOMATIONS.md`),
+  `07-datos/` (new, extracts), `08-linea-base.md` (was `BASELINE.md`), `09-rutinas.md` (was
+  `ROUTINES.md`), `98-COBERTURA.md` and `99-preguntas-abiertas.md` (new, A2 §8's rubric and
+  question ledger). `comunicacion/` keeps `BRAND.md`, `VOICE.md`, `PROOF.md`, `DESIGN.md`,
+  `SOCIAL.md`, `PRESENCE.md`, `CUSTOMERS.md` under their English names for now — moving the folder
+  is in scope for this release, translating the files is deferred (`DECISIONS.md` #26).
+- **`tools/scaffold.mjs` materialises the two-folder layout**, resolving `mapeo-empresa/` to
+  `mapeo-<nombre del cliente>/` once a manifest is readable, and a per-process or per-automation
+  document to a real instance name rather than the family template's own placeholder — which it now
+  refuses to write verbatim, since a literal `PXX-nombre.md` in the store can never be found again
+  by its own pattern check.
+- **`tools/status.mjs` and `tools/coverage.mjs` read the store layout from `lib/store-layout.mjs`**
+  instead of a hand-typed map, and both now read the manifest inside an explicit `--company <dir>`
+  the way `scaffold.mjs` always did — a mismatch there would have one tool write documents the other
+  could never find, once the folder name carried the client's own.
+- **Every plugin phase mention carries the playbook's chapter and section beside the plugin's own
+  operación number** (Ruling 4): operación 1 → A2 §3, operación 2 → A2 §6, operación 3 → A2 §7,
+  operación 4 → A3 §2, operación 5 → A7 · X2.5. The plugin's 1-5 count is kept — Decision 24 kept it
+  on purpose — and README.md's "Two tracks" section says how the two numberings relate.
+- **`tools/coverage.mjs`'s `BLOCKING` regexes are cross-referenced against X4** in a table comment
+  rather than a per-entry one — CONTRIBUTING.md's comment rule forbids a comment on an object-literal
+  entry, and the earlier draft broke `test/method.test.mjs`'s regex-literal scan by looking like one
+  itself.
 
-### Changed — the journal distinguishes the two, and the guard stops guessing
+### Changed — the doctrine adopts the playbook's method (Rulings 1, 5, 11, 12)
 
-- **`ROW_SCHEMA` is 2, and every row carries `store_kind`.** The number moved rather than the field
-  arriving as a nullable extra: a row with no kind is a row written before the distinction existed,
-  and a reader has to be able to tell that from a store that genuinely had none. Every schema-1 row
-  was written by a build that could only bind to a client, so it reads as `client` — an inference
-  that is safe only because the version says which rows it covers. **An audit of a client's journal
-  no longer has to take the plugin's word** that everything in it was client work.
-- **The guard's two refusals are worded for both kinds.** "not bound to a company" became "not
-  bound to a store" and names the `personal` option, because the operator reading it may have no
-  client at all; "outside the company directory" became "outside the bound store's directory".
-- **A share announcement says whose material is leaving** — `your own material in X` rather than
-  `X's material` — so the one notice the guard makes cannot misdescribe what is being shared.
-- **`doctor` prints which of the two is bound**, even when it is the default. A default that stays
-  invisible until it is wrong is the failure that line now prevents.
+- **`PROCESS.md` §5 replaces the Wanner et al. (ICIS 2019) research score and its judgement ceiling
+  with X3** (`CONFORMANCE.md` Ruling 1): eight weighted criteria, C1–C8, weights summing to 18,
+  linked to the vendored `capabilities/method/tables/x3-criteria.md`, `x3-scales.md` and
+  `x3-decisions.md` rather than restated by hand. The `Puntaje = (Σ calificación × peso ÷ 90) × 100`
+  formula and its three vetoes — C3 or C5 at 1 blocks the start, C4 at 1 or 2 forces resolving the
+  data gap first, no frozen baseline no start — replace the old research-score/expert-judgement
+  split, closing with the ruling's own sentence: the score orders candidates, never states a result,
+  and no improvement figure is ever derived from it. `skills/process-access/SKILL.md` §4 and
+  `scaffold/company/mapeo-empresa/05-backlog.md` §2 carry the same eight criteria and four decision
+  bands. `DECISIONS.md` #9 is narrowed, not repealed, and gets a new #27 recording the adoption.
+- **`MATURITY.md` re-anchors on A9** (Ruling 11, folding Rulings 2, 5 and 10): the company's level is
+  A9's own M0–M4 by the *minimum* of six dimensions, linked to `capabilities/method/tables/
+  a9-levels.md` and `a9-statements.md`. The Anthropic-published 0–4 ladder this file used to present
+  as the client's level is retitled and demoted to a per-person **usage** ladder feeding A9's Gente
+  dimension — never called "maturity" again — and its six-month Evaluate/Pilot/Scale shape is
+  reframed as the pace inside A9 §5's first two quarters (T1+T2), not a second programme length.
+  "Whose level moved" and the artefact-per-level table carry over unchanged. `DECISIONS.md` #28
+  records the adoption.
+- **`REPORTING.md` §10b adopts A8 §3's three attribution methods** (Ruling 12) — Método 1
+  antes-después, Método 2 grupo de comparación, Método 3 prueba escalonada — in place of treating
+  contribution analysis as the only posture available. A magnitude claim is now licensed under
+  Método 2 or 3, reported against the named comparison unit; under Método 1, still the shape of most
+  engagements here, the result stays a contribution with a range and never a caused magnitude, which
+  is the plugin's original refusal, scoped rather than discarded. `skills/report/SKILL.md`'s
+  Attribution section follows the same ladder.
+- **Every `capabilities/*/doctrine/*.md` file carries an `Implements:` line under its H1** naming the
+  playbook chapters and sections it implements, `none (mechanics)` for scheduling doctrine, or
+  `fuera del playbook (X9)` for the comunicación track. `test/method.test.mjs` now asserts the line
+  exists and every code it names is a real chapter in `method.json`.
 
-### Tests
+### Fixed
 
-Seven cases across `test/hooks.test.mjs` and `test/doctor.test.mjs`: a personal store writes like a
-client's, an unknown kind is unbound and fails `doctor`, the share notice names the owner, rows
-carry `store_kind` on both sides, and an absent kind still reads as a client. 17/17 suites pass.
+- **`capabilities/company/doctrine/EVIDENCE.md` §6 no longer says "no new document."** That rule
+  predated A2 §2's own `04-evidencia/HALLAZGOS.md` and `fuentes.md`; keeping it would have had this
+  release's own layout contradict this release's own doctrine.
 
 ## [0.3.0] - 2026-09-09
 

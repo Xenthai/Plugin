@@ -5,7 +5,8 @@ import { fileURLToPath } from "node:url";
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, "..");
 const DOCTRINE = join(ROOT, "capabilities", "process", "doctrine", "PROCESS.md");
-const SCAFFOLD = join(ROOT, "scaffold", "company", "PROCESSES.md");
+const SCAFFOLD_INDICE = join(ROOT, "scaffold", "company", "mapeo-empresa", "03-procesos", "INDICE.md");
+const SCAFFOLD_FICHA = join(ROOT, "scaffold", "company", "mapeo-empresa", "03-procesos", "PXX-nombre.md");
 
 /**
  * English function words that cannot occur inside a Spanish sentence. A company scaffold is read by
@@ -18,25 +19,38 @@ const cases = [];
 const check = (name, fn) => cases.push([name, fn]);
 
 const doctrine = existsSync(DOCTRINE) ? readFileSync(DOCTRINE, "utf8") : "";
-const scaffold = existsSync(SCAFFOLD) ? readFileSync(SCAFFOLD, "utf8") : "";
+const scaffold =
+  (existsSync(SCAFFOLD_INDICE) ? readFileSync(SCAFFOLD_INDICE, "utf8") : "") +
+  "\n" +
+  (existsSync(SCAFFOLD_FICHA) ? readFileSync(SCAFFOLD_FICHA, "utf8") : "");
 
 check("the process doctrine exists", () => [
   doctrine.length > 4096,
   doctrine.length ? `${doctrine.length} bytes` : "capabilities/process/doctrine/PROCESS.md missing",
 ]);
 
-check("the doctrine cites its source for the elicitation limit", () => [
-  /Wanner/.test(doctrine),
-  /Wanner/.test(doctrine) ? "Wanner cited" : "no citation for the interview-length limit",
-]);
+check("the doctrine cites the vendored X3 tables for its scoring instrument (CONFORMANCE.md Ruling 1)", () => {
+  const hasCriteria = /method\/tables\/x3-criteria\.md/.test(doctrine);
+  const hasScales = /method\/tables\/x3-scales\.md/.test(doctrine);
+  const hasDecisions = /method\/tables\/x3-decisions\.md/.test(doctrine);
+  return [
+    hasCriteria && hasScales && hasDecisions,
+    `criteria: ${hasCriteria}; scales: ${hasScales}; decisions: ${hasDecisions}`,
+  ];
+});
 
-check("error cost and regulatory constraint are labelled judgement, not research", () => {
-  const at = doctrine.search(/Expert-judgement criteria/i);
-  if (at < 0) return [false, "no expert-judgement section"];
-  const section = doctrine.slice(at, at + 2000);
-  const namesBoth = /error cost/i.test(section) && /regulator/i.test(section);
-  const labels = /judgement/i.test(section) && /research/i.test(section);
-  return [namesBoth && labels, `names both: ${namesBoth}; contrasts with research: ${labels}`];
+check("the three X3 vetoes outrank the score, and the score never states a result", () => {
+  const at = doctrine.search(/Three vetoes, above the score/i);
+  if (at < 0) return [false, "no vetoes section"];
+  const section = doctrine.slice(at, at + 1500);
+  const hasC3C5 = /C3 or C5 at 1 blocks/i.test(section);
+  const hasC4 = /C4 at 1 or 2/i.test(section);
+  const hasBaseline = /no frozen baseline, no start/i.test(section);
+  const closing = /never states a result/i.test(doctrine) && /No\s+improvement figure is ever derived/i.test(doctrine);
+  return [
+    hasC3C5 && hasC4 && hasBaseline && closing,
+    `C3/C5 veto: ${hasC3C5}; C4 veto: ${hasC4}; baseline veto: ${hasBaseline}; closing paragraph: ${closing}`,
+  ];
 });
 
 check("the doctrine says breadth before depth, which is what sizes the session", () => [

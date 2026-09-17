@@ -1,11 +1,11 @@
 ---
 name: automate-handover
-description: Write the acceptance document that closes an automation build — what it does, what it does when it is wrong, who gets escalated to, and how the client switches it off alone. Use the day an automation goes live, when a client asks what happens if one fails, or when AUTOMATIONS.md is absent or pending. This is acceptance and liability, not results — for how an automation performed use report, for whether to automate at all use process-access.
+description: Write the acceptance document that closes an automation build — what it does, what it does when it is wrong, who gets escalated to, and how the client switches it off alone. Use the day an automation goes live, when a client asks what happens if one fails, or when 06-specs/REGISTRO.md is absent or pending. This is acceptance and liability, not results — for how an automation performed use report, for whether to automate at all use process-access.
 ---
 
 # Automation handover — the client has to be able to switch it off
 
-One session, on the day the automation goes live. Deliverable: a filled block in `AUTOMATIONS.md`.
+One session, on the day the automation goes live. Deliverable: a filled block in `06-specs/REGISTRO.md`.
 
 **Read `capabilities/automate/doctrine/HANDOVER.md` first.** It carries the twelve items the report
 must answer, the failure modes to design against, and the platform rules.
@@ -17,7 +17,7 @@ report, the client owns something they cannot describe unless this exists.
 
 **Autonomy is earned in three rungs — visible, assisted, unattended — and each has an exit criterion
 that must be met before the next.** The doctrine carries them. Record the rung and the date it
-climbed in `AUTOMATIONS.md`; **an automation with no rung recorded is at rung 1**, whatever anyone
+climbed in `06-specs/REGISTRO.md`; **an automation with no rung recorded is at rung 1**, whatever anyone
 intended.
 
 Rung 1 is where the value is on day one: it runs, shows what it *would* do, changes nothing, and a
@@ -43,7 +43,7 @@ skip.**
 
 On a failure, does it **stop** or **reroute**? For a client's commercial output the default is
 **stop** — rerouting substitutes a product, adjusts a quantity or changes a price, and those are
-commercial decisions whose authority `PROCESSES.md` assigns to a person.
+commercial decisions whose authority `03-procesos/` assigns to a person.
 
 Rerouting is right where a person reads the output before it matters. Record the posture per
 automation with the name of whoever chose it. **What is never acceptable is rerouting by accident
@@ -65,7 +65,7 @@ good, and the first anyone learns otherwise is the first failure.
 Screen it before you take it to them:
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/tools/legible.mjs" <path to AUTOMATIONS.md>
+node "${CLAUDE_PLUGIN_ROOT}/tools/legible.mjs" <path to 06-specs/REGISTRO.md>
 ```
 
 Floor 55, target 65 on the INFLESZ scale, measured over the document's prose only. Below the floor
@@ -79,7 +79,7 @@ unusable. The test is this, and it is the last gate before acceptance:
 > Time it. **Say nothing.** Note every place they stopped, re-read, or guessed.
 
 If they cannot do it, the automation is not accepted — not "accepted with a note". The failure path
-is the deliverable. Record who ran the test and where they got stuck, in `AUTOMATIONS.md`.
+is the deliverable. Record who ran the test and where they got stuck, in `06-specs/REGISTRO.md`.
 
 ## Take the before measurement, or say you did not
 
@@ -105,7 +105,7 @@ pays for is one the client inherits at renewal without knowing it.
 Record the licence cost with its **renewal date**. The most common way an automation dies is a card
 expiring on a subscription nobody remembered was load-bearing.
 
-And never choose the platform before the process is mapped — the suitability score in `PROCESSES.md`
+And never choose the platform before the process is mapped — the suitability score in `03-procesos/`
 decides whether to automate at all, and the platform is a later, smaller decision.
 
 ## Design the wrong-but-plausible output first
@@ -135,14 +135,14 @@ output metric dressed as an outcome, and a director will discount it correctly.
 ```bash
 node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event approval --actor "person:<name>" \
   --capability automate --why "automation handover accepted for process <id>" \
-  --target "AUTOMATIONS.md"
+  --target "06-specs/REGISTRO.md"
 ```
 
 State in the document what the signature means: the client agrees the automation does what the
 document says, and knows how to turn it off. **Not that it will never fail.**
 
-Then add it to `ROUTINES.md` if it runs on a schedule, and append the conversation to
-`INTERVIEW.md` — who accepted it and who was told how to switch it off.
+Then add it to `09-rutinas.md` if it runs on a schedule, and append the conversation to
+`04-evidencia/ENTREVISTAS.md` — who accepted it and who was told how to switch it off.
 
 Company files change through `Write` and `Edit` only. `capabilities/company/doctrine/CONTROLS.md` carries why, and what the guard refuses versus merely records.
 

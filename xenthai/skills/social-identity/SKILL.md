@@ -55,12 +55,12 @@ publish what?", and most fields fail it.
 
 ## What to write
 
-Create `BRAND.md` in the company's store, from `scaffold/company/BRAND.md`. Fill only what was
+Create `BRAND.md` in the company's store, from `scaffold/company/comunicacion/BRAND.md`. Fill only what was
 actually said. **Leave a field marked `— pendiente —` rather than inferring it**, and list every
 pending field at the end of the session: an inferred fact reads identically to a captured one six
 months later, and that is how invented facts enter a client's brand.
 
-Create `DESIGN.md` from `scaffold/company/DESIGN.md` as well. Fill the fenced `css` block with
+Create `DESIGN.md` from `scaffold/company/comunicacion/DESIGN.md` as well. Fill the fenced `css` block with
 the company's colours and families if they are known; leave the plugin's neutral palette in place if
 they are not, and mark it pending. The logo goes in as inline SVG when the company has one, as a PNG
 path when it does not — the phase does not stop for a vector.
@@ -86,7 +86,7 @@ node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event phase_end --capability so
 
 Company files change through `Write` and `Edit` only. `capabilities/company/doctrine/CONTROLS.md` carries why, and what the guard refuses versus merely records.
 
-Append the conversation to `INTERVIEW.md`: who said each thing, and on what date. Positioning
+Append the conversation to `04-evidencia/ENTREVISTAS.md`: who said each thing, and on what date. Positioning
 stated in a session is client-reported until a document or a customer confirms it, and six months
 on an inferred claim reads exactly like a captured one.
 

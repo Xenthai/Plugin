@@ -1,6 +1,6 @@
 ---
 name: company-intake
-description: Request the files a company already has — constancia fiscal, org chart or payroll list, price list, a real quote and invoice, the software bill, a brand manual, any written procedure — and map the company from those instead of interviewing for every fact. Use at the start of a new company, when files a client sent need extracting, when a store already holds documents from earlier work that must be adopted rather than overwritten, or when a session stalls on facts nobody in the room knows. Produces INTAKE.md. For what no document holds the phase skills interview — social-identity for positioning, company-offer for prices, process-map for how work runs.
+description: Request the files a company already has — constancia fiscal, org chart or payroll list, price list, a real quote and invoice, the software bill, a brand manual, any written procedure — and map the company from those instead of interviewing for every fact. Use at the start of a new company, when files a client sent need extracting, when a store already holds documents from earlier work that must be adopted rather than overwritten, or when a session stalls on facts nobody in the room knows. Produces 01-empresa.md. For what no document holds the phase skills interview — social-identity for positioning, company-offer for prices, process-map for how work runs.
 ---
 
 # Company intake — files before questions
@@ -33,7 +33,7 @@ adopted *baseline* is still worth keeping when a fresh one is no longer possible
 
 ## Step 1 — Ask for everything, once
 
-Create `INTAKE.md` in the company's store from `scaffold/company/INTAKE.md`, then send the request
+Create `01-empresa.md` in the company's store from `scaffold/company/mapeo-empresa/01-empresa.md`, then send the request
 as **one message** — covering only what step 0 did not already find. Never drip requests across
 sessions: a client who receives four separate asks concludes the engagement is disorganised.
 
@@ -44,7 +44,7 @@ Then **stop and let them gather.** This session does not wait for the files.
 
 ## Step 2 — Extract what arrived
 
-For each file received, record its **own date** in `INTAKE.md`, not only the date it arrived. An
+For each file received, record its **own date** in `01-empresa.md`, not only the date it arrived. An
 org chart naming someone who left, or a price list from two years ago, produces confident wrong
 facts. If it carries no date, ask.
 
@@ -53,15 +53,15 @@ Write extracted facts into the document that owns them:
 | From | Into |
 | --- | --- |
 | Constancia de situación fiscal | `BRAND.md` identity, `.company.json` legal name |
-| Org chart or payroll list | `PEOPLE.md` |
-| Price list or catalogue | `PRODUCTS.md` and `SERVICES.md` — whichever the company sells (hand to `company-offer`) |
-| A contract or published conditions | `OFFER.md`: payment, warranty, cancellation, CFDI (hand to `company-offer`) |
-| An inventory report, or where stock is checked | `PRODUCTS.md` stock section — if stock lives in a sheet someone updates by hand, an automated quote can promise what is not there, and that is a finding |
-| A real quote and a real invoice | `PROCESSES.md` (hand to `process-map`), `SYSTEMS.md` |
-| System list or the monthly software invoice | `SYSTEMS.md` |
+| Org chart or payroll list | `01-empresa.md` § Organigrama real |
+| Price list or catalogue | `01-oferta/PRODUCTOS.md` and `01-oferta/SERVICIOS.md` — whichever the company sells (hand to `company-offer`) |
+| A contract or published conditions | `01-oferta/OFERTA.md`: payment, warranty, cancellation, CFDI (hand to `company-offer`) |
+| An inventory report, or where stock is checked | `01-oferta/PRODUCTOS.md` stock section — if stock lives in a sheet someone updates by hand, an automated quote can promise what is not there, and that is a finding |
+| A real quote and a real invoice | `03-procesos/` (hand to `process-map`), `02-inventario.md` |
+| System list or the monthly software invoice | `02-inventario.md` |
 | Brand manual or logo files | `DESIGN.md` |
 | Published posts | `VOICE.md` extraction (hand to `social-voice`), `SOCIAL.md` baseline |
-| Written procedures | `PROCESSES.md` steps |
+| Written procedures | `03-procesos/` steps |
 | Real customer objections | `CUSTOMERS.md`, verbatim |
 
 **Cite the source on every extracted fact, and mark anything derived as derived.** Six months on,
@@ -80,7 +80,7 @@ high and documents age:
    have a board
 3. **Who owns each credential**
 
-Record the document's version and the person's confirmation side by side in `INTAKE.md`.
+Record the document's version and the person's confirmation side by side in `01-empresa.md`.
 
 ## Step 4 — Record what does not exist
 
@@ -92,7 +92,7 @@ count in the baseline's maturity layer, and it is usually the strongest argument
 
 ```bash
 node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event phase_end --capability company \
-  --why "intake: N files requested, M received, K recorded as non-existent" --target "INTAKE.md"
+  --why "intake: N files requested, M received, K recorded as non-existent" --target "01-empresa.md"
 ```
 
 Close by reporting what is still open, and by naming the phase that owes each one — the client
