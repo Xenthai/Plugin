@@ -226,6 +226,8 @@ capabilities/
   company/
     doctrine/       CONTROLS.md, INTAKE.md, SESSION.md, SCHEDULING.md, MATURITY.md,
                     REGULATORS-MX.md, STANDARDS.md
+  method/           method.json, tables/*.md — the playbook's method vendored as data, generated
+                    by the Web repository and never edited here (capabilities/method/README.md)
 scaffold/company/   the blank document set created for a new company, es-MX
 test/               one suite per subsystem, discovered by glob — `npm test` runs all of them
 ```

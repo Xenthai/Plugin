@@ -1,0 +1,3148 @@
+{
+  "source": {
+    "repo": "Xenthai/Web",
+    "commit": "a5c49154ed0556a2b897246bff8965375e591af3",
+    "committedAt": "2026-09-17T15:04:56-06:00"
+  },
+  "datasets": {
+    "phases": {
+      "parts": [
+        {
+          "id": "fundamento",
+          "name": "Fundamento"
+        },
+        {
+          "id": "a",
+          "name": "Parte A · Empresa"
+        },
+        {
+          "id": "b",
+          "name": "Parte B · Código"
+        },
+        {
+          "id": "anexos",
+          "name": "Anexos"
+        }
+      ],
+      "chapters": [
+        {
+          "id": "00",
+          "source": {
+            "chapter": "00",
+            "section": "portada"
+          },
+          "part": "fundamento",
+          "code": "00",
+          "title": "Playbook XenthAI",
+          "type": "portada",
+          "sourceFile": "00-INDICE.md",
+          "slug": "index",
+          "implementers": {
+            "skills": [],
+            "doctrine": [],
+            "tools": [],
+            "scaffold": []
+          }
+        },
+        {
+          "id": "01",
+          "source": {
+            "chapter": "01",
+            "section": "encabezado"
+          },
+          "part": "fundamento",
+          "code": "01",
+          "title": "Principios",
+          "type": "marco",
+          "order": 1,
+          "sourceFile": "01-PRINCIPIOS.md",
+          "slug": "fundamento/01-principios",
+          "implementers": {
+            "skills": [],
+            "doctrine": [],
+            "tools": [],
+            "scaffold": []
+          }
+        },
+        {
+          "id": "A0",
+          "source": {
+            "chapter": "00",
+            "section": "Parte A · Empresa"
+          },
+          "part": "a",
+          "code": "A0",
+          "title": "El marco AI-first",
+          "type": "marco",
+          "order": 2,
+          "sourceFile": "parte-a-empresa/A0-marco.md",
+          "slug": "parte-a-empresa/a0-marco",
+          "implementers": {
+            "skills": [],
+            "doctrine": [],
+            "tools": [],
+            "scaffold": []
+          }
+        },
+        {
+          "id": "A1",
+          "source": {
+            "chapter": "00",
+            "section": "Parte A · Empresa"
+          },
+          "part": "a",
+          "code": "A1",
+          "title": "Fase 0 · Encuadre y mandato",
+          "type": "fase",
+          "order": 3,
+          "sourceFile": "parte-a-empresa/A1-mandato.md",
+          "slug": "parte-a-empresa/a1-mandato",
+          "implementers": {
+            "skills": [],
+            "doctrine": [],
+            "tools": [],
+            "scaffold": []
+          }
+        },
+        {
+          "id": "A2",
+          "source": {
+            "chapter": "00",
+            "section": "Parte A · Empresa"
+          },
+          "part": "a",
+          "code": "A2",
+          "title": "Fase 1 · Mapeo de la empresa",
+          "type": "fase",
+          "order": 4,
+          "sourceFile": "parte-a-empresa/A2-mapeo.md",
+          "slug": "parte-a-empresa/a2-mapeo",
+          "implementers": {
+            "skills": [],
+            "doctrine": [],
+            "tools": [],
+            "scaffold": []
+          },
+          "subPhases": [
+            {
+              "id": "P",
+              "name": "Perfil y arquetipo"
+            },
+            {
+              "id": "0",
+              "name": "Inventario técnico"
+            },
+            {
+              "id": "1",
+              "name": "Brief de negocio"
+            },
+            {
+              "id": "2",
+              "name": "Arqueología documental"
+            },
+            {
+              "id": "3",
+              "name": "Procesos"
+            }
+          ]
+        },
+        {
+          "id": "A3",
+          "source": {
+            "chapter": "00",
+            "section": "Parte A · Empresa"
+          },
+          "part": "a",
+          "code": "A3",
+          "title": "Fase 2 · Portafolio y priorización",
+          "type": "fase",
+          "order": 5,
+          "sourceFile": "parte-a-empresa/A3-portafolio.md",
+          "slug": "parte-a-empresa/a3-portafolio",
+          "implementers": {
+            "skills": [],
+            "doctrine": [],
+            "tools": [],
+            "scaffold": []
+          }
+        },
+        {
+          "id": "A4",
+          "source": {
+            "chapter": "00",
+            "section": "Parte A · Empresa"
+          },
+          "part": "a",
+          "code": "A4",
+          "title": "Fase 3 · Arquitectura, datos y plataforma",
+          "type": "fase",
+          "order": 6,
+          "sourceFile": "parte-a-empresa/A4-arquitectura.md",
+          "slug": "parte-a-empresa/a4-arquitectura",
+          "implementers": {
+            "skills": [],
+            "doctrine": [],
+            "tools": [],
+            "scaffold": []
+          }
+        },
+        {
+          "id": "A5",
+          "source": {
+            "chapter": "00",
+            "section": "Parte A · Empresa"
+          },
+          "part": "a",
+          "code": "A5",
+          "title": "Fase 4 · Gobernanza, riesgo y cumplimiento",
+          "type": "fase",
+          "order": 7,
+          "sourceFile": "parte-a-empresa/A5-gobernanza.md",
+          "slug": "parte-a-empresa/a5-gobernanza",
+          "implementers": {
+            "skills": [],
+            "doctrine": [],
+            "tools": [],
+            "scaffold": []
+          }
+        },
+        {
+          "id": "A6",
+          "source": {
+            "chapter": "00",
+            "section": "Parte A · Empresa"
+          },
+          "part": "a",
+          "code": "A6",
+          "title": "Fase 5 · Personas y adopción",
+          "type": "fase",
+          "order": 8,
+          "sourceFile": "parte-a-empresa/A6-personas.md",
+          "slug": "parte-a-empresa/a6-personas",
+          "implementers": {
+            "skills": [],
+            "doctrine": [],
+            "tools": [],
+            "scaffold": []
+          }
+        },
+        {
+          "id": "A7",
+          "source": {
+            "chapter": "00",
+            "section": "Parte A · Empresa"
+          },
+          "part": "a",
+          "code": "A7",
+          "title": "Fase 6 · Implementación y operación",
+          "type": "fase",
+          "order": 9,
+          "sourceFile": "parte-a-empresa/A7-implementacion.md",
+          "slug": "parte-a-empresa/a7-implementacion",
+          "implementers": {
+            "skills": [],
+            "doctrine": [],
+            "tools": [],
+            "scaffold": []
+          }
+        },
+        {
+          "id": "A8",
+          "source": {
+            "chapter": "00",
+            "section": "Parte A · Empresa"
+          },
+          "part": "a",
+          "code": "A8",
+          "title": "Fase 7 · Medición de valor",
+          "type": "fase",
+          "order": 10,
+          "sourceFile": "parte-a-empresa/A8-medicion.md",
+          "slug": "parte-a-empresa/a8-medicion",
+          "implementers": {
+            "skills": [],
+            "doctrine": [],
+            "tools": [],
+            "scaffold": []
+          }
+        },
+        {
+          "id": "A9",
+          "source": {
+            "chapter": "00",
+            "section": "Parte A · Empresa"
+          },
+          "part": "a",
+          "code": "A9",
+          "title": "Modelo de madurez y ruta de 12 meses",
+          "type": "fase",
+          "order": 11,
+          "sourceFile": "parte-a-empresa/A9-madurez.md",
+          "slug": "parte-a-empresa/a9-madurez",
+          "implementers": {
+            "skills": [],
+            "doctrine": [],
+            "tools": [],
+            "scaffold": []
+          }
+        },
+        {
+          "id": "B0",
+          "source": {
+            "chapter": "00",
+            "section": "Parte B · Código"
+          },
+          "part": "b",
+          "code": "B0",
+          "title": "El marco de ingeniería AI-first",
+          "type": "marco",
+          "order": 12,
+          "sourceFile": "parte-b-codigo/B0-marco.md",
+          "slug": "parte-b-codigo/b0-marco",
+          "implementers": {
+            "skills": [],
+            "doctrine": [],
+            "tools": [],
+            "scaffold": []
+          }
+        },
+        {
+          "id": "B1",
+          "source": {
+            "chapter": "00",
+            "section": "Parte B · Código"
+          },
+          "part": "b",
+          "code": "B1",
+          "title": "Fundación del repositorio",
+          "type": "fase",
+          "order": 13,
+          "sourceFile": "parte-b-codigo/B1-fundacion.md",
+          "slug": "parte-b-codigo/b1-fundacion",
+          "implementers": {
+            "skills": [],
+            "doctrine": [],
+            "tools": [],
+            "scaffold": []
+          }
+        },
+        {
+          "id": "B2",
+          "source": {
+            "chapter": "00",
+            "section": "Parte B · Código"
+          },
+          "part": "b",
+          "code": "B2",
+          "title": "Ciclo dirigido por especificación",
+          "type": "fase",
+          "order": 14,
+          "sourceFile": "parte-b-codigo/B2-ciclo.md",
+          "slug": "parte-b-codigo/b2-ciclo",
+          "implementers": {
+            "skills": [],
+            "doctrine": [],
+            "tools": [],
+            "scaffold": []
+          }
+        },
+        {
+          "id": "B3",
+          "source": {
+            "chapter": "00",
+            "section": "Parte B · Código"
+          },
+          "part": "b",
+          "code": "B3",
+          "title": "Evaluación y calidad",
+          "type": "fase",
+          "order": 15,
+          "sourceFile": "parte-b-codigo/B3-calidad.md",
+          "slug": "parte-b-codigo/b3-calidad",
+          "implementers": {
+            "skills": [],
+            "doctrine": [],
+            "tools": [],
+            "scaffold": []
+          }
+        },
+        {
+          "id": "B4",
+          "source": {
+            "chapter": "00",
+            "section": "Parte B · Código"
+          },
+          "part": "b",
+          "code": "B4",
+          "title": "Agentes en el ciclo de desarrollo",
+          "type": "fase",
+          "order": 16,
+          "sourceFile": "parte-b-codigo/B4-agentes.md",
+          "slug": "parte-b-codigo/b4-agentes",
+          "implementers": {
+            "skills": [],
+            "doctrine": [],
+            "tools": [],
+            "scaffold": []
+          }
+        },
+        {
+          "id": "B5",
+          "source": {
+            "chapter": "00",
+            "section": "Parte B · Código"
+          },
+          "part": "b",
+          "code": "B5",
+          "title": "Producto con IA adentro",
+          "type": "fase",
+          "order": 17,
+          "sourceFile": "parte-b-codigo/B5-producto.md",
+          "slug": "parte-b-codigo/b5-producto",
+          "implementers": {
+            "skills": [],
+            "doctrine": [],
+            "tools": [],
+            "scaffold": []
+          }
+        },
+        {
+          "id": "B6",
+          "source": {
+            "chapter": "00",
+            "section": "Parte B · Código"
+          },
+          "part": "b",
+          "code": "B6",
+          "title": "Seguridad del código asistido",
+          "type": "fase",
+          "order": 18,
+          "sourceFile": "parte-b-codigo/B6-seguridad.md",
+          "slug": "parte-b-codigo/b6-seguridad",
+          "implementers": {
+            "skills": [],
+            "doctrine": [],
+            "tools": [],
+            "scaffold": []
+          }
+        },
+        {
+          "id": "B7",
+          "source": {
+            "chapter": "00",
+            "section": "Parte B · Código"
+          },
+          "part": "b",
+          "code": "B7",
+          "title": "Equipo, rituales y métricas",
+          "type": "fase",
+          "order": 19,
+          "sourceFile": "parte-b-codigo/B7-equipo.md",
+          "slug": "parte-b-codigo/b7-equipo",
+          "implementers": {
+            "skills": [],
+            "doctrine": [],
+            "tools": [],
+            "scaffold": []
+          }
+        },
+        {
+          "id": "X1",
+          "source": {
+            "chapter": "00",
+            "section": "Anexos"
+          },
+          "part": "anexos",
+          "code": "X1",
+          "title": "Catálogo de procesos conectados por función de negocio",
+          "type": "anexo",
+          "order": 20,
+          "sourceFile": "anexos/X1-catalogo-casos-uso.md",
+          "slug": "anexos/x1-catalogo",
+          "implementers": {
+            "skills": [],
+            "doctrine": [],
+            "tools": [],
+            "scaffold": []
+          }
+        },
+        {
+          "id": "X2",
+          "source": {
+            "chapter": "00",
+            "section": "Anexos"
+          },
+          "part": "anexos",
+          "code": "X2",
+          "title": "Plantillas de artefactos",
+          "type": "anexo",
+          "order": 21,
+          "sourceFile": "anexos/X2-plantillas.md",
+          "slug": "anexos/x2-plantillas",
+          "implementers": {
+            "skills": [],
+            "doctrine": [],
+            "tools": [],
+            "scaffold": []
+          }
+        },
+        {
+          "id": "X3",
+          "source": {
+            "chapter": "00",
+            "section": "Anexos"
+          },
+          "part": "anexos",
+          "code": "X3",
+          "title": "Rúbrica de priorización y fórmula de puntaje",
+          "type": "anexo",
+          "order": 22,
+          "sourceFile": "anexos/X3-rubrica-priorizacion.md",
+          "slug": "anexos/x3-rubrica-priorizacion",
+          "implementers": {
+            "skills": [],
+            "doctrine": [],
+            "tools": [],
+            "scaffold": []
+          }
+        },
+        {
+          "id": "X4",
+          "source": {
+            "chapter": "00",
+            "section": "Anexos"
+          },
+          "part": "anexos",
+          "code": "X4",
+          "title": "Rúbrica de cobertura del diagnóstico",
+          "type": "anexo",
+          "order": 23,
+          "sourceFile": "anexos/X4-rubrica-cobertura.md",
+          "slug": "anexos/x4-rubrica-cobertura",
+          "implementers": {
+            "skills": [],
+            "doctrine": [],
+            "tools": [],
+            "scaffold": []
+          }
+        },
+        {
+          "id": "X5",
+          "source": {
+            "chapter": "00",
+            "section": "Anexos"
+          },
+          "part": "anexos",
+          "code": "X5",
+          "title": "Matriz de riesgos de IA y controles",
+          "type": "anexo",
+          "order": 24,
+          "sourceFile": "anexos/X5-riesgos-controles.md",
+          "slug": "anexos/x5-riesgos-controles",
+          "implementers": {
+            "skills": [],
+            "doctrine": [],
+            "tools": [],
+            "scaffold": []
+          }
+        },
+        {
+          "id": "X6",
+          "source": {
+            "chapter": "00",
+            "section": "Anexos"
+          },
+          "part": "anexos",
+          "code": "X6",
+          "title": "Banco de preguntas de entrevista",
+          "type": "anexo",
+          "order": 25,
+          "sourceFile": "anexos/X6-banco-preguntas.md",
+          "slug": "anexos/x6-banco-preguntas",
+          "implementers": {
+            "skills": [],
+            "doctrine": [],
+            "tools": [],
+            "scaffold": []
+          }
+        },
+        {
+          "id": "X7",
+          "source": {
+            "chapter": "00",
+            "section": "Anexos"
+          },
+          "part": "anexos",
+          "code": "X7",
+          "title": "Glosario",
+          "type": "anexo",
+          "order": 26,
+          "sourceFile": "anexos/X7-glosario.md",
+          "slug": "anexos/x7-glosario",
+          "implementers": {
+            "skills": [],
+            "doctrine": [],
+            "tools": [],
+            "scaffold": []
+          }
+        },
+        {
+          "id": "X8",
+          "source": {
+            "chapter": "00",
+            "section": "Anexos"
+          },
+          "part": "anexos",
+          "code": "X8",
+          "title": "Fuentes y marcos de referencia",
+          "type": "anexo",
+          "order": 27,
+          "sourceFile": "anexos/X8-fuentes.md",
+          "slug": "anexos/x8-fuentes",
+          "implementers": {
+            "skills": [],
+            "doctrine": [],
+            "tools": [],
+            "scaffold": []
+          }
+        }
+      ]
+    },
+    "principles": [
+      {
+        "id": "principle-1",
+        "source": {
+          "chapter": "01",
+          "section": "§1"
+        },
+        "number": 1,
+        "title": "Primero se mapea, después se automatiza",
+        "oneLiner": "No se propone una sola automatización antes de haber medido el proceso que la justifica."
+      },
+      {
+        "id": "principle-2",
+        "source": {
+          "chapter": "01",
+          "section": "§2"
+        },
+        "number": 2,
+        "title": "La empresa se documenta como opera, no como cree que opera",
+        "oneLiner": "Lo que el dueño describe y lo que revelan sus archivos difieren casi siempre, y la diferencia es el hallazgo más valioso del diagnóstico."
+      },
+      {
+        "id": "principle-3",
+        "source": {
+          "chapter": "01",
+          "section": "§3"
+        },
+        "number": 3,
+        "title": "Setenta por ciento del esfuerzo va a personas y procesos",
+        "oneLiner": "La regla 10-20-70 de BCG reparte el esfuerzo de una transformación con IA: 10 % en algoritmos, 20 % en tecnología y datos, 70 % en personas y procesos."
+      },
+      {
+        "id": "principle-4",
+        "source": {
+          "chapter": "01",
+          "section": "§4"
+        },
+        "number": 4,
+        "title": "Se trabaja hacia atrás desde el resultado, no hacia adelante desde la herramienta",
+        "oneLiner": "La pregunta que abre cualquier proceso conectado es \"qué decisión o qué entrega mejora, y cuánto\", no \"dónde podemos meter IA\"."
+      },
+      {
+        "id": "principle-5",
+        "source": {
+          "chapter": "01",
+          "section": "§5"
+        },
+        "number": 5,
+        "title": "Un proceso conectado sin línea base no se aprueba",
+        "oneLiner": "Antes de intervenir se mide: cuántas veces al mes ocurre, cuánto tiempo toma, quién lo hace, cuánto cuesta y con qué tasa de error."
+      },
+      {
+        "id": "principle-6",
+        "source": {
+          "chapter": "01",
+          "section": "§6"
+        },
+        "number": 6,
+        "title": "La gobernanza se diseña al principio, no cuando llega la auditoría",
+        "oneLiner": "Registro de procesos conectados, clasificación de riesgo, política de uso aceptable, bitácora de decisiones automatizadas y criterio de intervención humana."
+      },
+      {
+        "id": "principle-7",
+        "source": {
+          "chapter": "01",
+          "section": "§7"
+        },
+        "number": 7,
+        "title": "Humano en el circuito donde el error es caro o irreversible",
+        "oneLiner": "Toda automatización se clasifica por lo que pasa cuando se equivoca."
+      },
+      {
+        "id": "principle-8",
+        "source": {
+          "chapter": "01",
+          "section": "§8"
+        },
+        "number": 8,
+        "title": "El sistema tiene que aprender de su propio uso",
+        "oneLiner": "Una automatización que hace hoy exactamente lo mismo que el día que se instaló es software, no IA aplicada."
+      },
+      {
+        "id": "principle-9",
+        "source": {
+          "chapter": "01",
+          "section": "§9"
+        },
+        "number": 9,
+        "title": "Lo que se entrega queda escrito y sobrevive a la sesión",
+        "oneLiner": "Todo el trabajo vive en archivos de texto plano, versionados, con una convención de nombres estable."
+      },
+      {
+        "id": "principle-10",
+        "source": {
+          "chapter": "01",
+          "section": "§10"
+        },
+        "number": 10,
+        "title": "Nunca se avanza en silencio",
+        "oneLiner": "Si una fase se cierra con huecos, se dicen cuáles, qué consecuencia tienen y qué haría falta para cerrarlos."
+      },
+      {
+        "id": "principle-11",
+        "source": {
+          "chapter": "01",
+          "section": "§11"
+        },
+        "number": 11,
+        "title": "Nada de migrar para poder empezar",
+        "oneLiner": "Se construye encima de lo que la empresa ya opera."
+      },
+      {
+        "id": "principle-12",
+        "source": {
+          "chapter": "01",
+          "section": "§12"
+        },
+        "number": 12,
+        "title": "Si el proyecto termina y la operación se detiene, el proyecto falló",
+        "oneLiner": "El criterio de terminado no es la entrega."
+      }
+    ],
+    "archetypes": {
+      "fourQuestions": [
+        {
+          "id": "q1-como-entra-el-dinero",
+          "source": {
+            "chapter": "A2",
+            "section": "3"
+          },
+          "question": "¿Cómo entra el dinero?",
+          "options": [
+            "Proyecto",
+            "suscripción",
+            "transacción repetida",
+            "horas",
+            "margen sobre producto",
+            "comisión"
+          ]
+        },
+        {
+          "id": "q2-cuanto-tarda-una-venta",
+          "source": {
+            "chapter": "A2",
+            "section": "3"
+          },
+          "question": "¿Cuánto tarda una venta?",
+          "options": [
+            "Minutos",
+            "días",
+            "semanas",
+            "meses"
+          ]
+        },
+        {
+          "id": "q3-que-se-entrega",
+          "source": {
+            "chapter": "A2",
+            "section": "3"
+          },
+          "question": "¿Qué se entrega?",
+          "options": [
+            "Bien físico",
+            "servicio en sitio",
+            "servicio remoto",
+            "software",
+            "intermediación"
+          ]
+        },
+        {
+          "id": "q4-que-impide-vender-el-doble-manana",
+          "source": {
+            "chapter": "A2",
+            "section": "3"
+          },
+          "question": "¿Qué impide vender el doble mañana?",
+          "options": [
+            "Falta demanda",
+            "falta capacidad de entrega",
+            "la administración no aguanta",
+            "falta capital"
+          ]
+        }
+      ],
+      "archetypes": [
+        {
+          "id": "archetype-a",
+          "source": {
+            "chapter": "A2",
+            "section": "3"
+          },
+          "letter": "A",
+          "name": "Proyecto a la medida",
+          "oneLiner": "Ticket alto, pocas operaciones, cotización artesanal",
+          "criticalProcesses": [
+            "Cotización",
+            "contrato y anticipo",
+            "reporte de avance",
+            "control de cambios",
+            "cobranza"
+          ]
+        },
+        {
+          "id": "archetype-b",
+          "source": {
+            "chapter": "A2",
+            "section": "3"
+          },
+          "letter": "B",
+          "name": "Servicio recurrente",
+          "oneLiner": "Ingreso mensual: lo que importa no es vender, es no perder",
+          "criticalProcesses": [
+            "Onboarding",
+            "entrega periódica",
+            "soporte",
+            "facturación recurrente",
+            "renovación"
+          ]
+        },
+        {
+          "id": "archetype-c",
+          "source": {
+            "chapter": "A2",
+            "section": "3"
+          },
+          "letter": "C",
+          "name": "Transacción repetida de alto volumen",
+          "oneLiner": "Ticket bajo, volumen alto, ciclo de minutos",
+          "criticalProcesses": [
+            "Reposición",
+            "inventario",
+            "punto de venta",
+            "corte diario",
+            "mermas"
+          ]
+        },
+        {
+          "id": "archetype-d",
+          "source": {
+            "chapter": "A2",
+            "section": "3"
+          },
+          "letter": "D",
+          "name": "Servicio profesional por cita",
+          "oneLiner": "La agenda es la capacidad instalada",
+          "criticalProcesses": [
+            "Agendado",
+            "confirmación",
+            "expediente",
+            "recompra",
+            "hueco por cancelación"
+          ]
+        },
+        {
+          "id": "archetype-e",
+          "source": {
+            "chapter": "A2",
+            "section": "3"
+          },
+          "letter": "E",
+          "name": "Producción por pedido",
+          "oneLiner": "Materiales y mano de obra identificables por pedido",
+          "criticalProcesses": [
+            "Cotización con escandallo",
+            "orden de producción",
+            "compras",
+            "piso",
+            "costeo real"
+          ]
+        },
+        {
+          "id": "archetype-f",
+          "source": {
+            "chapter": "A2",
+            "section": "3"
+          },
+          "letter": "F",
+          "name": "Distribución y logística",
+          "oneLiner": "Margen sobre volumen; el capital de trabajo es la restricción",
+          "criticalProcesses": [
+            "Cartera",
+            "toma de pedido",
+            "surtido y embarque",
+            "ruta",
+            "cobranza y crédito"
+          ]
+        }
+      ]
+    },
+    "x3Scoring": {
+      "criteria": [
+        {
+          "id": "C1",
+          "source": {
+            "chapter": "X3",
+            "section": "1"
+          },
+          "name": "Retorno anual estimado",
+          "measures": "Valor del año 1, descontado por adopción, como múltiplo del costo del año 1",
+          "weight": 3,
+          "inverted": false,
+          "scale": {
+            "1": "No se paga en el año 1",
+            "2": "Entre 1 y 1.5 veces el costo del año 1",
+            "3": "Entre 1.5 y 3 veces",
+            "4": "Entre 3 y 6 veces",
+            "5": "Más de 6 veces"
+          }
+        },
+        {
+          "id": "C2",
+          "source": {
+            "chapter": "X3",
+            "section": "1"
+          },
+          "name": "Volumen",
+          "measures": "Cada cuándo ocurre el proceso que se interviene",
+          "weight": 2,
+          "inverted": false,
+          "scale": {
+            "1": "Mensual o menos",
+            "2": "Quincenal",
+            "3": "Semanal",
+            "4": "Diario",
+            "5": "Varias veces al día"
+          }
+        },
+        {
+          "id": "C3",
+          "source": {
+            "chapter": "X3",
+            "section": "1"
+          },
+          "name": "Factibilidad técnica",
+          "measures": "Qué tan construible y mantenible es con los sistemas de hoy",
+          "weight": 3,
+          "inverted": false,
+          "scale": {
+            "1": "Sistema en rojo: sin API ni exportación usable",
+            "2": "Sistema en amarillo: integración por archivo o automatización de pantalla frágil",
+            "3": "Hay API, pero la lógica no es trivial; de 2 a 5 días",
+            "4": "Integración nativa, lógica moderada; menos de 2 días",
+            "5": "Conector existente y configuración; menos de 1 día"
+          }
+        },
+        {
+          "id": "C4",
+          "source": {
+            "chapter": "X3",
+            "section": "1"
+          },
+          "name": "Calidad del dato disponible",
+          "measures": "Si el dato que necesita existe, completo y con llave",
+          "weight": 2,
+          "inverted": false,
+          "scale": {
+            "1": "No se captura hoy; hay que crear el registro",
+            "2": "Disperso en archivos personales, sin llave común ni formato",
+            "3": "En un sistema, con huecos, duplicados o texto libre",
+            "4": "Estructurado, con llave única y huecos menores",
+            "5": "Estructurado, completo, con 12 meses o más de histórico"
+          }
+        },
+        {
+          "id": "C5",
+          "source": {
+            "chapter": "X3",
+            "section": "1"
+          },
+          "name": "Riesgo",
+          "measures": "Qué pasa cuando se equivoca",
+          "weight": 2,
+          "inverted": true,
+          "scale": {
+            "1": "Error irreversible sobre un tercero: dinero, contrato, decisión sobre una persona",
+            "2": "Llega al cliente final; corregible con costo reputacional",
+            "3": "Interno, afecta un entregable; corregible el mismo día",
+            "4": "Interno y reversible; el dueño lo detecta",
+            "5": "Interno, auditable por muestreo; el error no se propaga"
+          }
+        },
+        {
+          "id": "C6",
+          "source": {
+            "chapter": "X3",
+            "section": "1"
+          },
+          "name": "Dependencia de terceros",
+          "measures": "Cuánto depende de que alguien externo haga algo",
+          "weight": 1,
+          "inverted": true,
+          "scale": {
+            "1": "Desarrollo de un proveedor externo con agenda propia",
+            "2": "El proveedor debe habilitar una función o módulo pagado",
+            "3": "Contratar un servicio nuevo, con proceso de compra",
+            "4": "Proveedor ya contratado, con ajuste de plan",
+            "5": "Ninguna dependencia externa nueva"
+          }
+        },
+        {
+          "id": "C7",
+          "source": {
+            "chapter": "X3",
+            "section": "1"
+          },
+          "name": "Resistencia organizacional",
+          "measures": "Qué tanto va a costar que la gente la use",
+          "weight": 2,
+          "inverted": true,
+          "scale": {
+            "1": "Alguien percibe amenaza a su puesto; hubo oposición explícita",
+            "2": "Cambia el trabajo de un área sin dueño convencido",
+            "3": "Indiferencia: nadie se opone ni empuja",
+            "4": "El área la acepta y hay dueño asignado",
+            "5": "El equipo la está pidiendo; hay dueño entusiasta"
+          }
+        },
+        {
+          "id": "C8",
+          "source": {
+            "chapter": "X3",
+            "section": "1"
+          },
+          "name": "Tiempo a primer valor",
+          "measures": "Del arranque a la primera medición en producción",
+          "weight": 3,
+          "inverted": false,
+          "scale": {
+            "1": "Más de 6 meses",
+            "2": "De 3 a 6 meses",
+            "3": "De 6 a 12 semanas",
+            "4": "De 3 a 6 semanas",
+            "5": "Menos de 3 semanas"
+          }
+        }
+      ],
+      "formula": {
+        "weightsSum": 18,
+        "denominator": 90
+      },
+      "decisionBands": [
+        {
+          "id": "arranca-ya",
+          "source": {
+            "chapter": "X3",
+            "section": "3"
+          },
+          "min": 80,
+          "max": 100,
+          "decision": "Arranca ya",
+          "meaning": "Entra al trimestre en curso, con dueño, presupuesto y fecha de primera medición"
+        },
+        {
+          "id": "cola-del-trimestre",
+          "source": {
+            "chapter": "X3",
+            "section": "3"
+          },
+          "min": 65,
+          "max": 79,
+          "decision": "Cola del trimestre",
+          "meaning": "Buena, pero espera a que se libere capacidad. Máximo tres en implementación simultánea"
+        },
+        {
+          "id": "requiere-condicion-previa",
+          "source": {
+            "chapter": "X3",
+            "section": "3"
+          },
+          "min": 50,
+          "max": 64,
+          "decision": "Requiere condición previa",
+          "meaning": "Un criterio específico bajó el puntaje. Se registra cuál, qué lo desbloquea y quién responde"
+        },
+        {
+          "id": "descartado",
+          "source": {
+            "chapter": "X3",
+            "section": "3"
+          },
+          "min": 20,
+          "max": 49,
+          "decision": "Descartado",
+          "meaning": "No se reevalúa este año. Se escribe el motivo en `DESCARTES.md`"
+        }
+      ],
+      "vetoes": [
+        {
+          "id": "veto-c3-c5-en-1",
+          "source": {
+            "chapter": "X3",
+            "section": "3"
+          },
+          "condition": "C3 o C5 en 1",
+          "consequence": "bloquea el arranque, sin importar el total: exigen autorización explícita del comité y decisión de humano en el circuito (ver A5 §4)"
+        },
+        {
+          "id": "veto-c4-en-1-o-2",
+          "source": {
+            "chapter": "X3",
+            "section": "3"
+          },
+          "condition": "C4 en 1 o 2",
+          "consequence": "obliga a resolver primero el dato. No arranca la oportunidad: arranca la captura que la habilita"
+        },
+        {
+          "id": "veto-sin-linea-base",
+          "source": {
+            "chapter": "X3",
+            "section": "3"
+          },
+          "condition": "Sin línea base congelada",
+          "consequence": "no hay arranque, cualquiera que sea el puntaje (principio 5)"
+        }
+      ]
+    },
+    "x4Coverage": {
+      "evidenceLevels": [
+        {
+          "id": "evidence-level-3",
+          "source": {
+            "chapter": "X4",
+            "section": "2. Los cuatro niveles de evidencia"
+          },
+          "level": 3,
+          "name": "Verificado",
+          "requires": "Dato con fuente documental citable —archivo, sistema, exportación— o dos personas que coinciden por separado"
+        },
+        {
+          "id": "evidence-level-2",
+          "source": {
+            "chapter": "X4",
+            "section": "2. Los cuatro niveles de evidencia"
+          },
+          "level": 2,
+          "name": "Declarado",
+          "requires": "Una persona lo dijo y nadie lo contrastó"
+        },
+        {
+          "id": "evidence-level-1",
+          "source": {
+            "chapter": "X4",
+            "section": "2. Los cuatro niveles de evidencia"
+          },
+          "level": 1,
+          "name": "Inferido",
+          "requires": "Se dedujo de evidencia indirecta; nadie lo afirma y ningún documento lo dice"
+        },
+        {
+          "id": "evidence-level-0",
+          "source": {
+            "chapter": "X4",
+            "section": "2. Los cuatro niveles de evidencia"
+          },
+          "level": 0,
+          "name": "Ausente",
+          "requires": "No se sabe, o se sabe que nadie lo sabe"
+        }
+      ],
+      "criteria": [
+        {
+          "id": "PA1",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque PA · Perfil y arquetipo"
+          },
+          "block": "PA",
+          "subPhases": [
+            "P"
+          ],
+          "statement": "Las cuatro preguntas de ubicación contestadas: cómo entra el dinero, cuánto tarda una venta, qué se entrega, qué impide vender el doble",
+          "evidenceSatisfies": "`00-PERFIL.md` con las cuatro respuestas y su fuente",
+          "blocking": true
+        },
+        {
+          "id": "PA2",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque PA · Perfil y arquetipo"
+          },
+          "block": "PA",
+          "subPhases": [
+            "P"
+          ],
+          "statement": "Arquetipo asignado y justificado; si hay mezcla, cuál manda",
+          "evidenceSatisfies": "Justificación que nombra la línea de mayor margen",
+          "blocking": true
+        },
+        {
+          "id": "PA3",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque PA · Perfil y arquetipo"
+          },
+          "block": "PA",
+          "subPhases": [
+            "P"
+          ],
+          "statement": "Glosario del giro con los términos que el consultor no dominaba",
+          "evidenceSatisfies": "De 8 a 20 entradas en las palabras del cliente",
+          "blocking": false
+        },
+        {
+          "id": "PA4",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque PA · Perfil y arquetipo"
+          },
+          "block": "PA",
+          "subPhases": [
+            "1"
+          ],
+          "statement": "Estacionalidad y meses en que no conviene implementar",
+          "evidenceSatisfies": "Calendario de temporada alta y baja, con fuente",
+          "blocking": false
+        },
+        {
+          "id": "IT1",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque IT · Inventario técnico"
+          },
+          "block": "IT",
+          "subPhases": [
+            "0"
+          ],
+          "statement": "Cada sistema listado con nombre exacto y plan o versión",
+          "evidenceSatisfies": "Tabla de `02-inventario.md` sin filas que digan \"el sistema\"",
+          "blocking": false
+        },
+        {
+          "id": "IT2",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque IT · Inventario técnico"
+          },
+          "block": "IT",
+          "subPhases": [
+            "0"
+          ],
+          "statement": "Quién controla cada sistema, con nombre propio",
+          "evidenceSatisfies": "Nombre de persona por fila, no área",
+          "blocking": true
+        },
+        {
+          "id": "IT3",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque IT · Inventario técnico"
+          },
+          "block": "IT",
+          "subPhases": [
+            "0"
+          ],
+          "statement": "Semáforo de integrabilidad: verde API o conector nativo, amarillo solo archivos, rojo cerrado",
+          "evidenceSatisfies": "Verificado contra la documentación del proveedor y el plan contratado",
+          "blocking": true
+        },
+        {
+          "id": "IT4",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque IT · Inventario técnico"
+          },
+          "block": "IT",
+          "subPhases": [
+            "0"
+          ],
+          "statement": "Modalidad exacta de cada canal de mensajería con clientes",
+          "evidenceSatisfies": "Respuesta a \"¿contestas desde una app instalada o desde una plataforma web?\"",
+          "blocking": true
+        },
+        {
+          "id": "IT5",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque IT · Inventario técnico"
+          },
+          "block": "IT",
+          "subPhases": [
+            "0"
+          ],
+          "statement": "Costo mensual y anual de la pila completa",
+          "evidenceSatisfies": "Suma con fuente por línea",
+          "blocking": false
+        },
+        {
+          "id": "IT6",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque IT · Inventario técnico"
+          },
+          "block": "IT",
+          "subPhases": [
+            "0"
+          ],
+          "statement": "Historia de software comprado y abandonado, con el motivo",
+          "evidenceSatisfies": "Al menos un caso, o la afirmación de que no hay ninguno",
+          "blocking": false
+        },
+        {
+          "id": "NE1",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque NE · Negocio"
+          },
+          "block": "NE",
+          "subPhases": [
+            "1"
+          ],
+          "statement": "Cómo gana dinero el negocio, en una frase",
+          "evidenceSatisfies": "Frase escrita y validada con dirección",
+          "blocking": true
+        },
+        {
+          "id": "NE2",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque NE · Negocio"
+          },
+          "block": "NE",
+          "subPhases": [
+            "1"
+          ],
+          "statement": "Por línea: ticket promedio, operaciones al mes y ciclo de venta, con unidad y periodo",
+          "evidenceSatisfies": "Tres cifras por línea con fuente y nivel",
+          "blocking": true
+        },
+        {
+          "id": "NE3",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque NE · Negocio"
+          },
+          "block": "NE",
+          "subPhases": [
+            "1"
+          ],
+          "statement": "Margen relativo entre líneas, aunque sea ordinal",
+          "evidenceSatisfies": "Orden explícito de líneas y quién lo afirma",
+          "blocking": false
+        },
+        {
+          "id": "NE4",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque NE · Negocio"
+          },
+          "block": "NE",
+          "subPhases": [
+            "1",
+            "2"
+          ],
+          "statement": "Restricción principal —demanda, capacidad de entrega, administración o capital— contrastada",
+          "evidenceSatisfies": "La restricción declarada más un dato documental que la sostiene o la contradice",
+          "blocking": true
+        },
+        {
+          "id": "NE5",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque NE · Negocio"
+          },
+          "block": "NE",
+          "subPhases": [
+            "1"
+          ],
+          "statement": "Nombre propio por cada rol operativo",
+          "evidenceSatisfies": "Organigrama real con nombres, no puestos",
+          "blocking": false
+        },
+        {
+          "id": "NE6",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque NE · Negocio"
+          },
+          "block": "NE",
+          "subPhases": [
+            "1"
+          ],
+          "statement": "Cuellos de botella de personas: quién es la única persona que sabe hacer algo",
+          "evidenceSatisfies": "Lista con nombre y qué se detiene si falta",
+          "blocking": true
+        },
+        {
+          "id": "NE7",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque NE · Negocio"
+          },
+          "block": "NE",
+          "subPhases": [
+            "1"
+          ],
+          "statement": "Tipos de cliente con ticket y origen real",
+          "evidenceSatisfies": "Origen de los últimos tres clientes, perseguido uno por uno",
+          "blocking": false
+        },
+        {
+          "id": "NE8",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque NE · Negocio"
+          },
+          "block": "NE",
+          "subPhases": [
+            "1"
+          ],
+          "statement": "Cuánto tarda un peso desde el sí hasta la cuenta",
+          "evidenceSatisfies": "Días promedio con fuente",
+          "blocking": false
+        },
+        {
+          "id": "NE9",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque NE · Negocio"
+          },
+          "block": "NE",
+          "subPhases": [
+            "2"
+          ],
+          "statement": "Concentración: si algún cliente pasa del 30 % del ingreso anual",
+          "evidenceSatisfies": "Porcentaje calculado, no recordado",
+          "blocking": false
+        },
+        {
+          "id": "NE10",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque NE · Negocio"
+          },
+          "block": "NE",
+          "subPhases": [
+            "1"
+          ],
+          "statement": "Restricciones declaradas: qué tiene que seguir siendo humano y por qué",
+          "evidenceSatisfies": "Lista escrita, tratada como restricción de diseño",
+          "blocking": true
+        },
+        {
+          "id": "ED1",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque ED · Evidencia documental"
+          },
+          "block": "ED",
+          "subPhases": [
+            "2"
+          ],
+          "statement": "Qué se revisó, con qué muestra, y qué quedó fuera y por qué",
+          "evidenceSatisfies": "`04-evidencia/fuentes.md` con la causa de cada exclusión",
+          "blocking": true
+        },
+        {
+          "id": "ED2",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque ED · Evidencia documental"
+          },
+          "block": "ED",
+          "subPhases": [
+            "2"
+          ],
+          "statement": "Al menos una cifra clave del bloque NE contrastada contra documentos",
+          "evidenceSatisfies": "Tabla de contrastes: lo declarado, lo observado, qué explica la brecha",
+          "blocking": true
+        },
+        {
+          "id": "ED3",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque ED · Evidencia documental"
+          },
+          "block": "ED",
+          "subPhases": [
+            "2"
+          ],
+          "statement": "Al menos tres reglas de negocio no escritas, aparecidas al contrastar",
+          "evidenceSatisfies": "Tres reglas redactadas como condición, con el caso que las reveló",
+          "blocking": true
+        },
+        {
+          "id": "ED4",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque ED · Evidencia documental"
+          },
+          "block": "ED",
+          "subPhases": [
+            "2"
+          ],
+          "statement": "Convención de nombres y estructura de carpetas",
+          "evidenceSatisfies": "Patrón identificado: es la llave de cualquier automatización futura",
+          "blocking": false
+        },
+        {
+          "id": "ED5",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque ED · Evidencia documental"
+          },
+          "block": "ED",
+          "subPhases": [
+            "2"
+          ],
+          "statement": "Hojas de cálculo mantenidas a mano: qué resuelven y quién las actualiza",
+          "evidenceSatisfies": "Una fila por hoja, con qué pasa cuando esa persona no está",
+          "blocking": false
+        },
+        {
+          "id": "ED6",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque ED · Evidencia documental"
+          },
+          "block": "ED",
+          "subPhases": [
+            "2"
+          ],
+          "statement": "Con conversaciones disponibles: tiempo de respuesta real, preguntas repetidas y motivos de pérdida",
+          "evidenceSatisfies": "Cifras derivadas de marcas de tiempo, no de memoria",
+          "blocking": false
+        },
+        {
+          "id": "PR1",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque PR · Procesos"
+          },
+          "block": "PR",
+          "subPhases": [
+            "3"
+          ],
+          "statement": "Proceso completo del dinero: de la primera señal de interés al cobro efectivo",
+          "evidenceSatisfies": "Ficha con pasos, actores y sistemas de punta a punta",
+          "blocking": true
+        },
+        {
+          "id": "PR2",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque PR · Procesos"
+          },
+          "block": "PR",
+          "subPhases": [
+            "3"
+          ],
+          "statement": "Proceso completo de la entrega: del compromiso al entregable aceptado",
+          "evidenceSatisfies": "Ficha completa",
+          "blocking": true
+        },
+        {
+          "id": "PR3",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque PR · Procesos"
+          },
+          "block": "PR",
+          "subPhases": [
+            "3"
+          ],
+          "statement": "Procesos administrativos recurrentes que consumen días",
+          "evidenceSatisfies": "Dos fichas, o la justificación de por qué no existen",
+          "blocking": false
+        },
+        {
+          "id": "PR4",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque PR · Procesos"
+          },
+          "block": "PR",
+          "subPhases": [
+            "3"
+          ],
+          "statement": "Por proceso: frecuencia al mes y minutos por vez",
+          "evidenceSatisfies": "Las dos cifras y el método con que se obtuvieron",
+          "blocking": true
+        },
+        {
+          "id": "PR5",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque PR · Procesos"
+          },
+          "block": "PR",
+          "subPhases": [
+            "3"
+          ],
+          "statement": "Por proceso: dueño con nombre propio",
+          "evidenceSatisfies": "Nombre en la ficha, validado con esa persona",
+          "blocking": true
+        },
+        {
+          "id": "PR6",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque PR · Procesos"
+          },
+          "block": "PR",
+          "subPhases": [
+            "3"
+          ],
+          "statement": "Por proceso: excepciones, no solo el camino normal",
+          "evidenceSatisfies": "Al menos dos excepciones con su frecuencia",
+          "blocking": true
+        },
+        {
+          "id": "PR7",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque PR · Procesos"
+          },
+          "block": "PR",
+          "subPhases": [
+            "3"
+          ],
+          "statement": "Por proceso: reglas de autorización, quién aprueba qué y desde qué monto",
+          "evidenceSatisfies": "Umbrales con cifra y unidad",
+          "blocking": true
+        },
+        {
+          "id": "PR8",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque PR · Procesos"
+          },
+          "block": "PR",
+          "subPhases": [
+            "3"
+          ],
+          "statement": "Por proceso: costo del error, qué pasa al fallar, cada cuánto y cuánto cuesta",
+          "evidenceSatisfies": "Fallas al mes por costo promedio por falla",
+          "blocking": false
+        },
+        {
+          "id": "PR9",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque PR · Procesos"
+          },
+          "block": "PR",
+          "subPhases": [
+            "3"
+          ],
+          "statement": "Por proceso: veredicto de higiene, ¿funciona bien hecho a mano?",
+          "evidenceSatisfies": "Sí, o \"rediseñar antes de automatizar\" con qué habría que arreglar",
+          "blocking": true
+        },
+        {
+          "id": "PR10",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque PR · Procesos"
+          },
+          "block": "PR",
+          "subPhases": [
+            "3"
+          ],
+          "statement": "Al menos un proceso validado con quien lo ejecuta, no solo con quien dirige",
+          "evidenceSatisfies": "Nombre y fecha de validación en la ficha",
+          "blocking": true
+        },
+        {
+          "id": "PR11",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque PR · Procesos"
+          },
+          "block": "PR",
+          "subPhases": [
+            "3"
+          ],
+          "statement": "Señales de oportunidad marcadas: doble captura, esperas, retrabajo, reportes manuales",
+          "evidenceSatisfies": "Señal anotada en el paso donde ocurre",
+          "blocking": false
+        },
+        {
+          "id": "PR12",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque PR · Procesos"
+          },
+          "block": "PR",
+          "subPhases": [
+            "1",
+            "3"
+          ],
+          "statement": "Costo por hora cargado de quien ejecuta cada proceso mapeado",
+          "evidenceSatisfies": "Sueldo con carga social entre 160 horas, marcado si es estimado",
+          "blocking": true
+        },
+        {
+          "id": "DA1",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque DA · Datos y accesos"
+          },
+          "block": "DA",
+          "subPhases": [
+            "0"
+          ],
+          "statement": "Dónde vive el dato de clientes y dónde el de operación, aunque sea un Excel",
+          "evidenceSatisfies": "Ubicación por tipo de dato, con el sistema o archivo nombrado",
+          "blocking": true
+        },
+        {
+          "id": "DA2",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque DA · Datos y accesos"
+          },
+          "block": "DA",
+          "subPhases": [
+            "0",
+            "2"
+          ],
+          "statement": "Calidad del dato que necesitarían las oportunidades probables: llave única, completitud, histórico",
+          "evidenceSatisfies": "Muestra real revisada, no la opinión de quien captura",
+          "blocking": true
+        },
+        {
+          "id": "DA3",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque DA · Datos y accesos"
+          },
+          "block": "DA",
+          "subPhases": [
+            "0"
+          ],
+          "statement": "Accesos huérfanos: cuentas de ex-empleados, de terceros o personales usadas para el negocio",
+          "evidenceSatisfies": "Lista con la cuenta y quién debería controlarla",
+          "blocking": false
+        },
+        {
+          "id": "DA4",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque DA · Datos y accesos"
+          },
+          "block": "DA",
+          "subPhases": [
+            "0"
+          ],
+          "statement": "Respaldo de la información crítica y quién lo hace",
+          "evidenceSatisfies": "Frecuencia, destino y última restauración verificada",
+          "blocking": false
+        },
+        {
+          "id": "DA5",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque DA · Datos y accesos"
+          },
+          "block": "DA",
+          "subPhases": [
+            "0"
+          ],
+          "statement": "Alcance de acceso por escrito antes de abrir el primer archivo",
+          "evidenceSatisfies": "Autorización con nombre y fecha en `fuentes.md`",
+          "blocking": true
+        },
+        {
+          "id": "RC1",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque RC · Riesgo y cumplimiento"
+          },
+          "block": "RC",
+          "subPhases": [
+            "2",
+            "3"
+          ],
+          "statement": "Qué datos personales toca la operación y de qué categoría",
+          "evidenceSatisfies": "Inventario por proceso: identificativos, financieros, de salud, de menores, biométricos",
+          "blocking": true
+        },
+        {
+          "id": "RC2",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque RC · Riesgo y cumplimiento"
+          },
+          "block": "RC",
+          "subPhases": [
+            "0"
+          ],
+          "statement": "Si hay aviso de privacidad publicado y qué cubre",
+          "evidenceSatisfies": "El documento, o el hallazgo explícito de que no existe",
+          "blocking": true
+        },
+        {
+          "id": "RC3",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque RC · Riesgo y cumplimiento"
+          },
+          "block": "RC",
+          "subPhases": [
+            "2"
+          ],
+          "statement": "Marcos legales aplicables por país de operación y de clientes",
+          "evidenceSatisfies": "Marco nombrado, sin emitir asesoría legal, con recomendación de revisión por abogado",
+          "blocking": false
+        },
+        {
+          "id": "RC4",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque RC · Riesgo y cumplimiento"
+          },
+          "block": "RC",
+          "subPhases": [
+            "3"
+          ],
+          "statement": "Qué procesos producen decisiones sobre personas o actos irreversibles",
+          "evidenceSatisfies": "Marca en la ficha: entrada del criterio de humano en el circuito de A5",
+          "blocking": true
+        },
+        {
+          "id": "RC5",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque RC · Riesgo y cumplimiento"
+          },
+          "block": "RC",
+          "subPhases": [
+            "3"
+          ],
+          "statement": "Qué automatización propuesta transferiría datos personales a un servicio de IA",
+          "evidenceSatisfies": "Lista que alimenta A5 y el anexo X5",
+          "blocking": false
+        },
+        {
+          "id": "RC6",
+          "source": {
+            "chapter": "X4",
+            "section": "3. Tabla maestra de criterios · Bloque RC · Riesgo y cumplimiento"
+          },
+          "block": "RC",
+          "subPhases": [
+            "0"
+          ],
+          "statement": "Ninguna credencial registrada en la base de conocimiento",
+          "evidenceSatisfies": "Revisión del repositorio: consta que la cuenta existe y quién la controla, nunca cómo entrar",
+          "blocking": true
+        }
+      ],
+      "verdictRule": {
+        "readyWhen": "Todos los bloqueantes de las sub-fases cerradas en nivel 2 o superior, y al menos la mitad de los bloqueantes en nivel 3. Ningún bloqueante de DA o RC por debajo de 2",
+        "reservationsWhen": "Todos los bloqueantes en 2 o superior pero menos de la mitad en 3; o hasta dos bloqueantes en nivel 1 fuera de DA y RC",
+        "notReadyWhen": "Cualquier bloqueante en nivel 0; o tres o más bloqueantes en nivel 1; o cualquier bloqueante de DA o RC por debajo de 2; o ningún proceso validado con quien ejecuta",
+        "thresholdToA3": "Una oportunidad que se apoye en un criterio en nivel 1 arrastra ese nivel a su ficha de X3 y no puede calificarse 4 ni 5 en calidad del dato."
+      }
+    },
+    "x5Risks": {
+      "catalogue": [
+        {
+          "id": "RI-01",
+          "source": {
+            "chapter": "X5",
+            "section": "§1"
+          },
+          "risk": "Alucinación con consecuencia operativa",
+          "howItShows": "El sistema afirma un dato falso con formato correcto y alguien actúa sobre él",
+          "whoIsHit": "Cliente final, área que ejecuta",
+          "controls": [
+            "Trazabilidad de fuente",
+            "humano en el circuito",
+            "umbral de confianza",
+            "muestreo"
+          ],
+          "signal": "Tasa de corrección del revisor por encima del 10 % de las salidas"
+        },
+        {
+          "id": "RI-02",
+          "source": {
+            "chapter": "X5",
+            "section": "§1"
+          },
+          "risk": "Filtración de dato confidencial al proveedor",
+          "howItShows": "Personal pega contratos, listas de clientes o código en una herramienta sin contrato de datos",
+          "whoIsHit": "Empresa, terceros",
+          "controls": [
+            "Política de uso aceptable",
+            "lista de herramientas aprobadas",
+            "minimización",
+            "seudonimización",
+            "revisión de cláusulas"
+          ],
+          "signal": "Herramientas nuevas detectadas fuera del registro; tráfico a dominios no aprobados"
+        },
+        {
+          "id": "RI-03",
+          "source": {
+            "chapter": "X5",
+            "section": "§1"
+          },
+          "risk": "Inyección de instrucción vía contenido externo",
+          "howItShows": "Un correo, PDF o página web contiene texto que el sistema interpreta como orden",
+          "whoIsHit": "Empresa, cliente final",
+          "controls": [
+            "Límites de acción",
+            "humano en el circuito para toda acción con efecto",
+            "separar contenido de instrucción",
+            "bitácora (ver B6)"
+          ],
+          "signal": "Acciones fuera del patrón habitual; escrituras en sistemas no previstos"
+        },
+        {
+          "id": "RI-04",
+          "source": {
+            "chapter": "X5",
+            "section": "§1"
+          },
+          "risk": "Sesgo en decisiones sobre personas",
+          "howItShows": "El sistema clasifica peor a un grupo sin que nadie lo mida",
+          "whoIsHit": "Candidatos, clientes, empleados",
+          "controls": [
+            "Clasificación R4",
+            "explicabilidad",
+            "revisión por muestreo estratificado",
+            "expediente por modelo",
+            "revisión legal"
+          ],
+          "signal": "Diferencia de tasa de aprobación entre grupos sin explicación de negocio"
+        },
+        {
+          "id": "RI-05",
+          "source": {
+            "chapter": "X5",
+            "section": "§1"
+          },
+          "risk": "Dependencia de un solo proveedor",
+          "howItShows": "Todo el portafolio corre sobre un modelo y un contrato",
+          "whoIsHit": "Empresa",
+          "controls": [
+            "Capa de abstracción en la arquitectura (A4)",
+            "prueba de portabilidad",
+            "cláusula de continuidad"
+          ],
+          "signal": "Costo de migración estimado mayor a 4 semanas-persona"
+        },
+        {
+          "id": "RI-06",
+          "source": {
+            "chapter": "X5",
+            "section": "§1"
+          },
+          "risk": "Costo fuera de control",
+          "howItShows": "El consumo crece sin techo al subir el volumen o al cambiar de versión",
+          "whoIsHit": "Empresa",
+          "controls": [
+            "Tope de gasto por proceso conectado",
+            "alerta al 70 % del presupuesto mensual",
+            "costo por transacción en el tablero (A8)"
+          ],
+          "signal": "Costo por transacción al alza dos meses seguidos"
+        },
+        {
+          "id": "RI-07",
+          "source": {
+            "chapter": "X5",
+            "section": "§1"
+          },
+          "risk": "Deriva de calidad con el tiempo",
+          "howItShows": "El proceso conectado funciona el día uno y empeora sin que nadie lo note",
+          "whoIsHit": "Cliente final, empresa",
+          "controls": [
+            "Prueba periódica de deriva",
+            "muestreo",
+            "congelar versión de modelo",
+            "alerta al cambiar de versión"
+          ],
+          "signal": "Caída de calidad en la corrida trimestral fuera del margen definido"
+        },
+        {
+          "id": "RI-08",
+          "source": {
+            "chapter": "X5",
+            "section": "§1"
+          },
+          "risk": "Automatización de un proceso incorrecto",
+          "howItShows": "Se acelera un proceso que no debería existir o que está mal diseñado",
+          "whoIsHit": "Empresa, cliente final",
+          "controls": [
+            "Principio 4",
+            "línea base congelada",
+            "revisión de diseño antes de especificar (A3)"
+          ],
+          "signal": "El proceso conectado no cambia ningún indicador de negocio a los 90 días"
+        },
+        {
+          "id": "RI-09",
+          "source": {
+            "chapter": "X5",
+            "section": "§1"
+          },
+          "risk": "Pérdida de conocimiento humano por desuso",
+          "howItShows": "Nadie sabe ya hacer a mano lo que el sistema hace",
+          "whoIsHit": "Empresa",
+          "controls": [
+            "Rotación de revisores",
+            "procedimiento manual documentado",
+            "prueba anual de operación sin el sistema"
+          ],
+          "signal": "Nadie del área puede ejecutar el proceso si el sistema se apaga"
+        },
+        {
+          "id": "RI-10",
+          "source": {
+            "chapter": "X5",
+            "section": "§1"
+          },
+          "risk": "Bloqueo de una cuenta de canal por automatización no oficial",
+          "howItShows": "Se automatiza mensajería por una vía no soportada y el proveedor suspende la cuenta",
+          "whoIsHit": "Empresa, cliente final",
+          "controls": [
+            "Usar solo la modalidad oficial del canal",
+            "registrar la modalidad en el inventario (A2 §4)",
+            "interruptor de apagado"
+          ],
+          "signal": "Advertencias del proveedor; caída de entregabilidad"
+        },
+        {
+          "id": "RI-11",
+          "source": {
+            "chapter": "X5",
+            "section": "§1"
+          },
+          "risk": "Incumplimiento de datos personales",
+          "howItShows": "Se procesan o transfieren datos sin base legal, sin aviso que los cubra o sin plazo de retención",
+          "whoIsHit": "Titulares de los datos, empresa",
+          "controls": [
+            "Minimización",
+            "base legal escrita",
+            "seudonimización",
+            "cláusulas del proveedor",
+            "retención definida"
+          ],
+          "signal": "Procesos conectados con datos personales y sin marco declarado en el registro"
+        },
+        {
+          "id": "RI-12",
+          "source": {
+            "chapter": "X5",
+            "section": "§1"
+          },
+          "risk": "Ausencia de trazabilidad ante una auditoría",
+          "howItShows": "No se puede reconstruir quién decidió qué, con qué dato y quién lo revisó",
+          "whoIsHit": "Empresa",
+          "controls": [
+            "Bitácora exportable",
+            "trazabilidad de fuente",
+            "registro de procesos conectados al día",
+            "evidencia de supervisión"
+          ],
+          "signal": "Procesos conectados en producción sin bitácora propia de la empresa"
+        }
+      ],
+      "matrix": [
+        {
+          "id": "error-leve-reversible-minutos",
+          "source": {
+            "chapter": "X5",
+            "section": "§2"
+          },
+          "severity": "Error leve",
+          "reversibility": "Reversible en minutos",
+          "tier": "R1",
+          "controls": [
+            "Bitácora",
+            "muestreo mensual"
+          ]
+        },
+        {
+          "id": "error-leve-reversible-con-trabajo",
+          "source": {
+            "chapter": "X5",
+            "section": "§2"
+          },
+          "severity": "Error leve",
+          "reversibility": "Reversible con trabajo",
+          "tier": "R1",
+          "controls": [
+            "Bitácora",
+            "muestreo quincenal"
+          ]
+        },
+        {
+          "id": "error-leve-irreversible-en-la-practica",
+          "source": {
+            "chapter": "X5",
+            "section": "§2"
+          },
+          "severity": "Error leve",
+          "reversibility": "Irreversible en la práctica",
+          "tier": "R2",
+          "controls": [
+            "Trazabilidad",
+            "límites de acción"
+          ]
+        },
+        {
+          "id": "error-costoso-reversible-minutos",
+          "source": {
+            "chapter": "X5",
+            "section": "§2"
+          },
+          "severity": "Error costoso",
+          "reversibility": "Reversible en minutos",
+          "tier": "R2",
+          "controls": [
+            "Trazabilidad",
+            "umbral de confianza",
+            "límites"
+          ]
+        },
+        {
+          "id": "error-costoso-reversible-con-trabajo",
+          "source": {
+            "chapter": "X5",
+            "section": "§2"
+          },
+          "severity": "Error costoso",
+          "reversibility": "Reversible con trabajo",
+          "tier": "R3",
+          "controls": [
+            "Humano en el circuito",
+            "bitácora completa",
+            "apagado probado"
+          ]
+        },
+        {
+          "id": "error-costoso-irreversible-en-la-practica",
+          "source": {
+            "chapter": "X5",
+            "section": "§2"
+          },
+          "severity": "Error costoso",
+          "reversibility": "Irreversible en la práctica",
+          "tier": "R4",
+          "controls": [
+            "Todo R3 más autorización del comité y deriva trimestral"
+          ]
+        },
+        {
+          "id": "error-grave-o-sobre-un-tercero-reversible-minutos",
+          "source": {
+            "chapter": "X5",
+            "section": "§2"
+          },
+          "severity": "Error grave o sobre un tercero",
+          "reversibility": "Reversible en minutos",
+          "tier": "R3",
+          "controls": [
+            "Humano en el circuito",
+            "apagado probado",
+            "muestreo semanal"
+          ]
+        },
+        {
+          "id": "error-grave-o-sobre-un-tercero-reversible-con-trabajo",
+          "source": {
+            "chapter": "X5",
+            "section": "§2"
+          },
+          "severity": "Error grave o sobre un tercero",
+          "reversibility": "Reversible con trabajo",
+          "tier": "R4",
+          "controls": [
+            "Todo R3 más expediente por modelo y revisión legal"
+          ]
+        },
+        {
+          "id": "error-grave-o-sobre-un-tercero-irreversible-en-la-practica",
+          "source": {
+            "chapter": "X5",
+            "section": "§2"
+          },
+          "severity": "Error grave o sobre un tercero",
+          "reversibility": "Irreversible en la práctica",
+          "tier": "R4",
+          "controls": [
+            "Todo lo anterior; sin humano en el circuito no se despliega"
+          ]
+        }
+      ]
+    },
+    "x7Glossary": [
+      {
+        "id": "agent",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Agente",
+        "definition": "Sistema de IA que recibe un objetivo, decide por sí mismo qué pasos dar y ejecuta acciones con herramientas hasta lograrlo o fallar. Se distingue de un flujo automatizado en que el orden de los pasos no está escrito de antemano.",
+        "synonyms": [
+          "asistente autónomo"
+        ]
+      },
+      {
+        "id": "fine-tuning",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Ajuste fino",
+        "definition": "Entrenar un modelo ya existente con ejemplos propios para que adopte un formato, un estilo o una tarea específica. No sirve para agregar conocimiento fresco: para eso es la búsqueda documental.",
+        "synonyms": [
+          "fine-tuning, en inglés"
+        ]
+      },
+      {
+        "id": "hallucination",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Alucinación",
+        "definition": "Respuesta de un modelo que suena correcta y no lo es: una cifra, una cita o un hecho inventados con el mismo tono que los verdaderos. Es el riesgo que justifica el humano en el circuito y las evals.",
+        "synonyms": [
+          "confabulación"
+        ]
+      },
+      {
+        "id": "api",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "API",
+        "definition": "Puerta programable de un sistema: permite que otro programa lea o escriba datos sin que una persona use la pantalla. Que un sistema tenga API es lo que lo vuelve verde en el semáforo de integrabilidad.",
+        "synonyms": [
+          "interfaz de programación"
+        ]
+      },
+      {
+        "id": "documentary-archaeology",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Arqueología documental",
+        "definition": "La sub-fase 2 de A2: reconstruir cómo opera la empresa leyendo sus archivos, correo, hojas de cálculo y conversaciones, en lugar de creerle a la entrevista.",
+        "synonyms": []
+      },
+      {
+        "id": "archetype",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Arquetipo",
+        "definition": "Clasificación operativa del negocio, no su sector: dos empresas de giros opuestos con el mismo arquetipo se diagnostican casi igual. Los seis están en A2 §3.",
+        "synonyms": []
+      },
+      {
+        "id": "blocking-criterion",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Bloqueante",
+        "definition": "Criterio de cobertura marcado \"Sí\" en la columna Bloqueante de X4, sin el cual no se puede construir un portafolio defendible. Un bloqueante en nivel 0 detiene el avance de fase.",
+        "synonyms": []
+      },
+      {
+        "id": "documentary-search",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Búsqueda documental (RAG)",
+        "definition": "Técnica en la que el sistema busca primero los fragmentos relevantes de los documentos de la empresa y se los entrega al modelo para que responda con ellos. Es la forma normal de que un modelo trabaje con información propia.",
+        "synonyms": [
+          "retrieval-augmented generation, en inglés"
+        ]
+      },
+      {
+        "id": "five-blocks",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Cinco bloques",
+        "definition": "Los componentes del *AI-First Operating System* del World Economic Forum —motor de inteligencia, stack adaptativo, rediseño de operaciones, equipos humano-IA y nueva creación de valor— usados como rejilla de diagnóstico en A0 §2.",
+        "synonyms": []
+      },
+      {
+        "id": "coverage",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Cobertura",
+        "definition": "Qué tan completo está el diagnóstico, medido criterio por criterio con la rúbrica del anexo X4. No es un porcentaje de avance: es una calificación con veredicto.",
+        "synonyms": []
+      },
+      {
+        "id": "connector",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Conector",
+        "definition": "Integración ya construida entre dos sistemas, que se configura en vez de programarse. Baja el costo de una automatización pero ata el proyecto al proveedor que lo mantiene.",
+        "synonyms": [
+          "conector nativo"
+        ]
+      },
+      {
+        "id": "golden-set",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Conjunto dorado",
+        "definition": "Colección de casos con su respuesta correcta acordada, contra la que se mide si un sistema de IA se comporta como debe. Es la base de cualquier eval.",
+        "synonyms": [
+          "golden set, en inglés"
+        ]
+      },
+      {
+        "id": "context",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Contexto",
+        "definition": "Todo lo que el modelo tiene a la vista al responder: la instrucción del sistema, la conversación y los documentos recuperados. Es finito, y lo que no cabe es como si no existiera.",
+        "synonyms": [
+          "ventana de contexto, para nombrar su límite"
+        ]
+      },
+      {
+        "id": "deployment",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Despliegue",
+        "definition": "Puesta en producción de un proceso conectado: cuando deja de ser prueba y opera sobre el trabajo real, con dueño, monitoreo y plan de reversión.",
+        "synonyms": []
+      },
+      {
+        "id": "sandbox",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Entorno de pruebas",
+        "definition": "Copia del sistema donde se ensaya sin tocar datos reales ni afectar a clientes. Sin él no hay forma honesta de probar una automatización que mueve dinero.",
+        "synonyms": [
+          "sandbox",
+          "ambiente de staging"
+        ]
+      },
+      {
+        "id": "eval",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Eval",
+        "definition": "Prueba automatizada del comportamiento de un sistema de IA: corre el conjunto dorado, compara contra lo esperado y falla cuando la calidad cae. Es a la IA lo que la prueba unitaria al software.",
+        "synonyms": [
+          "evaluación automatizada"
+        ]
+      },
+      {
+        "id": "process-sheet",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Ficha de proceso",
+        "definition": "El archivo `PXX-<nombre>.md` con dueño, disparador, pasos, frecuencia, minutos por vez, horas-persona al mes, costo, excepciones, reglas no escritas y veredicto de higiene. Es la unidad mínima sobre la que A3 prioriza.",
+        "synonyms": []
+      },
+      {
+        "id": "hygiene-filter",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Filtro de higiene",
+        "definition": "La pregunta que se contesta antes de cerrar cada proceso: ¿funciona bien cuando se hace a mano? Si no, el proceso se marca \"rediseñar antes de automatizar\".",
+        "synonyms": []
+      },
+      {
+        "id": "human-in-the-loop",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Humano en el circuito",
+        "definition": "Revisión obligatoria de una persona antes de que un acto automatizado surta efecto. Se exige donde el error es caro, irreversible o afecta a un tercero.",
+        "synonyms": [
+          "punto de control humano, la forma con la que se nombra hacia el cliente"
+        ]
+      },
+      {
+        "id": "idempotency",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Idempotencia",
+        "definition": "Propiedad de una operación que, ejecutada dos veces con la misma entrada, produce el mismo resultado sin duplicarlo. Es lo que impide que un reintento mande dos veces la misma factura.",
+        "synonyms": []
+      },
+      {
+        "id": "system-instruction",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Instrucción del sistema",
+        "definition": "El texto fijo que define el papel, las reglas y los límites del modelo antes de que llegue la primera pregunta del usuario. Es donde vive la política del proceso conectado.",
+        "synonyms": [
+          "prompt de sistema"
+        ]
+      },
+      {
+        "id": "integrability",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Integrabilidad",
+        "definition": "Semáforo por sistema del inventario técnico: verde si hay API oficial o conector nativo, amarillo si solo permite exportar e importar archivos, rojo si es cerrado.",
+        "synonyms": []
+      },
+      {
+        "id": "prompt-injection",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Inyección de instrucción",
+        "definition": "Ataque en el que un texto que el sistema lee —un correo, una página, un documento— contiene órdenes que el modelo obedece como si vinieran del operador. Es el riesgo específico de cualquier agente con acceso a contenido externo.",
+        "synonyms": [
+          "prompt injection, en inglés"
+        ]
+      },
+      {
+        "id": "deploy-reshape-invent",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Jugadas Deploy, Reshape, Invent",
+        "definition": "Las tres apuestas simultáneas que describe BCG: desplegar herramientas existentes, rediseñar procesos completos e inventar oferta nueva. No son fases consecutivas.",
+        "synonyms": []
+      },
+      {
+        "id": "baseline",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Línea base",
+        "definition": "Medición del proceso **antes** de intervenirlo: veces al mes, minutos por vez, quién lo hace, cuánto cuesta y con qué tasa de error. Sin ella no se aprueba un proceso conectado.",
+        "synonyms": []
+      },
+      {
+        "id": "engineering-maturity",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Madurez de ingeniería (I0–I4)",
+        "definition": "La escala de la Parte B: **I0 Autocompletado · I1 Asistido · I2 Dirigido por especificación · I3 Delegado · I4 Orquestado**. I2 es el destino razonable de la mayoría de los equipos.",
+        "synonyms": []
+      },
+      {
+        "id": "company-maturity",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Madurez de la empresa (M0–M4)",
+        "definition": "La escala de la Parte A: **M0 Ad hoc · M1 Asistido · M2 Integrado · M3 Rediseñado · M4 Compuesto**. El nivel lo fija lo que la empresa opera de verdad, no lo que tiene contratado.",
+        "synonyms": []
+      },
+      {
+        "id": "mapping",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Mapeo",
+        "definition": "El diagnóstico estructurado de cómo opera la empresa de verdad, con procesos medidos en volumen, tiempo y costo. Es la Fase 1 y el capítulo A2.",
+        "synonyms": []
+      },
+      {
+        "id": "mcp",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "MCP",
+        "definition": "Protocolo abierto que estandariza cómo un modelo accede a herramientas y datos de una empresa, de modo que la integración se escribe una vez y sirve para varios asistentes.",
+        "synonyms": [
+          "Model Context Protocol, en inglés"
+        ]
+      },
+      {
+        "id": "language-model",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Modelo de lenguaje",
+        "definition": "Sistema entrenado sobre grandes volúmenes de texto que predice la continuación más probable de lo que recibe. De ahí salen sus dos caras: escribe bien y puede equivocarse con seguridad.",
+        "synonyms": [
+          "LLM",
+          "modelo fundacional"
+        ]
+      },
+      {
+        "id": "evidence-level",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Nivel de evidencia",
+        "definition": "La calificación que acompaña a todo dato del mapeo: **verificado · declarado · inferido · ausente**. Un dato sin nivel es una hipótesis disfrazada de hecho.",
+        "synonyms": []
+      },
+      {
+        "id": "opportunity",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Oportunidad",
+        "definition": "Candidato a automatizar o asistir con IA, ligado a un proceso medido y con puntaje calculado según X3. Antes del puntaje es una idea, no una oportunidad.",
+        "synonyms": []
+      },
+      {
+        "id": "orchestration",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Orquestación",
+        "definition": "Coordinación de varios pasos, modelos o agentes dentro de un mismo flujo, incluyendo qué se ejecuta en qué orden, qué se reintenta y qué se escala a una persona.",
+        "synonyms": [
+          "coordinación de flujos"
+        ]
+      },
+      {
+        "id": "portfolio",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Portafolio",
+        "definition": "El conjunto ordenado de oportunidades con su puntaje, su secuencia y su decisión. Producto de la Fase 2 (A3), no una lista de deseos.",
+        "synonyms": []
+      },
+      {
+        "id": "process",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Proceso",
+        "definition": "Unidad de trabajo con dueño, volumen, tiempo y costo medidos. Sin esas cuatro cosas es una descripción, no un proceso en el sentido de este playbook.",
+        "synonyms": []
+      },
+      {
+        "id": "connected-process",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Proceso conectado",
+        "definition": "Oportunidad aprobada y especificada, con criterios de aceptación, dueño y presupuesto. Una oportunidad no aprobada no es un proceso conectado.",
+        "synonyms": []
+      },
+      {
+        "id": "rule-10-20-70",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Regla 10-20-70",
+        "definition": "El reparto de esfuerzo de BCG en una transformación con IA: 10 % algoritmos, 20 % tecnología y datos, 70 % personas y procesos. Sirve como prueba del plan de trabajo.",
+        "synonyms": []
+      },
+      {
+        "id": "unwritten-business-rule",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Regla de negocio no escrita",
+        "definition": "Condición que gobierna una decisión real y no está documentada en ningún lado —quién autoriza qué, desde qué monto, con qué excepción—. Aparece al contrastar evidencia y es requisito de diseño.",
+        "synonyms": []
+      },
+      {
+        "id": "coverage-verdict",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Veredicto de cobertura",
+        "definition": "La conclusión escrita de X4: listo para avanzar, se avanza con reserva, o no se avanza. Se escribe siempre, aunque sea favorable.",
+        "synonyms": []
+      }
+    ],
+    "a9Maturity": {
+      "levels": [
+        {
+          "id": "M0",
+          "source": {
+            "chapter": "A9",
+            "section": "1"
+          },
+          "name": "Ad hoc",
+          "dimensions": {
+            "people": "Uso personal, aislado y casi siempre oculto",
+            "data": "Dispersos en hojas y carpetas; sin dato maestro de cliente ni de producto",
+            "governance": "Ninguna: no hay política de uso ni registro",
+            "measurement": "No se mide nada; no existen líneas base",
+            "leadership": "Nadie, a lo más un curioso",
+            "promise": "Un diagnóstico. Nada operativo"
+          },
+          "honestPromise": "Un diagnóstico. Nada operativo"
+        },
+        {
+          "id": "M1",
+          "source": {
+            "chapter": "A9",
+            "section": "1"
+          },
+          "name": "Asistido",
+          "dimensions": {
+            "people": "Usan asistentes por su cuenta en tareas propias; el beneficio vive en la persona",
+            "data": "Sistemas de registro sin acceso programático ni dato maestro acordado",
+            "governance": "Política de uso publicada, en el mejor caso; sin registro de casos",
+            "measurement": "Métricas de actividad (A8 §2, nivel 1)",
+            "leadership": "Un entusiasta sin mandato ni presupuesto",
+            "promise": "Minutos por persona. Ningún resultado de negocio"
+          },
+          "honestPromise": "Minutos por persona. Ningún resultado de negocio"
+        },
+        {
+          "id": "M2",
+          "source": {
+            "chapter": "A9",
+            "section": "1"
+          },
+          "name": "Integrado",
+          "dimensions": {
+            "people": "La IA opera dentro de procesos con dueño, entrada, salida y criterio de terminado",
+            "data": "Sistemas clave integrables por API; dato maestro identificado y con dueño",
+            "governance": "Registro de casos, clasificación de riesgo, humano en el circuito y bitácora (A5)",
+            "measurement": "Métricas de proceso contra línea base congelada",
+            "leadership": "CAIO o responsable con mandato escrito y comité activo",
+            "promise": "Mejora medible de tiempo de ciclo y capacidad atendida en procesos nombrados"
+          },
+          "honestPromise": "Mejora medible de tiempo de ciclo y capacidad atendida en procesos nombrados"
+        },
+        {
+          "id": "M3",
+          "source": {
+            "chapter": "A9",
+            "section": "1"
+          },
+          "name": "Rediseñado",
+          "dimensions": {
+            "people": "Los procesos tienen forma distinta y los puestos cambiaron de contenido y metas",
+            "data": "Dato maestro gobernado; eventos disponibles casi en tiempo real",
+            "governance": "Controles auditados con evidencia; NIST AI RMF operando, ISO/IEC 42001 si el sector lo exige",
+            "measurement": "Métricas de negocio por función, atribuidas con grupo de comparación",
+            "leadership": "La dirección del área es dueña del rediseño; el CAIO gobierna el portafolio",
+            "promise": "Cambio de margen o de costo de servir en la función rediseñada"
+          },
+          "honestPromise": "Cambio de margen o de costo de servir en la función rediseñada"
+        },
+        {
+          "id": "M4",
+          "source": {
+            "chapter": "A9",
+            "section": "1"
+          },
+          "name": "Compuesto",
+          "dimensions": {
+            "people": "La empresa vende capacidad que antes no podía producir",
+            "data": "Producto de datos con contrato, versionado y acuerdo de servicio",
+            "governance": "Gobernanza de producto: evals continuas, versiones de modelo, responsabilidad ante el cliente",
+            "measurement": "Ingreso y margen de la línea nueva, con estado de resultados propio",
+            "leadership": "Dirección general y consejo",
+            "promise": "Una línea de ingreso nueva con margen propio"
+          },
+          "honestPromise": "Una línea de ingreso nueva con margen propio"
+        }
+      ],
+      "statements": [
+        {
+          "id": "a9-statement-01",
+          "source": {
+            "chapter": "A9",
+            "section": "2"
+          },
+          "number": 1,
+          "dimension": "people",
+          "level": "M1"
+        },
+        {
+          "id": "a9-statement-02",
+          "source": {
+            "chapter": "A9",
+            "section": "2"
+          },
+          "number": 2,
+          "dimension": "people",
+          "level": "M2"
+        },
+        {
+          "id": "a9-statement-03",
+          "source": {
+            "chapter": "A9",
+            "section": "2"
+          },
+          "number": 3,
+          "dimension": "people",
+          "level": "M3"
+        },
+        {
+          "id": "a9-statement-04",
+          "source": {
+            "chapter": "A9",
+            "section": "2"
+          },
+          "number": 4,
+          "dimension": "data",
+          "level": "M1"
+        },
+        {
+          "id": "a9-statement-05",
+          "source": {
+            "chapter": "A9",
+            "section": "2"
+          },
+          "number": 5,
+          "dimension": "data",
+          "level": "M2"
+        },
+        {
+          "id": "a9-statement-06",
+          "source": {
+            "chapter": "A9",
+            "section": "2"
+          },
+          "number": 6,
+          "dimension": "data",
+          "level": "M3"
+        },
+        {
+          "id": "a9-statement-07",
+          "source": {
+            "chapter": "A9",
+            "section": "2"
+          },
+          "number": 7,
+          "dimension": "governance",
+          "level": "M1"
+        },
+        {
+          "id": "a9-statement-08",
+          "source": {
+            "chapter": "A9",
+            "section": "2"
+          },
+          "number": 8,
+          "dimension": "governance",
+          "level": "M2"
+        },
+        {
+          "id": "a9-statement-09",
+          "source": {
+            "chapter": "A9",
+            "section": "2"
+          },
+          "number": 9,
+          "dimension": "governance",
+          "level": "M3"
+        },
+        {
+          "id": "a9-statement-10",
+          "source": {
+            "chapter": "A9",
+            "section": "2"
+          },
+          "number": 10,
+          "dimension": "measurement",
+          "level": "M1"
+        },
+        {
+          "id": "a9-statement-11",
+          "source": {
+            "chapter": "A9",
+            "section": "2"
+          },
+          "number": 11,
+          "dimension": "measurement",
+          "level": "M2"
+        },
+        {
+          "id": "a9-statement-12",
+          "source": {
+            "chapter": "A9",
+            "section": "2"
+          },
+          "number": 12,
+          "dimension": "measurement",
+          "level": "M3"
+        },
+        {
+          "id": "a9-statement-13",
+          "source": {
+            "chapter": "A9",
+            "section": "2"
+          },
+          "number": 13,
+          "dimension": "leadership",
+          "level": "M1"
+        },
+        {
+          "id": "a9-statement-14",
+          "source": {
+            "chapter": "A9",
+            "section": "2"
+          },
+          "number": 14,
+          "dimension": "leadership",
+          "level": "M2"
+        },
+        {
+          "id": "a9-statement-15",
+          "source": {
+            "chapter": "A9",
+            "section": "2"
+          },
+          "number": 15,
+          "dimension": "leadership",
+          "level": "M3"
+        },
+        {
+          "id": "a9-statement-16",
+          "source": {
+            "chapter": "A9",
+            "section": "2"
+          },
+          "number": 16,
+          "dimension": "promise",
+          "level": "M1"
+        },
+        {
+          "id": "a9-statement-17",
+          "source": {
+            "chapter": "A9",
+            "section": "2"
+          },
+          "number": 17,
+          "dimension": "promise",
+          "level": "M2"
+        },
+        {
+          "id": "a9-statement-18",
+          "source": {
+            "chapter": "A9",
+            "section": "2"
+          },
+          "number": 18,
+          "dimension": "promise",
+          "level": "M3"
+        },
+        {
+          "id": "a9-statement-19",
+          "source": {
+            "chapter": "A9",
+            "section": "2"
+          },
+          "number": 19,
+          "dimension": "promise",
+          "level": "M4"
+        },
+        {
+          "id": "a9-statement-20",
+          "source": {
+            "chapter": "A9",
+            "section": "2"
+          },
+          "number": 20,
+          "dimension": "promise",
+          "level": "M4"
+        }
+      ],
+      "rule": "minimum"
+    },
+    "store": {
+      "entries": [
+        {
+          "id": "mapeo-estado",
+          "source": {
+            "chapter": "A2",
+            "section": "Artefactos que deja"
+          },
+          "path": "00-ESTADO.md",
+          "contents": "Avance por sub-fase, pendientes que bloquean, decisiones y por quién",
+          "signedBy": "Consultor responsable",
+          "ownerSkill": "mapeo-inicio"
+        },
+        {
+          "id": "mapeo-perfil",
+          "source": {
+            "chapter": "A2",
+            "section": "Artefactos que deja"
+          },
+          "path": "00-PERFIL.md",
+          "contents": "Cuatro respuestas, arquetipo justificado, glosario y plan adaptado",
+          "signedBy": "Consultor · validado por dirección",
+          "ownerSkill": "mapeo-perfil"
+        },
+        {
+          "id": "mapeo-inventario",
+          "source": {
+            "chapter": "A2",
+            "section": "Artefactos que deja"
+          },
+          "path": "02-inventario.md",
+          "contents": "Sistemas, accesos, costo de la pila, integrabilidad y modalidad de canales",
+          "signedBy": "Responsable de sistemas del cliente",
+          "ownerSkill": "mapeo-inventario"
+        },
+        {
+          "id": "mapeo-empresa",
+          "source": {
+            "chapter": "A2",
+            "section": "Artefactos que deja"
+          },
+          "path": "01-empresa.md",
+          "contents": "Ingreso por línea, organigrama real, restricción principal, clientes, intentos fallidos",
+          "signedBy": "Dirección general del cliente",
+          "ownerSkill": "mapeo-negocio"
+        },
+        {
+          "id": "mapeo-evidencia-hallazgos",
+          "source": {
+            "chapter": "A2",
+            "section": "Artefactos que deja"
+          },
+          "path": "04-evidencia/HALLAZGOS.md",
+          "contents": "Cifras reales con método de cálculo, tabla de contrastes, reglas no escritas, y los extractos en 07-datos/",
+          "signedBy": "Consultor responsable",
+          "ownerSkill": "mapeo-evidencia"
+        },
+        {
+          "id": "mapeo-evidencia-fuentes",
+          "source": {
+            "chapter": "A2",
+            "section": "Artefactos que deja"
+          },
+          "path": "04-evidencia/fuentes.md",
+          "contents": "Qué se revisó, cuándo, con qué muestra, qué quedó fuera y quién autorizó",
+          "signedBy": "Cliente y XenthAI",
+          "ownerSkill": "mapeo-evidencia"
+        },
+        {
+          "id": "mapeo-procesos-ficha",
+          "source": {
+            "chapter": "A2",
+            "section": "Artefactos que deja"
+          },
+          "path": "03-procesos/PXX-*.md",
+          "contents": "Pasos, volumen, tiempo, costo, excepciones y veredicto de higiene",
+          "signedBy": "Dueño del proceso",
+          "ownerSkill": "mapeo-procesos"
+        },
+        {
+          "id": "mapeo-procesos-indice",
+          "source": {
+            "chapter": "A2",
+            "section": "Artefactos que deja"
+          },
+          "path": "03-procesos/INDICE.md",
+          "contents": "Procesos ordenados por costo mensual descendente. Entrada directa de A3",
+          "signedBy": "Consultor responsable",
+          "ownerSkill": "mapeo-procesos"
+        },
+        {
+          "id": "mapeo-cobertura",
+          "source": {
+            "chapter": "A2",
+            "section": "Artefactos que deja"
+          },
+          "path": "98-COBERTURA.md",
+          "contents": "Rúbrica X4 calificada con los cuatro niveles de evidencia y veredicto",
+          "signedBy": "Consultor responsable",
+          "ownerSkill": "mapeo-cobertura"
+        },
+        {
+          "id": "mapeo-preguntas-abiertas",
+          "source": {
+            "chapter": "A2",
+            "section": "Artefactos que deja"
+          },
+          "path": "99-preguntas-abiertas.md",
+          "contents": "Huecos convertidos en preguntas literales, agrupadas por persona",
+          "signedBy": "Consultor responsable",
+          "ownerSkill": "mapeo-cobertura"
+        }
+      ],
+      "communicationDocuments": [
+        {
+          "id": "comms-brand",
+          "source": {
+            "chapter": "scaffold/company",
+            "section": "BRAND.md"
+          },
+          "path": "BRAND.md",
+          "contents": "Quién es la empresa, a quién le vende y qué nunca dice.",
+          "signedBy": "quién firma las afirmaciones públicas",
+          "ownerSkill": "social-identity"
+        },
+        {
+          "id": "comms-voice",
+          "source": {
+            "chapter": "scaffold/company",
+            "section": "VOICE.md"
+          },
+          "path": "VOICE.md",
+          "contents": "Cómo suena esta empresa, en reglas que puede seguir alguien que no es dueño de la marca.",
+          "signedBy": "quién firma las afirmaciones públicas",
+          "ownerSkill": "social-voice"
+        },
+        {
+          "id": "comms-proof",
+          "source": {
+            "chapter": "scaffold/company",
+            "section": "PROOF.md"
+          },
+          "path": "PROOF.md",
+          "contents": "Registro de afirmaciones. Lo único que puede aparecer en un texto público.",
+          "signedBy": "quién firma las afirmaciones públicas",
+          "ownerSkill": "social-identity"
+        },
+        {
+          "id": "comms-design",
+          "source": {
+            "chapter": "scaffold/company",
+            "section": "DESIGN.md"
+          },
+          "path": "DESIGN.md",
+          "contents": "El sistema visual en tokens que el motor de render lee tal cual, más el porqué de cada uno.",
+          "signedBy": "quién firma las afirmaciones públicas",
+          "ownerSkill": "social-identity"
+        },
+        {
+          "id": "comms-social",
+          "source": {
+            "chapter": "scaffold/company",
+            "section": "SOCIAL.md"
+          },
+          "path": "SOCIAL.md",
+          "contents": "Dónde publica esta empresa, con qué ritmo, sobre qué, y a quién le habla.",
+          "signedBy": "quién firma las afirmaciones públicas",
+          "ownerSkill": "company-intake"
+        },
+        {
+          "id": "comms-presence",
+          "source": {
+            "chapter": "scaffold/company",
+            "section": "PRESENCE.md"
+          },
+          "path": "PRESENCE.md",
+          "contents": "El estado público y externo de la empresa, observado antes de que nosotros toquemos nada.",
+          "signedBy": "quién firma las afirmaciones públicas",
+          "ownerSkill": "social-presence"
+        },
+        {
+          "id": "comms-customers",
+          "source": {
+            "chapter": "scaffold/company",
+            "section": "CUSTOMERS.md"
+          },
+          "path": "CUSTOMERS.md",
+          "contents": "Quién le compra a esta empresa y cómo decide.",
+          "signedBy": "quién firma las afirmaciones públicas",
+          "ownerSkill": "company-intake"
+        },
+        {
+          "id": "comms-offer",
+          "source": {
+            "chapter": "scaffold/company",
+            "section": "OFFER.md"
+          },
+          "path": "OFFER.md",
+          "contents": "Los términos comerciales que aplican a todo lo que vende esta empresa.",
+          "signedBy": "quién firma las afirmaciones públicas",
+          "ownerSkill": "company-offer"
+        },
+        {
+          "id": "comms-products",
+          "source": {
+            "chapter": "scaffold/company",
+            "section": "PRODUCTS.md"
+          },
+          "path": "PRODUCTS.md",
+          "contents": "Lo que esta empresa vende como cosa: con existencia, proveedor y tiempo de entrega.",
+          "signedBy": "quién firma las afirmaciones públicas",
+          "ownerSkill": "company-offer"
+        },
+        {
+          "id": "comms-services",
+          "source": {
+            "chapter": "scaffold/company",
+            "section": "SERVICES.md"
+          },
+          "path": "SERVICES.md",
+          "contents": "Lo que esta empresa vende como trabajo: con entregable, duración y quién lo ejecuta.",
+          "signedBy": "quién firma las afirmaciones públicas",
+          "ownerSkill": "company-offer"
+        }
+      ]
+    }
+  }
+}
