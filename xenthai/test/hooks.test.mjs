@@ -21,21 +21,36 @@ const VERSION = PLUGIN_VERSION;
 const SANDBOX = join(HERE, "sandbox", "hooks");
 const CO_A = join(SANDBOX, "company-a");
 const CO_B = join(SANDBOX, "company-b");
+/**
+ * The operator's own store, and a store whose kind this build does not know. Both are here rather
+ * than in a suite of their own because the property under test is the guard's behaviour on the SAME
+ * calls: a personal store is bound and writable exactly like a client's, and an unrecognised kind
+ * is not bound at all — which is only meaningful next to the two that are.
+ */
+const PERSONAL = join(SANDBOX, "own-store");
+const FUTURE_KIND = join(SANDBOX, "future-kind");
 const DATA = join(SANDBOX, "plugin-data");
 
 const ROOT_A = "1AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 const ROOT_B = "1ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ";
+const ROOT_P = "1PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP";
 
 const setup = () => {
   rmSync(SANDBOX, { recursive: true, force: true });
-  for (const [dir, id, name, root] of [
-    [CO_A, "co-a-0001", "Company A", ROOT_A],
-    [CO_B, "co-b-0002", "Company B", ROOT_B],
+  for (const [dir, id, name, root, kind] of [
+    [CO_A, "co-a-0001", "Company A", ROOT_A, undefined],
+    [CO_B, "co-b-0002", "Company B", ROOT_B, "client"],
+    [PERSONAL, "own-0001", "Mi vida", ROOT_P, "personal"],
+    [FUTURE_KIND, "odd-0001", "Odd Store", ROOT_P, "household"],
   ]) {
     mkdirSync(dir, { recursive: true });
     writeFileSync(
       join(dir, ".company.json"),
-      JSON.stringify({ schema_version: 1, id, name, timezone: "America/Mexico_City", store: { kind: "drive", root } }, null, 2)
+      JSON.stringify(
+        { schema_version: 1, id, name, ...(kind ? { kind } : {}), timezone: "America/Mexico_City", store: { kind: "drive", root } },
+        null,
+        2
+      )
     );
   }
 };
@@ -81,12 +96,49 @@ check("guard lets a read-only tool through", () => {
 
 check("guard BLOCKS a store write when no company is bound", () => {
   const r = pre("mcp__abc__create_file", { title: "x", parentId: ROOT_A }, SANDBOX);
-  return [r.code === 2 && /not bound to a company/.test(r.err), `exit ${r.code}`];
+  return [r.code === 2 && /not bound to a store/.test(r.err), `exit ${r.code}`];
 });
 
 check("guard ALLOWS a store write to the bound company's root", () => {
   const r = pre("mcp__abc__create_file", { title: "x", parentId: ROOT_A }, CO_A);
   return [r.code === 0 && r.err.trim() === "", `exit ${r.code}`];
+});
+
+/**
+ * The defect this kind was added for. Before it, the operator's own store could not be declared, so
+ * every write to it was refused for want of a client — the right veto reached for the wrong reason.
+ * A personal store is a bound store and writes exactly like a client's; nothing about the veto
+ * changed, only what a manifest is able to say.
+ */
+check("guard ALLOWS a store write to the operator's OWN store", () => {
+  const r = pre("mcp__abc__create_file", { title: "x", parentId: ROOT_P }, PERSONAL);
+  return [r.code === 0 && r.err.trim() === "", `exit ${r.code} ${r.err.trim()}`];
+});
+
+/**
+ * Fails closed, for the reason `future-schema` does. A kind written by a build with rules this one
+ * does not have must not be read as a client's store: that files somebody's own material in a
+ * client's audit trail, and the mistake is invisible once written.
+ */
+check("guard treats a manifest with an unrecognised kind as UNBOUND rather than as a client", () => {
+  const r = pre("mcp__abc__create_file", { title: "x", parentId: ROOT_P }, FUTURE_KIND);
+  return [r.code === 2 && /not bound to a store/.test(r.err) && /unknown-kind/.test(r.err), `exit ${r.code} ${r.err.trim()}`];
+});
+
+check("guard says whose material it is when a personal store shares outward", () => {
+  const r = pre("mcp__abc__share_file", { fileId: "1FILE", emailAddress: "someone@outside.com", role: "reader" }, PERSONAL);
+  return [r.code === 0 && /sharing your own material in Mi vida/.test(r.err), `exit ${r.code}; notice: ${r.err.trim()}`];
+});
+
+check("journal stamps the store kind, so a client's trail cannot be read as personal work", () => {
+  post("Write", { file_path: join(PERSONAL, "nota.md"), content: "x" }, PERSONAL);
+  const own = rows(PERSONAL).at(-1);
+  post("Write", { file_path: join(CO_A, "nota.md"), content: "x" }, CO_A);
+  const client = rows(CO_A).at(-1);
+  return [
+    own?.store_kind === "personal" && own?.schema === 2 && client?.store_kind === "client",
+    `personal=${own?.store_kind} schema=${own?.schema} client=${client?.store_kind}`,
+  ];
 });
 
 check("guard does NOT block a store write to an unknown folder (no allowlist by design)", () => {
@@ -112,7 +164,7 @@ check("guard ANNOUNCES a share without blocking it, and journals it", () => {
 
 check("guard BLOCKS a local write into another company's directory", () => {
   const r = pre("Write", { file_path: join(CO_B, "leak.md") }, CO_A);
-  return [r.code === 2 && /outside the company directory/.test(r.err), `exit ${r.code}`];
+  return [r.code === 2 && /outside the bound store's directory/.test(r.err), `exit ${r.code}`];
 });
 
 check("guard allows a local write inside the bound directory", () => {
@@ -127,10 +179,11 @@ check("journal records a write as a reference, never the content, with a schema 
   const row = all.at(-1);
   const text = JSON.stringify(all);
   return [
-    row.schema === 1 &&
+    row.schema === 2 &&
       row.plugin === VERSION &&
       row.event === "ai_action" &&
       row.company === "co-a-0001" &&
+      row.store_kind === "client" &&
       row.target?.file_path?.endsWith("brand.md") &&
       row.bytes === Buffer.byteLength(secret) &&
       /^sha256:[0-9a-f]{16}$/.test(row.digest) &&

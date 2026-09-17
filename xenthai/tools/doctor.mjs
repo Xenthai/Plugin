@@ -2,7 +2,7 @@
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { readCompany, MANIFEST_ENV, EPHEMERAL, SCHEMA } from "../lib/company.mjs";
+import { readCompany, MANIFEST_ENV, EPHEMERAL, SCHEMA, KINDS, kindOf, isPersonal } from "../lib/company.mjs";
 import { EVENTS, PLUGIN_VERSION, record } from "../lib/journal.mjs";
 import { allMonths } from "./journal-sync.mjs";
 
@@ -176,10 +176,18 @@ const checkCompany = (cwd) => {
     const how =
       (binding.via === "env" ? `declared by ${MANIFEST_ENV}` : `bound by ${ctx.path}`) +
       (binding.ephemeral ? ", EPHEMERAL BINDING — not reusable between sessions: this disk is destroyed when the session ends, so nothing survives it that was not put in the store" : "");
-    return result("company", "OK", `${name} (${id}) ${how}, store ${root}, locale ${locale}`, binding.ephemeral ? "ephemeral" : null, {
+    /**
+     * Printed even though `client` is the default, because the whole point of the field is that an
+     * operator can see which of the two they are about to write into. A default that stays
+     * invisible until it is wrong is the failure this line exists to prevent.
+     */
+    const kind = kindOf(ctx.company);
+    const whose = isPersonal(ctx.company) ? "PERSONAL store — your own material, not a client's" : "client store";
+    return result("company", "OK", `${name} (${id}) ${how}, ${whose}, store ${root}, locale ${locale}`, binding.ephemeral ? "ephemeral" : null, {
       id,
       name,
       path: ctx.path,
+      kind,
       locale,
       binding,
     });
@@ -197,6 +205,7 @@ const checkCompany = (cwd) => {
     "unreadable-manifest": `${ctx.path} is not valid JSON (${firstLine(ctx.detail)})`,
     "incomplete-manifest": `${ctx.path} is missing ${(ctx.missing ?? []).join(", ")}`,
     "future-schema": `${ctx.path} declares schema_version ${ctx.found}; this plugin understands ${SCHEMA}. A newer plugin wrote it — refuse rather than guess`,
+    "unknown-kind": `${ctx.path} declares kind ${JSON.stringify(ctx.found)}; this plugin knows ${[...KINDS].join(" and ")}. It is refused rather than read as a client's store, because a store filed under the wrong kind puts the operator's own material in a client's audit trail, or the reverse`,
   };
   return result("company", "FAIL", reasons[ctx.reason] ?? `${ctx.path ?? cwd}: ${ctx.reason}`, ctx.reason, { path: ctx.path ?? null });
 };
