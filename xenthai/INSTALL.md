@@ -347,7 +347,7 @@ sharing a file, trashing one — is announced and written to the journal instead
 
 | Symptom                                  | Cause                                                                                     |
 | ---------------------------------------- | ----------------------------------------------------------------------------------------- |
-| "This session is not bound to a company" | No `.company.json` up the directory tree. You are in the wrong folder                     |
+| "This session is not bound to a store" | No `.company.json` up the directory tree. You are in the wrong folder — or the store is your own and its manifest needs `"kind": "personal"` |
 | Store writes refused, local work fine    | Drive not authorized. Step 3                                                              |
 | Render fails naming a font               | The font did not load. Never accept the fallback — the brand is the typeface              |
 | Import produces posts with no images     | Step 6 was skipped                                                                        |
