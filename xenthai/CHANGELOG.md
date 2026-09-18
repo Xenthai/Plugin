@@ -26,6 +26,31 @@ installed from. It identifies exactly one tree, which is what this claim always 
 machines could both write `0.1.0` and hold different code. A row written from a working copy says
 `dev`, which is honest about being unreleasable rather than borrowing a number.
 
+## [0.5.0] - 2026-09-18
+
+`tools/journal-sync.mjs` staged a month as one unbounded file, uploaded by a session reproducing its
+bytes inside a tool call. That channel was measured truncating a 95 KB month to 22% of itself while
+the connector reported success — an unbounded single file is not the safe option; it is the one that
+fails silently, leaving a file with the right name and the wrong contents.
+
+### Added — sharded journal revisions
+
+- **A month past `--shard-bytes` (default 20,000 bytes) stages as
+  `<YYYY-MM>.rev-<NNN>.part-<NN>-of-<MM>.jsonl` parts** instead of one file, cut only on row
+  boundaries — a row longer than the budget travels alone and oversized rather than split. The
+  expected total lives inside every part's own name, so a missing part reads as a gap in a numbered
+  sequence from the folder listing alone, answering the objection that split parts previously carried
+  in `DECISIONS.md` #21 (see #21c).
+- **`--receipt` takes one id per part, comma separated, in part order**, and refuses to settle the
+  month unless the concatenation of every part hashes to the month `--stage` froze.
+- **`--restore` reassembles a sharded revision from its parts**, refusing by name whichever part is
+  missing rather than writing a shorter month that still parses.
+- **A month inside the budget still stages as the old single-file `<YYYY-MM>.rev-<NNN>.jsonl`**, and
+  a single-file revision still takes one bare `--file-id`. The new shape only appears once a month
+  outgrows what one tool call can carry.
+- **`test/journalshard.test.mjs`** covers the round trip end to end: stage, simulated upload, receipt,
+  restore, an incomplete part set refused by name, and a small month kept in its old spelling.
+
 ## [0.4.0] - 2026-09-17
 
 The plugin adopts the playbook's own store layout and phase codes. `CONFORMANCE.md` Ruling 3 found
