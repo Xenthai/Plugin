@@ -326,12 +326,13 @@ the session uploads. `CONTROLS.md` §1b names the upload as an advisory control,
 every other instruction, rather than describing the journal as automatically preserved.
 
 **Rejected:** a monthly digest, which would have left both consumers as broken as before while
-looking fixed. Also rejected: uploading split parts instead of whole revisions — smaller, but a
-missing part truncates a history silently while a missing revision leaves a gap in a numbered
-sequence. Also rejected: teaching the three readers to concatenate parts, which would have touched
-`report`, `opportunities` and `watch` for a gain `--restore` already delivers by writing the
-canonical file. **Reverses if** the connector ever gains a real append or content update, at which
-point revisions stop being the only shape available.
+looking fixed. Also rejected at the time: uploading split parts instead of whole revisions — smaller,
+but a missing part truncates a history silently while a missing revision leaves a gap in a numbered
+sequence. That rejection was revisited once the arithmetic behind it was measured; see Decision 21c.
+Also rejected: teaching the three readers to concatenate parts, which would have touched `report`,
+`opportunities` and `watch` for a gain `--restore` already delivers by writing the canonical file.
+**Reverses if** the connector ever gains a real append or content update, at which point revisions
+stop being the only shape available.
 
 ### 21b · `doctor` fails on a month with no evidence in the store, not on an outstanding row
 
@@ -354,6 +355,34 @@ would put every install that had not uploaded since breakfast in the red — and
 doctrine says a control that interrupts constantly is one the operator learns to click through.
 **Reverses if** a session is ever seen losing more than its tail — then the day-old window is too
 generous and it shortens.
+
+### 21c · Parts are allowed once the expected count travels inside every part's name
+
+Decision 21 rejected split parts for a reason that was right as stated: a missing part truncates the
+history silently, while a missing revision leaves a visible gap in a numbered sequence. What changed
+is not the objection but the arithmetic behind it. A revision is uploaded by a session, and a
+session's only way to create a file is to reproduce its bytes inside a tool call — a channel measured
+truncating a 95 KB month to 22% of itself (`fileSize: 2735` against 9,186 actual bytes) while
+reporting success. An unbounded single file is therefore not the safe option `journal-sync.mjs`
+assumed it was; it is the one whose failure is silent, because the store ends up holding a file with
+the right name and the wrong contents.
+
+`tools/journal-sync.mjs` now shards a month past `--shard-bytes` (default 20,000) into
+`<YYYY-MM>.rev-<NNN>.part-<NN>-of-<MM>.jsonl`. The total is inside every part's own name, so a
+missing part is a visible gap in a numbered sequence in exactly the way a missing revision is,
+readable from the folder listing alone without opening anything — the property the original objection
+required, satisfied rather than overridden. `--receipt` will not settle a month until the
+concatenation of every part hashes to the month it froze, and `--restore` refuses a revision whose
+part set is incomplete, naming which parts are missing. A month that fits in one part keeps the old
+single-file name; the shape only appears once a month outgrows what a session can carry inside one
+tool call.
+
+**Rejected:** leaving the single-file ceiling unbounded, which is what produced the silent truncation
+this decision responds to. Also rejected: teaching the three readers (`report`, `opportunities`,
+`watch`) to concatenate parts themselves — the same reason Decision 21 gave for keeping `--restore`
+as the one place that writes the canonical file. **Reverses if** the upload channel's measured budget
+changes enough that 20,000 bytes stops being a safe margin under it, or the connector gains a real
+append or content update, per Decision 21.
 
 ### 22 · The binding is explicit or declared, and never sniffed
 
