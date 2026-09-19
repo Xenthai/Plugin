@@ -21,6 +21,13 @@
 
 - A publishing API. Delivery is a package a person publishes; this removes the most fragile
   surface (OAuth, app review, expiring tokens).
+- **Connector credentials inside the CLI** — an OAuth refresh token or a service account so
+  `journal-sync.mjs` could upload by itself. A long-lived credential outside the session, per client,
+  for a problem the `mcp_tool` transport hook solves with the session's own connection
+  (`DECISIONS.md` #21d).
+- **Silencing the journal rows the journal's own upload generates.** A title regex is spoofable and
+  the folder id is optional in the connector's input; delta revisions leave about three rows per
+  sync, which `doctor` already tolerates as a session's tail.
 - Any dependency on a paid platform, free tier included. Vendor exporters exist only for a tool a
   company already pays for.
 - A composite "company improvement" score. Indefensible with n=1 and no control group; even CMMI
@@ -164,6 +171,8 @@ More surfaces for the same company documents.
 ## Small, cheap, and worth doing whenever a hand is free
 
 - Make the SessionStart hook write one health line to the journal: Node version, browser channel found, whether the store answered a read. Remote diagnosis from a client's journal without a call.
+- **OneDrive, the rest of it** — waits on the first session with the Microsoft 365 connector's write tools enabled: read `sharepoint_upload_file`'s schema and its behaviour on a duplicate name, record them in `MCP.md`, decide the approval gate for a store with no comments tool, and only then bind a client to `"kind": "onedrive"`. `company-new` records `store.tools` for that company; the hooks already veto and journal the connector's methods.
+- `--restore` from a folder listing the session pastes (`--store-listing <json>`), so a fresh container can tell which revisions exist before staging `rev-001` again.
 - Journal merge across two machines for the same company: monthly JSONL files already merge by append; add de-duplication by `ts` + `session`.
 - Narrate the one-time Chromium install on macOS and Linux from the render step, since the bootstrap hook deliberately no longer downloads anything.
 - A `--dry-run` on the render engine that reports fill and safe-zone results without writing PNGs, for fast iteration on a plan.

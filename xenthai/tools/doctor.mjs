@@ -2,7 +2,7 @@
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { readCompany, MANIFEST_ENV, EPHEMERAL, SCHEMA, KINDS, kindOf, isPersonal } from "../lib/company.mjs";
+import { readCompany, MANIFEST_ENV, EPHEMERAL, SCHEMA, KINDS, STORE_KINDS, kindOf, isPersonal, storeKindOf } from "../lib/company.mjs";
 import { EVENTS, PLUGIN_VERSION, record } from "../lib/journal.mjs";
 import { allMonths } from "./journal-sync.mjs";
 
@@ -122,7 +122,13 @@ const checkCompany = (cwd) => {
         { id, name, path: ctx.path }
       );
     }
-    if (/^https?:\/\//.test(String(root)) || String(root).includes("/")) {
+    /**
+     * A Drive root is an opaque id and anything with a slash in it is a link or a name somebody
+     * pasted instead. A OneDrive root may legitimately be a Graph path (`/drive/root:/Clientes/Acme`),
+     * which is stable and checkable by prefix, so only a URL is refused there.
+     */
+    const pathAllowed = storeKindOf(ctx.company) === "onedrive";
+    if (/^https?:\/\//.test(String(root)) || (!pathAllowed && String(root).includes("/"))) {
       return result(
         "company",
         "FAIL",
@@ -206,6 +212,7 @@ const checkCompany = (cwd) => {
     "incomplete-manifest": `${ctx.path} is missing ${(ctx.missing ?? []).join(", ")}`,
     "future-schema": `${ctx.path} declares schema_version ${ctx.found}; this plugin understands ${SCHEMA}. A newer plugin wrote it — refuse rather than guess`,
     "unknown-kind": `${ctx.path} declares kind ${JSON.stringify(ctx.found)}; this plugin knows ${[...KINDS].join(" and ")}. It is refused rather than read as a client's store, because a store filed under the wrong kind puts the operator's own material in a client's audit trail, or the reverse`,
+    "unknown-store-kind": `${ctx.path} declares store.kind ${JSON.stringify(ctx.found)}; this plugin knows ${[...STORE_KINDS].join(" and ")}. It is refused rather than read as Drive: the connector names, the root's shape and the upload steps all differ per provider`,
   };
   return result("company", "FAIL", reasons[ctx.reason] ?? `${ctx.path ?? cwd}: ${ctx.reason}`, ctx.reason, { path: ctx.path ?? null });
 };

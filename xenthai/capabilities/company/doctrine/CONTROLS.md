@@ -77,18 +77,25 @@ one here — deterministically where that is possible, advisory where it is not:
 | `tools/journal-sync.mjs --check` | Exit 1 on rows this machine holds and the store does not | Deterministic |
 | The SessionStart announcement | Tells the session, while it can still act, that this binding is ephemeral and what it owes | Advisory |
 | The SessionEnd warning | One line to the operator. By then nothing can act | Advisory |
-| The upload itself | A session, through the connector | **Advisory, and unavoidably so** |
+| `--receipt`'s size check | Refuses to settle a file whose store-reported size differs from the staged bytes | Deterministic |
+| The upload itself | A session, through the connector — by the model, or by the transport hook copying `--emit`'s bytes | **Advisory**: the hook removes the model from the bytes, not from the decision to run the command |
 
-That last row is the honest part. **A hook and a CLI hold no connector credentials**, so nothing
-outside a session can put anything in a client's store. The tool stages the exact bytes, records the
-digest and the id, and refuses to claim a delivery it cannot verify — but the act of uploading is
-the model's, which makes it the same tier as every other instruction here. Say that to a client in
-those words rather than describing the journal as automatically preserved.
+That last row is the honest part. **A CLI holds no connector credentials**, and neither does a
+`command` hook, so the tool never writes to a store: it stages the exact bytes, records the digest,
+the id and the size the store confirmed, and refuses to claim a delivery it cannot verify. What can
+reach the store is a `PostToolUse` hook of type `mcp_tool`, which uses the session's own connector
+and copies the staged bytes into the create call in about a second (`INSTALL.md` §5b) — but it fires
+only when the session runs the emit command, and no hook of any kind can act on `SessionEnd`, where
+there is no MCP client. So the act of uploading remains the session's, which makes it the same tier
+as every other instruction here. Say that to a client in those words rather than describing the
+journal as automatically preserved.
 
-**A revision is a new file**, as `MCP.md` says for every other document: the connector cannot change
-a file's contents, so a month arrives as `<YYYY-MM>.rev-001.jsonl`, then `rev-002`, each the whole
-month as it stood. Readers take the highest revision, and a gap in the numbering is visible where a
-missing fragment of a split file would not be.
+**A revision is a new file**, as `MCP.md` says for every other document: a month arrives as
+`<YYYY-MM>.rev-001.jsonl`, the whole month as it first stood, then as `rev-<NNN>.delta-after-<R>`
+files holding only the rows since the receipt that settled `R` rows. Readers rebuild the month from
+the highest whole-month revision and the deltas after it, and a gap in the numbering — or a delta
+whose base does not match — is refused by name, where a missing fragment of a split file would not
+be.
 
 ### 1c. The binding is a control, and it was written so that it could not be kept
 

@@ -17,9 +17,10 @@ const READ_ONLY = new Set([
 
 /**
  * Read-only connector methods, matched by trailing method name because a connector's server id is
- * a per-install uuid — the prefix cannot be hardcoded, only the method name is stable.
+ * a per-install uuid — the prefix cannot be hardcoded, only the method name is stable. Google
+ * Drive's names first, then the Microsoft 365 connector's, which is how OneDrive is reached.
  */
-const READ_ONLY_CONNECTOR = /__(search_files|read_file_content|get_file_metadata|list_|download_)/;
+const READ_ONLY_CONNECTOR = /__(search_files|read_file_content|get_file_metadata|list_|download_|sharepoint_search|sharepoint_folder_search|read_resource|get_me|get_granted_scopes|search_people)/;
 
 /**
  * Tools whose permission prompt asks a question and performs nothing. The prompt looks identical to
@@ -53,8 +54,10 @@ const EVENT_BY_HOOK = {
 /**
  * Says, on the way out, that the journal is about to stop existing.
  *
- * This is the weakest control in the set and it is placed here deliberately anyway. A hook holds no
- * connector credentials, so it cannot upload; by SessionEnd the model is gone, so it cannot ask
+ * This is the weakest control in the set and it is placed here deliberately anyway. A command hook
+ * holds no connector credentials, and on SessionEnd no hook of any kind has an MCP client to call —
+ * the one hook that can upload, the `mcp_tool` transport in INSTALL.md §5b, fires on PostToolUse
+ * and needs the session to run the emit command. By SessionEnd the model is gone, so it cannot ask
  * anyone to. What is left is the operator reading one line, and one line is worth more than the
  * silence that let three days of an engagement disappear without any surface mentioning it.
  *
@@ -71,7 +74,7 @@ const warnUnsynced = (cwd) => {
     process.stderr.write(
       `\nXENTH AI — ${owed} journal row(s) were never uploaded, and this binding is ephemeral: when this\n` +
         "container is reclaimed they are gone, and with them the evidence for this engagement's reports.\n" +
-        "Nothing outside a session can upload them. Next session: tools/journal-sync.mjs --stage.\n"
+        "Only a session can upload them. Next session: tools/journal-sync.mjs --stage.\n"
     );
   } catch {
     /* the warning must never be the reason a session fails to end */

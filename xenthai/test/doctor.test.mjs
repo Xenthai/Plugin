@@ -93,12 +93,12 @@ check("an unknown option is refused with exit 2", () => {
  * A manifest whose `store.root` holds the given value. `readCompany` validates that `store` exists,
  * not what is in it, so these are the bindings that look healthy and fail at the first write.
  */
-const withRoot = (dir, root) => {
+const withRoot = (dir, root, kind = "drive") => {
   const path = join(SANDBOX, dir);
   mkdirSync(path, { recursive: true });
   writeFileSync(
     join(path, ".company.json"),
-    JSON.stringify({ schema_version: 1, id: `co-${dir}`, name: `Co ${dir}`, locale: "es-MX", store: { kind: "drive", root } }, null, 2)
+    JSON.stringify({ schema_version: 1, id: `co-${dir}`, name: `Co ${dir}`, locale: "es-MX", store: { kind, root } }, null, 2)
   );
   return path;
 };
@@ -126,6 +126,21 @@ check("a link or a path in store.root is a FAIL, because a name never proves ide
   const r = doctor(withRoot("linked", "https://drive.google.com/drive/folders/1ABC"), ["--json"]);
   const c = r.by.company;
   return [c?.code === "company:fail(store-root-not-an-id)", `${c?.code}`];
+});
+
+/**
+ * The second provider. A OneDrive root may be a Graph path, which is stable and checkable by
+ * prefix, so the slash rule that catches a pasted Drive link does not apply there — a URL still
+ * does. And a provider this build does not know is refused, not read as Drive.
+ */
+check("a OneDrive store may name its root by Graph path, still never by URL, and an unknown provider is refused", () => {
+  const byPath = doctor(withRoot("od-path", "/drive/root:/Clientes/Acme", "onedrive"), ["--json"]).by.company;
+  const byUrl = doctor(withRoot("od-url", "https://contoso.sharepoint.com/sites/x", "onedrive"), ["--json"]).by.company;
+  const unknown = doctor(withRoot("box", "1SOMEID", "dropbox"), ["--json"]).by.company;
+  return [
+    byPath?.status === "OK" && byUrl?.code === "company:fail(store-root-not-an-id)" && /unknown-store-kind/.test(unknown?.code ?? ""),
+    `path=${byPath?.status} url=${byUrl?.code} unknown=${unknown?.code}`,
+  ];
 });
 
 check("a real folder id passes and is echoed, so the operator can compare it against the store", () => {

@@ -159,10 +159,12 @@ const main = () => {
    * The one fact about this environment that nothing else can tell the session, announced where a
    * session actually reads it.
    *
-   * A hook cannot upload — it holds no connector credentials — so this is advisory, and saying so
-   * is part of the announcement: the model is the only thing in the loop that can reach the store,
-   * and if it ends the session without doing it, three days of an engagement's evidence go with the
-   * container. `doctor`'s sync line is the deterministic half; this is what makes it get run.
+   * This hook cannot upload — a command hook holds no connector credentials, and SessionStart has
+   * no MCP client either — so this is advisory, and saying so is part of the announcement: the
+   * session is the only thing in the loop that can reach the store, whether the model creates the
+   * file or the `mcp_tool` transport hook copies it, and if it ends without doing so, three days of
+   * an engagement's evidence go with the container. `doctor`'s sync line is the deterministic half;
+   * this is what makes it get run.
    */
   if (company.ok) {
     try {
@@ -173,7 +175,7 @@ const main = () => {
         lines.push(
           "EPHEMERAL BINDING: this machine's disk does not survive the session, and the journal is written to it. " +
             `Before finishing, run tools/journal-sync.mjs --stage and upload what it names into the company's journal/ folder${owed ? ` — ${owed} row(s) are owed already` : ""}. ` +
-            "No hook can do it: only a session reaches the store."
+            "Only a session reaches the store: through the connector, or through the emit line and the transport hook if this company has one."
         );
       } else if (owed) {
         lines.push(`${owed} journal row(s) are not in the company's store yet; tools/journal-sync.mjs --check says which months.`);

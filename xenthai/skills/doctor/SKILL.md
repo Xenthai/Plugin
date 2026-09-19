@@ -50,7 +50,7 @@ call — so run it even when everything works.
 | `browser` | None of Edge, Chrome, Edge Beta, Chrome Beta launched | The render engine cannot run. Say so and do not render another way — that output has not been asserted. The machine needs Microsoft Edge or Google Chrome |
 | `fonts` | A face `template.html` declares is missing, or a bundled face lacks its `OFL-*.txt` | The install copied incompletely — the bracketed font filenames are the usual casualty. Reinstall the plugin; never substitute a font, the render asserts the family |
 | `engine` | `template.html` or `formats.json` missing, or `formats.json` does not parse | Reinstall; the render engine refuses to start without them |
-| `sync` | Rows exist on this machine and not in the company's store — a closed month, or any row at all on an ephemeral binding | Run `tools/journal-sync.mjs --stage` and do the upload yourself, below. On an ephemeral binding this is not housekeeping: that disk is destroyed when the session ends, and `report` and `opportunities` are built on those rows |
+| `sync` | Rows exist on this machine and not in the company's store — a closed month, or any row at all on an ephemeral binding | Run `tools/journal-sync.mjs --stage` and do the upload, step 5 below. On an ephemeral binding this is not housekeeping: that disk is destroyed when the session ends, and `report` and `opportunities` are built on those rows |
 | `journal` | The journal directory rejects an append | Nothing is auditable until it is fixed: permissions on the company directory, or on the plugin data directory when no company is bound |
 
 ## Step 2 — the four connector round trips, by you
@@ -91,11 +91,21 @@ observed — with `Edit`, never through the shell.
 
 **5. The journal's own upload, when `sync` is not OK.** This is a round trip like the others and it
 is the one with the engagement's evidence in it. `node "${CLAUDE_PLUGIN_ROOT}/tools/journal-sync.mjs"
---stage` freezes the month and names one file; create it in the company's `journal/` folder with
-**exactly** that name, then record what the connector returned with `--receipt --month <YYYY-MM>
---file-id <id>`. The receipt is written from the frozen bytes, so it cannot claim rows that never
-went up. Nothing outside a session can do this step — a hook and a CLI have no credentials — which
-is why it lives here with the other four.
+--stage` freezes what is owed and names the file(s) — the whole month the first time, afterwards
+only the rows since the last receipt. For each file, in the order printed:
+
+- **If the transport hook is installed** (`INSTALL.md` §5b; the company's `.claude/settings.json`
+  has an `mcp_tool` hook on `Bash`): run the `emit` line `--stage` printed, with the file's exact
+  name as the Bash call's description. The hook creates the file; you generate no bytes.
+- **Otherwise** create it in the company's `journal/` folder through the connector with **exactly**
+  that name, `text/plain`, conversion disabled.
+
+Then read the file's metadata back — `search_files` on its title inside the journal folder, or
+`get_file_metadata` by id — and record `--receipt --month <YYYY-MM> --file-id <id>:<fileSize>`,
+one pair per file, comma separated. The receipt is written from the frozen bytes and refuses a size
+that differs from them, so it can claim neither rows that never went up nor a file that arrived
+truncated. A CLI has no credentials and no hook runs with a connector at session end, which is why
+this step lives here with the other four.
 
 ## Step 3 — report and record
 

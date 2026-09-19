@@ -85,11 +85,12 @@ ok("no part exceeds the budget", parts.every((n) => readFileSync(join(outbox, n)
 ok("no row is split across parts", parts.every((n) => readFileSync(join(outbox, n), "utf8").endsWith("\n")));
 
 // -------------------------------------------------------------- receipt --------
-const tooFew = run(["--receipt", "--month", "2026-09", "--file-id", "id1"], root);
+const tooFew = run(["--receipt", "--month", "2026-09", "--file-id", "id1:1"], root);
 ok("a receipt with fewer ids than parts is refused", tooFew.code === 2 && /id\(s\)/.test(tooFew.out), `code=${tooFew.code}`);
 
 const ids = parts.map((_, i) => `drive-id-${i + 1}`);
-const settled = run(["--receipt", "--month", "2026-09", "--file-id", ids.join(",")], root);
+const sized = parts.map((n, i) => `${ids[i]}:${readFileSync(join(outbox, n)).length}`);
+const settled = run(["--receipt", "--month", "2026-09", "--file-id", sized.join(",")], root);
 ok("a receipt with one id per part settles the month", settled.code === 0, settled.out.slice(0, 200));
 ok("the receipt records the month digest, not a part digest", settled.out.includes(frozenDigest), settled.out.slice(0, 200));
 
@@ -132,7 +133,8 @@ writeFileSync(join(small, "journal", "execution", "2026-08.jsonl"), rows.slice(0
 run(["--stage"], small);
 const smallFiles = readdirSync(join(small, "journal", "outbox"));
 ok("a month inside the budget still stages as one file with the old name", smallFiles.length === 1 && /^2026-08\.rev-001\.jsonl$/.test(smallFiles[0]), smallFiles.join(" "));
-const smallReceipt = run(["--receipt", "--month", "2026-08", "--file-id", "only-id"], small);
+const smallSize = readFileSync(join(small, "journal", "outbox", smallFiles[0])).length;
+const smallReceipt = run(["--receipt", "--month", "2026-08", "--file-id", `only-id:${smallSize}`], small);
 ok("a single-file revision still takes one bare id", smallReceipt.code === 0, smallReceipt.out.slice(0, 200));
 
 for (const d of [root, root2, fresh, fresh2, small, store, broken]) rmSync(d, { recursive: true, force: true });
