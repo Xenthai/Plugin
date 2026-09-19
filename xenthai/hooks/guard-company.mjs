@@ -2,10 +2,15 @@ import { readCompany, isInside, isPersonal, storeLabel } from "../lib/company.mj
 import { record } from "../lib/journal.mjs";
 
 /**
- * Connector methods that write. Matched by trailing method name because a connector's server id
- * is a per-install uuid; only the method name is stable across installs.
+ * Connector methods that write, for every store provider the plugin knows. Matched by trailing
+ * method name because a connector's server id is a per-install uuid; only the method name is
+ * stable across installs. The union is deliberate: an unbound write must be vetoed whatever the
+ * provider, and with no manifest there is nothing to say which provider it is. Google Drive's names
+ * come first; the `sharepoint_*` names are the Microsoft 365 connector's, which cover OneDrive
+ * despite the prefix.
  */
-const STORE_WRITE = /__(create_file|copy_file|update_file|share_file|trash_file|upload_file)$/;
+const STORE_WRITE =
+  /__(create_file|copy_file|update_file|share_file|trash_file|upload_file|sharepoint_(?:upload_file|update_file|create_folder|rename_item|move_item|copy_item|delete_item))$/;
 
 /**
  * Local file-writing tools whose target must stay inside the engagement directory. Bash is absent

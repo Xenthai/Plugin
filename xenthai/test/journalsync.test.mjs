@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -74,11 +74,23 @@ const receipt = (dir) => {
   return existsSync(path) ? JSON.parse(readFileSync(path, "utf8")) : null;
 };
 
-/** One full round trip, as the doctor skill walks it: stage, "upload", receipt. */
-const syncOnce = (dir, fileId = "1STOREFILEID") => {
-  const staged = run("--company", dir, "--stage");
-  const written = run("--company", dir, "--receipt", "--month", MONTH, "--file-id", fileId);
-  return { staged, written };
+/** The staged files of one month, in upload order, with the size each holds on disk. */
+const stagedFiles = (dir, staged) => {
+  const names = staged.parts ? staged.parts.map((p) => p.name) : [staged.name];
+  return names.map((name) => ({ name, size: statSync(join(dir, "journal", "outbox", name)).size }));
+};
+
+/**
+ * One full round trip, as the doctor skill walks it: stage, "upload", receipt. The receipt carries
+ * the size the store reports per file; here the store is imagined to hold exactly what was staged,
+ * unless `sizeOf` says otherwise.
+ */
+const syncOnce = (dir, fileId = "1STOREFILEID", sizeOf = (size) => size) => {
+  const staged = run("--company", dir, "--stage", "--json");
+  const first = JSON.parse(staged.out).staged.find((s) => s.month === MONTH);
+  const ids = first ? stagedFiles(dir, first).map((f, i) => `${i ? `${fileId}-${i + 1}` : fileId}:${sizeOf(f.size)}`).join(",") : fileId;
+  const written = run("--company", dir, "--receipt", "--month", MONTH, "--file-id", ids);
+  return { staged, written, first };
 };
 
 const cases = [];
@@ -151,16 +163,46 @@ check("a receipt without a store id is refused: an upload nobody can point at is
   return [r.code === 2 && /--file-id/.test(r.err), `exit ${r.code}`];
 });
 
-check("rows written after a sync are owed again, and the next revision is numbered 2", () => {
+/**
+ * The measured failure: a file the store holds at 22% of its size while the connector reported
+ * success. A receipt that only hashed the local staged bytes settled that month. The size the store
+ * reports is the one fact about its copy a session can read for free, so the receipt demands it and
+ * refuses when it differs.
+ */
+check("a receipt whose store size differs from the staged bytes is refused, and nothing is settled", () => {
+  const dir = company("wrong-size");
+  act(dir, 2);
+  const { written } = syncOnce(dir, "1TRUNCATED", (size) => Math.floor(size * 0.22));
+  const gate = run("--company", dir, "--check");
+  return [
+    written.code === 2 && /staged \d+ bytes, store reports \d+/.test(written.err) && receipt(dir) === null && gate.code === 1,
+    `receipt exit ${written.code}; receipt file: ${receipt(dir) === null ? "none" : "written"}; check exit ${gate.code}`,
+  ];
+});
+
+check("a receipt whose id carries no size is refused and says where the size comes from", () => {
+  const dir = company("no-size");
+  act(dir, 1);
+  run("--company", dir, "--stage");
+  const r = run("--company", dir, "--receipt", "--month", MONTH, "--file-id", "1BARE");
+  return [r.code === 2 && /<id>:<size>/.test(r.err) && /fileSize/.test(r.err) && receipt(dir) === null, `exit ${r.code}`];
+});
+
+/**
+ * Only the first revision is the whole month. Everything after it is the rows the store does not
+ * have yet, named after the row count the previous receipt settled — so the bytes a sync uploads
+ * stop growing with the month.
+ */
+check("rows written after a sync are owed again, and the next revision is a delta after the settled rows", () => {
   const dir = company("second-rev");
   act(dir, 1);
-  syncOnce(dir);
+  const { first } = syncOnce(dir);
   act(dir, 1);
   const gate = run("--company", dir, "--check");
   const staged = run("--company", dir, "--stage");
   return [
-    gate.code === 1 && /rev-002\.jsonl/.test(staged.out),
-    `check exit ${gate.code}; staged ${/rev-(\d+)/.exec(staged.out)?.[0]}`,
+    gate.code === 1 && new RegExp(`rev-002\\.delta-after-${first.rows}\\.jsonl`).test(staged.out),
+    `check exit ${gate.code}; staged ${/rev-(\d+)\S*\.jsonl/.exec(staged.out)?.[0]}`,
   ];
 });
 

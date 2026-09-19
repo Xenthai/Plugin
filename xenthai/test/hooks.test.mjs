@@ -29,6 +29,7 @@ const CO_B = join(SANDBOX, "company-b");
  */
 const PERSONAL = join(SANDBOX, "own-store");
 const FUTURE_KIND = join(SANDBOX, "future-kind");
+const UNKNOWN_STORE = join(SANDBOX, "unknown-store");
 const DATA = join(SANDBOX, "plugin-data");
 
 const ROOT_A = "1AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
@@ -37,17 +38,18 @@ const ROOT_P = "1PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP";
 
 const setup = () => {
   rmSync(SANDBOX, { recursive: true, force: true });
-  for (const [dir, id, name, root, kind] of [
-    [CO_A, "co-a-0001", "Company A", ROOT_A, undefined],
-    [CO_B, "co-b-0002", "Company B", ROOT_B, "client"],
-    [PERSONAL, "own-0001", "Mi vida", ROOT_P, "personal"],
-    [FUTURE_KIND, "odd-0001", "Odd Store", ROOT_P, "household"],
+  for (const [dir, id, name, root, kind, storeKind] of [
+    [CO_A, "co-a-0001", "Company A", ROOT_A, undefined, "drive"],
+    [CO_B, "co-b-0002", "Company B", ROOT_B, "client", "drive"],
+    [PERSONAL, "own-0001", "Mi vida", ROOT_P, "personal", "drive"],
+    [FUTURE_KIND, "odd-0001", "Odd Store", ROOT_P, "household", "drive"],
+    [UNKNOWN_STORE, "box-0001", "Box Store", ROOT_P, undefined, "dropbox"],
   ]) {
     mkdirSync(dir, { recursive: true });
     writeFileSync(
       join(dir, ".company.json"),
       JSON.stringify(
-        { schema_version: 1, id, name, ...(kind ? { kind } : {}), timezone: "America/Mexico_City", store: { kind: "drive", root } },
+        { schema_version: 1, id, name, ...(kind ? { kind } : {}), timezone: "America/Mexico_City", store: { kind: storeKind, root } },
         null,
         2
       )
@@ -207,6 +209,40 @@ check("journal skips read-only tools", () => {
   post("Read", { file_path: "x" }, CO_A);
   post("mcp__abc__search_files", { query: "x" }, CO_A);
   return [rows(CO_A).length === before, `rows unchanged at ${before}`];
+});
+
+/**
+ * The second store provider. The Microsoft 365 connector reaches OneDrive through `sharepoint_*`
+ * methods, and the plugin's two vetoes and its journal must treat them exactly as Drive's: an
+ * unbound write refused, a read not recorded, a write recorded with its Graph target — an item id
+ * is unique only within a drive, so the pair is what identifies the target.
+ */
+check("guard BLOCKS a OneDrive store write when no company is bound, through the Microsoft 365 connector's names", () => {
+  const r = pre("mcp__claude_ai_Microsoft_365__sharepoint_upload_file", { driveId: "b!DRIVE", itemId: "01ITEM", name: "x.md" }, SANDBOX);
+  const del = pre("mcp__claude_ai_Microsoft_365__sharepoint_delete_item", { driveId: "b!DRIVE", itemId: "01ITEM" }, SANDBOX);
+  return [r.code === 2 && del.code === 2 && /not bound to a store/.test(r.err), `upload ${r.code}, delete ${del.code}`];
+});
+
+check("guard ALLOWS the same OneDrive write once a company is bound, and the journal records its Graph target", () => {
+  const r = pre("mcp__claude_ai_Microsoft_365__sharepoint_upload_file", { driveId: "b!DRIVE", itemId: "01ITEM", name: "x.md" }, CO_A);
+  post("mcp__claude_ai_Microsoft_365__sharepoint_upload_file", { driveId: "b!DRIVE", itemId: "01ITEM", name: "x.md", content: "hola" }, CO_A);
+  const row = rows(CO_A).at(-1);
+  return [
+    r.code === 0 && row?.target?.driveId === "b!DRIVE" && row?.target?.itemId === "01ITEM" && row?.bytes === 4,
+    `exit ${r.code}; target=${JSON.stringify(row?.target)} bytes=${row?.bytes}`,
+  ];
+});
+
+check("journal skips the Microsoft 365 connector's read-only methods", () => {
+  const before = rows(CO_A).length;
+  post("mcp__claude_ai_Microsoft_365__sharepoint_search", { query: "x" }, CO_A);
+  post("mcp__claude_ai_Microsoft_365__read_resource", { uri: "file:///b!DRIVE/root" }, CO_A);
+  return [rows(CO_A).length === before, `rows unchanged at ${before}`];
+});
+
+check("guard treats a manifest with an unrecognised store.kind as UNBOUND rather than as Drive", () => {
+  const r = pre("mcp__abc__create_file", { title: "x", parentId: ROOT_P }, UNKNOWN_STORE);
+  return [r.code === 2 && /unknown-store-kind/.test(r.err), `exit ${r.code} ${r.err.trim().split("\n").find((l) => /Reason/.test(l))}`];
 });
 
 check("journal records a failure as result=error", () => {

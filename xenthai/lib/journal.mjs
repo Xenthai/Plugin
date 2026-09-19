@@ -94,8 +94,11 @@ const KNOWN_EVENTS = new Set(Object.values(EVENTS));
  * itself chose (`screenshot`, `left_click`, `type`), never text a person or a page supplied, so
  * copying it stays inside the rule this list exists to keep. What was typed is NOT copied: that is
  * the client's content, and the row's digest already proves it.
+ *
+ * `driveId`, `itemId` and `uri` are the Microsoft Graph vocabulary for what Drive calls `fileId`
+ * and `parentId`: an item id is unique only within its drive, so a OneDrive target is the pair.
  */
-const REFERENCE_FIELDS = ["file_path", "path", "notebook_path", "fileId", "parentId", "folderId", "url", "title", "role", "action"];
+const REFERENCE_FIELDS = ["file_path", "path", "notebook_path", "fileId", "parentId", "folderId", "driveId", "itemId", "uri", "url", "title", "role", "action"];
 
 /**
  * Fields that name a target but can carry a secret or a person, so they are digested. A shell

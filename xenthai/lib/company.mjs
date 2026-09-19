@@ -63,6 +63,19 @@ export const SCHEMA = 1;
 export const KINDS = new Set(["client", "personal"]);
 export const DEFAULT_KIND = "client";
 
+/**
+ * Which provider the bound store lives in, declared in `store.kind` and never sniffed from a
+ * folder id's shape or a connector's name. The plugin was written against Google Drive and every
+ * manifest before this field was read said `drive`, so `drive` is the default for an absent value;
+ * an unrecognised value is refused, for the reason `future-schema` refuses. The names each
+ * provider's connector uses for its write and read-only methods are in `hooks/guard-company.mjs`
+ * and `hooks/journal.mjs`; everything about a provider that the plugin cannot know in advance —
+ * the create tool's parameter names, its size ceiling — is declared in `store.tools` by the
+ * onboarding skill after reading the connector's own schema, and read from there by prose.
+ */
+export const STORE_KINDS = new Set(["drive", "onedrive"]);
+export const DEFAULT_STORE_KIND = "drive";
+
 const REQUIRED = ["schema_version", "id", "name", "store"];
 
 /**
@@ -139,9 +152,16 @@ export const readCompany = (from = process.cwd()) => {
   if (!KINDS.has(kind)) {
     return { ok: false, reason: "unknown-kind", path, found: kind, known: [...KINDS] };
   }
+  const storeKind = storeKindOf(data);
+  if (!STORE_KINDS.has(storeKind)) {
+    return { ok: false, reason: "unknown-store-kind", path, found: storeKind, known: [...STORE_KINDS] };
+  }
 
-  return { ok: true, company: data, path, root: dirname(path), kind, binding: bindingOf(data, path, Boolean(declared)) };
+  return { ok: true, company: data, path, root: dirname(path), kind, storeKind, binding: bindingOf(data, path, Boolean(declared)) };
 };
+
+/** The declared store provider, or the default. */
+export const storeKindOf = (company) => (typeof company?.store?.kind === "string" ? company.store.kind.trim() : DEFAULT_STORE_KIND);
 
 /**
  * How this session came to be bound, and whether that binding survives the session.

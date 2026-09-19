@@ -67,7 +67,8 @@ Ask for these five in one message. Nothing here can be inferred from a folder na
 | --- | --- |
 | `name` | The commercial name **as it is really written** — accents, casing, `S.A. de C.V.` or not. It goes into client-facing copy from the first piece |
 | `id` | A slug, unique across every company you serve, and **permanent**. It keys the journal. Reusing or renaming one silently merges or orphans an engagement's history |
-| `store.kind` and `store.root` | Which store, and the folder **id** — never a name and never a link. A name does not prove identity; the id is what the guard compares against |
+| `store.kind` and `store.root` | The provider — `drive` or `onedrive` — and the folder **id**, never a name and never a link. A name does not prove identity; the id is what the guard compares against |
+| `store.tools` | OneDrive only: the create tool's name and parameter names, read from the connector's own schemas in this session, never guessed. `MCP.md` says why |
 | `locale` and `timezone` | Decides the language of every document and the dates in every schedule. `es-MX` and `America/Mexico_City` are the defaults, and stating them beats assuming them |
 | `regulator` | Empty is a valid answer, but it must be an answer. It is what the claim rules key off later — a health or financial claim has a different legal floor, and finding that out at review is too late |
 
@@ -164,10 +165,11 @@ those are agreed at mapping close, with the client, and a cadence not activated 
 node "${CLAUDE_PLUGIN_ROOT}/tools/journal-sync.mjs" --stage
 ```
 
-Upload the file it names into the company's `journal/` folder, keeping the name, then record the id
-the connector returned with `--receipt --month <YYYY-MM> --file-id <id>`. Nothing outside a session
-can do this: a hook and a CLI hold no credentials. `capabilities/company/doctrine/CONTROLS.md` §1b
-carries why this is an advisory control and how to say so to a client.
+Put the file(s) it names into the company's `journal/` folder keeping the names — through the
+transport hook's `emit` line (`INSTALL.md` §5b; writing that hook is part of opening a company),
+otherwise through the connector — then read each file's metadata back and record `--receipt
+--month <YYYY-MM> --file-id <id>:<fileSize>`. A size that differs from what was staged is refused.
+`capabilities/company/doctrine/CONTROLS.md` §1b carries why the upload stays an advisory control.
 
 Then hand off to `company-intake` — the file request needs nobody present, so it should be sent the
 same day.
