@@ -236,22 +236,58 @@ check("a file that is not a state file is refused rather than adopted as an empt
  * The state file goes up through the same transport as the rows, so the session pays nothing for
  * it: `--receipt` names it and `--emit` prints it byte for byte.
  */
-check("--receipt names the state file to upload and --emit prints it byte-exact", () => {
+check("--receipt names the state file with its size, and --emit prints the head revision alone", () => {
   const dir = company("emit-state");
   act(dir, 2);
   const staged = stage(dir, "--first-revision").first;
   const written = settle(dir, staged, null);
   const name = `${MONTH}.sync.rev-001.json`;
   const printed = runRaw("--company", dir, "--emit", name);
-  const onDisk = readFileSync(receiptFile(dir));
+  const doc = JSON.parse(printed.stdout.toString("utf8"));
+  const local = JSON.parse(readFileSync(receiptFile(dir), "utf8"));
   const stale = run("--company", dir, "--emit", `${MONTH}.sync.rev-009.json`);
   return [
     written.code === 0 &&
       written.out.includes(name) &&
+      new RegExp(`${printed.stdout.length + 1} bytes`).test(written.out) &&
       printed.status === 0 &&
-      Buffer.concat([printed.stdout, Buffer.from("\n")]).equals(onDisk) &&
+      doc.revisions.length === 1 &&
+      doc.revisions[0].rev === local.revisions.at(-1).rev &&
+      doc.revisions[0].rows === local.revisions.at(-1).rows &&
+      doc.month === MONTH &&
       stale.code === 2,
-    `receipt names it: ${written.out.includes(name)}; emit ${printed.status}, ${printed.stdout.length}+1 of ${onDisk.length} bytes; stale name ${stale.code}`,
+    `receipt names it with its size: ${new RegExp(`${printed.stdout.length + 1} bytes`).test(written.out)}; emit ${printed.status}, ${printed.stdout.length}+1 bytes; stale name ${stale.code}`,
+  ];
+});
+
+/**
+ * The measured failure this shape exists for: the state file used to be the whole local receipt,
+ * which at eleven revisions was 50 KB — past what a hook carries — and reached the store at 60% of
+ * itself with every step reporting success. What travels now is one revision, so a month's history
+ * cannot push it over the channel however long the month runs.
+ */
+check("the state file stays small as revisions pile up, and nothing over the transport's budget is ever printed", () => {
+  const dir = company("state-size");
+  act(dir, 2);
+  settle(dir, stage(dir, "--first-revision").first, null);
+  for (let i = 0; i < 11; i++) {
+    act(dir, 2);
+    settle(dir, stage(dir).first, null);
+  }
+  const printed = runRaw("--company", dir, "--emit", `${MONTH}.sync.rev-012.json`);
+  const historyBytes = statSync(receiptFile(dir)).size;
+
+  act(dir, 40);
+  const big = stage(dir).first;
+  const oversized = run("--company", dir, "--emit", big.name, "--shard-bytes", "1024");
+  return [
+    printed.status === 0 &&
+      printed.stdout.length < 2000 &&
+      historyBytes > printed.stdout.length * 3 &&
+      JSON.parse(printed.stdout.toString("utf8")).revisions.length === 1 &&
+      oversized.code === 2 &&
+      /transport carries/.test(oversized.err),
+    `12 revisions: state ${printed.stdout.length} bytes against a ${historyBytes}-byte local receipt; oversized emit ${oversized.code}`,
   ];
 });
 

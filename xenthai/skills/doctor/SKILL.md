@@ -95,7 +95,7 @@ is the one with the engagement's evidence in it.
 **First, if this machine holds no receipt for the month** — an ephemeral binding always starts that
 way — list the company's `journal/` folder before anything else. A `<YYYY-MM>.sync.rev-<NNN>.json`
 there means the month already has a chain: download the highest and run `--adopt-state <file>`,
-which resumes it for about 2 KB. Without that step the tool cannot tell a month nobody has uploaded
+which resumes it from that file alone. Without that step the tool cannot tell a month nobody has uploaded
 from one whose receipt died with the last container, and it refuses to stage rather than write a
 `rev-001` the folder may already hold — two files with one name is a month nobody can rebuild.
 **Never** pass `--first-revision` to get past that refusal unless you listed the folder and it holds
@@ -118,7 +118,7 @@ one pair per file, comma separated. The receipt is written from the frozen bytes
 that differs from them, so it can claim neither rows that never went up nor a file that arrived
 truncated.
 
-**Last, upload the state file `--receipt` names** (`<YYYY-MM>.sync.rev-<NNN>.json`, ~2 KB, same
+**Last, upload the state file `--receipt` names** (`<YYYY-MM>.sync.rev-<NNN>.json`, same
 folder, `--emit` prints it). It is what the next session on another machine adopts, and skipping it
 is what makes the next container start over at `rev-001`. It needs no receipt of its own: its name
 carries the revision it records. A CLI has no credentials and no hook runs with a connector at
