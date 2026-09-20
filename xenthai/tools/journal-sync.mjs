@@ -66,6 +66,24 @@ import { EVENTS, record } from "../lib/journal.mjs";
  */
 export const STORE_FILE = /^(\d{4}-(?:0[1-9]|1[0-2]))\.rev-(\d{3,})(?:\.delta-after-(\d+))?(?:\.part-(\d{2,})-of-(\d{2,}))?\.jsonl$/;
 
+/**
+ * The receipt as it sits in the store: `2026-09.sync.rev-011.json`, one per revision, ~2 KB.
+ *
+ * The revision chain — which revision came last, how many rows it settled, what the month hashed to
+ * — lived only in `journal/sync/<month>.json` on the local disk. In a cloud container that disk is
+ * destroyed, so the next session started with no receipt and `--stage` proposed `rev-001` again,
+ * whose name already existed in the store's folder: two different files with one name, and a month
+ * that can no longer be reconstructed. That is corruption of the evidence, not slowness, and it is
+ * why the receipt now travels to the store with the rows it describes. A session that downloads
+ * this one small file and runs `--adopt-state` resumes the chain without fetching a single row of
+ * history, which is the whole point: the rows are what deltas stopped moving.
+ *
+ * It is numbered for the same reason a revision is. The store cannot overwrite a file, a folder
+ * tolerates two files with one name, and the newest state is the one that matters — so the name
+ * carries the revision it records, and the highest is unambiguous from the listing alone.
+ */
+export const STATE_FILE = /^(\d{4}-(?:0[1-9]|1[0-2]))\.sync\.rev-(\d{3,})\.json$/;
+
 const MONTH_FILE = /^(\d{4}-(?:0[1-9]|1[0-2]))\.jsonl$/;
 const MONTH = /^\d{4}-(?:0[1-9]|1[0-2])$/;
 
@@ -81,18 +99,21 @@ const SHARD_BYTES = 20_000;
 /**
  * Shape of a receipt file, versioned for the same reason a journal row is. Schema 1 entries are
  * whole-month revisions with no store-reported size; schema 2 entries carry `kind`, `after` and the
- * size the store confirmed per file. A schema 1 entry is read as `kind: "full"`, because schema 1
- * could not describe anything else.
+ * size the store confirmed per file; schema 3 adds `local` — how much of THIS machine's month file
+ * a revision settled — and the optional top-level `carried`, which says the rows before it are in
+ * the store and not here. A schema 1 or 2 entry is read as `kind: "full"` / `local === rows`,
+ * because neither could describe anything else.
  */
-export const RECEIPT_SCHEMA = 2;
+export const RECEIPT_SCHEMA = 3;
 
 const HELP = `Xenth AI journal-sync — put a month of the journal in the client's store, and say what is owed.
 
   node tools/journal-sync.mjs [--company <dir>] [--json]
   node tools/journal-sync.mjs --check
-  node tools/journal-sync.mjs --stage [--month YYYY-MM] [--shard-bytes N]
+  node tools/journal-sync.mjs --stage [--month YYYY-MM] [--shard-bytes N] [--first-revision]
   node tools/journal-sync.mjs --emit <file>
   node tools/journal-sync.mjs --receipt --month YYYY-MM --file-id <id>:<size>[,<id>:<size>...]
+  node tools/journal-sync.mjs --adopt-state <file>
   node tools/journal-sync.mjs --restore --from <dir>
 
   (no command)   Report every month: rows on this machine, rows in the store, rows owed.
@@ -103,21 +124,28 @@ const HELP = `Xenth AI journal-sync — put a month of the journal in the client
                  <YYYY-MM>.rev-<NNN>.delta-after-<R>.jsonl. A file over the budget is split into
                  .part-<NN>-of-<MM> files, each with its own digest.
   --emit         Print a staged file's exact bytes to stdout, minus the final newline, and nothing
-                 else. This is what the transport hook copies into the connector's create call; the
-                 hook adds the newline back, and --receipt's size check proves the result.
+                 else — a revision file, or the state file <YYYY-MM>.sync.rev-<NNN>.json. This is what
+                 the transport hook copies into the connector's create call; the hook adds the newline
+                 back, and --receipt's size check proves the result.
   --receipt      Record that the staged revision reached the store: for every file, the id the
                  connector returned and the size the store reports for it, as <id>:<size>, in file
                  order, comma separated. Refused unless every part is present, every size equals the
-                 staged bytes, and the concatenation hashes to the month. Then removes the staged copy.
+                 staged bytes, and the concatenation hashes to the month. Then removes the staged copy
+                 and names the state file to upload beside it.
+  --adopt-state  Resume a month's revision chain from a state file downloaded from the store, without
+                 fetching a single row of history. What a fresh container runs before staging.
   --restore      Rebuild the local journal from revisions downloaded into <dir>: the highest whole-month
                  revision plus every delta after it. Refuses an incomplete set, a delta whose base does
                  not match, a file that is not whole rows, and a local month holding rows the store
                  does not.
 
-  --company <dir>  The engagement directory. Default: the bound company found from the cwd.
-  --month          One month. Default: every month with rows owed.
-  --shard-bytes    Bytes a single file may hold before --stage splits it. Default 20000.
-  --json           Machine-readable output.
+  --company <dir>    The engagement directory. Default: the bound company found from the cwd.
+  --month            One month. Default: every month with rows owed.
+  --shard-bytes      Bytes a single file may hold before --stage splits it. Default 20000.
+  --first-revision   Confirm that a month has never been uploaded, on a binding whose disk does not
+                     survive the session. Without it, staging rev-001 there is refused: the store may
+                     already hold a rev-001 this machine cannot see.
+  --json             Machine-readable output.
 
 THE UPLOAD IS NOT DONE HERE. A CLI has no connector credentials. This stages bytes and verifies
 what came back; a session creates the file in the store, inside the company's own \`journal/\`
@@ -131,6 +159,8 @@ EXIT CODES
      whose sizes or ids do not match what was staged.
   3  a defect in the evidence: the local month and the last receipt disagree about rows already
      synced, which means the file was rewritten rather than appended to. Never silent.
+  4  this machine cannot see the store's revision chain, and staging would risk writing a name the
+     store already holds. Download the month's newest <YYYY-MM>.sync.rev-<NNN>.json and --adopt-state it.
 `;
 
 const sha = (buffer) => `sha256:${createHash("sha256").update(buffer).digest("hex")}`;
@@ -183,6 +213,8 @@ const wellFormed = (bytes) => {
 
 const pad3 = (n) => String(n).padStart(3, "0");
 const pad2 = (n) => String(n).padStart(2, "0");
+
+const stateName = (month, rev) => `${month}.sync.rev-${pad3(rev)}.json`;
 
 const revisionName = (month, rev, after, part = null, total = null) =>
   `${month}.rev-${pad3(rev)}${after === null ? "" : `.delta-after-${after}`}${part === null ? "" : `.part-${pad2(part)}-of-${pad2(total)}`}.jsonl`;
@@ -309,28 +341,51 @@ const writeReceipt = (root, month, receipt) => {
 const latestRevision = (receipt) => (receipt?.revisions?.length ? receipt.revisions[receipt.revisions.length - 1] : null);
 
 /**
+ * How much of THIS machine's month file a revision settled, and what those rows hashed to.
+ *
+ * On a machine that holds the whole month these are the revision's own row count and digest, which
+ * is why a schema 1 or 2 entry needs no migration. They differ only after `--adopt-state`, where the
+ * month's first rows are in the store and not here: then a revision settles rows of a file that
+ * begins partway through the month, and the divergence rule has to be asked about that file rather
+ * than about a month this machine has never held.
+ */
+const settledLocally = (revision) => ({
+  rows: revision?.local?.rows ?? revision?.rows ?? 0,
+  digest: revision?.local?.digest ?? revision?.digest ?? null,
+});
+
+/**
  * One month's state, and the only place the three numbers that matter are compared.
  *
  * `diverged` is deliberately not folded into `owed`. Rows appended since the last upload are the
  * ordinary case and are fixed by uploading again; a prefix that no longer matches means the file
  * was rewritten under the journal's feet, which no upload repairs and which nothing else would ever
  * have noticed.
+ *
+ * `carried` is the count of rows that are in the store and not on this machine, adopted from a
+ * state file rather than downloaded. Every number here is about the month, so they are added back:
+ * a month is its carried rows followed by this file's rows, and `owed` stays "what the store does
+ * not have yet" whichever machine wrote them.
  */
 export const monthState = (root, month) => {
   const file = join(executionDir(root), `${month}.jsonl`);
   const local = existsSync(file) ? measure(file) : null;
   const receipt = readReceipt(root, month);
   const last = latestRevision(receipt);
+  const carried = receipt?.carried?.rows ?? 0;
+  const settled = settledLocally(last);
   const synced = last?.rows ?? 0;
-  const diverged = Boolean(local && last && local.prefixDigest(last.rows) !== last.digest);
+  const rows = carried + (local?.rows ?? 0);
+  const diverged = Boolean(local && last && local.prefixDigest(settled.rows) !== settled.digest);
   return {
     month,
     file,
-    rows: local?.rows ?? 0,
+    rows,
     bytes: local?.bytes ?? 0,
     digest: local?.digest ?? null,
+    carried,
     synced,
-    owed: Math.max((local?.rows ?? 0) - synced, 0),
+    owed: Math.max(rows - synced, 0),
     revision: last?.rev ?? 0,
     lastSyncedAt: last?.at ?? null,
     diverged,
@@ -360,9 +415,9 @@ export const allMonths = (root) => {
 export const syncedButAbsent = (root) => allMonths(root).filter((m) => m.storedOnly).map((m) => m.month);
 
 const parseArgs = (argv) => {
-  const args = { json: false, help: false, check: false, stage: false, receipt: false, restore: false, unknown: [] };
-  const flags = new Set(["json", "help", "check", "stage", "receipt", "restore"]);
-  const values = new Set(["company", "month", "file-id", "from", "shard-bytes", "emit"]);
+  const args = { json: false, help: false, check: false, stage: false, receipt: false, restore: false, "first-revision": false, unknown: [] };
+  const flags = new Set(["json", "help", "check", "stage", "receipt", "restore", "first-revision"]);
+  const values = new Set(["company", "month", "file-id", "from", "shard-bytes", "emit", "adopt-state"]);
   for (let i = 0; i < argv.length; i++) {
     const token = argv[i];
     if (!token.startsWith("--")) {
@@ -424,6 +479,35 @@ const writeStaged = (root, month, rev, after, bytes, limit) => {
   return { name: null, path: null, parts };
 };
 
+/**
+ * Refuses to stage a month's FIRST revision on a machine that cannot see the store, unless somebody
+ * says this month has never been uploaded.
+ *
+ * The chain's state lives in `journal/sync/`, which on an ephemeral binding is destroyed with the
+ * container. The next session therefore starts with no receipt, reads "no revisions", and proposes
+ * `rev-001` — a name the store's folder may already hold from a previous container. Uploading it
+ * leaves two different files with one name, and the month stops being reconstructible: the one
+ * failure here that is silent, permanent, and produced by following the instructions. So on that
+ * binding the absence of a receipt is treated as ignorance rather than as a fact, and the way out
+ * is the state file the store now carries.
+ */
+const unprovenFirstRevision = (states, binding, confirmed) => {
+  if (confirmed || !binding?.ephemeral) return null;
+  const risky = states.filter((s) => s.owed > 0 && s.revision === 0 && !s.carried);
+  if (!risky.length) return null;
+  return (
+    `${risky.map((s) => s.month).join(", ")}: this machine has no receipt, and this binding is ephemeral —\n` +
+    "so it cannot tell a month that was never uploaded from one whose receipt died with the last\n" +
+    "container. Staging rev-001 now would write a name the store may already hold, leaving two\n" +
+    "different files with one name and a month nobody can rebuild.\n\n" +
+    "List the company's journal/ folder. If it holds <YYYY-MM>.sync.rev-<NNN>.json files for this\n" +
+    "month, download the highest and run:\n\n" +
+    "  node tools/journal-sync.mjs --adopt-state <that file>\n\n" +
+    "It resumes the chain without fetching a single row of history. If the folder holds nothing for\n" +
+    "this month, say so with --first-revision and stage it."
+  );
+};
+
 const stage = (root, states, company, limit = SHARD_BYTES) => {
   const owed = states.filter((s) => s.owed > 0);
   if (!owed.length) return { staged: [], text: "nothing to stage: every row on this machine is already in the store.\n" };
@@ -461,17 +545,24 @@ const stage = (root, states, company, limit = SHARD_BYTES) => {
      * the rows receipted so far are no longer its prefix.
      */
     const frozen = measure(s.file);
-    const upload = after === null ? frozen.raw : frozen.raw.subarray(frozen.rowEnds[after - 1]);
+    /**
+     * Where the delta starts inside THIS file. `after` counts rows of the month, and on a machine
+     * that adopted a state file the month begins before the file does, so the offset is what the
+     * store has settled minus what it settled before this file's first row.
+     */
+    const from = (after ?? 0) - s.carried;
+    const upload = from === 0 ? frozen.raw : frozen.raw.subarray(frozen.rowEnds[from - 1]);
     const written = writeStaged(root, s.month, rev, after, upload, limit);
     return {
       month: s.month,
       rev,
       kind: after === null ? "full" : "delta",
       after,
-      rows: frozen.rows,
+      rows: s.carried + frozen.rows,
+      carried: s.carried,
       bytes: frozen.bytes,
-      digest: frozen.digest,
-      new_rows: frozen.rows - s.synced,
+      digest: s.carried ? null : frozen.digest,
+      new_rows: s.owed,
       upload_rows: measureBytes(upload).rows,
       upload_bytes: upload.length,
       upload_digest: sha(upload),
@@ -485,7 +576,9 @@ const stage = (root, states, company, limit = SHARD_BYTES) => {
     const head =
       `  ${s.month} revision ${s.rev} — ${s.kind === "full" ? "the whole month" : `rows after ${s.after}`}: ` +
       `${s.upload_rows} row(s), ${s.upload_bytes} bytes (${s.new_rows} new since revision ${s.rev - 1})\n` +
-      `    month digest: ${s.digest} (${s.rows} rows)\n`;
+      (s.digest
+        ? `    month digest: ${s.digest} (${s.rows} rows)\n`
+        : `    month: ${s.rows} rows, of which ${s.carried} are in the store and not on this machine\n`);
     const files = s.parts
       ? s.parts.map((d) => `    ${d.name}\n      file:   ${d.path}\n      rows:   ${d.rows}, ${d.bytes} bytes\n      digest: ${d.digest}\n      emit:   ${emit(d.name)}\n`).join("")
       : `    ${s.name}\n      file:   ${s.path}\n      digest: ${s.upload_digest}\n      emit:   ${emit(s.name)}\n`;
@@ -508,14 +601,22 @@ const stage = (root, states, company, limit = SHARD_BYTES) => {
  * Prints a staged file's bytes and nothing else, without the final newline. The transport hook
  * receives a Bash call's stdout with trailing whitespace already stripped and appends one newline
  * itself, so the file is reproduced exactly whether or not that stripping happens; `--receipt`'s
- * size check is what proves it did. Only a name from the outbox is accepted — the basename, matched
- * against the store grammar — so the command cannot be turned into a way of printing another file.
+ * size check is what proves it did. Only two names are accepted — a staged revision file, or the
+ * month's state file, each matched by its own grammar against the basename — so the command cannot
+ * be turned into a way of printing anything else out of the company's directory.
  */
 const emit = (root, name) => {
   const file = basename(name);
-  if (!STORE_FILE.test(file)) return fail(`--emit takes a staged revision file name, not "${name}"`);
-  const path = join(outboxDir(root), file);
+  const state = STATE_FILE.exec(file);
+  if (!STORE_FILE.test(file) && !state) return fail(`--emit takes a staged revision file or a <YYYY-MM>.sync.rev-<NNN>.json state file, not "${name}"`);
+  const path = state ? receiptPath(root, state[1]) : join(outboxDir(root), file);
   if (!existsSync(path)) return fail(`${file} is not staged. Run --stage first, then emit the names it prints.`);
+  if (state) {
+    const rev = latestRevision(readReceipt(root, state[1]))?.rev ?? 0;
+    if (rev !== Number(state[2])) {
+      return fail(`${file} names revision ${Number(state[2])} and this machine's receipt stands at ${rev}. Emit the name --receipt printed.`);
+    }
+  }
   const bytes = readFileSync(path);
   const body = bytes.length && bytes[bytes.length - 1] === 0x0a ? bytes.subarray(0, bytes.length - 1) : bytes;
   process.stdout.write(body, () => process.exit(0));
@@ -599,15 +700,16 @@ const receipt = (root, month, fileId, company) => {
   }
   const existing = readReceipt(root, month) ?? { schema: RECEIPT_SCHEMA, month, company: company?.id ?? null, revisions: [] };
   const prev = latestRevision(existing);
+  const carried = existing.carried?.rows ?? 0;
   let whole;
   if (group.after === null) {
     whole = measureBytes(resolved.bytes);
   } else {
     /**
      * A delta only means something relative to the base it names. The base must be the revision the
-     * receipt last settled, and the live month must still begin with that revision's bytes — the
-     * same divergence rule `monthState` applies, checked again here against the exact bytes the
-     * whole-month digest is about to be computed from.
+     * receipt last settled, and this machine's month file must still begin with the rows that
+     * revision settled of it — the same divergence rule `monthState` applies, checked again here
+     * against the exact bytes the digests below are about to be computed from.
      */
     if (!prev || prev.rows !== group.after) {
       return fail(
@@ -615,20 +717,33 @@ const receipt = (root, month, fileId, company) => {
           "Nothing was settled. Re-run --stage so the delta is cut from the revision the receipt knows."
       );
     }
+    const settled = settledLocally(prev);
     const file = join(executionDir(root), `${month}.jsonl`);
     const local = existsSync(file) ? measure(file) : null;
-    if (!local || local.prefixDigest(prev.rows) !== prev.digest) return fail(divergedMessage([{ month }]), 3);
-    whole = measureBytes(Buffer.concat([local.raw.subarray(0, local.rowEnds[prev.rows - 1]), resolved.bytes]));
+    if (!local || local.prefixDigest(settled.rows) !== settled.digest) return fail(divergedMessage([{ month }]), 3);
+    whole = measureBytes(Buffer.concat([local.raw.subarray(0, settled.rows ? local.rowEnds[settled.rows - 1] : 0), resolved.bytes]));
   }
   const uploaded = measureBytes(resolved.bytes);
+  /**
+   * Two digests, because on a machine that adopted a state file only one of them can be honest. The
+   * whole-month digest needs the whole month's bytes, which such a machine has never held, so it is
+   * null there rather than a hash of a fragment presented as a month. The chain is computable
+   * everywhere: each revision hashes the previous link together with the bytes this one uploaded,
+   * which is what lets a later session prove the sequence it downloaded is the sequence that was
+   * written, and `--restore` recomputes the true month digest once it holds every file.
+   */
+  const link = prev?.chain ?? prev?.digest ?? "";
+  const chain = sha(Buffer.from(`${link}\n${uploaded.digest}`, "utf8"));
   const entry = {
     rev,
     kind: group.after === null ? "full" : "delta",
     after: group.after,
     name: describeRevision(month, rev, resolved.names),
-    rows: whole.rows,
+    rows: carried + whole.rows,
     bytes: whole.bytes,
-    digest: whole.digest,
+    digest: carried ? null : whole.digest,
+    chain,
+    local: { rows: whole.rows, digest: whole.digest },
     uploaded: { rows: uploaded.rows, bytes: uploaded.bytes, digest: uploaded.digest },
     file_id: pairs.length === 1 ? pairs[0].id : pairs.map((p) => p.id),
     size: pairs.length === 1 ? pairs[0].size : null,
@@ -654,13 +769,91 @@ const receipt = (root, month, fileId, company) => {
    * `--stage` already recorded the staging; what this adds is the id and the digest in the receipt,
    * which is the part a later session needs and a row could not carry anyway.
    */
+  const state = stateName(month, rev);
   return finish(
     `receipt written: ${month} revision ${rev} (${entry.kind}${entry.after === null ? "" : ` after ${entry.after}`}), ` +
-      `${uploaded.rows} row(s) uploaded, month now ${whole.rows} rows, ${whole.digest}, ` +
+      `${uploaded.rows} row(s) uploaded, month now ${entry.rows} rows, ${entry.digest ?? entry.chain} ` +
+      `(${entry.digest ? "month digest" : "chain digest; this machine does not hold the whole month"}), ` +
       `store id${pairs.length > 1 ? "s" : ""} ${pairs.map((p) => p.id).join(", ")}.\n` +
       `Size${pairs.length > 1 ? "s" : ""} confirmed against the staged bytes` +
       (resolved.names.length > 1 ? `, and the ${resolved.names.length} parts concatenate to the digest above.\n` : ".\n") +
-      "The staged copy was removed; the store holds those bytes now.\n",
+      "The staged copy was removed; the store holds those bytes now.\n\n" +
+      `NOW UPLOAD THE STATE FILE, into the same journal/ folder, named ${state}:\n` +
+      `  node tools/journal-sync.mjs --emit ${state}\n` +
+      `  (or create it from ${receiptPath(root, month)})\n` +
+      "It is about 2 KB and it is what a later session on another machine reads to continue this\n" +
+      "chain — without it, a container that loses this disk starts again at rev-001 and writes a name\n" +
+      "the store already holds. No receipt is needed for it: it names the revision it records.\n",
+    0
+  );
+};
+
+/**
+ * Resumes a month's revision chain from a state file downloaded out of the store.
+ *
+ * This exists because the alternative is unaffordable. `--restore` brings the month's rows back and
+ * needs every revision file — for one live month that is 31 files and about 600 KB, arriving as
+ * base64 inside tool calls, which is the cost deltas were built to remove, paid in the other
+ * direction. The chain's state is 2 KB. A session that adopts it knows which revision came last and
+ * how many rows it settled, which is all `--stage` needs to name the next delta correctly; the rows
+ * themselves stay in the store, where they already are.
+ *
+ * What it must never do is double-count. A machine that still holds the month's history would, after
+ * adopting, report that history twice — once as carried and once as its own rows — so the two ways
+ * that can happen are refused: a receipt already here (this machine is in the chain, `--restore` or
+ * nothing is the answer), and a month file that already begins with the carried rows.
+ */
+const adoptState = (root, from) => {
+  let incoming;
+  try {
+    incoming = JSON.parse(readFileSync(from, "utf8"));
+  } catch (err) {
+    return fail(`cannot read ${from} as a state file (${err.message}). Download the month's newest <YYYY-MM>.sync.rev-<NNN>.json from the company's journal/ folder.`);
+  }
+  const month = typeof incoming.month === "string" ? incoming.month : null;
+  const head = latestRevision(incoming);
+  if (!month || !MONTH.test(month) || !head || !Number.isInteger(head.rows) || !Number.isInteger(head.rev)) {
+    return fail(`${basename(from)} is not a journal state file: it needs a month and the revisions it settled.`);
+  }
+  if (readReceipt(root, month)) {
+    return fail(
+      `${month} already has a receipt on this machine, so this machine is already in the chain.\n` +
+        "Adopting would count the rows it already holds a second time. If the local journal is the one\n" +
+        "that is wrong, use --restore --from <dir> with the month's revision files instead."
+    );
+  }
+  const file = join(executionDir(root), `${month}.jsonl`);
+  const local = existsSync(file) ? measure(file) : null;
+  const carriedDigest = head.digest ?? null;
+  if (local && carriedDigest && local.prefixDigest(head.rows) === carriedDigest) {
+    return fail(
+      `${month} is already on this machine: its first ${head.rows} rows are exactly what revision ${head.rev} settled.\n` +
+        "Nothing was adopted — this month needs no state, it needs its receipt, which --restore writes."
+    );
+  }
+  const carried = { rows: head.rows, rev: head.rev, digest: carriedDigest, chain: head.chain ?? null, at: new Date().toISOString(), source: basename(from) };
+  /**
+   * The head revision is kept as the chain's last link, with `local` saying that none of THIS
+   * machine's file is settled: every row here was written after the store's history, and the next
+   * delta is cut from the first of them.
+   */
+  writeReceipt(root, month, {
+    schema: RECEIPT_SCHEMA,
+    month,
+    company: incoming.company ?? null,
+    carried,
+    revisions: [{ ...head, local: { rows: 0, digest: sha(Buffer.alloc(0)) }, adopted: true }],
+  });
+  const state = monthState(root, month);
+  return finish(
+    `adopted ${month} at revision ${head.rev}: ${head.rows} row(s) are in the store and not on this machine.\n` +
+      `This machine holds ${local?.rows ?? 0} row(s) written since, so the month stands at ${state.rows} rows and ` +
+      `${state.owed} are owed.\n` +
+      (state.owed
+        ? `Next: node tools/journal-sync.mjs --stage — it will name ${revisionName(month, head.rev + 1, head.rows)}.\n`
+        : "Nothing is owed yet.\n") +
+      "No row of history was downloaded, and none is needed: a delta is the rows the store does not\n" +
+      "have, and the chain proves where they attach.\n",
     0
   );
 };
@@ -730,18 +923,22 @@ const restore = (root, from) => {
     const target = join(executionDir(root), `${month}.jsonl`);
     if (existsSync(target)) {
       /**
-       * The local file must be a prefix of what is being restored, or the restore would delete rows
-       * this machine holds and the store does not. That is the one outcome this whole tool exists to
+       * The local file must be inside what is being restored, or the restore would delete rows this
+       * machine holds and the store does not. That is the one outcome this whole tool exists to
        * prevent, so it refuses rather than merging: a merge would have to reorder rows written by
        * two sessions and no ordering it picked would be evidence.
+       *
+       * On a machine that adopted a state file, "inside" is not "at the start": that file begins at
+       * the carried offset, so it is compared where it actually sits. Without this such a machine
+       * could never restore, having been told for ever that it holds rows the store does not.
        */
       const local = measure(target);
-      if (local.digest !== incoming.digest && incoming.prefixDigest(local.rows) !== local.digest) {
-        refused.push({ month, reason: "local rows the store does not have" });
-        continue;
-      }
-      if (local.rows > incoming.rows) {
-        refused.push({ month, reason: "local rows the store does not have" });
+      const carried = readReceipt(root, month)?.carried?.rows ?? 0;
+      const offset = carried === 0 ? 0 : carried <= incoming.rows ? incoming.rowEnds[carried - 1] : -1;
+      const inside =
+        offset >= 0 && carried + local.rows <= incoming.rows && incoming.raw.subarray(offset, offset + local.bytes).equals(local.raw);
+      if (!inside) {
+        refused.push({ month, reason: carried ? `local rows the store does not have, after the ${carried} it carries` : "local rows the store does not have" });
         continue;
       }
     }
@@ -795,8 +992,9 @@ const statusText = (states, company) => {
   if (!states.length) return "no journal on this machine and no receipts: nothing has been recorded yet.\n";
   const lines = states.map(
     (s) =>
-      `  ${s.month}  local ${String(s.rows).padStart(5)}  store ${String(s.synced).padStart(5)}  ` +
-      `owed ${String(s.owed).padStart(5)}${s.diverged ? "  DIVERGED" : s.storedOnly ? "  (in the store, not on this machine)" : ""}`
+      `  ${s.month}  month ${String(s.rows).padStart(5)}  store ${String(s.synced).padStart(5)}  ` +
+      `owed ${String(s.owed).padStart(5)}` +
+      (s.diverged ? "  DIVERGED" : s.storedOnly ? "  (in the store, not on this machine)" : s.carried ? `  (${s.carried} carried: in the store, not on this machine)` : "")
   );
   const owed = states.reduce((n, s) => n + s.owed, 0);
   return (
@@ -814,9 +1012,8 @@ const main = () => {
   if (args.missingValue) return fail(`--${args.missingValue} needs a value`);
   if (args.month && !MONTH.test(args.month)) return fail(`--month must be YYYY-MM, not "${args.month}"`);
 
-  const ctx = args.company
-    ? { ok: true, root: args.company, company: readCompany(args.company).company ?? null }
-    : readCompany();
+  const resolved = args.company ? readCompany(args.company) : readCompany();
+  const ctx = args.company ? { ...resolved, ok: true, root: args.company, company: resolved.company ?? null } : resolved;
   if (!ctx.ok) {
     return fail(`no company bound (${ctx.reason}). Pass --company <dir> or run inside an engagement folder.`);
   }
@@ -826,6 +1023,7 @@ const main = () => {
     if (!args.from) return fail("--restore needs --from <dir>");
     return restore(root, args.from);
   }
+  if (args["adopt-state"]) return adoptState(root, args["adopt-state"]);
   if (args.emit) return emit(root, args.emit);
 
   const states = allMonths(root).filter((s) => !args.month || s.month === args.month);
@@ -843,6 +1041,8 @@ const main = () => {
     if (!Number.isInteger(limit) || limit < 1024) {
       return fail(`--shard-bytes must be an integer of at least 1024, not "${args["shard-bytes"]}"`);
     }
+    const unproven = unprovenFirstRevision(states, ctx.binding, args["first-revision"]);
+    if (unproven) return fail(unproven, 4);
     const { staged, text } = stage(root, states, ctx.company, limit);
     return finish(args.json ? `${JSON.stringify({ staged }, null, 2)}\n` : text, 0);
   }

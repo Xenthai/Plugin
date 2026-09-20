@@ -422,7 +422,9 @@ const checkSync = (cwd) => {
           : never
             ? "This binding is ephemeral and this month has never been uploaded: that disk is destroyed when the session ends, so the engagement's evidence goes with it"
             : "This binding is ephemeral and the last revision is more than a day old, so those rows are no longer a session's tail") +
-        ". Run tools/journal-sync.mjs --stage, upload what it names, then --receipt",
+        (never
+          ? ". This machine holds no receipt, so it cannot tell a month nobody uploaded from one whose receipt died with the last container: list the company's journal/ folder, and if it holds a <YYYY-MM>.sync.rev-<NNN>.json for this month, download the highest and run tools/journal-sync.mjs --adopt-state <file> before staging. If it holds nothing, stage with --first-revision"
+          : ". Run tools/journal-sync.mjs --stage, upload what it names, then --receipt with each file's id and the size the store reports"),
       never ? "never-synced" : "owed",
       { months: owed.map((m) => ({ month: m.month, owed: m.owed })) }
     );

@@ -59,7 +59,7 @@ const monthFile = join(root, "journal", "execution", "2026-09.jsonl");
 writeFileSync(monthFile, rows);
 const originalDigest = sha(readFileSync(monthFile));
 
-const staged = run(["--stage", "--shard-bytes", "20000"], root);
+const staged = run(["--stage", "--shard-bytes", "20000", "--first-revision"], root);
 const outbox = join(root, "journal", "outbox");
 const parts = readdirSync(outbox).sort();
 /**
@@ -108,7 +108,7 @@ const fresh = newRoot("b");
 // Re-stage from the original month to get the part files back for the store.
 const root2 = newRoot("c");
 writeFileSync(join(root2, "journal", "execution", "2026-09.jsonl"), rows);
-run(["--stage", "--shard-bytes", "20000"], root2);
+run(["--stage", "--shard-bytes", "20000", "--first-revision"], root2);
 for (const n of readdirSync(join(root2, "journal", "outbox"))) cpSync(join(root2, "journal", "outbox", n), join(store, n));
 
 const restored = run(["--restore", "--from", store], fresh);
@@ -130,7 +130,7 @@ ok("nothing was written from an incomplete set", !readdirSync(join(fresh2, "jour
 // --------------------------------------------------- small month unchanged -----
 const small = newRoot("e");
 writeFileSync(join(small, "journal", "execution", "2026-08.jsonl"), rows.slice(0, 1200));
-run(["--stage"], small);
+run(["--stage", "--first-revision"], small);
 const smallFiles = readdirSync(join(small, "journal", "outbox"));
 ok("a month inside the budget still stages as one file with the old name", smallFiles.length === 1 && /^2026-08\.rev-001\.jsonl$/.test(smallFiles[0]), smallFiles.join(" "));
 const smallSize = readFileSync(join(small, "journal", "outbox", smallFiles[0])).length;

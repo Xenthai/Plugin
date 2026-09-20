@@ -72,8 +72,13 @@ const receipt = (dir) => {
   return existsSync(path) ? JSON.parse(readFileSync(path, "utf8")) : null;
 };
 
+/**
+ * These sandboxes declare an ephemeral binding, so a month with no receipt has to say it has never
+ * been uploaded before rev-001 may be staged. Every helper here passes that, and one case below
+ * asserts the refusal itself.
+ */
 const stage = (dir, ...extra) => {
-  const r = run("--company", dir, "--stage", "--json", ...extra);
+  const r = run("--company", dir, "--stage", "--json", "--first-revision", ...extra);
   return { ...r, first: r.code === 0 ? JSON.parse(r.out).staged.find((s) => s.month === MONTH) : null };
 };
 
@@ -130,7 +135,7 @@ check("after a delta round trip nothing is owed, and the receipt carries the who
   const last = receipt(dir).revisions.at(-1);
   const local = readFileSync(monthFile(dir));
   return [
-    written.code === 0 && gate.code === 0 && last.kind === "delta" && last.rows === local.toString().split("\n").filter(Boolean).length && last.digest === sha(local) && receipt(dir).schema === 2,
+    written.code === 0 && gate.code === 0 && last.kind === "delta" && last.rows === local.toString().split("\n").filter(Boolean).length && last.digest === sha(local) && receipt(dir).schema === 3,
     `receipt exit ${written.code}; check exit ${gate.code}; last=${last?.kind} rows=${last?.rows} schema=${receipt(dir)?.schema}`,
   ];
 });

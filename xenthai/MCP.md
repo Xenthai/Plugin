@@ -56,9 +56,12 @@ exist. The plugin will tell you it is running in local mode rather than pretendi
 **The journal lives here too, and for the same reason.** `<store root>/journal/` holds
 `<YYYY-MM>.rev-001.jsonl`, the month as it first stood, then `<YYYY-MM>.rev-<NNN>.delta-after-<R>.jsonl`
 for the rows added since the receipt that settled `R` rows — new files every time, because
-`update_file` cannot change contents. On a machine whose disk does not survive the session that
-folder is the only copy of the engagement's evidence: `tools/journal-sync.mjs` stages the bytes and
-refuses a receipt whose store-reported `fileSize` differs from them, and the upload is the session's,
+`update_file` cannot change contents. It also holds `<YYYY-MM>.sync.rev-<NNN>.json`, about 2 KB,
+which is the revision chain itself: a session on a machine that never held this month downloads the
+highest of those and adopts it, instead of downloading the history to find out where the chain
+stands. On a machine whose disk does not survive the session that folder is the only copy of the
+engagement's evidence: `tools/journal-sync.mjs` stages the bytes and refuses a receipt whose
+store-reported `fileSize` differs from them, and the upload is the session's,
 since a CLI holds no credentials — either the model creates the file, or a `PostToolUse` hook of type
 `mcp_tool` copies `--emit`'s output into `create_file` (`INSTALL.md` §5b), which is the only kind of
 hook that can reach a connector: it uses the session's own connection, on events where an MCP client
