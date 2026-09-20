@@ -169,7 +169,9 @@ refused when the size differs from the staged bytes: the upload channel has been
 truncating a file while reporting success, and the size is how that is caught.
 
 **Then upload the state file `--receipt` names**, `<YYYY-MM>.sync.rev-<NNN>.json`, into the same
-folder. It is about 2 KB and it is the only thing that makes the next container able to continue:
+folder, and compare its size against what the store reports exactly as for a revision — `--receipt`
+prints the byte count for that. It carries the head revision alone, a few hundred bytes whatever the
+month's history looks like, and it is the only thing that makes the next container able to continue:
 the revision chain lives in `journal/sync/` on a disk that does not survive, so a session that
 starts without it reads "no revisions", proposes `rev-001`, and uploads a name the folder already
 holds — two different files with one name, and a month nobody can rebuild. Skipping it is not
@@ -197,15 +199,18 @@ through the connector means the session reproduces every byte inside the tool ca
 minutes and 13,000 tokens per 20 KB. A `PostToolUse` hook of type `mcp_tool` does the same call
 with the bytes copied from a Bash command's output instead, in about a second.
 
-**Where it goes, and why not in the plugin.** Claude Code reads hooks from a settings file, and the
-ones it reads are the user's `~/.claude/settings.json` and the **session's own project** directory
-`.claude/settings.json` (or `settings.local.json`) — the directory the session started in, not any
-folder below it. A `.claude/settings.json` inside a company folder that is not the session's project
-directory is never read; that was measured, and it is the mistake to avoid. It cannot live in the
-plugin's own `plugin.json` either: `server`, the folder id and the tool name differ per host and per
-store, and a `mcp_tool` hook resolves nothing at run time — its `input` accepts only `${path}`
-substitutions from the event's own JSON, never a file, an environment variable or a plugin option.
-So it is a per-machine, per-company setting, written where that session reads settings from:
+**Where it goes: the directory the session started in, never the company folder.** Claude Code reads
+hooks from the user's `~/.claude/settings.json` and from `.claude/settings.json` (or
+`settings.local.json`) in the **session's own starting directory**. A settings file inside a company
+folder that is not that directory is never read — it was written in one session and the next started
+without it, and nothing reported anything. Put it at `<the directory the session started in>/.claude/settings.local.json`.
+If that directory is not the bound company's, write the file *before* binding: the company guard
+blocks a local write outside the bound company's directory.
+
+It cannot live in the plugin's own `plugin.json` either: `server`, the folder id and the tool name
+differ per host and per store, and a `mcp_tool` hook resolves nothing at run time — its `input`
+accepts only `${path}` substitutions from the event's own JSON, never a file, an environment
+variable or a plugin option. So it is a per-machine, per-company setting:
 
 ```json
 {
@@ -216,7 +221,7 @@ So it is a per-machine, per-company setting, written where that session reads se
         "hooks": [
           {
             "type": "mcp_tool",
-            "if": "Bash(node * journal-sync.mjs --emit*)",
+            "if": "Bash(*journal-sync.mjs --emit*)",
             "server": "Google_Drive",
             "tool": "create_file",
             "timeout": 60,
@@ -235,16 +240,26 @@ So it is a per-machine, per-company setting, written where that session reads se
 }
 ```
 
-Three facts make it exact, all verified on a real session. `server` is the connector's name as the
-hooks see it, which arrives as `mcp_server.name` in any hook input for a connector call
-(`Google_Drive` on one host, a UUID on another) — read it there, never guess it. The `title` is the
-Bash call's `description`, so the session runs `node tools/journal-sync.mjs --emit <file>` with the
-file's exact name as the description. And a Bash call's stdout reaches the hook without its final
-newline, which is why `--emit` prints the file without it and the hook's `"\n"` puts it back; the
-size check in `--receipt` is what proves the result either way. The hook's call does not pass
-through the company guard — it is not a tool the model invoked — so the `if` filter and the fixed
-folder id are its constraint. On a OneDrive store the `server`, `tool` and `input` keys are the ones
-`company-new` recorded in `store.tools`.
+Four facts make it exact, all measured on real sessions. **The `if` pattern must not begin with the
+command name**: a session invokes the tool by absolute path (`node "/root/.claude/plugins/.../tools/journal-sync.mjs" --emit …`),
+which `Bash(node * journal-sync.mjs --emit*)` does not match — and an `if` that does not match fails
+by doing nothing at all, so the upload silently falls back to costing tokens. `Bash(*journal-sync.mjs --emit*)`
+matches both spellings. **`server`** is the connector's name as the hooks see it, which arrives as
+`mcp_server.name` in any hook input for a connector call (`Google_Drive` on one host, a UUID on
+another) — read it there, never guess it. **The `title`** is the Bash call's `description`, so the
+session runs the emit command with the file's exact name as the description. And **a Bash call's
+stdout reaches the hook without its final newline**, which is why `--emit` prints the file without it
+and the hook's `"\n"` puts it back; the size check in `--receipt` is what proves the result either
+way. That same output is capped, which is why `--emit` refuses to print anything over the transport
+budget rather than letting a truncated file look delivered.
+
+The hook's call does not pass through the company guard — it is not a tool the model invoked — so
+the `if` filter and the fixed folder id are its constraint. On a OneDrive store the `server`, `tool`
+and `input` keys are the ones `company-new` recorded in `store.tools`.
+
+Measured with the hook working, on the personal store: revision 011, one file, 12,260 bytes, **zero
+bytes generated by the model, about 45 seconds** — against six minutes for revision 009 through the
+connector by hand.
 
 **On an ephemeral binding it is written once per session, and that is the honest cost.** A settings
 change is picked up during the session — verified: the file was written mid-session and the next

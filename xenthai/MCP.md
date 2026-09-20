@@ -56,7 +56,7 @@ exist. The plugin will tell you it is running in local mode rather than pretendi
 **The journal lives here too, and for the same reason.** `<store root>/journal/` holds
 `<YYYY-MM>.rev-001.jsonl`, the month as it first stood, then `<YYYY-MM>.rev-<NNN>.delta-after-<R>.jsonl`
 for the rows added since the receipt that settled `R` rows — new files every time, because
-`update_file` cannot change contents. It also holds `<YYYY-MM>.sync.rev-<NNN>.json`, about 2 KB,
+`update_file` cannot change contents. It also holds `<YYYY-MM>.sync.rev-<NNN>.json`, a few hundred bytes,
 which is the revision chain itself: a session on a machine that never held this month downloads the
 highest of those and adopts it, instead of downloading the history to find out where the chain
 stands. On a machine whose disk does not survive the session that folder is the only copy of the

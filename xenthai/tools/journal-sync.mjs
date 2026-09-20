@@ -123,10 +123,12 @@ const HELP = `Xenth AI journal-sync — put a month of the journal in the client
                  <YYYY-MM>.rev-001.jsonl; every later one is only the rows since the last receipt,
                  <YYYY-MM>.rev-<NNN>.delta-after-<R>.jsonl. A file over the budget is split into
                  .part-<NN>-of-<MM> files, each with its own digest.
-  --emit         Print a staged file's exact bytes to stdout, minus the final newline, and nothing
-                 else — a revision file, or the state file <YYYY-MM>.sync.rev-<NNN>.json. This is what
-                 the transport hook copies into the connector's create call; the hook adds the newline
-                 back, and --receipt's size check proves the result.
+  --emit         Print to stdout, minus the final newline and with nothing else, either a staged
+                 revision file or the month's state file <YYYY-MM>.sync.rev-<NNN>.json — which holds
+                 the head revision alone, not the month's history, so it stays small. This is what
+                 the transport hook copies into the connector's create call; the hook adds the
+                 newline back, and --receipt's size check proves the result. Anything over the
+                 transport's budget is refused rather than printed truncated.
   --receipt      Record that the staged revision reached the store: for every file, the id the
                  connector returned and the size the store reports for it, as <id>:<size>, in file
                  order, comma separated. Refused unless every part is present, every size equals the
@@ -215,6 +217,33 @@ const pad3 = (n) => String(n).padStart(3, "0");
 const pad2 = (n) => String(n).padStart(2, "0");
 
 const stateName = (month, rev) => `${month}.sync.rev-${pad3(rev)}.json`;
+
+/**
+ * What actually goes to the store as a month's state: the head revision, and nothing else.
+ *
+ * The local receipt is a history — every revision, and for a sharded one every part with its name,
+ * digest, size and id. Uploading that was the first version of this, and it was wrong on a measured
+ * count: at eleven revisions it had grown to 50 KB, which is past what the transport carries, so it
+ * arrived at 60% of itself. A truncated JSON does not parse, so `--adopt-state` refused it rather
+ * than adopting half a chain — loud, but useless.
+ *
+ * Resuming needs one revision: which it was, how many rows it settled, and what those hashed to.
+ * That is a few hundred bytes whatever the month's history looks like, so the file that travels
+ * cannot grow past the channel again. The history stays local, where nothing has to carry it, and
+ * `--restore` reads the store's own file listing rather than any receipt.
+ */
+const stateDocument = (receipt) => {
+  const head = latestRevision(receipt);
+  return {
+    schema: RECEIPT_SCHEMA,
+    month: receipt.month,
+    company: receipt.company ?? null,
+    ...(receipt.carried ? { carried: receipt.carried } : {}),
+    revisions: head ? [{ ...head, parts: null }] : [],
+  };
+};
+
+const stateBytes = (receipt) => Buffer.from(`${JSON.stringify(stateDocument(receipt), null, 2)}\n`, "utf8");
 
 const revisionName = (month, rev, after, part = null, total = null) =>
   `${month}.rev-${pad3(rev)}${after === null ? "" : `.delta-after-${after}`}${part === null ? "" : `.part-${pad2(part)}-of-${pad2(total)}`}.jsonl`;
@@ -604,20 +633,39 @@ const stage = (root, states, company, limit = SHARD_BYTES) => {
  * size check is what proves it did. Only two names are accepted — a staged revision file, or the
  * month's state file, each matched by its own grammar against the basename — so the command cannot
  * be turned into a way of printing anything else out of the company's directory.
+ *
+ * Nothing over the transport's budget is printed at all. A hook receives a command's output capped
+ * at a fixed number of characters and is handed the truncated value without any error: that is how
+ * a 50 KB state file reached the store at 60% of itself while every step reported success. Parts
+ * are under the budget by construction and the state file is small by construction, so this refusal
+ * should never fire — which is the point of it firing loudly if it ever does.
  */
-const emit = (root, name) => {
+const emit = (root, name, limit = SHARD_BYTES) => {
   const file = basename(name);
   const state = STATE_FILE.exec(file);
   if (!STORE_FILE.test(file) && !state) return fail(`--emit takes a staged revision file or a <YYYY-MM>.sync.rev-<NNN>.json state file, not "${name}"`);
-  const path = state ? receiptPath(root, state[1]) : join(outboxDir(root), file);
-  if (!existsSync(path)) return fail(`${file} is not staged. Run --stage first, then emit the names it prints.`);
+  let bytes;
   if (state) {
-    const rev = latestRevision(readReceipt(root, state[1]))?.rev ?? 0;
+    const receipt = readReceipt(root, state[1]);
+    const rev = latestRevision(receipt)?.rev ?? 0;
+    if (!receipt) return fail(`${file} is not staged. Run --stage first, then emit the names it prints.`);
     if (rev !== Number(state[2])) {
       return fail(`${file} names revision ${Number(state[2])} and this machine's receipt stands at ${rev}. Emit the name --receipt printed.`);
     }
+    bytes = stateBytes(receipt);
+  } else {
+    const path = join(outboxDir(root), file);
+    if (!existsSync(path)) return fail(`${file} is not staged. Run --stage first, then emit the names it prints.`);
+    bytes = readFileSync(path);
   }
-  const bytes = readFileSync(path);
+  if (bytes.length > limit) {
+    return fail(
+      `${file} is ${bytes.length} bytes and the transport carries ${limit}. Nothing was printed.\n` +
+        "A hook is handed a command's output already truncated, with no error anywhere, so printing this\n" +
+        "would put a file in the store that looks delivered and is not. Re-stage with a smaller\n" +
+        "--shard-bytes, or upload this one through the connector yourself."
+    );
+  }
   const body = bytes.length && bytes[bytes.length - 1] === 0x0a ? bytes.subarray(0, bytes.length - 1) : bytes;
   process.stdout.write(body, () => process.exit(0));
 };
@@ -770,6 +818,7 @@ const receipt = (root, month, fileId, company) => {
    * which is the part a later session needs and a row could not carry anyway.
    */
   const state = stateName(month, rev);
+  const stateSize = stateBytes(existing).length;
   return finish(
     `receipt written: ${month} revision ${rev} (${entry.kind}${entry.after === null ? "" : ` after ${entry.after}`}), ` +
       `${uploaded.rows} row(s) uploaded, month now ${entry.rows} rows, ${entry.digest ?? entry.chain} ` +
@@ -780,10 +829,12 @@ const receipt = (root, month, fileId, company) => {
       "The staged copy was removed; the store holds those bytes now.\n\n" +
       `NOW UPLOAD THE STATE FILE, into the same journal/ folder, named ${state}:\n` +
       `  node tools/journal-sync.mjs --emit ${state}\n` +
-      `  (or create it from ${receiptPath(root, month)})\n` +
-      "It is about 2 KB and it is what a later session on another machine reads to continue this\n" +
-      "chain — without it, a container that loses this disk starts again at rev-001 and writes a name\n" +
-      "the store already holds. No receipt is needed for it: it names the revision it records.\n",
+      `  ${stateSize} bytes — compare that against the size the store reports, as with a revision.\n` +
+      "It carries this revision alone, not the month's history, so it cannot outgrow the transport.\n" +
+      "It is what a later session on another machine reads to continue this chain: without it, a\n" +
+      "container that loses this disk starts again at rev-001 and writes a name the store already\n" +
+      "holds. It needs no receipt of its own — its name carries the revision it records, and a copy\n" +
+      "that arrived truncated is not valid JSON, so --adopt-state refuses it rather than half-reading it.\n",
     0
   );
 };
@@ -1023,8 +1074,13 @@ const main = () => {
     if (!args.from) return fail("--restore needs --from <dir>");
     return restore(root, args.from);
   }
+  const limit = args["shard-bytes"] === undefined ? SHARD_BYTES : Number(args["shard-bytes"]);
+  if (!Number.isInteger(limit) || limit < 1024) {
+    return fail(`--shard-bytes must be an integer of at least 1024, not "${args["shard-bytes"]}"`);
+  }
+
   if (args["adopt-state"]) return adoptState(root, args["adopt-state"]);
-  if (args.emit) return emit(root, args.emit);
+  if (args.emit) return emit(root, args.emit, limit);
 
   const states = allMonths(root).filter((s) => !args.month || s.month === args.month);
   const diverged = states.filter((s) => s.diverged);
@@ -1037,10 +1093,6 @@ const main = () => {
   }
 
   if (args.stage) {
-    const limit = args["shard-bytes"] === undefined ? SHARD_BYTES : Number(args["shard-bytes"]);
-    if (!Number.isInteger(limit) || limit < 1024) {
-      return fail(`--shard-bytes must be an integer of at least 1024, not "${args["shard-bytes"]}"`);
-    }
     const unproven = unprovenFirstRevision(states, ctx.binding, args["first-revision"]);
     if (unproven) return fail(unproven, 4);
     const { staged, text } = stage(root, states, ctx.company, limit);
