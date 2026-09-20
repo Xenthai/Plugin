@@ -106,9 +106,10 @@ Then `node "${CLAUDE_PLUGIN_ROOT}/tools/journal-sync.mjs" --stage` freezes what 
 the file(s) — the whole month the first time, afterwards only the rows since the last receipt. For
 each file, in the order printed:
 
-- **If the transport hook is installed** (`INSTALL.md` §5b; the company's `.claude/settings.json`
-  has an `mcp_tool` hook on `Bash`): run the `emit` line `--stage` printed, with the file's exact
-  name as the Bash call's description. The hook creates the file; you generate no bytes.
+- **If the transport hook is installed** (`INSTALL.md` §5b): run the `emit` line `--stage` printed,
+  with the file's exact name as the Bash call's description, and **alone** — the hook copies the
+  whole call's output, so an `echo` or a second command after `&&` lands in the uploaded file. It
+  creates the file; you generate no bytes.
 - **Otherwise** create it in the company's `journal/` folder through the connector with **exactly**
   that name, `text/plain`, conversion disabled.
 

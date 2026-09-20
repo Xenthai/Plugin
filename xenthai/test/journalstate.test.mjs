@@ -270,6 +270,7 @@ check("the state file stays small as revisions pile up, and nothing over the tra
   const dir = company("state-size");
   act(dir, 2);
   settle(dir, stage(dir, "--first-revision").first, null);
+  const atFirst = runRaw("--company", dir, "--emit", `${MONTH}.sync.rev-001.json`).stdout.length;
   for (let i = 0; i < 11; i++) {
     act(dir, 2);
     settle(dir, stage(dir).first, null);
@@ -277,17 +278,31 @@ check("the state file stays small as revisions pile up, and nothing over the tra
   const printed = runRaw("--company", dir, "--emit", `${MONTH}.sync.rev-012.json`);
   const historyBytes = statSync(receiptFile(dir)).size;
 
+  /**
+   * The emitted file is whichever one staging produced — a single file on a machine whose journal
+   * rows are short, parts on one whose rows are long, since a row carries the absolute path it
+   * touched. Reading the name out of `parts` when there is one, and deriving the budget from the
+   * file's real size, is what keeps this case about the refusal rather than about how long the
+   * sandbox's paths happen to be: the first spelling of it passed here and failed in a container,
+   * where 40 rows crossed the shard budget and `name` was null.
+   */
   act(dir, 40);
   const big = stage(dir).first;
-  const oversized = run("--company", dir, "--emit", big.name, "--shard-bytes", "1024");
+  const target = stagedNames(big)[0];
+  const targetBytes = statSync(join(outbox(dir), target)).size;
+  const budget = Math.max(1024, Math.floor(targetBytes / 2));
+  const oversized = run("--company", dir, "--emit", target, "--shard-bytes", String(budget));
   return [
     printed.status === 0 &&
       printed.stdout.length < 2000 &&
+      Math.abs(printed.stdout.length - atFirst) < 200 &&
       historyBytes > printed.stdout.length * 3 &&
       JSON.parse(printed.stdout.toString("utf8")).revisions.length === 1 &&
+      targetBytes > budget &&
       oversized.code === 2 &&
       /transport carries/.test(oversized.err),
-    `12 revisions: state ${printed.stdout.length} bytes against a ${historyBytes}-byte local receipt; oversized emit ${oversized.code}`,
+    `state ${atFirst} bytes at revision 1, ${printed.stdout.length} at 12, against a ${historyBytes}-byte local receipt; ` +
+      `emit of ${target} (${targetBytes} bytes) under a ${budget}-byte budget exited ${oversized.code}`,
   ];
 });
 
