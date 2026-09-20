@@ -5,6 +5,8 @@ import { tmpdir } from "node:os";
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { readCompany } from "../lib/company.mjs";
+import { EVENTS, record } from "../lib/journal.mjs";
+import { findTransportHooks } from "../lib/transport.mjs";
 import { allMonths } from "../tools/journal-sync.mjs";
 
 /**
@@ -32,6 +34,66 @@ const lockPath = (root) => join(tmpdir(), `xenthai-engine-${createHash("sha256")
 const STALE_MS = 120_000;
 
 /**
+ * Inside the 60-second SessionStart budget with margin, because this hook writes its JSON only at
+ * the end. Measured against a registry that accepts the connection and never answers, the install
+ * blocked for 6 m 48 s and Claude Code killed the hook at the budget — so the session started with
+ * no bound company stated, no plugin root, no ephemeral warning and no title. Thirty seconds is
+ * fifteen times what a working install takes and leaves the announcement time to be written.
+ */
+const INSTALL_TIMEOUT_MS = 30_000;
+
+/**
+ * `execFileSync`'s timeout sends this signal once. The default is SIGTERM, which npm 10 handles —
+ * arborist's reify installs an exit handler that swallows the first one and keeps waiting on the
+ * fetch that hung — so the timeout above expired and nothing happened. Only a signal that cannot be
+ * caught turns the timeout into a bound; the lock and the announcement below depend on it being one.
+ */
+const INSTALL_KILL_SIGNAL = "SIGKILL";
+
+/** Enough of npm's stderr to name the cause — a proxy, ENOTFOUND, a registry error — and no more. */
+const CAUSE_CHARS = 120;
+
+/**
+ * Room for npm's stderr before Node kills the child for exceeding it. The default is 1 MB, and an
+ * install killed that way arrives with the same SIGKILL as a timeout — so the classification below
+ * reads the error code, never the signal, and the buffer is sized so a verbose but working install
+ * is not killed for talking.
+ */
+const INSTALL_MAX_BUFFER = 8 * 1024 * 1024;
+
+const NPM_ERROR_LINE = /^npm (?:ERR!|error)/i;
+
+/**
+ * Which way the install failed, as a code the journal can carry, and the line npm said about it
+ * for the operator — its own error line when it printed one, since npm warns before it errors and
+ * the first line of its stderr is usually a warning about a flag. With stderr ignored, as it was, a
+ * proxy refusing the registry and a misspelt hostname read identically as "npm exited 1".
+ */
+const installFailure = (err) => {
+  const codes = { ENOENT: "enoent", ETIMEDOUT: "timeout", ENOBUFS: "npm-output" };
+  const code = codes[err?.code] ?? "npm-error";
+  const lines = String(err?.stderr ?? "")
+    .split("\n")
+    .map((l) => l.trim())
+    .filter(Boolean);
+  const said = lines.find((l) => NPM_ERROR_LINE.test(l)) ?? lines[0];
+  return { code, cause: `${code}: ${said ?? String(err?.message ?? "")}`.slice(0, CAUSE_CHARS) };
+};
+
+/**
+ * One row per install attempt, whichever way it went. The install is the only action this hook
+ * takes on a machine, and until now it left no trace: a client's `social-produce` failing weeks
+ * later on a missing module could not be read back to the session start where the install had
+ * timed out. Codes only, never a path — the row travels to the client's store. Journaling must never
+ * be what stops the announcement, so a failure here is swallowed like every other in this hook.
+ */
+const recordInstall = (result, detail) => {
+  try {
+    record({ event: EVENTS.HEALTH, actor: "system", capability: "bootstrap", why: "render engine dependency install at session start", result, detail });
+  } catch {}
+};
+
+/**
  * Installs the render engine's dependency when the plugin's own copy is missing it.
  *
  * This exists because the assumption written into `package.json` — that Claude Code installs a
@@ -49,7 +111,9 @@ const STALE_MS = 120_000;
  * so the steady-state cost is one stat call.
  *
  * Returns a line for the session when something happened or should have and did not, and null when
- * the engine was already in place — the session is told about work, not about its absence.
+ * the engine was already in place — the session is told about work, not about its absence. An
+ * attempt, either way it ends, also leaves one health row (`recordInstall`) so the outcome is
+ * evidence and not only a line that scrolls away.
  */
 const ensureEngine = (root) => {
   if (!root || !existsSync(join(root, "package.json"))) return null;
@@ -90,23 +154,31 @@ const ensureEngine = (root) => {
     const onWindows = process.platform === "win32";
     execFileSync(onWindows ? "npm.cmd" : "npm", ["install", "--ignore-scripts", "--no-audit", "--no-fund"], {
       cwd: root,
-      timeout: 45_000,
-      stdio: "ignore",
+      timeout: INSTALL_TIMEOUT_MS,
+      killSignal: INSTALL_KILL_SIGNAL,
+      maxBuffer: INSTALL_MAX_BUFFER,
+      stdio: ["ignore", "ignore", "pipe"],
+      encoding: "utf8",
       windowsHide: true,
       shell: onWindows,
     });
   } catch (err) {
+    const { code, cause } = installFailure(err);
+    recordInstall("error", `engine:install-failed(${code})`);
     return (
       "The render engine's dependency could not be installed, so social-produce will fail until it is: " +
-      `run "npm install --ignore-scripts" in ${root}. (${String(err && err.message).slice(0, 120)})`
+      `run "npm install --ignore-scripts" in ${root}. (${cause})`
     );
   } finally {
     rmSync(lock, { recursive: true, force: true });
   }
 
-  return existsSync(join(root, ENGINE_PROBE))
-    ? "The render engine's dependency was missing on this install and has been installed."
-    : `The render engine's dependency is still missing after an install that reported success; run tools/doctor.mjs. Expected ${ENGINE_PROBE} under ${root}.`;
+  if (existsSync(join(root, ENGINE_PROBE))) {
+    recordInstall("ok", "engine:installed");
+    return "The render engine's dependency was missing on this install and has been installed.";
+  }
+  recordInstall("error", "engine:missing-after-install");
+  return `The render engine's dependency is still missing after an install that reported success; run tools/doctor.mjs. Expected ${ENGINE_PROBE} under ${root}.`;
 };
 
 /**
@@ -172,10 +244,17 @@ const main = () => {
       const owed = months.reduce((n, m) => n + m.owed, 0);
       const stored = months.filter((m) => m.storedOnly).map((m) => m.month);
       if (company.binding?.ephemeral) {
+        const transport = findTransportHooks(process.cwd(), company.company);
+        const defects = [...new Set([...transport.found.flatMap((f) => f.defects), ...(transport.malformed.length ? ["malformed"] : [])])];
+        const hook = !transport.found.length
+          ? "absent from every settings file this session loads — write it per INSTALL.md §5b before the first upload"
+          : defects.length
+            ? `present but unable to fire (${defects.join(", ")}) — run tools/doctor.mjs`
+            : "present";
         lines.push(
           "EPHEMERAL BINDING: this machine's disk does not survive the session, and the journal is written to it. " +
             `Before finishing, run tools/journal-sync.mjs --stage and upload what it names into the company's journal/ folder${owed ? ` — ${owed} row(s) are owed already` : ""}. ` +
-            "Only a session reaches the store: through the connector, or through the emit line and the transport hook if this company has one."
+            `Only a session reaches the store: through the connector, or through the emit line and the transport hook, which is ${hook}.`
         );
       } else if (owed) {
         lines.push(`${owed} journal row(s) are not in the company's store yet; tools/journal-sync.mjs --check says which months.`);

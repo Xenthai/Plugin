@@ -585,6 +585,10 @@ Kept because each one is the plugin's own doctrine catching the plugin, and the 
 | `ROUTINES.md`'s own header contradicted the skill that creates it | One fact, one owner — the rule `test/scaffold.test.mjs` enforces between documents, broken inside one |
 | The journal was written to a disk that gets deleted, and every surface reported healthy | `doctor` exists to find at install what would otherwise be found at delivery — and the delivery here was a quarterly report with no evidence behind it |
 | The manifest rule was stated as absolute in a place where the mechanism made it impossible | H1, zero trust: a rule nobody tested against the guard that enforces it. It was violated in the first session that met the case |
+| The engine install's 45 s timeout never fired: npm catches the first SIGTERM, and the hook ran to Claude Code's 60 s budget, taking the company announcement with it | H1, zero trust: a bound nobody tested against the process it was meant to bound. The announcement is a control, and it was lost by the one hook whose job is to make it |
+| `report` counted the journal's own staging rows as artefacts delivered to the client, for fourteen revisions | The report's own rule that every figure carries a definition it can be audited against — "Entregas" had one, and the count did not honour it |
+| Every run of the plugin's own CLIs left a Bash row with a digest and no legible word, because the documented invocation goes through a variable the extractor did not read | The journal's claim to record WHAT was touched — the same failure as the 87 browser rows, one write path later |
+| A month of the personal store was read in a client's clothes, and a handoff drew commercial conclusions from its zeros | `store_kind` was on every row and read by nothing in the report. A field written and never read is decoration, again |
 
 ### 24 · Two tracks, numbered independently, and the operación numbers do not move
 
@@ -773,3 +777,132 @@ deleted because the parent question was reassigned.
 per-person usage ladder is redundant with playbook doctrine and is deleted rather than kept as a
 second name for the same thing.
 
+### 29 · An escalation's outcome is inferred from execution, and is never an approval
+
+A handoff over one month of the personal store found thirteen `escalation` rows with `result:
+pending` and none with an outcome, and proposed that when a permission is granted the hook write an
+`approval` row with `actor: person:<name>`. The finding is right and the proposal is wrong in three
+places, each verified rather than argued.
+
+**The mechanism does not exist.** Claude Code gives a hook no view of a permission decision. Read
+on 2026-09-20 at code.claude.com/docs/en/hooks, "PermissionRequest input": the event "receive[s]
+tool_name and tool_input fields like PreToolUse hooks, but without tool_use_id" — the field is on
+`PreToolUse` and `PostToolUse`, and the upstream issue asking for it on the prompt is closed as not
+planned. No event fires when a PERSON denies; the `PermissionDenied` event on the same page fires
+only when auto mode denies a call, and it does carry `tool_use_id`, which is the shape a person-side
+event would need. A `PostToolUse` hook cannot tell that its call was preceded by a prompt. Nothing
+outside the session knows who clicked.
+
+**The word would be the inflation Decision 19 removed.** `approval` is a client's act — `social-plan`
+and `automate-handover` record it with the person's name when the client's comments arrive — and the
+report presents it as sign-off. An operator granting a Claude Code permission is a different act by a
+different party, and writing it into the same column would put the operator in the client's chair.
+`CONTROLS.md` §3 keeps whoever produced a thing from approving it; a hook cannot honour that and
+cannot name anybody.
+
+**The zeros were the store.** A personal store has no plan gate and no review Doc, so zero approvals
+and zero review pairs is the tool reading correctly. The report rendered that store in a client's
+framing because `store_kind`, stamped on every row since schema 2, was read by nothing. It is now
+in the header and in a STOP.
+
+**What was built.** `tools/report.mjs` pairs each pending escalation with the first later `ai_action`
+or `error` in the same session carrying the same tool and the same digest — both rows come from
+`reference(tool_input)`, so the digest is the one thing that ties them — and publishes three rows:
+escalations whose tool then ran, escalations with no recorded outcome (a denial, an ended session or
+a call that never ran, indistinguishable), and the minutes between. Every definition says the outcome
+is inferred from execution and that who decided is unknown. No hook changed and no schema moved;
+the pairing uses fields every row already had.
+
+**Rejected:** recording the decision at `PermissionRequest` (unavailable); a marker file per prompt
+that `PostToolUse` consumes, which needs a `tool_use_id` the prompt does not carry and would pair by
+guesswork under parallel calls; naming the operator from the manifest, which is ambient authority
+applied to a person. **Reverses if** `PermissionRequest` gains a `tool_use_id` or a decision event
+exists, at which point the pairing becomes a join and the inferred rows a recorded one.
+
+### 30 · A Bash row is journaled by the shell's vocabulary: program, script, flag
+
+The same handoff observed that `grep report.mjs` over the month returned nothing and that a Bash
+row's paths were directories, and concluded that Bash rows should be cut and that a 16-hex digest
+"cannot reconstruct" the command. The observation reproduced exactly; both conclusions fail.
+
+**The cause was the extractor, not the digest.** `pathsInCommand` read absolute, `./`, `../` and
+`~/` tokens. Every skill invokes the plugin's own tools as
+`node "${CLAUDE_PLUGIN_ROOT}/tools/journal-sync.mjs" --emit …`, whose quoted token starts with `$`,
+and the relative form `node tools/report.mjs` matches nothing either — so a month of the plugin
+running its own CLIs left rows with a digest and no word. A digest of any length reconstructs
+nothing; that was never its job. It proves a command given the command and keeps the line, which
+can carry a secret or a person, out of the journal.
+
+**Cutting the rows would delete the audit of the one hole the guard has.** Bash is the write path
+`guard-company.mjs` cannot see, and the agreed compromise is that the journal makes it visible. The
+39% of the month that was Bash was the operator developing the plugin in a personal store, not a
+property of a client engagement.
+
+**What was built** is Decision 20 applied to the shell. `target.action` on a Bash row is the
+program's basename, the basename of the first script token, and the first flag's name, per command
+segment — positions where only a program, a script or an option can stand. Values never enter it: a
+`--flag=value` keeps the name, a short option keeps its letters only when it is nothing but letters
+(`-pSECRET` has the shape of `-la`), quoted strings become placeholders before anything is split so
+a `;` inside a value cannot open a segment, and a heredoc is dropped whole. Variable-rooted tokens
+are extracted as paths, kept verbatim with the variable name, because `${CLAUDE_PLUGIN_ROOT}/tools/x`
+names a root the reader can resolve and `/tools/x` names a file that does not exist. `ROW_SCHEMA` is
+3: a schema-2 Bash row without `action` is one where the field was not derived yet, and the version
+is what says so.
+
+**Rejected:** copying the first N characters of the command, which carries values; an allowlist of
+safe programs, which is a list somebody maintains; keeping schema 2 with a nullable field, which the
+bump rule forbids. **Reverses if** the Bash tool ever exposes a structured description of the
+command it is about to run, per Decision 20.
+
+### 31 · The transport hook is checked for shape by the CLI and for target by the session; the install is bounded by a signal npm cannot catch
+
+Two findings from the same review, one the handoff made and one it did not.
+
+**The hook that silently was not there.** On an ephemeral binding the transport hook is one `Write`
+per session, and when nobody writes it nothing fails: every upload goes back through the model at
+about 13,000 tokens and six minutes per 20 KB, against about 45 seconds with the hook. Decision 21f
+had already recorded the sibling failure — a hook present with an `if` that never matched. Both have
+the same shape: the system kept working, more expensively, and said nothing.
+
+`doctor` gains a `transport` line and `lib/transport.mjs` the detection, shared with the bootstrap
+so the EPHEMERAL BINDING line says present, absent, or present and unable to fire. It reads exactly
+the files a session loads — the starting directory's `.claude/settings.local.json` and
+`settings.json`, the same two at the git root, the user's — never a company folder, because a hook in
+a file the session does not read is the failure being looked for. It validates what a CLI can prove:
+the `if` not anchored on the program name, the emitted bytes present with the newline the channel
+strips, the title the file's name, the parent not the root (the journal lives one folder below), the
+tool the provider's. Absence is graded by the binding: FAIL on ephemeral, because there the session is
+the only path to the store; OK on durable, saying what it costs, because `company-new` stops on a
+non-green doctor and a laptop legitimately has no hook. A defective hook fails on either binding — a
+control that is decoration is worse than none, because it is trusted. What needs credentials — that
+`parentId` IS this company's `journal/` folder, that `server` is the connector's real name — stays
+with the doctor skill and is named in the reason as left to it. On OneDrive the parameter names are
+whatever `company-new` read from the connector, so the check keeps the pattern, the declared tool and
+the emitted bytes, and applies none of Drive's names.
+
+**The timeout that was not a bound.** `ensureEngine` ran `npm install` under `execFileSync` with a
+45 s timeout. Measured against a registry that accepts and never answers: 6 m 48 s. `execFileSync`
+sends one SIGTERM; npm 10's arborist installs an exit handler that swallows the first and schedules a
+rollback after the step that hung, which never ends. Claude Code killed the hook at the 60 s
+SessionStart budget, and since the hook writes its JSON last, the session started with no bound
+company stated, no plugin root, no ephemeral warning and no title — the one hook whose job is the
+announcement lost it — and the tmp lock stayed, so the next session within two minutes installed
+nothing. The install is now killed with SIGKILL at 30 s, its stderr's first line reaches the message,
+and every attempt leaves a `health` row with a code, so "never ran" and "ran and failed" stop
+looking identical from a later doctor run.
+
+The first version of the shape check knew one anchored spelling, `Bash(node `, and read no matcher;
+an adversarial pass found three more hooks that never fire and passed as present — an `if` anchored
+on an absolute path, one missing its trailing wildcard, one in a group scoped to `Edit` — and a hook
+whose `PostToolUse` list was an object, read as absent. The rule is now the shape itself: `Bash(*`
+before the mark, `*)` after it, a matcher that reaches Bash, and a hook that mentions the emit
+command without that shape is `malformed`, never absent.
+
+**Rejected:** failing `transport` on absence everywhere, which blocks opening an engagement on every
+durable machine for a cost saver; having the CLI verify the parent folder, which needs credentials it
+does not hold (Decision 21's premise); running the install detached and not waiting, which loses the
+outcome the row now carries; narrowing the hook matchers in `plugin.json` to skip read-only tools —
+the two hooks cost about 115 ms per tool call, Node's start and the library imports, and a matcher is
+an exclude-list that misses the next write tool, which the in-process `READ_ONLY` set does not.
+**Reverses if** Claude Code lets a hook write partial output before it ends, or gives a CLI a listing
+of the store, per 21e.

@@ -29,6 +29,11 @@ const PERSON = "person:";
 const FOLDER_FIELDS = ["parentId", "folderId"];
 const REFERENCE_KEYS = ["fileId", "title", "file_path", "path", "url"];
 const PENDING = "— pendiente —";
+const JOURNAL_CAPABILITY = "journal";
+const INSTRUMENTATION_CAPABILITIES = new Set([JOURNAL_CAPABILITY, "doctor", "bootstrap"]);
+const INSTRUMENTATION_SCRIPT = /(^|\s)(journal-sync|journal|doctor)\.mjs(\s|$)/;
+const ESCALATION_OUTCOMES = new Set(["ai_action", "error"]);
+const STORE_KIND_LABEL = { client: "cliente", personal: "personal" };
 
 /**
  * Rejects an unknown or valueless flag rather than ignoring it: a mistyped `--month` would
@@ -162,6 +167,97 @@ const reviewTouchTime = (rows) => {
 
 const minutesOf = (ms) => Math.round(ms / 6000) / 10;
 
+/**
+ * Pairs each pending `escalation` with the FIRST later `ai_action` or `error` in the same session
+ * carrying the same tool and the same digest — the hook writes that digest on the PermissionRequest
+ * row and again on the PostToolUse row for the same call, and nothing else ties the two together:
+ * Claude Code gives hooks no decision and no tool_use_id on the prompt, and a person's denial fires
+ * no hook (`PermissionDenied` exists for auto-mode denials only).
+ * So a pair means only "the tool then ran"; who allowed it is unknown, and an unpaired escalation
+ * is a denial, a session that ended, or a call that never ran — indistinguishable in the journal.
+ * Escalations recorded by hand (`result` ok) are semantic events with nothing to execute, and are
+ * left out so they are not reported as decisions without an outcome.
+ */
+const escalationOutcomes = (rows) => {
+  const open = new Map();
+  const pairs = [];
+  const unpaired = [];
+  const unusable = [];
+  const ordered = rows
+    .filter((row) => (row.event === "escalation" && row.result === "pending") || ESCALATION_OUTCOMES.has(row.event))
+    .map((row, index) => ({ row, index, at: Date.parse(row.ts ?? "") }))
+    .sort((a, b) => a.at - b.at || a.index - b.index);
+  const keyOf = (row) => `${row.session}\u0000${row.tool ?? ""}\u0000${row.digest}`;
+  for (const item of ordered) {
+    const pairable = Number.isFinite(item.at) && typeof item.row.digest === "string" && typeof item.row.session === "string";
+    if (item.row.event === "escalation") {
+      if (!Number.isFinite(item.at)) {
+        unusable.push(item.row);
+        continue;
+      }
+      if (typeof item.row.digest !== "string" || typeof item.row.session !== "string") {
+        unpaired.push(item.row);
+        continue;
+      }
+      const key = keyOf(item.row);
+      if (!open.has(key)) open.set(key, []);
+      open.get(key).push(item);
+      continue;
+    }
+    if (!pairable) continue;
+    const queue = open.get(keyOf(item.row));
+    if (!queue || !queue.length) continue;
+    const start = queue.shift();
+    pairs.push({ session: start.row.session ?? null, tool: start.row.tool ?? null, outcome: item.row.event, ms: item.at - start.at });
+  }
+  unpaired.push(...[...open.values()].flat().map((item) => item.row));
+  const ms = pairs.reduce((total, pair) => total + pair.ms, 0);
+  return {
+    pending: pairs.length + unpaired.length + unusable.length,
+    paired: pairs.length,
+    unpaired: unpaired.length,
+    unusable: unusable.length,
+    ms,
+    minutes: minutesOf(ms),
+    byOutcome: Object.fromEntries(ranked(tally(pairs.map((pair) => pair.outcome)))),
+    unpairedRows: unpaired.map((row) => ({ tool: row.tool ?? PENDING, session: row.session ?? PENDING, ts_local: row.ts_local ?? row.ts ?? PENDING })),
+  };
+};
+
+/**
+ * The journal's own staging rows are `delivery` events too — `journal-sync.mjs --stage` records one
+ * per revision, actor `system`, capability `journal`, result `pending` — and counting them as
+ * deliveries published the plugin's upkeep to a director as artefacts handed to the client.
+ */
+const deliveriesOf = (rows) => {
+  const all = rows.filter((row) => row.event === "delivery");
+  const client = all.filter((row) => row.capability !== JOURNAL_CAPABILITY);
+  return {
+    ok: client.filter((row) => row.result === "ok").length,
+    withoutOk: client.filter((row) => row.result !== "ok").length,
+    journalRevisions: all.length - client.length,
+  };
+};
+
+/**
+ * A row the plugin wrote about itself rather than about the client's work, so a director can subtract
+ * what operating the plugin cost. A Bash row before schema 3 carries no `action` and cannot be
+ * classified, so this undercounts on older months rather than guessing.
+ */
+const isInstrumentation = (row) =>
+  INSTRUMENTATION_CAPABILITIES.has(row.capability) ||
+  row.event === "health" ||
+  (row.tool === "Bash" && typeof row.target?.action === "string" && INSTRUMENTATION_SCRIPT.test(row.target.action));
+
+/**
+ * A schema-1 row was written by a build that could only bind to a client, so its missing field
+ * reads as `client`; from schema 2 a null kind means nothing was bound and is left pending rather
+ * than guessed.
+ */
+const storeKindOf = (row) => row.store_kind ?? ((row.schema ?? 1) >= 2 ? PENDING : "client");
+
+const storeKindLabel = (kind) => STORE_KIND_LABEL[kind] ?? kind;
+
 const approvalsOf = (rows) => {
   const all = rows.filter((row) => row.event === "approval");
   const named = all.filter((row) => isNamedPerson(row.actor));
@@ -229,6 +325,9 @@ const summarise = ({ month, file, rows, malformed, digest, bytes, root }) => {
   const countOf = (event) => events.get(event) ?? 0;
   const review = reviewTouchTime(rows);
   const approvals = approvalsOf(rows);
+  const escalations = escalationOutcomes(rows);
+  const deliveries = deliveriesOf(rows);
+  const storeKinds = ranked(tally(rows.map(storeKindOf)));
   const foreign = root ? foreignFolderRows(rows, root) : [];
   const guardErrors = countOf("guard_error");
   const stamps = rows.map((row) => row.ts_local ?? row.ts).filter((value) => typeof value === "string").sort();
@@ -251,6 +350,22 @@ const summarise = ({ month, file, rows, malformed, digest, bytes, root }) => {
   }
   if (review.unusable.length > 0) {
     defects.push(`${review.unusable.length} fila(s) de revisión sin marca de tiempo utilizable.`);
+  }
+  if (escalations.unusable > 0) {
+    defects.push(`${escalations.unusable} escalamiento(s) pendiente(s) sin marca de tiempo utilizable; no se pudo buscar su desenlace.`);
+  }
+  if (deliveries.withoutOk > 0) {
+    defects.push(
+      `${deliveries.withoutOk} entrega(s) registradas sin resultado ok. No se cuentan como Entregas: una entrega que no consta como completada no demuestra que el cliente la recibiera.`
+    );
+  }
+  if (storeKinds.length > 1) {
+    const listed = storeKinds.map(([kind, n]) => `${storeKindLabel(kind)}: ${n}`).join(", ");
+    defects.push(
+      storeKinds.some(([kind]) => kind === PENDING)
+        ? `El archivo contiene filas sin almacén declarado junto a filas de un almacén (${listed}). Una fila sin almacén no se escribió dentro de esta empresa; averigüe cómo llegó aquí antes de reportar.`
+        : `El archivo mezcla filas de más de un tipo de almacén (${listed}). Las cifras de este periodo no corresponden a un solo cliente.`
+    );
   }
   if (malformed.length > 0) {
     defects.push(`${malformed.length} línea(s) ilegibles en el archivo de origen (líneas ${malformed.join(", ")}).`);
@@ -278,6 +393,9 @@ const summarise = ({ month, file, rows, malformed, digest, bytes, root }) => {
     actors: ranked(tally(rows.map((row) => row.actor ?? PENDING))),
     events: ranked(events),
     automation: { runs: countOf("ai_action"), escalations: countOf("escalation") },
+    escalations,
+    storeKind: storeKinds.length === 1 ? storeKinds[0][0] : "mixed",
+    storeKinds,
     approvals,
     review: {
       pairs: review.pairs.length,
@@ -298,7 +416,10 @@ const summarise = ({ month, file, rows, malformed, digest, bytes, root }) => {
     counts: {
       lookup: countOf("lookup"),
       blocked: countOf("blocked"),
-      delivery: countOf("delivery"),
+      delivery: deliveries.ok,
+      delivery_without_ok: deliveries.withoutOk,
+      journal_revisions: deliveries.journalRevisions,
+      instrumentation: rows.filter(isInstrumentation).length,
       guard_error: guardErrors,
       error: countOf("error"),
     },
@@ -346,6 +467,24 @@ const coreMetrics = (summary) => [
       "Filas `ai_action` publicadas junto a las filas `escalation`. El conteo de ejecuciones es una métrica de salida: por sí solo no demuestra ningún resultado, y por eso nunca se publica sin los escalamientos.",
   },
   {
+    metric: "Escalamientos con desenlace registrado",
+    value: summary.escalations.paired,
+    definition:
+      "Filas `escalation` con resultado `pending` seguidas, en la misma sesión, por una fila `ai_action` o `error` con la misma herramienta y la misma huella (`digest`). El desenlace se infiere de que la herramienta se ejecutó después; la bitácora no sabe quién lo decidió. No es una aprobación y nunca debe presentarse como una.",
+  },
+  {
+    metric: "Escalamientos sin desenlace registrado",
+    value: summary.escalations.unpaired,
+    definition:
+      "Filas `escalation` con resultado `pending` sin ejecución posterior emparejable. La persona lo negó, la sesión terminó o la llamada nunca corrió: la bitácora no distingue entre esas tres.",
+  },
+  {
+    metric: "Minutos entre el escalamiento y la ejecución",
+    value: summary.escalations.minutes,
+    definition:
+      "Suma de los intervalos entre cada escalamiento emparejado y su ejecución, redondeada a 0.1 minutos. Mide la espera, no una aprobación: quién decidió no consta en la bitácora.",
+  },
+  {
     metric: "Aprobaciones con persona nombrada",
     value: summary.approvals.named,
     definition: "Filas `approval` cuyo campo `actor` inicia con `person:`.",
@@ -389,7 +528,19 @@ const coreMetrics = (summary) => [
   {
     metric: "Entregas",
     value: summary.counts.delivery,
-    definition: "Filas `delivery`: un artefacto puesto a disposición del cliente.",
+    definition: "Filas `delivery` con resultado `ok` y capacidad distinta de `journal`: un artefacto puesto a disposición del cliente.",
+  },
+  {
+    metric: "Revisiones de bitácora preparadas para subir",
+    value: summary.counts.journal_revisions,
+    definition:
+      "Filas `delivery` con capacidad `journal`: el plugin preparó una revisión de su propia bitácora para subirla al almacén. Es instrumentación del plugin, no un artefacto para el cliente, y por eso no se cuenta en Entregas. Que la revisión llegó lo demuestra el recibo (`journal/sync/<mes>.json`), no esta fila.",
+  },
+  {
+    metric: "Filas de instrumentación del plugin",
+    value: summary.counts.instrumentation,
+    definition:
+      "Filas con capacidad `journal`, `doctor` o `bootstrap`, filas `health`, y llamadas `Bash` cuya acción registrada ejecuta `journal-sync.mjs`, `journal.mjs` o `doctor.mjs`. Son lo que costó operar el plugin, no trabajo para el cliente; puede restarlas de «Filas de bitácora» para ver la actividad neta.",
   },
   {
     metric: "Errores de guardia",
@@ -579,9 +730,12 @@ const renderMonth = (summary) => {
 const renderReport = (result) => {
   const out = [];
   const companies = [...new Set(result.periods.map((period) => period.company))].join(", ") || PENDING;
+  const kinds = [...new Set(result.periods.flatMap((period) => period.storeKinds.map(([kind]) => kind)))].sort();
+  const personal = kinds.includes("personal");
   out.push("# Reporte de actividad registrada en bitácora");
   out.push("");
   out.push(`- **Empresa:** ${companies}`);
+  out.push(`- **Tipo de almacén:** ${kinds.map(storeKindLabel).join(", ")}${kinds.length > 1 ? " (mixto)" : ""}`);
   out.push(`- **Periodos incluidos:** ${result.periods.map((period) => period.month).join(", ")}`);
   out.push(`- **Directorio de bitácora:** \`${result.journalDir}\``);
   out.push(`- **Carpeta raíz vinculada:** ${result.root ? `\`${result.root}\`` : "no indicada"}`);
@@ -602,6 +756,11 @@ const renderReport = (result) => {
   out.push(
     "- **No sustituye la lectura de quien lo presenta.** El mecanismo, las explicaciones alternativas y la contribución que sí se puede sostener se redactan aparte, sobre estas cifras."
   );
+  if (personal) {
+    out.push(
+      "- **Este es material propio del operador, no de un cliente.** Al menos un periodo proviene de un almacén personal: la bitácora registra el trabajo del propio operador. Las cifras de Entregas y Aprobaciones describen compuertas de un cliente que aquí no existen; léalas como registro de actividad propia. Este reporte no debe presentarse a un cliente."
+    );
+  }
   out.push("");
   for (const period of result.periods) {
     out.push(renderMonth(period));

@@ -4,6 +4,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { readCompany, MANIFEST_ENV, EPHEMERAL, SCHEMA, KINDS, STORE_KINDS, kindOf, isPersonal, storeKindOf } from "../lib/company.mjs";
 import { EVENTS, PLUGIN_VERSION, record } from "../lib/journal.mjs";
+import { findTransportHooks } from "../lib/transport.mjs";
 import { allMonths } from "./journal-sync.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -46,6 +47,14 @@ CHECKS, IN ORDER
             month that was never uploaded, and on an ephemeral binding whose month has no revision
             at all or whose newest one is over a day old. A session's own tail is reported, never
             failed: staging writes a row, so a rule failing on one row could never go green.
+  transport the mcp_tool hook that copies journal-sync.mjs --emit's output into the store, read from
+            the settings files this session loads. FAILS when one is installed and cannot work — an
+            "if" not shaped Bash(*journal-sync.mjs --emit*), a matcher that never reaches Bash, no
+            emitted bytes or trailing newline, a title that is not the file's name, a parent that is
+            the store root, the wrong create tool, a hook Claude Code cannot parse — and on an
+            ephemeral binding when none is installed at all. Absent on a durable machine is OK and
+            says what it costs. Whether the parent IS the journal folder needs credentials: the
+            doctor skill's job. The tokens are the ones lib/transport.mjs defectsOf emits.
   journal   the journal directory accepts an append: one "health" row summarising this run is
             written last, as status codes, never as paths, so it can summarise the whole run.
 
@@ -448,6 +457,67 @@ const checkSync = (cwd) => {
 };
 
 /**
+ * Whether the transport hook this session will load can actually fire.
+ *
+ * Every defect here was measured on a real session, and every one had the same shape: the hook
+ * stayed installed, the upload went through more expensively or less completely, and nothing
+ * reported anything. An `if` anchored on `node` never matched an absolute-path invocation, so the
+ * model reproduced every byte (DECISIONS.md #21f). The channel strips the final newline, so a
+ * hook without `"\n"` uploads a file `--receipt` refuses by size. A parent equal to the store root
+ * files a revision where nothing will look for it, since the journal lives in `journal/`.
+ *
+ * Absence is graded by the binding, not treated as one thing. On an ephemeral disk the session is
+ * the only thing that reaches the store, and without the hook every upload passes its bytes through
+ * the model — about 13,000 tokens and six minutes per 20 KB against about 45 seconds with it — so
+ * absence there is a FAIL that names where to write the file. On a durable machine the same absence
+ * costs tokens and nothing else, so it is an OK that says so. A hook found with defects FAILS on
+ * either binding, because a control that is decoration is worse than none: it is trusted.
+ *
+ * Two facts stay with the session and are named in the reason as such: that `parentId` is THIS
+ * company's `journal/` folder, and that `server` is the connector's real name. Both need credentials.
+ */
+const checkTransport = (cwd) => {
+  const ctx = readCompany(cwd);
+  if (!ctx.ok) return result("transport", "SKIP", "no company bound, so there is no store the hook could be pointed at", "no-company");
+  const ephemeral = Boolean(ctx.binding?.ephemeral);
+  const { found, unreadable, malformed } = findTransportHooks(cwd, ctx.company);
+  const defects = [...new Set([...found.flatMap((f) => f.defects), ...(unreadable.length ? ["unparseable"] : []), ...(malformed.length ? ["malformed"] : [])])];
+  const left = "Left to the session: that parentId is this company's journal/ folder and that server is the connector's name as the hooks see it (skills/doctor step 5)";
+  if (defects.length) {
+    const where = [
+      ...found.map((f) => `${f.path}: ${f.defects.join(", ") || "valid"}`),
+      ...unreadable.map((u) => `${u.path} does not parse (${u.detail})`),
+      ...malformed.map((m) => `${m.path}: ${m.detail}`),
+    ];
+    return result(
+      "transport",
+      "FAIL",
+      `the transport hook is installed and cannot work as written — ${where.join("; ")}. A hook that does not fire falls back to the model reproducing every byte, with no error anywhere, so a control that is decoration is worse than none. Rewrite it per INSTALL.md §5b: the "if" must be Bash(*journal-sync.mjs --emit*), textContent "\${tool_response.stdout}\\n", title "\${tool_input.description}", parentId the journal/ folder's id, never the root`,
+      defects.join("+"),
+      { hooks: found.map((f) => ({ path: f.path, defects: f.defects })), unreadable: unreadable.map((u) => u.path), malformed: malformed.map((m) => m.path) }
+    );
+  }
+  if (found.length) {
+    const paths = [...new Set(found.map((f) => f.path))];
+    return result("transport", "OK", `transport hook present in ${paths.join(", ")}: the if pattern, matcher, emitted bytes, newline, title, parent and tool check out. ${left}`, "present", { hooks: found.map((f) => ({ path: f.path })) });
+  }
+  if (ephemeral) {
+    return result(
+      "transport",
+      "FAIL",
+      `no transport hook in any settings file this session loads, on an ephemeral binding. Every upload will pass its bytes through the model: about 13,000 tokens and six minutes per 20 KB, against about 45 seconds with the hook. Write it now, before the first upload, at <the directory the session started in>/.claude/settings.local.json — INSTALL.md §5b has the JSON and says why it goes there`,
+      "absent-ephemeral"
+    );
+  }
+  return result(
+    "transport",
+    "OK",
+    "no transport hook installed; uploads go through the connector by hand and cost tokens for every byte. Optional on a durable machine — INSTALL.md §5b has the JSON if the months grow",
+    "absent"
+  );
+};
+
+/**
  * Runs last, so the row it appends can summarise the run. The row is the point as much as the
  * write test is: a client's setup gets diagnosed later from its own journal, without a call.
  */
@@ -480,7 +550,7 @@ const parseArgs = (argv) => {
   return args;
 };
 
-const lines = (checks) => checks.map((c) => `${c.status.padEnd(5)} ${c.name.padEnd(8)} ${c.reason}`).join("\n");
+const lines = (checks) => checks.map((c) => `${c.status.padEnd(5)} ${c.name.padEnd(9)} ${c.reason}`).join("\n");
 
 /**
  * Exits only once stdout has drained. On Windows a pipe write is asynchronous, and exiting right
@@ -497,7 +567,7 @@ const main = async () => {
   }
 
   const cwd = process.cwd();
-  const checks = [checkNode(), checkCompany(cwd), await checkBrowser(), checkFonts(), checkEngine(), checkSync(cwd)];
+  const checks = [checkNode(), checkCompany(cwd), await checkBrowser(), checkFonts(), checkEngine(), checkSync(cwd), checkTransport(cwd)];
   checks.push(checkJournal(checks));
 
   const summary = {

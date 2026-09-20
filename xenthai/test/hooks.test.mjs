@@ -138,7 +138,7 @@ check("journal stamps the store kind, so a client's trail cannot be read as pers
   post("Write", { file_path: join(CO_A, "nota.md"), content: "x" }, CO_A);
   const client = rows(CO_A).at(-1);
   return [
-    own?.store_kind === "personal" && own?.schema === 2 && client?.store_kind === "client",
+    own?.store_kind === "personal" && own?.schema === 3 && client?.store_kind === "client",
     `personal=${own?.store_kind} schema=${own?.schema} client=${client?.store_kind}`,
   ];
 });
@@ -181,7 +181,7 @@ check("journal records a write as a reference, never the content, with a schema 
   const row = all.at(-1);
   const text = JSON.stringify(all);
   return [
-    row.schema === 2 &&
+    row.schema === 3 &&
       row.plugin === VERSION &&
       row.event === "ai_action" &&
       row.company === "co-a-0001" &&
@@ -201,6 +201,87 @@ check("journal extracts the paths a Bash command touches, and digests the comman
   return [
     /^sha256:/.test(row.target?.command ?? "") && paths.some((p) => p.endsWith("leak.md")) && paths.includes("./a.txt") && paths.includes("~/b.txt"),
     `command=${row.target?.command} paths=${JSON.stringify(paths)}`,
+  ];
+});
+
+/**
+ * The documented way to run the plugin's own CLIs goes through `${CLAUDE_PLUGIN_ROOT}`, so the path
+ * extractor saw nothing and a month of `report.mjs` runs left rows nobody could grep. The variable
+ * token is now a path, kept with its variable name so it does not read as a file at the filesystem
+ * root. The action is the shell's vocabulary and nothing else: the emitted file name is a value.
+ */
+check("a plugin CLI run through the plugin-root variable leaves a legible action and path, never the value", () => {
+  post("Bash", { command: `cd /r && node "\${CLAUDE_PLUGIN_ROOT}/tools/journal-sync.mjs" --emit 2026-09.rev-001.jsonl` }, CO_A);
+  const row = rows(CO_A).at(-1);
+  const text = JSON.stringify(row);
+  return [
+    row.target?.action === "node journal-sync.mjs --emit" &&
+      (row.target?.paths ?? []).includes("${CLAUDE_PLUGIN_ROOT}/tools/journal-sync.mjs") &&
+      (row.target?.paths ?? []).includes("/r") &&
+      !text.includes("rev-001"),
+    `action=${row.target?.action} paths=${JSON.stringify(row.target?.paths)} leaked=${text.includes("rev-001")}`,
+  ];
+});
+
+check("a report run from the repository names the script and the flag, and the journal path stays a path", () => {
+  post("Bash", { command: `cd ${CO_A} && node tools/report.mjs --journal ${join(CO_A, "journal")}` }, CO_A);
+  const row = rows(CO_A).at(-1);
+  return [
+    row.target?.action === "node report.mjs --journal" && (row.target?.paths ?? []).some((p) => p.endsWith("journal")),
+    `action=${row.target?.action} paths=${JSON.stringify(row.target?.paths)}`,
+  ];
+});
+
+/**
+ * `push` is an argument, not a flag, so it is not in the action: the rule is program, script and
+ * option NAME, with no position where a value can stand. A looser rule that kept "the first word
+ * after the program" would carry `push` today and a person's name tomorrow.
+ */
+check("an argument is never part of the action, only a program and a flag are", () => {
+  post("Bash", { command: "git push -u origin ana-ruiz" }, CO_A);
+  const row = rows(CO_A).at(-1);
+  return [row.target?.action === "git -u" && !JSON.stringify(row).includes("ana-ruiz"), `action=${row.target?.action}`];
+});
+
+/**
+ * The reason the command line is digested at all. `--why` and `--detail` are exactly where an
+ * operator types a sentence, and the flag name is what the row keeps of them.
+ */
+check("a command with a secret-looking argument keeps the flag name and none of the values", () => {
+  post("Bash", { command: `node tools/journal.mjs --why "SECRETO-123" --detail "x@y.com"` }, CO_A);
+  const row = rows(CO_A).at(-1);
+  const text = JSON.stringify(row);
+  return [
+    row.target?.action === "node journal.mjs --why" && !text.includes("SECRETO-123") && !text.includes("x@y.com"),
+    `action=${row.target?.action} leaked=${text.includes("SECRETO-123") || text.includes("x@y.com")}`,
+  ];
+});
+
+check("a plain listing and an env-prefixed script keep program and flag, skipping the assignment", () => {
+  post("Bash", { command: "ls -la /tmp" }, CO_A);
+  const ls = rows(CO_A).at(-1);
+  post("Bash", { command: "FOO=bar node x.mjs" }, CO_A);
+  const env = rows(CO_A).at(-1);
+  return [
+    ls.target?.action === "ls -la" && env.target?.action === "node x.mjs" && !JSON.stringify(env).includes("FOO=bar"),
+    `ls action=${ls.target?.action}; env action=${env.target?.action}`,
+  ];
+});
+
+/**
+ * A heredoc is how a shell writes a document, and its lines would otherwise be split as commands —
+ * the first word of a client's paragraph becoming a "program" in the row. Everything after `<<` is
+ * dropped from the action, and a `;` inside a quoted value must not open a segment either.
+ */
+check("a heredoc body and a quoted value never become a program in the action", () => {
+  post("Bash", { command: `cat > ${join(CO_A, "nota.md")} <<'EOF'\nCONFIDENCIAL primera línea\nEOF` }, CO_A);
+  const heredoc = rows(CO_A).at(-1);
+  post("Bash", { command: `node tools/journal.mjs --why "hola; CLAVE-SECRETA x"` }, CO_A);
+  const quoted = rows(CO_A).at(-1);
+  const text = JSON.stringify([heredoc, quoted]);
+  return [
+    heredoc.target?.action === "cat" && quoted.target?.action === "node journal.mjs --why" && !text.includes("CONFIDENCIAL") && !text.includes("CLAVE-SECRETA"),
+    `heredoc action=${heredoc.target?.action}; quoted action=${quoted.target?.action}; leaked=${text.includes("CONFIDENCIAL") || text.includes("CLAVE-SECRETA")}`,
   ];
 });
 
@@ -341,10 +422,42 @@ check("a permission request is recorded as a pending escalation naming the tool"
   ];
 });
 
-check("the permission request records a reference, never the command itself", () => {
+/**
+ * The command line stays a digest; what the row gains is the shell's own vocabulary — program and
+ * flag — so a reader sees WHICH command needed a person without seeing what it was given. The
+ * argument here is a path, so it is in `paths` by the older rule; the line as typed must not be.
+ */
+check("the permission request records a reference and the action, never the command line itself", () => {
   const row = rows(CO_A).at(-1);
   const serialised = JSON.stringify(row);
-  return [!/rm -rf/.test(serialised), /rm -rf/.test(serialised) ? "the command leaked into the row" : "digested, not copied"];
+  return [
+    /^sha256:/.test(row.target?.command ?? "") && row.target?.action === "rm -rf" && !serialised.includes("rm -rf /tmp/x"),
+    `command=${row.target?.command} action=${row.target?.action} line-leaked=${serialised.includes("rm -rf /tmp/x")}`,
+  ];
+});
+
+/**
+ * `report` pairs an escalation with its outcome by session, tool and digest, so the two hooks must
+ * reduce one `tool_input` to one digest. The pairing was designed on that invariant and nothing
+ * else enforced it; a change to `reference` that stamped the hook name or the time into the digest
+ * would silently leave every escalation unpaired.
+ */
+check("the escalation row and the later outcome row for one input carry the same digest, and both carry the action", () => {
+  const input = { command: `node "\${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event approval --why "PERSONA-SECRETA"` };
+  run("hooks/journal.mjs", { hook_event_name: "PermissionRequest", tool_name: "Bash", tool_input: input }, CO_A);
+  const escalation = rows(CO_A).at(-1);
+  post("Bash", input, CO_A);
+  const outcome = rows(CO_A).at(-1);
+  const text = JSON.stringify([escalation, outcome]);
+  return [
+    escalation.event === "escalation" &&
+      outcome.event === "ai_action" &&
+      escalation.digest === outcome.digest &&
+      escalation.target?.action === "node journal.mjs --event" &&
+      outcome.target?.action === "node journal.mjs --event" &&
+      !text.includes("PERSONA-SECRETA"),
+    `digests ${escalation.digest === outcome.digest ? "equal" : "DIFFER"}; escalation action=${escalation.target?.action}; leaked=${text.includes("PERSONA-SECRETA")}`,
+  ];
 });
 
 /**
@@ -394,6 +507,31 @@ check("a browser call records the action verb and the url, and never the keystro
  * O_APPEND is atomic only while a write stays small. A row that grew past the ceiling could
  * interleave with another and corrupt both.
  */
+/**
+ * Each of these is a place where a fragment of a VALUE stood where a program can: an escaped quote
+ * inside a quoted value followed by `;`, a comment, an escaped separator, a quote nobody closed, an
+ * escaped space inside an environment value, and a quoted value that happens to end like a script.
+ * Every one was found by trying to break the extractor, and every one is asserted as absent.
+ */
+check("a value fragment never becomes a program or a script in the action, whatever the quoting", () => {
+  const cases = [
+    [`node x.mjs --why "he said \\"hi; ZQXprog --x\\" ok"`, "node x.mjs --why"],
+    ["echo hi # ZQXcomment; ZQXprog --x", "echo"],
+    ["echo a\\; ZQXprog --x", "echo --x"],
+    ["echo it's a; ZQXprog --x", "echo"],
+    ["TOKEN=ZQXsecret\\ b node x.mjs", "node x.mjs"],
+    ['node --why "ZQXsecreto.sh" tools/journal.mjs', "node journal.mjs --why"],
+    ["node --out ZQXname.mjs", "node --out"],
+  ];
+  for (const [command, expected] of cases) {
+    post("Bash", { command }, CO_A);
+    const row = rows(CO_A).at(-1);
+    const text = JSON.stringify(row);
+    if (row.target?.action !== expected || text.includes("ZQX")) return [false, `${command} -> action=${row.target?.action} leaked=${text.includes("ZQX")}`];
+  }
+  return [true, `${cases.length} quoting shapes, no value in any row`];
+});
+
 check("every row written by the suite stays under the atomic-append ceiling", () => {
   const all = [...rows(CO_A), ...rows(CO_B)];
   const sizes = all.map((r) => Buffer.byteLength(JSON.stringify(r)));
@@ -409,6 +547,28 @@ check("a row carrying a payload is truncated rather than risking the file", () =
   return [
     rows(CO_A).length === before + 1 && size <= MAX_ROW_BYTES && Number.isInteger(row.truncated),
     `row ${size} B, truncated field = ${row?.truncated}`,
+  ];
+});
+
+/**
+ * `journal-sync` is loaded lazily and only on SessionEnd, inside a try that swallows everything so
+ * a session can always end. That is exactly where a broken dynamic import would vanish without a
+ * trace, so the warning it produces is asserted end to end: an ephemeral binding with rows the
+ * store does not hold must still be told so on the way out.
+ */
+check("a session ending on an ephemeral binding with unsynced rows is still warned, through the lazily loaded sync module", () => {
+  const dir = join(SANDBOX, "ephemeral");
+  mkdirSync(dir, { recursive: true });
+  writeFileSync(
+    join(dir, ".company.json"),
+    JSON.stringify({ schema_version: 1, id: "eph-0001", name: "Efímera", binding: "ephemeral", timezone: "America/Mexico_City", store: { kind: "drive", root: ROOT_A } })
+  );
+  post("Write", { file_path: join(dir, "nota.md"), content: "x" }, dir);
+  const end = run("hooks/journal.mjs", { hook_event_name: "SessionEnd" }, dir);
+  const row = rows(dir).at(-1);
+  return [
+    end.code === 0 && row.event === "session_end" && /never uploaded/.test(end.err) && /journal-sync\.mjs --stage/.test(end.err),
+    `exit ${end.code}; last event=${row?.event}; warned=${/never uploaded/.test(end.err)}`,
   ];
 });
 

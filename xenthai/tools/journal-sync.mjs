@@ -116,7 +116,8 @@ const HELP = `Xenth AI journal-sync — put a month of the journal in the client
   node tools/journal-sync.mjs --adopt-state <file>
   node tools/journal-sync.mjs --restore --from <dir>
 
-  (no command)   Report every month: rows on this machine, rows in the store, rows owed.
+  (no command)   Report every month: rows on this machine, rows in the store, rows owed, revisions
+                 receipted and bytes uploaded.
   --check        Exit 1 when any month has rows the store does not hold. What doctor calls.
   --stage        Freeze the month and print the file(s) to upload, each with its digest and size, and
                  the folder they belong in. The first revision of a month is the whole month,
@@ -370,6 +371,23 @@ const writeReceipt = (root, month, receipt) => {
 const latestRevision = (receipt) => (receipt?.revisions?.length ? receipt.revisions[receipt.revisions.length - 1] : null);
 
 /**
+ * What the store has been handed for a month, in bytes, read from the receipts rather than from the
+ * month file: a full revision followed by deltas uploads the month once, a month re-uploaded whole
+ * uploads it twice, and only the receipts know which happened. A schema 3 entry says so in
+ * `uploaded`; a schema 2 entry carries the store-confirmed `size` per file and may be a delta, so
+ * its `bytes` — the whole month — is never the figure; a schema 1 entry is whole-month by
+ * construction; a restored entry uploaded nothing from this machine.
+ */
+const uploadedBytesOf = (receipt) =>
+  (receipt?.revisions ?? []).reduce((n, r) => {
+    if (r.uploaded?.bytes !== undefined && r.uploaded?.bytes !== null) return n + r.uploaded.bytes;
+    if (r.restored) return n;
+    if (Array.isArray(r.parts)) return n + r.parts.reduce((sum, p) => sum + (p.size ?? 0), 0);
+    if (typeof r.size === "number") return n + r.size;
+    return n + (r.kind === "delta" ? 0 : r.bytes ?? 0);
+  }, 0);
+
+/**
  * How much of THIS machine's month file a revision settled, and what those rows hashed to.
  *
  * On a machine that holds the whole month these are the revision's own row count and digest, which
@@ -419,6 +437,8 @@ export const monthState = (root, month) => {
     lastSyncedAt: last?.at ?? null,
     diverged,
     storedOnly: !local && synced > 0,
+    revisions: receipt?.revisions?.length ?? 0,
+    uploadedBytes: uploadedBytesOf(receipt),
   };
 };
 
@@ -1044,7 +1064,7 @@ const statusText = (states, company) => {
   const lines = states.map(
     (s) =>
       `  ${s.month}  month ${String(s.rows).padStart(5)}  store ${String(s.synced).padStart(5)}  ` +
-      `owed ${String(s.owed).padStart(5)}` +
+      `owed ${String(s.owed).padStart(5)}  revs ${String(s.revisions).padStart(3)}  uploaded ${String(s.uploadedBytes).padStart(8)} B` +
       (s.diverged ? "  DIVERGED" : s.storedOnly ? "  (in the store, not on this machine)" : s.carried ? `  (${s.carried} carried: in the store, not on this machine)` : "")
   );
   const owed = states.reduce((n, s) => n + s.owed, 0);

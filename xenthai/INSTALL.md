@@ -201,7 +201,8 @@ with the bytes copied from a Bash command's output instead, in about a second.
 
 **Where it goes: the directory the session started in, never the company folder.** Claude Code reads
 hooks from the user's `~/.claude/settings.json` and from `.claude/settings.json` (or
-`settings.local.json`) in the **session's own starting directory**. A settings file inside a company
+`settings.local.json`) in the **session's own starting directory** — and, when that directory sits
+inside a git repository, the same two files at the repository's root. A settings file inside a company
 folder that is not that directory is never read — it was written in one session and the next started
 without it, and nothing reported anything. Put it at `<the directory the session started in>/.claude/settings.local.json`.
 If that directory is not the bound company's, write the file *before* binding: the company guard
@@ -282,6 +283,14 @@ where the session actually started (`.claude/settings.local.json` under the sess
 directory), and note that the company guard blocks a local write outside the bound company's
 directory — so either that directory *is* the company's, as it is in a cloud session bound at the
 home, or the file has to be written before the binding exists.
+
+**`doctor` reads the file back.** Its `transport` line looks in the files listed above and names
+what would stop the hook firing — an `if` not shaped `Bash(*journal-sync.mjs --emit*)`, a matcher
+that never reaches Bash, a missing `${tool_response.stdout}` or trailing newline, a title that is
+not the file's name, a parent that is the store root, the wrong create tool, a hook Claude Code
+cannot parse. On an ephemeral binding it fails while no hook is written, so
+run it after the `Write`, not before. What it cannot see is whether `parentId` is this company's
+`journal/` folder: that is step 5 of the doctor skill, with credentials.
 
 ## 6. Share the assets folder publicly — by hand, once
 

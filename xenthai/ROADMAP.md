@@ -28,6 +28,12 @@
 - **Silencing the journal rows the journal's own upload generates.** A title regex is spoofable and
   the folder id is optional in the connector's input; delta revisions leave about three rows per
   sync, which `doctor` already tolerates as a session's tail.
+- **A weekly period for `opportunities`.** The detectors count distinct months because the file, the
+  receipt grammar and every reader are monthly, and `--min` already exists (`DECISIONS.md` #23). A
+  first reading in three weeks would be noise with a date on it.
+- **Narrowing the hook matchers to skip read-only tools.** The two hooks cost about 115 ms per tool
+  call, almost all Node's start; a matcher is an exclude-list that misses the next write tool, which
+  the in-process `READ_ONLY` set does not (`DECISIONS.md` #31).
 - Any dependency on a paid platform, free tier included. Vendor exporters exist only for a tool a
   company already pays for.
 - A composite "company improvement" score. Indefensible with n=1 and no control group; even CMMI
@@ -94,6 +100,9 @@ client machine until the `version` field moves.
 | **Six report templates, one per cadence** plus the mapping-close record, each declaring the single question it answers | `capabilities/report/templates/` |
 | **`ROUTINES.md` per company** — the pre-approved planned tasks, with the digest active from day one and absence detection per row | `scaffold/company/ROUTINES.md`, `skills/company-new` |
 | **The `PROOF.md` expiry sweep**, configured as a routine ready to activate when its cadence is agreed | `capabilities/company/doctrine/SCHEDULING.md` §4 |
+| **`doctor`'s `transport` line** — the mcp_tool upload hook validated for shape in the files the session loads, graded by binding | `tools/doctor.mjs`, `lib/transport.mjs`, `DECISIONS.md` #31 |
+| **Escalation outcomes in the report**, inferred from execution and never an approval; store kind in the header; the plugin's own rows separable | `tools/report.mjs`, `DECISIONS.md` #29 |
+| **Bash rows legible** — program, script and flag from the shell's vocabulary, schema 3 | `lib/journal.mjs`, `DECISIONS.md` #30 |
 
 ---
 
@@ -170,7 +179,7 @@ More surfaces for the same company documents.
 
 ## Small, cheap, and worth doing whenever a hand is free
 
-- Make the SessionStart hook write one health line to the journal: Node version, browser channel found, whether the store answered a read. Remote diagnosis from a client's journal without a call.
+- Make the SessionStart hook write one health line to the journal beyond the engine install it already records (0.6.4): Node version, browser channel found, whether the store answered a read. Remote diagnosis from a client's journal without a call.
 - **OneDrive, the rest of it** — waits on the first session with the Microsoft 365 connector's write tools enabled: read `sharepoint_upload_file`'s schema and its behaviour on a duplicate name, record them in `MCP.md`, decide the approval gate for a store with no comments tool, and only then bind a client to `"kind": "onedrive"`. `company-new` records `store.tools` for that company; the hooks already veto and journal the connector's methods.
 - `--restore` from a folder listing the session pastes (`--store-listing <json>`), so a fresh container can tell which revisions exist before staging `rev-001` again.
 - Journal merge across two machines for the same company: monthly JSONL files already merge by append; add de-duplication by `ts` + `session`.

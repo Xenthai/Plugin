@@ -26,6 +26,89 @@ installed from. It identifies exactly one tree, which is what this claim always 
 machines could both write `0.1.0` and hold different code. A row written from a working copy says
 `dev`, which is honest about being unreleasable rather than borrowing a number.
 
+## [0.6.4] - 2026-09-20
+
+A handoff measured one month of the operator's personal store — 1,231 rows, 647 KB — and asked for
+nine changes to the journal. Reviewed against the code and the recorded decisions, four of them held,
+two were already decided against (#21d, #23), one asked `doctor` to list a store no CLI can reach,
+one named a fix that shipped on September 3rd, and one confused three acts the journal keeps apart:
+an operator granting a permission, a client approving a deliverable, and a revision being receipted.
+Verifying it found two defects the handoff did not name, and the worse one was in the session start.
+See `DECISIONS.md` #29–#31.
+
+### Fixed — the session start could lose the whole announcement
+
+- **`hooks/bootstrap.mjs`'s render-engine install hung past its own timeout.** `execFileSync`'s
+  timeout sends one SIGTERM; npm 10 catches the first one and keeps waiting on the fetch that hung.
+  Measured against a registry that accepts and never answers: 6 m 48 s, until Claude Code killed the
+  hook at its 60 s budget — and because the JSON is written last, the session started with **no
+  bound company stated, no plugin root, no ephemeral warning and no title**, and the tmp lock stayed
+  behind so the next session within two minutes installed nothing. The install is now bounded by
+  **SIGKILL at 30 s**, npm's stderr reaches the message (a proxy refusal and a misspelt registry no
+  longer read identically as "exited 1"), and every attempt leaves one `health` row — capability
+  `bootstrap`, detail `engine:installed` | `engine:install-failed(enoent|timeout|npm-output|npm-error)` |
+  `engine:missing-after-install` — so a render failing weeks later can be read back to the session
+  start where the install failed. `test/bootstrap.test.mjs` proves the bound with an npm that never
+  returns.
+- **`report` counted the journal's own staging rows as client deliveries.** `--stage` records a
+  `delivery` row per revision (actor `system`, capability `journal`, result `pending`), and
+  "Entregas" counted every `delivery` row — fourteen of them in the measured month, all plumbing,
+  presented to a director as artefacts. "Entregas" is now `delivery` rows with result `ok` and a
+  capability other than `journal`; the staging rows have their own line, "Revisiones de bitácora
+  preparadas para subir", whose definition says the receipt proves arrival and the row does not; a
+  client delivery without result `ok` is a defect line, not a delivery.
+
+### Added — what a Bash row says, and what an escalation became
+
+- **`ROW_SCHEMA` 3: a Bash row carries `target.action`** — program, script basename and first flag
+  per command segment, from the shell's own vocabulary and never from an argument's value
+  (`node journal-sync.mjs --emit`, `git -u`, `rm -rf`). Every skill invokes the plugin's CLIs
+  through `"${CLAUDE_PLUGIN_ROOT}/tools/..."`, which the path extractor did not read, so a month of
+  `report.mjs` runs matched nothing (`grep report.mjs` → 0). Variable-rooted tokens are now
+  extracted as paths too, kept verbatim with the variable name. The command line itself stays a
+  digest. A schema-2 Bash row without `action` reads as "action unknown", never as an empty command.
+- **`report` pairs each pending escalation with its outcome.** Claude Code hands a hook no
+  permission decision and no `tool_use_id` on `PermissionRequest`, and a denied prompt fires no
+  hook, so the outcome is inferred: the first later `ai_action` or `error` in the same session with
+  the same tool and digest. Three rows — with a recorded outcome, without one, and the minutes
+  between — each defined as "the tool then ran", never as who allowed it. The escalation count
+  beside the run count is unchanged.
+- **`report` states whose store it read.** "Tipo de almacén: cliente | personal" in the header, a
+  paragraph refusing the client framing when any period is personal, a defect when one file mixes
+  kinds, and a STOP in `skills/report` for a personal store. The handoff's zero approvals were this:
+  a personal store has no client gate, and the report rendered it in a client's clothes.
+- **"Filas de instrumentación del plugin"** in the report: rows with capability `journal`, `doctor`
+  or `bootstrap`, `health` rows, and Bash rows whose action runs `journal-sync.mjs`, `journal.mjs`
+  or `doctor.mjs`. What operating the plugin cost the client, subtractable from the row total. The
+  bytes side lives with the practice: `journal-sync.mjs` with no command now prints revisions
+  receipted and bytes uploaded per month, from the receipts.
+- **`doctor`'s `transport` line**, between `sync` and `journal`: reads the settings files the
+  session loads (`.claude/settings.local.json` and `settings.json` at the starting directory and
+  the git root, then the user's) and validates the `mcp_tool` hook's shape with the tokens
+  `defectsOf` in `lib/transport.mjs` emits — among them `pattern-anchored`, the `Bash(node …`
+  form #21f recorded as never matching, and `malformed`, a hook Claude Code cannot parse. FAILS on a
+  defective hook on any binding and on an absent one on an ephemeral binding (every upload would pass
+  through the model: ~13,000 tokens and six minutes per 20 KB against ~45 s); OK(absent) on a durable
+  machine, saying what it costs. On a OneDrive store it judges the declared create tool and the
+  emitted bytes, never Drive's parameter names. The bootstrap's EPHEMERAL BINDING line now says
+  whether the hook is present, absent, or present and unable to fire. What no CLI can check — that
+  `parentId` IS the journal folder — stays with the doctor skill, whose read round trip (step 2.1)
+  now also lists the root and `journal/` for two files sharing one name, the shape an interrupted
+  create-and-trash leaves behind (found once, on the personal store's `README.md`).
+
+### Changed
+
+- `hooks/journal.mjs` loads `tools/journal-sync.mjs` only on `SessionEnd`, its one consumer:
+  2–4 ms less per tool call, measured. The rest of the per-call cost is Node's start (~28 ms) and the
+  library imports (~22 ms), twice per call; not changed, see #31.
+
+### Evaluated and not done
+
+Three of the handoff's asks stay refused, with the reasons where refusals live: silencing the
+transport's own rows (`DECISIONS.md` #21d), a weekly period for `opportunities` and narrowing the
+hook matchers (`ROADMAP.md`, "Deliberately not on the roadmap"), and a CLI listing the store for
+duplicate names (`DECISIONS.md` #31: no credentials; it is the doctor skill's step).
+
 ## [0.6.3] - 2026-09-20
 
 0.6.2 verified against the store: the `if` pattern matches, the state file is 887 bytes, the
