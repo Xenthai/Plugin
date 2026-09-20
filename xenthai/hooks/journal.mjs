@@ -1,6 +1,5 @@
 import { record, reference } from "../lib/journal.mjs";
 import { readCompany } from "../lib/company.mjs";
-import { allMonths } from "../tools/journal-sync.mjs";
 
 /** Tools whose calls are pure reads. Logging them would bury the actions that matter. */
 const READ_ONLY = new Set([
@@ -64,11 +63,16 @@ const EVENT_BY_HOOK = {
  * The controls that actually work are earlier: the SessionStart announcement, which the model reads
  * while it can still act, and `doctor`'s sync check, which fails rather than warns. This is the
  * receipt for having skipped both.
+ *
+ * `journal-sync` is imported here and not at the top, because this is its one consumer and it runs
+ * once per session: loaded statically it cost every tool call 2–4 ms for a module that PostToolUse
+ * never touches.
  */
-const warnUnsynced = (cwd) => {
+const warnUnsynced = async (cwd) => {
   try {
     const ctx = readCompany(cwd);
     if (!ctx.ok || !ctx.binding?.ephemeral) return;
+    const { allMonths } = await import("../tools/journal-sync.mjs");
     const owed = allMonths(ctx.root).reduce((n, m) => n + m.owed, 0);
     if (!owed) return;
     process.stderr.write(
@@ -118,7 +122,7 @@ const main = async () => {
       },
       event
     );
-    warnUnsynced(event.cwd ?? process.cwd());
+    await warnUnsynced(event.cwd ?? process.cwd());
     process.exit(0);
   }
 

@@ -283,6 +283,13 @@ directory), and note that the company guard blocks a local write outside the bou
 directory — so either that directory *is* the company's, as it is in a cloud session bound at the
 home, or the file has to be written before the binding exists.
 
+**`doctor` reads the file back.** Its `transport` line looks in exactly the files listed above and
+names what would stop the hook firing — an `if` anchored on the command name, a missing
+`${tool_response.stdout}` or trailing newline, a title that is not the file's name, a parent that is
+the store root, the wrong create tool. On an ephemeral binding it fails while no hook is written, so
+run it after the `Write`, not before. What it cannot see is whether `parentId` is this company's
+`journal/` folder: that is step 5 of the doctor skill, with credentials.
+
 ## 6. Share the assets folder publicly — by hand, once
 
 Inside the company's Drive folder, create the folder that will hold rendered assets and set it to

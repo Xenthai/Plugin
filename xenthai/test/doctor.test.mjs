@@ -13,6 +13,7 @@ const FUTURE = join(SANDBOX, "future");
 const UNBOUND = join(SANDBOX, "unbound");
 const DATA = join(SANDBOX, "plugin-data");
 const BROKEN = join(SANDBOX, "broken-plugin");
+const CONFIG = join(SANDBOX, "config");
 
 const CHANNELS = ["msedge", "chrome", "msedge-beta", "chrome-beta"];
 const LOCAL = ["node", "browser", "fonts", "engine", "journal"];
@@ -26,7 +27,7 @@ const manifest = (id, name, schema) =>
 
 const setup = () => {
   rmSync(SANDBOX, { recursive: true, force: true });
-  for (const dir of [BOUND, FUTURE, UNBOUND, DATA]) mkdirSync(dir, { recursive: true });
+  for (const dir of [BOUND, FUTURE, UNBOUND, DATA, CONFIG]) mkdirSync(dir, { recursive: true });
   writeFileSync(join(BOUND, ".company.json"), manifest("co-doc-0001", "Doctor Co", 1));
   writeFileSync(join(FUTURE, ".company.json"), manifest("co-doc-0099", "Future Co", 99));
 };
@@ -38,7 +39,7 @@ const setup = () => {
  */
 const brokenPlugin = () => {
   const engine = "capabilities/social/engine";
-  for (const rel of ["tools/doctor.mjs", "tools/journal-sync.mjs", "lib/company.mjs", "lib/journal.mjs", ".claude-plugin/plugin.json", `${engine}/template.html`]) {
+  for (const rel of ["tools/doctor.mjs", "tools/journal-sync.mjs", "lib/company.mjs", "lib/journal.mjs", "lib/transport.mjs", ".claude-plugin/plugin.json", `${engine}/template.html`]) {
     mkdirSync(dirname(join(BROKEN, rel)), { recursive: true });
     copyFileSync(join(ROOT, rel), join(BROKEN, rel));
   }
@@ -52,11 +53,16 @@ const brokenPlugin = () => {
   return { removedFont, removedLicence, script: join(BROKEN, "tools", "doctor.mjs") };
 };
 
+/**
+ * `CLAUDE_CONFIG_DIR` points into the sandbox so the transport check reads a user settings file this
+ * suite controls, never the operator's own — a hook in their `~/.claude/settings.json` would turn
+ * every "absent" case here into "present" and prove nothing about the code.
+ */
 const doctor = (cwd, args = [], script = DOCTOR) => {
   const res = spawnSync(process.execPath, [script, ...args], {
     cwd,
     encoding: "utf8",
-    env: { ...process.env, CLAUDE_PLUGIN_DATA: DATA },
+    env: { ...process.env, CLAUDE_PLUGIN_DATA: DATA, CLAUDE_CONFIG_DIR: CONFIG },
     timeout: 120_000,
   });
   let json = null;
@@ -67,7 +73,7 @@ const doctor = (cwd, args = [], script = DOCTOR) => {
   return { code: res.status, out: res.stdout ?? "", err: res.stderr ?? "", json, by };
 };
 
-const statuses = (by) => ["node", "company", ...LOCAL.slice(1), "sync"].map((n) => `${n}=${by[n]?.status ?? "?"}`).join(" ");
+const statuses = (by) => ["node", "company", ...LOCAL.slice(1), "sync", "transport"].map((n) => `${n}=${by[n]?.status ?? "?"}`).join(" ");
 
 const rows = (dir) => {
   const month = new Intl.DateTimeFormat("sv-SE", { timeZone: "America/Mexico_City", dateStyle: "short" }).format(new Date()).slice(0, 7);
@@ -152,7 +158,7 @@ check("a real folder id passes and is echoed, so the operator can compare it aga
 
 check("a valid manifest on a healthy machine: every check OK, exit 0", () => {
   const r = doctor(BOUND, ["--json"]);
-  const allOk = ["company", "sync", ...LOCAL].every((n) => r.by[n]?.status === "OK");
+  const allOk = ["company", "sync", "transport", ...LOCAL].every((n) => r.by[n]?.status === "OK");
   return [
     r.code === 0 && r.json?.ok === true && allOk && r.by.company?.data?.id === "co-doc-0001" && CHANNELS.includes(r.by.browser?.data?.channel),
     `exit ${r.code}; ${statuses(r.by)}; channel=${r.by.browser?.data?.channel}`,
@@ -172,6 +178,7 @@ check("that run left exactly one health row in the bound company's journal: code
       row.result === "ok" &&
       /company:ok/.test(detail) &&
       /browser:ok\(/.test(detail) &&
+      /transport:ok\(absent\)/.test(detail) &&
       !/[\\/]/.test(detail),
     `rows=${all.length} result=${row?.result} detail=${detail}`,
   ];
@@ -375,6 +382,183 @@ check("once the month is in the store, repeated runs stay green while naming the
   ];
 });
 
+/**
+ * A hook as INSTALL.md §5b writes it, with one field overridden per case. Each override is a way
+ * the hook was measured failing while looking installed, and the point of the check is that each
+ * has a name: a control that is decoration is trusted, which is worse than none.
+ */
+const transportHook = (overrides = {}) => ({
+  hooks: {
+    PostToolUse: [
+      {
+        matcher: "Bash",
+        hooks: [
+          {
+            type: "mcp_tool",
+            if: "Bash(*journal-sync.mjs --emit*)",
+            server: "Google_Drive",
+            tool: "create_file",
+            timeout: 60,
+            input: {
+              parentId: "1JOURNALFOLDERXXXXXXXXXXXXXXXXXX",
+              title: "${tool_input.description}",
+              contentMimeType: "text/plain",
+              disableConversionToGoogleType: true,
+              textContent: "${tool_response.stdout}\n",
+            },
+            ...overrides,
+          },
+        ],
+      },
+    ],
+  },
+});
+
+/**
+ * A company directory with a hook written where the session loads it. The store root is the one
+ * `manifest()` uses, so a `parentId` equal to it is the "journal filed at the root" defect.
+ */
+const withHook = (name, hook, binding = null) => {
+  const dir = join(SANDBOX, `transport-${name}`);
+  mkdirSync(join(dir, ".claude"), { recursive: true });
+  writeFileSync(
+    join(dir, ".company.json"),
+    JSON.stringify({ schema_version: 1, id: `co-${name}`, name: `Transport ${name}`, locale: "es-MX", ...(binding ? { binding } : {}), store: { kind: "drive", root: "1DOCTORROOTXXXXXXXXXXXXXXXXXXXXXX" } })
+  );
+  if (hook) writeFileSync(join(dir, ".claude", "settings.local.json"), typeof hook === "string" ? hook : JSON.stringify(hook, null, 2));
+  return dir;
+};
+
+/**
+ * Absence is graded by the binding. On a durable machine the hook saves tokens and nothing else, so
+ * its absence is an OK that says what it costs; on an ephemeral disk the session is the only thing
+ * that reaches the store, and every upload without the hook passes its bytes through the model, so
+ * the same absence FAILS and names where to write the file.
+ */
+check("transport absent is OK on a durable binding and FAILS on an ephemeral one, naming where to write it", () => {
+  const durable = doctor(withHook("durable-absent", null), ["--json"]).by.transport;
+  const ephemeral = doctor(withHook("ephemeral-absent", null, "ephemeral"), ["--json"]).by.transport;
+  return [
+    durable?.code === "transport:ok(absent)" &&
+      /INSTALL\.md §5b/.test(durable?.reason ?? "") &&
+      ephemeral?.code === "transport:fail(absent-ephemeral)" &&
+      /settings\.local\.json/.test(ephemeral?.reason ?? "") &&
+      /tokens/.test(ephemeral?.reason ?? ""),
+    `durable=${durable?.code}; ephemeral=${ephemeral?.code}`,
+  ];
+});
+
+check("a valid hook in the starting directory's settings.local.json is OK(present) and names the file", () => {
+  const dir = withHook("valid", transportHook(), "ephemeral");
+  const c = doctor(dir, ["--json"]).by.transport;
+  const named = (c?.reason ?? "").includes(join(dir, ".claude", "settings.local.json"));
+  const leftToSession = /parentId is this company's journal\/ folder/.test(c?.reason ?? "");
+  return [c?.code === "transport:ok(present)" && named && leftToSession, `${c?.code}; file named=${named}; session's half named=${leftToSession}`];
+});
+
+/**
+ * The spelling DECISIONS.md #21f recorded as never matching. A session runs the tool by absolute
+ * path, so a pattern beginning with the program name does not apply, and a hook whose `if` does not
+ * match does nothing — the upload silently costs every token the hook exists to save.
+ */
+check("an if pattern anchored on the command name FAILS as pattern-anchored", () => {
+  const c = doctor(withHook("anchored", transportHook({ if: "Bash(node * journal-sync.mjs --emit*)" })), ["--json"]).by.transport;
+  return [c?.code === "transport:fail(pattern-anchored)" && /Bash\(\*journal-sync\.mjs --emit\*\)/.test(c?.reason ?? ""), `${c?.code}`];
+});
+
+check("a parentId equal to store.root FAILS as parent-is-root: the journal lives one folder below", () => {
+  const hook = transportHook();
+  hook.hooks.PostToolUse[0].hooks[0].input.parentId = "1DOCTORROOTXXXXXXXXXXXXXXXXXXXXXX";
+  const c = doctor(withHook("root-parent", hook), ["--json"]).by.transport;
+  return [c?.code === "transport:fail(parent-is-root)", `${c?.code}`];
+});
+
+/**
+ * A Bash call's stdout reaches the hook without its final newline, and `--emit` prints the file
+ * without it, so the hook's `"\n"` is what makes the uploaded bytes equal the staged ones — and
+ * `--receipt` refuses the size otherwise.
+ */
+check("a textContent without the trailing newline FAILS as no-newline, and several defects are joined with +", () => {
+  const one = transportHook();
+  one.hooks.PostToolUse[0].hooks[0].input.textContent = "${tool_response.stdout}";
+  const noNewline = doctor(withHook("no-newline", one), ["--json"]).by.transport;
+  const many = transportHook({ tool: "update_file" });
+  many.hooks.PostToolUse[0].hooks[0].input.title = "journal.jsonl";
+  many.hooks.PostToolUse[0].hooks[0].input.textContent = "static text\n";
+  delete many.hooks.PostToolUse[0].hooks[0].input.parentId;
+  const several = doctor(withHook("several", many), ["--json"]).by.transport;
+  return [
+    noNewline?.code === "transport:fail(no-newline)" && several?.code === "transport:fail(no-stdout+title-not-description+no-parent+wrong-tool)",
+    `one=${noNewline?.code}; several=${several?.code}`,
+  ];
+});
+
+/**
+ * The user's settings are one of the files a session loads, so a hook there counts — and the suite
+ * points `CLAUDE_CONFIG_DIR` at its own directory precisely so this case is the only one that finds
+ * anything there.
+ */
+check("a hook in the user settings directory is found too, and an unparseable settings file is a named defect", () => {
+  writeFileSync(join(CONFIG, "settings.json"), JSON.stringify(transportHook(), null, 2));
+  const user = doctor(withHook("user-level", null, "ephemeral"), ["--json"]).by.transport;
+  rmSync(join(CONFIG, "settings.json"));
+  const broken = doctor(withHook("unparseable", "{ not json"), ["--json"]).by.transport;
+  return [
+    user?.code === "transport:ok(present)" &&
+      (user?.reason ?? "").includes(join(CONFIG, "settings.json")) &&
+      broken?.code === "transport:fail(unparseable)" &&
+      /does not parse/.test(broken?.reason ?? ""),
+    `user=${user?.code}; unparseable=${broken?.code}`,
+  ];
+});
+
+check("the health row carries the transport code", () => {
+  const dir = withHook("row", transportHook({ if: "Bash(node * journal-sync.mjs --emit*)" }));
+  doctor(dir, ["--json"]);
+  const row = rows(dir).at(-1);
+  return [row?.event === "health" && /transport:fail\(pattern-anchored\)/.test(row?.detail ?? "") && !/[\\/]/.test(row?.detail ?? ""), `detail=${row?.detail}`];
+});
+
+/**
+ * The parameter names the Drive check reads are Drive's. A OneDrive hook carries the names
+ * `company-new` read from the connector's own schema, so applying Drive's to it would fail a
+ * correct hook — the same silence the check exists to remove, pointed the other way. What survives
+ * on every provider is the pattern, the declared create tool, and the emitted bytes with the newline.
+ */
+check("a OneDrive hook is judged by its declared create tool and the emitted bytes, never by Drive's parameter names", () => {
+  const hook = (tool) => ({
+    hooks: {
+      PostToolUse: [
+        {
+          matcher: "Bash",
+          hooks: [
+            { type: "mcp_tool", if: "Bash(*journal-sync.mjs --emit*)", server: "Microsoft_365", tool, timeout: 60, input: { driveId: "b!DRIVE", itemId: "01JOURNAL", name: "${tool_input.description}", content: "${tool_response.stdout}\n" } },
+          ],
+        },
+      ],
+    },
+  });
+  const company = (name, tools) => {
+    const dir = join(SANDBOX, `transport-${name}`);
+    mkdirSync(join(dir, ".claude"), { recursive: true });
+    writeFileSync(
+      join(dir, ".company.json"),
+      JSON.stringify({ schema_version: 1, id: `co-${name}`, name: "OneDrive Co", locale: "es-MX", store: { kind: "onedrive", root: "/drive/root:/Clientes/Acme", ...(tools ? { tools } : {}) } })
+    );
+    return dir;
+  };
+  const declared = company("od-declared", { create: "sharepoint_upload_file" });
+  writeFileSync(join(declared, ".claude", "settings.local.json"), JSON.stringify(hook("sharepoint_upload_file")));
+  const undeclared = company("od-undeclared", null);
+  writeFileSync(join(undeclared, ".claude", "settings.local.json"), JSON.stringify(hook("sharepoint_upload_file")));
+  const ok = doctor(declared, ["--json"]).by.transport;
+  const missing = doctor(undeclared, ["--json"]).by.transport;
+  return [
+    ok?.code === "transport:ok(present)" && missing?.code === "transport:fail(tools-undeclared+wrong-tool)",
+    `declared=${ok?.code}; undeclared=${missing?.code}`,
+  ];
+});
+
 check("a manifest from a newer plugin (schema_version 99) FAILS the company check and exits 1", () => {
   const r = doctor(FUTURE, ["--json"]);
   const said = r.by.company?.reason ?? "";
@@ -402,7 +586,8 @@ check("no company bound: company SKIP, the local checks still run, exit 1", () =
       /no company bound/.test(r.by.company?.reason ?? "") &&
       localsOk &&
       r.by.sync?.status === "SKIP" &&
-      r.json?.summary?.skipped === 2 &&
+      r.by.transport?.status === "SKIP" &&
+      r.json?.summary?.skipped === 3 &&
       r.json?.summary?.failed === 0,
     `exit ${r.code}; ${statuses(r.by)}`,
   ];
@@ -413,7 +598,7 @@ check("text mode prints one status line per check and a summary", () => {
   const lines = r.out.trim().split("\n");
   const statusLines = lines.filter((l) => /^(OK|FAIL|SKIP)\s+\w+\s+\S/.test(l));
   return [
-    r.code === 1 && statusLines.length === 7 && /^SKIP\s+company\s+no company bound/m.test(r.out) && /xenthai \S+ — 5 ok, 0 failed, 2 skipped$/m.test(r.out),
+    r.code === 1 && statusLines.length === 8 && /^SKIP\s+company\s+no company bound/m.test(r.out) && /xenthai \S+ — 5 ok, 0 failed, 3 skipped$/m.test(r.out),
     `exit ${r.code}; status lines=${statusLines.length}; last="${lines.at(-1)}"`,
   ];
 });

@@ -295,6 +295,39 @@ check("months the store holds and this machine does not are reported as restorab
   ];
 });
 
+/**
+ * The practice-facing cost line. A month's receipts already know how many times it went up and how
+ * many bytes that took; before this the status printed rows only, and the operator estimating what
+ * an engagement's journal costs to keep had to open the receipt files by hand. The client report
+ * deliberately does not carry bytes. A schema-1 entry has no `uploaded` and is the whole month, so
+ * its `bytes` is the figure — asserted here so the fallback is proven rather than assumed.
+ */
+check("status reports per month how many revisions were receipted and how many bytes went up, from the receipts", () => {
+  const dir = company("cost");
+  act(dir, 2);
+  syncOnce(dir);
+  act(dir, 1);
+  syncOnce(dir, "1SECOND");
+  const whole = statSync(monthFile(dir)).size;
+  writeFileSync(
+    join(dir, "journal", "sync", "2026-01.json"),
+    JSON.stringify({ schema: 1, month: "2026-01", company: "cost-1", revisions: [{ rev: 1, name: "2026-01.rev-001.jsonl", rows: 40, bytes: 900, digest: "sha256:x", file_id: "1OLD", at: "2026-02-01T00:00:00Z" }] })
+  );
+  const text = run("--company", dir);
+  const json = JSON.parse(run("--company", dir, "--json").out).months;
+  const current = json.find((m) => m.month === MONTH);
+  const old = json.find((m) => m.month === "2026-01");
+  return [
+    current?.revisions === 2 &&
+      current?.uploadedBytes === whole &&
+      old?.revisions === 1 &&
+      old?.uploadedBytes === 900 &&
+      new RegExp(`${MONTH}.*revs\\s+2\\s+uploaded\\s+${whole} B`).test(text.out) &&
+      /2026-01.*revs\s+1\s+uploaded\s+900 B/.test(text.out),
+    `current revs=${current?.revisions} uploaded=${current?.uploadedBytes} of ${whole} B on disk; schema-1 month revs=${old?.revisions} uploaded=${old?.uploadedBytes}`,
+  ];
+});
+
 check("no company bound exits 2 rather than guessing which engagement this is", () => {
   const r = run("--check");
   return [r.code === 2 && /no company bound/.test(r.err), `exit ${r.code}`];
