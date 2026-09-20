@@ -78,6 +78,8 @@ one here — deterministically where that is possible, advisory where it is not:
 | The SessionStart announcement | Tells the session, while it can still act, that this binding is ephemeral and what it owes | Advisory |
 | The SessionEnd warning | One line to the operator. By then nothing can act | Advisory |
 | `--receipt`'s size check | Refuses to settle a file whose store-reported size differs from the staged bytes | Deterministic |
+| `--stage`'s first-revision refusal | On a binding whose disk does not survive, refuses to propose `rev-001` from a machine that cannot see whether the store already holds one | Deterministic |
+| The state file beside the rows | `<YYYY-MM>.sync.rev-<NNN>.json`, ~2 KB, is what the next machine adopts to continue the chain | **Advisory**: it is uploaded by the session, like the rows |
 | The upload itself | A session, through the connector — by the model, or by the transport hook copying `--emit`'s bytes | **Advisory**: the hook removes the model from the bytes, not from the decision to run the command |
 
 That last row is the honest part. **A CLI holds no connector credentials**, and neither does a

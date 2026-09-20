@@ -441,6 +441,49 @@ what the owner ruled out, and is unnecessary once the hook exists. Raising `--sh
 own, which would have re-cut every part already in the store. **Reverses if** Claude Code stops
 handing a hook the Bash call's stdout, or the connector gains a real append, per Decision 21.
 
+### 21e · The chain's state is uploaded with the rows, and a first revision from a machine that cannot see the store is refused
+
+Running 0.6.0 in the environment it was written for found the flaw the delta design had left
+standing. `journal/sync/<month>.json` holds the chain — which revision came last, how many rows it
+settled — and it lives on the same disk the whole scheme exists because it cannot trust. A container
+that loses it starts with no receipt, and `--stage` reads that as "this month has never been
+uploaded" and proposes `rev-001`. The store's folder already held `2026-09.rev-001.jsonl` from
+September 17th. Two different files with one name, and a month that cannot be reconstructed from
+its own folder: the evidence corrupted by following the instructions, with no error anywhere.
+
+**The state travels with the rows.** `--receipt` names `<YYYY-MM>.sync.rev-<NNN>.json` — the receipt
+itself, about 2 KB — to upload into the same folder, and `--adopt-state` resumes a chain from that
+file alone. Numbered like a revision for the same reason: a store cannot overwrite, a folder
+tolerates two files with one name, and the highest must be unambiguous from the listing. It needs no
+receipt of its own, since its name carries the revision it records and its content is the proof.
+
+**`--restore` was never the answer to this question.** It brings the month's *rows* back and
+therefore needs every revision file — for one live month, 31 files and ~600 KB arriving as base64
+through the model, which is the cost deltas removed, paid in the other direction to learn a number.
+Adoption answers "where does the chain stand"; restore answers "I need the history here". Keeping
+them apart is what makes the cheap path cheap.
+
+**A first revision is refused where it cannot be proven.** On an ephemeral binding the absence of a
+receipt is ignorance, not a fact, so `--stage` stops with exit 4 and names the state file to look
+for; `--first-revision` is the operator saying they listed the folder and it held nothing. Declared,
+never sniffed — the same rule as Decision 22, applied to the store instead of the machine.
+
+**A digest nobody can compute is null.** A machine that adopted holds a window into the month, so
+the whole-month digest is not available to it. Recording a hash of the tail under the name "month
+digest" would be evidence that looks right and is not; the entry says `digest: null` and carries a
+`chain` linking each revision to the one before, which such a machine *can* prove. `--restore`
+recomputes the true month digest once it holds every file, and `local` records how much of this
+machine's file a revision settled, so the divergence rule keeps working on a file that starts partway
+through the month.
+
+**Rejected:** uploading the state file under one name per month, which a store that cannot overwrite
+turns into two files with one name — the very failure being fixed. Refusing `rev-001` on every
+binding, which would put a question in front of the one case that is genuinely new: a durable
+machine opening a company. Inferring "the store has this month" from anything the CLI can see, which
+is nothing — it has no credentials, and that is the premise of the whole tool. **Reverses if** the
+CLI is ever given a listing of the store's folder as an input, at which point the refusal becomes a
+comparison and `--first-revision` retires.
+
 ### 22 · The binding is explicit or declared, and never sniffed
 
 `company-new` forbids a manifest in a home directory; the guard resolves the company by walking up

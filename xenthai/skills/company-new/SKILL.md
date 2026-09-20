@@ -165,11 +165,12 @@ those are agreed at mapping close, with the client, and a cadence not activated 
 node "${CLAUDE_PLUGIN_ROOT}/tools/journal-sync.mjs" --stage
 ```
 
-Put the file(s) it names into the company's `journal/` folder keeping the names — through the
-transport hook's `emit` line (`INSTALL.md` §5b; writing that hook is part of opening a company),
-otherwise through the connector — then read each file's metadata back and record `--receipt
---month <YYYY-MM> --file-id <id>:<fileSize>`. A size that differs from what was staged is refused.
-`capabilities/company/doctrine/CONTROLS.md` §1b carries why the upload stays an advisory control.
+On this binding a first revision needs `--first-revision`, which is honest here and nowhere else:
+the folder is new. Put the file(s) it names into `journal/` keeping the names — the `emit` line
+where the transport hook is set up (`INSTALL.md` §5b), otherwise the connector — read each back and
+record `--receipt --month <YYYY-MM> --file-id <id>:<fileSize>`. **Then upload the state file it
+names**: without it the next container starts the month over at `rev-001`, over a name this folder
+already holds. `capabilities/company/doctrine/CONTROLS.md` §1b carries why this stays advisory.
 
 Then hand off to `company-intake` — the file request needs nobody present, so it should be sent the
 same day.

@@ -90,9 +90,21 @@ answer under their name. If `.company.json` carries `store.assets_public`, set i
 observed — with `Edit`, never through the shell.
 
 **5. The journal's own upload, when `sync` is not OK.** This is a round trip like the others and it
-is the one with the engagement's evidence in it. `node "${CLAUDE_PLUGIN_ROOT}/tools/journal-sync.mjs"
---stage` freezes what is owed and names the file(s) — the whole month the first time, afterwards
-only the rows since the last receipt. For each file, in the order printed:
+is the one with the engagement's evidence in it.
+
+**First, if this machine holds no receipt for the month** — an ephemeral binding always starts that
+way — list the company's `journal/` folder before anything else. A `<YYYY-MM>.sync.rev-<NNN>.json`
+there means the month already has a chain: download the highest and run `--adopt-state <file>`,
+which resumes it for about 2 KB. Without that step the tool cannot tell a month nobody has uploaded
+from one whose receipt died with the last container, and it refuses to stage rather than write a
+`rev-001` the folder may already hold — two files with one name is a month nobody can rebuild.
+**Never** pass `--first-revision` to get past that refusal unless you listed the folder and it holds
+nothing for this month. Never download the revision files to recover the chain: that is 600 KB of
+history through the model to learn a number the state file states.
+
+Then `node "${CLAUDE_PLUGIN_ROOT}/tools/journal-sync.mjs" --stage` freezes what is owed and names
+the file(s) — the whole month the first time, afterwards only the rows since the last receipt. For
+each file, in the order printed:
 
 - **If the transport hook is installed** (`INSTALL.md` §5b; the company's `.claude/settings.json`
   has an `mcp_tool` hook on `Bash`): run the `emit` line `--stage` printed, with the file's exact
@@ -104,8 +116,13 @@ Then read the file's metadata back — `search_files` on its title inside the jo
 `get_file_metadata` by id — and record `--receipt --month <YYYY-MM> --file-id <id>:<fileSize>`,
 one pair per file, comma separated. The receipt is written from the frozen bytes and refuses a size
 that differs from them, so it can claim neither rows that never went up nor a file that arrived
-truncated. A CLI has no credentials and no hook runs with a connector at session end, which is why
-this step lives here with the other four.
+truncated.
+
+**Last, upload the state file `--receipt` names** (`<YYYY-MM>.sync.rev-<NNN>.json`, ~2 KB, same
+folder, `--emit` prints it). It is what the next session on another machine adopts, and skipping it
+is what makes the next container start over at `rev-001`. It needs no receipt of its own: its name
+carries the revision it records. A CLI has no credentials and no hook runs with a connector at
+session end, which is why this step lives here with the other four.
 
 ## Step 3 — report and record
 
