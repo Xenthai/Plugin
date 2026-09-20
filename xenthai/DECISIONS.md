@@ -784,10 +784,13 @@ pending` and none with an outcome, and proposed that when a permission is grante
 `approval` row with `actor: person:<name>`. The finding is right and the proposal is wrong in three
 places, each verified rather than argued.
 
-**The mechanism does not exist.** Claude Code gives a hook no view of a permission decision: the
-`PermissionRequest` input carries no `tool_use_id` (the field is present on `PreToolUse` and
-`PostToolUse` and its absence there is recorded upstream as not planned), no event fires when a
-person denies, and a `PostToolUse` hook cannot tell that its call was preceded by a prompt. Nothing
+**The mechanism does not exist.** Claude Code gives a hook no view of a permission decision. Read
+on 2026-09-20 at code.claude.com/docs/en/hooks, "PermissionRequest input": the event "receive[s]
+tool_name and tool_input fields like PreToolUse hooks, but without tool_use_id" — the field is on
+`PreToolUse` and `PostToolUse`, and the upstream issue asking for it on the prompt is closed as not
+planned. No event fires when a PERSON denies; the `PermissionDenied` event on the same page fires
+only when auto mode denies a call, and it does carry `tool_use_id`, which is the shape a person-side
+event would need. A `PostToolUse` hook cannot tell that its call was preceded by a prompt. Nothing
 outside the session knows who clicked.
 
 **The word would be the inflation Decision 19 removed.** `approval` is a client's act — `social-plan`
@@ -887,6 +890,13 @@ announcement lost it — and the tmp lock stayed, so the next session within two
 nothing. The install is now killed with SIGKILL at 30 s, its stderr's first line reaches the message,
 and every attempt leaves a `health` row with a code, so "never ran" and "ran and failed" stop
 looking identical from a later doctor run.
+
+The first version of the shape check knew one anchored spelling, `Bash(node `, and read no matcher;
+an adversarial pass found three more hooks that never fire and passed as present — an `if` anchored
+on an absolute path, one missing its trailing wildcard, one in a group scoped to `Edit` — and a hook
+whose `PostToolUse` list was an object, read as absent. The rule is now the shape itself: `Bash(*`
+before the mark, `*)` after it, a matcher that reaches Bash, and a hook that mentions the emit
+command without that shape is `malformed`, never absent.
 
 **Rejected:** failing `transport` on absence everywhere, which blocks opening an engagement on every
 durable machine for a cost saver; having the CLI verify the parent folder, which needs credentials it

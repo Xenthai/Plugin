@@ -302,6 +302,37 @@ check("months the store holds and this machine does not are reported as restorab
  * deliberately does not carry bytes. A schema-1 entry has no `uploaded` and is the whole month, so
  * its `bytes` is the figure — asserted here so the fallback is proven rather than assumed.
  */
+/**
+ * A schema-2 entry's `bytes` is the whole month even when the entry is a delta, so summing it
+ * double-counts; what that schema does carry is the store-confirmed size per file. A restored entry
+ * uploaded nothing from this machine. Both fallbacks are asserted, because the wrong one printed a
+ * plausible number.
+ */
+check("uploaded bytes for a schema-2 receipt come from the confirmed sizes, and a restored entry adds nothing", () => {
+  const dir = company("cost-schema2");
+  mkdirSync(join(dir, "journal", "sync"), { recursive: true });
+  writeFileSync(
+    join(dir, "journal", "sync", "2026-02.json"),
+    JSON.stringify({
+      schema: 2,
+      month: "2026-02",
+      revisions: [
+        { rev: 1, kind: "full", after: null, rows: 4, bytes: 638, size: 638, file_id: "1A", at: "2026-02-01T00:00:00Z" },
+        { rev: 2, kind: "delta", after: 4, rows: 8, bytes: 1276, size: 638, file_id: "1B", at: "2026-02-02T00:00:00Z" },
+        { rev: 3, kind: "delta", after: 8, rows: 10, bytes: 1500, size: null, parts: [{ part: 1, of: 2, size: 120 }, { part: 2, of: 2, size: 104 }], file_id: ["1C", "1D"], at: "2026-02-03T00:00:00Z" },
+      ],
+    })
+  );
+  writeFileSync(
+    join(dir, "journal", "sync", "2026-03.json"),
+    JSON.stringify({ schema: 3, month: "2026-03", revisions: [{ rev: 5, kind: "full", rows: 9, bytes: 2000, uploaded: null, size: null, restored: true, at: "2026-03-01T00:00:00Z" }] })
+  );
+  const months = JSON.parse(run("--company", dir, "--json").out).months;
+  const feb = months.find((m) => m.month === "2026-02");
+  const mar = months.find((m) => m.month === "2026-03");
+  return [feb?.uploadedBytes === 638 + 638 + 224 && feb?.revisions === 3 && mar?.uploadedBytes === 0 && mar?.revisions === 1, `feb=${feb?.uploadedBytes} (want 1500) mar=${mar?.uploadedBytes} (want 0)`];
+});
+
 check("status reports per month how many revisions were receipted and how many bytes went up, from the receipts", () => {
   const dir = company("cost");
   act(dir, 2);

@@ -54,16 +54,29 @@ const INSTALL_KILL_SIGNAL = "SIGKILL";
 const CAUSE_CHARS = 120;
 
 /**
- * Which way the install failed, as a code the journal can carry, and the first line npm said about
- * it for the operator. With stderr ignored, as it was, a proxy refusing the registry and a
- * misspelt hostname read identically as "npm exited 1" and the operator had nothing to act on.
+ * Room for npm's stderr before Node kills the child for exceeding it. The default is 1 MB, and an
+ * install killed that way arrives with the same SIGKILL as a timeout — so the classification below
+ * reads the error code, never the signal, and the buffer is sized so a verbose but working install
+ * is not killed for talking.
+ */
+const INSTALL_MAX_BUFFER = 8 * 1024 * 1024;
+
+const NPM_ERROR_LINE = /^npm (?:ERR!|error)/i;
+
+/**
+ * Which way the install failed, as a code the journal can carry, and the line npm said about it
+ * for the operator — its own error line when it printed one, since npm warns before it errors and
+ * the first line of its stderr is usually a warning about a flag. With stderr ignored, as it was, a
+ * proxy refusing the registry and a misspelt hostname read identically as "npm exited 1".
  */
 const installFailure = (err) => {
-  const code = err?.code === "ENOENT" ? "enoent" : err?.code === "ETIMEDOUT" || err?.signal ? "timeout" : "npm-error";
-  const said = String(err?.stderr ?? "")
+  const codes = { ENOENT: "enoent", ETIMEDOUT: "timeout", ENOBUFS: "npm-output" };
+  const code = codes[err?.code] ?? "npm-error";
+  const lines = String(err?.stderr ?? "")
     .split("\n")
     .map((l) => l.trim())
-    .find(Boolean);
+    .filter(Boolean);
+  const said = lines.find((l) => NPM_ERROR_LINE.test(l)) ?? lines[0];
   return { code, cause: `${code}: ${said ?? String(err?.message ?? "")}`.slice(0, CAUSE_CHARS) };
 };
 
@@ -143,6 +156,7 @@ const ensureEngine = (root) => {
       cwd: root,
       timeout: INSTALL_TIMEOUT_MS,
       killSignal: INSTALL_KILL_SIGNAL,
+      maxBuffer: INSTALL_MAX_BUFFER,
       stdio: ["ignore", "ignore", "pipe"],
       encoding: "utf8",
       windowsHide: true,
@@ -231,7 +245,7 @@ const main = () => {
       const stored = months.filter((m) => m.storedOnly).map((m) => m.month);
       if (company.binding?.ephemeral) {
         const transport = findTransportHooks(process.cwd(), company.company);
-        const defects = [...new Set(transport.found.flatMap((f) => f.defects))];
+        const defects = [...new Set([...transport.found.flatMap((f) => f.defects), ...(transport.malformed.length ? ["malformed"] : [])])];
         const hook = !transport.found.length
           ? "absent from every settings file this session loads — write it per INSTALL.md §5b before the first upload"
           : defects.length

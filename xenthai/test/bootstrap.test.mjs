@@ -17,8 +17,13 @@ const DATA = join(SANDBOX, "plugin-data");
 
 const STORE_ROOT = "1BOOTROOTXXXXXXXXXXXXXXXXXXXXXXXX";
 
-/** The bound is 30 s in the hook; the hook's own JSON has to arrive well inside the 60 s SessionStart budget. */
-const RETURN_WITHIN_MS = 38_000;
+/**
+ * The bound is 30 s in the hook and the hook's JSON has to arrive inside the 60 s SessionStart
+ * budget. The margin is wide because this suite runs beside twenty others under `npm test`, and a
+ * loaded runner added eight seconds to the spawn once; the bound itself is asserted by the hook's
+ * exit code and the timeout token, not by this number.
+ */
+const RETURN_WITHIN_MS = 50_000;
 
 const manifest = (id, name, binding) =>
   JSON.stringify(

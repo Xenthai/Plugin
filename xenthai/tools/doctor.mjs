@@ -49,10 +49,12 @@ CHECKS, IN ORDER
             failed: staging writes a row, so a rule failing on one row could never go green.
   transport the mcp_tool hook that copies journal-sync.mjs --emit's output into the store, read from
             the settings files this session loads. FAILS when one is installed and cannot work — an
-            "if" anchored on the command name, no stdout or trailing newline, a title that is not the
-            file's name, a parent that is the store root, the wrong create tool — and on an ephemeral
-            binding when none is installed at all. Absent on a durable machine is OK and says what it
-            costs. Whether the parent IS the journal folder needs credentials: the doctor skill's job.
+            "if" not shaped Bash(*journal-sync.mjs --emit*), a matcher that never reaches Bash, no
+            emitted bytes or trailing newline, a title that is not the file's name, a parent that is
+            the store root, the wrong create tool, a hook Claude Code cannot parse — and on an
+            ephemeral binding when none is installed at all. Absent on a durable machine is OK and
+            says what it costs. Whether the parent IS the journal folder needs credentials: the
+            doctor skill's job. The tokens are the ones lib/transport.mjs defectsOf emits.
   journal   the journal directory accepts an append: one "health" row summarising this run is
             written last, as status codes, never as paths, so it can summarise the whole run.
 
@@ -478,22 +480,26 @@ const checkTransport = (cwd) => {
   const ctx = readCompany(cwd);
   if (!ctx.ok) return result("transport", "SKIP", "no company bound, so there is no store the hook could be pointed at", "no-company");
   const ephemeral = Boolean(ctx.binding?.ephemeral);
-  const { found, unreadable } = findTransportHooks(cwd, ctx.company);
-  const defects = [...new Set([...found.flatMap((f) => f.defects), ...(unreadable.length ? ["unparseable"] : [])])];
+  const { found, unreadable, malformed } = findTransportHooks(cwd, ctx.company);
+  const defects = [...new Set([...found.flatMap((f) => f.defects), ...(unreadable.length ? ["unparseable"] : []), ...(malformed.length ? ["malformed"] : [])])];
   const left = "Left to the session: that parentId is this company's journal/ folder and that server is the connector's name as the hooks see it (skills/doctor step 5)";
   if (defects.length) {
-    const where = [...found.map((f) => `${f.path}: ${f.defects.join(", ") || "valid"}`), ...unreadable.map((u) => `${u.path} does not parse (${u.detail})`)];
+    const where = [
+      ...found.map((f) => `${f.path}: ${f.defects.join(", ") || "valid"}`),
+      ...unreadable.map((u) => `${u.path} does not parse (${u.detail})`),
+      ...malformed.map((m) => `${m.path}: ${m.detail}`),
+    ];
     return result(
       "transport",
       "FAIL",
       `the transport hook is installed and cannot work as written — ${where.join("; ")}. A hook that does not fire falls back to the model reproducing every byte, with no error anywhere, so a control that is decoration is worse than none. Rewrite it per INSTALL.md §5b: the "if" must be Bash(*journal-sync.mjs --emit*), textContent "\${tool_response.stdout}\\n", title "\${tool_input.description}", parentId the journal/ folder's id, never the root`,
       defects.join("+"),
-      { hooks: found.map((f) => ({ path: f.path, defects: f.defects })), unreadable: unreadable.map((u) => u.path) }
+      { hooks: found.map((f) => ({ path: f.path, defects: f.defects })), unreadable: unreadable.map((u) => u.path), malformed: malformed.map((m) => m.path) }
     );
   }
   if (found.length) {
     const paths = [...new Set(found.map((f) => f.path))];
-    return result("transport", "OK", `transport hook present in ${paths.join(", ")}: pattern, stdout, newline, title, parent and tool check out. ${left}`, "present", { hooks: found.map((f) => ({ path: f.path })) });
+    return result("transport", "OK", `transport hook present in ${paths.join(", ")}: the if pattern, matcher, emitted bytes, newline, title, parent and tool check out. ${left}`, "present", { hooks: found.map((f) => ({ path: f.path })) });
   }
   if (ephemeral) {
     return result(

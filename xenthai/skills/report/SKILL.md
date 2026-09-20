@@ -5,9 +5,8 @@ description: Report what actually happened in a company's engagement, read back 
 
 # Report — the journal read back
 
-The tool counts. You interpret. The line between them is the whole point of this skill: every
-figure in the report is arithmetic over the journal, and every sentence about what those figures
-*mean* is a judgement you must be able to defend out loud.
+The tool counts. You interpret. Every figure in the report is arithmetic over the journal, and
+every sentence about what those figures *mean* is a judgement you must be able to defend out loud.
 
 ## Read the cadence doctrine first
 
@@ -181,11 +180,10 @@ node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event delivery --capability rep
 - **You do not know the bound root folder id.** Run without `--root` and leave the tool's sentence
   as it is. Never hand-write the clean version of a check that did not run.
 - **The bound store is personal** (`.company.json` says `"kind": "personal"`, or the header reads
-  *Tipo de store: personal*). No client report comes out of it: there is no client behind those
-  rows, so Entregas and Aprobaciones describe gates that never existed there. Its report is for the
-  operator alone — what running the plugin cost, what escalated and what then ran, whether the
-  journal is synced. A file mixing client and personal rows is a defect the tool lists; find out
-  why before reporting from it.
+  *Tipo de almacén: personal*). No client report comes out of it: there is no client behind those
+  rows, so Entregas and Aprobaciones describe gates that never existed. Its report is for the
+  operator alone: what the plugin cost, what escalated and ran, whether the journal is synced. A
+  file mixing client and personal rows is a defect the tool lists; find out why before reporting.
 - **A figure you want to publish has no `PROOF.md` row.** It does not go in.
 
 ## Reference material

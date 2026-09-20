@@ -10,11 +10,13 @@ import { storeKindOf, DEFAULT_STORE_KIND } from "./company.mjs";
 export const EMIT_MARK = "journal-sync.mjs --emit";
 
 /**
- * The spelling DECISIONS.md #21f recorded as never matching: anchored on the program name, so an
- * emit command spelt with an absolute path fell through to the model reproducing every byte, with
- * no error anywhere. A hook that cannot fire is a control that is decoration.
+ * The one shape of `if` that matches the emit command however a session spells it: a wildcard
+ * before the mark, because a session runs the tool by absolute path (DECISIONS.md #21f recorded
+ * `Bash(node …` as never matching, and any other anchor fails the same way), and a wildcard after
+ * it, because the file name follows. A hook that cannot fire is a control that is decoration.
  */
-export const ANCHORED_PREFIX = "Bash(node ";
+export const IF_PREFIX = "Bash(*";
+export const IF_SUFFIX = "*)";
 
 /** The Drive connector's create tool; a manifest's `store.tools.create` overrides it per provider. */
 export const DEFAULT_CREATE_TOOL = "create_file";
@@ -49,9 +51,46 @@ export const settingsFiles = (cwd = process.cwd()) => {
 const isTransportHook = (hook) =>
   hook && typeof hook === "object" && hook.type === "mcp_tool" && typeof hook.if === "string" && hook.if.includes(EMIT_MARK);
 
+/**
+ * A hook that mentions the emit command but is not shaped like a hook — `if` as an array, the
+ * `PostToolUse` list written as an object — is one Claude Code will not run, and reading it as
+ * absent would tell the operator to write a file that already exists.
+ */
+const mentionsEmit = (value) => {
+  try {
+    return JSON.stringify(value ?? null).includes(EMIT_MARK);
+  } catch {
+    return false;
+  }
+};
+
 const hooksIn = (settings) => {
-  const groups = Array.isArray(settings?.hooks?.PostToolUse) ? settings.hooks.PostToolUse : [];
-  return groups.flatMap((g) => (Array.isArray(g?.hooks) ? g.hooks : [])).filter(isTransportHook);
+  const list = settings?.hooks?.PostToolUse;
+  if (list !== undefined && !Array.isArray(list)) return { hooks: [], malformed: mentionsEmit(list) ? ["hooks.PostToolUse is not an array"] : [] };
+  const hooks = [];
+  const malformed = [];
+  for (const group of list ?? []) {
+    for (const hook of Array.isArray(group?.hooks) ? group.hooks : []) {
+      if (isTransportHook(hook)) hooks.push({ hook, matcher: group?.matcher });
+      else if (mentionsEmit(hook)) malformed.push("a hook names the emit command but its \"if\" is not a string");
+    }
+  }
+  return { hooks, malformed };
+};
+
+/**
+ * True when a group's matcher reaches the Bash tool. Claude Code reads it as a regular expression
+ * over the tool name; absent or empty applies to every tool. A group scoped to `Edit` holds a hook
+ * that will never see the emit command, however correct the hook itself is.
+ */
+const matchesBash = (matcher) => {
+  if (matcher === undefined || matcher === null || matcher === "" || matcher === "*") return true;
+  if (typeof matcher !== "string") return false;
+  try {
+    return new RegExp(matcher).test("Bash");
+  } catch {
+    return false;
+  }
 };
 
 /**
@@ -70,10 +109,13 @@ const hooksIn = (settings) => {
  * would fail a correct one, which is the same silence this module exists to remove, pointed the
  * other way.
  */
-export const defectsOf = (hook, company) => {
+export const defectsOf = (hook, company, matcher) => {
   const defects = [];
   const input = hook.input && typeof hook.input === "object" ? hook.input : {};
-  if (hook.if.startsWith(ANCHORED_PREFIX)) defects.push("pattern-anchored");
+  const at = hook.if.indexOf(EMIT_MARK);
+  if (hook.if.slice(0, at) !== IF_PREFIX) defects.push("pattern-anchored");
+  if (!hook.if.slice(at + EMIT_MARK.length).endsWith(IF_SUFFIX)) defects.push("pattern-truncated");
+  if (!matchesBash(matcher)) defects.push("matcher-not-bash");
   const drive = storeKindOf(company) === DEFAULT_STORE_KIND;
   const declared = company?.store?.tools?.create;
   const values = Object.values(input).filter((v) => typeof v === "string");
@@ -87,19 +129,21 @@ export const defectsOf = (hook, company) => {
     else if (parent === company?.store?.root) defects.push("parent-is-root");
   }
   if (!drive && typeof declared !== "string") defects.push("tools-undeclared");
-  if (hook.tool !== (declared ?? DEFAULT_CREATE_TOOL)) defects.push("wrong-tool");
+  else if (hook.tool !== (declared ?? DEFAULT_CREATE_TOOL)) defects.push("wrong-tool");
   return defects;
 };
 
 /**
  * Every transport hook the session will load, each with the file it came from and its defects,
- * plus the settings files that exist and do not parse. An absent file is the ordinary state and is
- * not reported; a file that exists and cannot be read is, because a hook written into it is one
- * the session will never run.
+ * plus the settings files that exist and do not parse, and the ones that parse but hold a hook
+ * shaped so that Claude Code will not run it. An absent file is the ordinary state and is not
+ * reported; each of the other two is, because a hook written into such a file is one the session
+ * will never run.
  */
 export const findTransportHooks = (cwd, company) => {
   const found = [];
   const unreadable = [];
+  const malformed = [];
   for (const path of settingsFiles(cwd)) {
     if (!existsSync(path)) continue;
     let settings;
@@ -109,7 +153,9 @@ export const findTransportHooks = (cwd, company) => {
       unreadable.push({ path, detail: String(err && err.message).split("\n")[0] });
       continue;
     }
-    for (const hook of hooksIn(settings)) found.push({ path, hook, defects: defectsOf(hook, company) });
+    const read = hooksIn(settings);
+    for (const { hook, matcher } of read.hooks) found.push({ path, hook, defects: defectsOf(hook, company, matcher) });
+    for (const detail of read.malformed) malformed.push({ path, detail });
   }
-  return { found, unreadable };
+  return { found, unreadable, malformed };
 };

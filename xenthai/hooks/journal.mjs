@@ -80,8 +80,8 @@ const warnUnsynced = async (cwd) => {
         "container is reclaimed they are gone, and with them the evidence for this engagement's reports.\n" +
         "Only a session can upload them. Next session: tools/journal-sync.mjs --stage.\n"
     );
-  } catch {
-    /* the warning must never be the reason a session fails to end */
+  } catch (err) {
+    process.stderr.write(`Xenth AI — could not tell whether this session's journal rows reached the store: ${String(err && err.message).slice(0, 120)}\n`);
   }
 };
 

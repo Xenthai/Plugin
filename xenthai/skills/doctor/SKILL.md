@@ -5,8 +5,8 @@ description: Verify that this machine and the bound company's connectors can act
 
 # Doctor — can this install do the work it is about to promise?
 
-An install can pass every visible sign of health and fail at the first delivery. Four ways it does,
-each found at that delivery instead of in two minutes:
+An install can pass every visible sign of health and fail at the first delivery. Four ways, each
+found at that delivery instead of in two minutes:
 
 - the connector is authorized but not scoped to the company's folder, so the first read fails
 - a write goes through but a trash does not, or the guard refuses because no company is bound
@@ -14,10 +14,8 @@ each found at that delivery instead of in two minutes:
 - the assets folder was never shared by link, so a scheduler imports every image missing
 
 Half the checks are mechanical and a script runs them; the other half need credentials only you
-have, in a session.
-
-**This is not Claude Code's built-in `/doctor`**, which rightsizes skills and CLAUDE.md files; for
-that question send the operator to the built-in command in an interactive terminal.
+have, in a session. **This is not Claude Code's built-in `/doctor`**, which rightsizes skills and
+CLAUDE.md files; for that, send the operator to the built-in command.
 
 ## Step 1 — the local checks, by the machine
 
@@ -30,12 +28,11 @@ same as data.
 
 One line per check — `node`, `company`, `browser`, `fonts`, `engine`, `sync`, `transport`, `journal` —
 each `OK`, `FAIL` or `SKIP` with its reason. It exits 0 only when every line is OK. **A `SKIP` exits
-1 too**: a doctor that could not verify something does not report clean. It launches and closes the
-browser it finds and never downloads one.
+1 too**: a doctor that could not verify something does not report clean.
 
-Every run appends one `health` row to the journal: the status codes of the run, never a path or an
-error text. That row is how a client's setup is diagnosed later from its own journal, so run it even
-when everything works.
+Every run appends one `health` row to the journal: the run's status codes, never a path or an
+error text. It is how a client's setup is diagnosed later from its own journal, so run it even when
+everything works.
 
 | Line | What a FAIL means | What to do |
 | --- | --- | --- |
@@ -46,14 +43,14 @@ when everything works.
 | `engine` | `template.html` or `formats.json` missing, or `formats.json` does not parse | Reinstall; the render refuses to start without them |
 | `sync` | Rows exist on this machine and not in the company's store — a closed month, or any row at all on an ephemeral binding | Run `tools/journal-sync.mjs --stage` and do the upload, step 5 below. On an ephemeral binding this is not housekeeping: that disk is destroyed when the session ends, and `report` and `opportunities` are built on those rows |
 | `transport` | On an ephemeral binding no transport hook is installed, or on any binding one is installed that cannot fire — the reason names the defect | A hook that cannot fire falls back to the model reproducing every byte, silently. Write or rewrite the settings file per `INSTALL.md` §5b, at the directory the session started in — before binding when that directory is not the company's, since the guard blocks a local write outside it. On `absent-ephemeral` do it now, before the first upload. Whether `parentId` is this company's `journal/` folder is yours to confirm in step 5 |
-| `journal` | The journal directory rejects an append | Nothing is auditable until it is fixed: permissions on the company directory, or on the plugin data directory when no company is bound |
+| `journal` | The journal directory rejects an append | Nothing is auditable until it is fixed: permissions on the company directory, or on the plugin data directory when unbound |
 
 ## Step 2 — the four connector round trips, by you
 
 A hook and a CLI run with no credentials, so nothing in code can prove the store works, and
 "connected" in the connector settings is not proof either: the wrong scope looks identical until the
-first call. Take `store.root` from `.company.json` — the one id you always have — and go in this
-order, stopping at the first failure:
+first call. Take `store.root` from `.company.json` and go in this order, stopping at the first
+failure:
 
 **1. Read.** Read the root folder's metadata by its id and confirm the name that comes back is this
 company's. An id proves reachability, not identity, and two companies can name a folder the same.
@@ -105,10 +102,12 @@ Then `node "${CLAUDE_PLUGIN_ROOT}/tools/journal-sync.mjs" --stage` freezes what 
 the file(s) — the whole month the first time, afterwards only the rows since the last receipt. For
 each file, in the order printed:
 
-- **If the transport hook is installed** (`INSTALL.md` §5b): run the `emit` line `--stage` printed,
-  with the file's exact name as the Bash call's description, and **alone** — the hook copies the
-  whole call's output, so an `echo` or a second command after `&&` lands in the uploaded file. It
-  creates the file; you generate no bytes.
+- **If the transport hook is installed** (`INSTALL.md` §5b): first confirm what the doctor could
+  not — its `parentId` is the `journal/` folder id from the step 1 listing, and its `server` is the
+  `mcp_server.name` any connector call's hook input shows. Then run the `emit` line `--stage`
+  printed, with the file's exact name as the Bash call's description, and **alone** — the hook copies
+  the whole call's output, so an `echo` or a second command after `&&` lands in the uploaded file.
+  It creates the file; you generate no bytes.
 - **Otherwise** create it in the company's `journal/` folder through the connector with **exactly**
   that name, `text/plain`, conversion disabled.
 
@@ -154,8 +153,8 @@ as `fail`. Never put the probe's content, a file's contents or a comment's text 
 - **No company is bound.** Run step 1 and report it; the round trips need a bound company, so ask
   which. Never create `.company.json` unasked or guess a company from the directory name.
 - **The connector is not authorized**, or a call returns an authorization error. Point to `MCP.md`
-  § How to authorize and stop after one attempt: the state changes only when a person authorizes,
-  in their own settings, and retrying only raises the journal's error count.
+  § How to authorize and stop after one attempt: only a person authorizing changes the state, and
+  retrying only raises the journal's error count.
 - **The comment did not arrive.** The approval gate does not exist. Nothing that rests on it — the
   plan gate in social-plan, the first-batch gate in social-produce — may proceed until it does.
 - **The doctor exits 2.** The tool itself failed. Report its stderr verbatim; do not work around it.

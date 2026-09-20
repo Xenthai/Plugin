@@ -46,7 +46,7 @@ See `DECISIONS.md` #29–#31.
   behind so the next session within two minutes installed nothing. The install is now bounded by
   **SIGKILL at 30 s**, npm's stderr reaches the message (a proxy refusal and a misspelt registry no
   longer read identically as "exited 1"), and every attempt leaves one `health` row — capability
-  `bootstrap`, detail `engine:installed` | `engine:install-failed(enoent|timeout|npm-error)` |
+  `bootstrap`, detail `engine:installed` | `engine:install-failed(enoent|timeout|npm-output|npm-error)` |
   `engine:missing-after-install` — so a render failing weeks later can be read back to the session
   start where the install failed. `test/bootstrap.test.mjs` proves the bound with an npm that never
   returns.
@@ -84,17 +84,17 @@ See `DECISIONS.md` #29–#31.
   receipted and bytes uploaded per month, from the receipts.
 - **`doctor`'s `transport` line**, between `sync` and `journal`: reads the settings files the
   session loads (`.claude/settings.local.json` and `settings.json` at the starting directory and
-  the git root, then the user's) and validates the `mcp_tool` hook's shape — `pattern-anchored`
-  (the `Bash(node …` form #21f recorded as never matching), `no-stdout`, `no-newline`,
-  `title-not-description`, `no-parent`, `parent-is-root`, `wrong-tool`, `unparseable`. FAILS on a
+  the git root, then the user's) and validates the `mcp_tool` hook's shape with the tokens
+  `defectsOf` in `lib/transport.mjs` emits — among them `pattern-anchored`, the `Bash(node …`
+  form #21f recorded as never matching, and `malformed`, a hook Claude Code cannot parse. FAILS on a
   defective hook on any binding and on an absent one on an ephemeral binding (every upload would pass
   through the model: ~13,000 tokens and six minutes per 20 KB against ~45 s); OK(absent) on a durable
   machine, saying what it costs. On a OneDrive store it judges the declared create tool and the
   emitted bytes, never Drive's parameter names. The bootstrap's EPHEMERAL BINDING line now says
   whether the hook is present, absent, or present and unable to fire. What no CLI can check — that
-  `parentId` IS the journal folder — stays with the doctor skill, whose step 2 now also lists the
-  root and `journal/` for two files sharing one name, the shape an interrupted create-and-trash
-  leaves behind (found once, on the personal store's `README.md`).
+  `parentId` IS the journal folder — stays with the doctor skill, whose read round trip (step 2.1)
+  now also lists the root and `journal/` for two files sharing one name, the shape an interrupted
+  create-and-trash leaves behind (found once, on the personal store's `README.md`).
 
 ### Changed
 
@@ -104,13 +104,10 @@ See `DECISIONS.md` #29–#31.
 
 ### Evaluated and not done
 
-- Silencing the transport's own rows (#21d stands; the 57.5% measured was the parts era plus
-  development Bash rows in a personal store, and a sync now leaves five rows). Making the rows legible
-  and separable in the report is what shipped instead.
-- A weekly period for `opportunities` (#23 stands; `--min` already exists and the file, the receipt
-  grammar and every reader are monthly). A first reading in three weeks would be noise with a date.
-- `doctor` listing the store for duplicate names: a CLI holds no credentials. It is a step of the
-  skill; `--store-listing <json>` on `journal-sync.mjs` remains the deterministic half, on the roadmap.
+Three of the handoff's asks stay refused, with the reasons where refusals live: silencing the
+transport's own rows (`DECISIONS.md` #21d), a weekly period for `opportunities` and narrowing the
+hook matchers (`ROADMAP.md`, "Deliberately not on the roadmap"), and a CLI listing the store for
+duplicate names (`DECISIONS.md` #31: no credentials; it is the doctor skill's step).
 
 ## [0.6.3] - 2026-09-20
 

@@ -171,7 +171,8 @@ const minutesOf = (ms) => Math.round(ms / 6000) / 10;
  * Pairs each pending `escalation` with the FIRST later `ai_action` or `error` in the same session
  * carrying the same tool and the same digest — the hook writes that digest on the PermissionRequest
  * row and again on the PostToolUse row for the same call, and nothing else ties the two together:
- * Claude Code gives hooks no decision and no tool_use_id, and a denied prompt fires no hook at all.
+ * Claude Code gives hooks no decision and no tool_use_id on the prompt, and a person's denial fires
+ * no hook (`PermissionDenied` exists for auto-mode denials only).
  * So a pair means only "the tool then ran"; who allowed it is unknown, and an unpaired escalation
  * is a denial, a session that ended, or a call that never ran — indistinguishable in the journal.
  * Escalations recorded by hand (`result` ok) are semantic events with nothing to execute, and are
@@ -186,15 +187,15 @@ const escalationOutcomes = (rows) => {
     .filter((row) => (row.event === "escalation" && row.result === "pending") || ESCALATION_OUTCOMES.has(row.event))
     .map((row, index) => ({ row, index, at: Date.parse(row.ts ?? "") }))
     .sort((a, b) => a.at - b.at || a.index - b.index);
-  const keyOf = (row) => `${row.session ?? ""}\u0000${row.tool ?? ""}\u0000${row.digest}`;
+  const keyOf = (row) => `${row.session}\u0000${row.tool ?? ""}\u0000${row.digest}`;
   for (const item of ordered) {
-    const pairable = Number.isFinite(item.at) && typeof item.row.digest === "string";
+    const pairable = Number.isFinite(item.at) && typeof item.row.digest === "string" && typeof item.row.session === "string";
     if (item.row.event === "escalation") {
       if (!Number.isFinite(item.at)) {
         unusable.push(item.row);
         continue;
       }
-      if (typeof item.row.digest !== "string") {
+      if (typeof item.row.digest !== "string" || typeof item.row.session !== "string") {
         unpaired.push(item.row);
         continue;
       }
@@ -239,9 +240,9 @@ const deliveriesOf = (rows) => {
 };
 
 /**
- * A row the plugin wrote about itself rather than about the client's work. `target.action` on a
- * Bash row (schema 3) is the program, script basename and first flag, never a value, and is absent
- * on older rows.
+ * A row the plugin wrote about itself rather than about the client's work, so a director can subtract
+ * what operating the plugin cost. A Bash row before schema 3 carries no `action` and cannot be
+ * classified, so this undercounts on older months rather than guessing.
  */
 const isInstrumentation = (row) =>
   INSTRUMENTATION_CAPABILITIES.has(row.capability) ||
@@ -359,8 +360,11 @@ const summarise = ({ month, file, rows, malformed, digest, bytes, root }) => {
     );
   }
   if (storeKinds.length > 1) {
+    const listed = storeKinds.map(([kind, n]) => `${storeKindLabel(kind)}: ${n}`).join(", ");
     defects.push(
-      `El archivo mezcla filas de más de un tipo de almacén (${storeKinds.map(([kind, n]) => `${storeKindLabel(kind)}: ${n}`).join(", ")}). Las cifras de este periodo no corresponden a un solo cliente.`
+      storeKinds.some(([kind]) => kind === PENDING)
+        ? `El archivo contiene filas sin almacén declarado junto a filas de un almacén (${listed}). Una fila sin almacén no se escribió dentro de esta empresa; averigüe cómo llegó aquí antes de reportar.`
+        : `El archivo mezcla filas de más de un tipo de almacén (${listed}). Las cifras de este periodo no corresponden a un solo cliente.`
     );
   }
   if (malformed.length > 0) {

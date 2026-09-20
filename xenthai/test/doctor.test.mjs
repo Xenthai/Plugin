@@ -554,8 +554,32 @@ check("a OneDrive hook is judged by its declared create tool and the emitted byt
   const ok = doctor(declared, ["--json"]).by.transport;
   const missing = doctor(undeclared, ["--json"]).by.transport;
   return [
-    ok?.code === "transport:ok(present)" && missing?.code === "transport:fail(tools-undeclared+wrong-tool)",
+    ok?.code === "transport:ok(present)" && missing?.code === "transport:fail(tools-undeclared)",
     `declared=${ok?.code}; undeclared=${missing?.code}`,
+  ];
+});
+
+/**
+ * The first version of this check knew one anchored spelling and read no matcher, so a hook anchored
+ * on an absolute path, one missing its trailing wildcard, and one in a group scoped to `Edit` all
+ * passed as present — three more hooks that never fire, reported as working. The shape is now the
+ * rule: `Bash(*` before the mark, `*)` after it, a matcher that reaches Bash.
+ */
+check("any if not shaped Bash(*…*) and any matcher that misses Bash FAIL, and a hook Claude Code cannot parse is malformed, not absent", () => {
+  const abs = doctor(withHook("abs-anchor", transportHook({ if: "Bash(/usr/bin/node *journal-sync.mjs --emit*)" })), ["--json"]).by.transport;
+  const cut = doctor(withHook("no-suffix", transportHook({ if: "Bash(*journal-sync.mjs --emit)" })), ["--json"]).by.transport;
+  const scoped = transportHook();
+  scoped.hooks.PostToolUse[0].matcher = "Edit";
+  const edit = doctor(withHook("matcher-edit", scoped), ["--json"]).by.transport;
+  const object = { hooks: { PostToolUse: transportHook().hooks.PostToolUse[0] } };
+  const malformed = doctor(withHook("object-list", object, "ephemeral"), ["--json"]).by.transport;
+  return [
+    abs?.code === "transport:fail(pattern-anchored)" &&
+      cut?.code === "transport:fail(pattern-truncated)" &&
+      edit?.code === "transport:fail(matcher-not-bash)" &&
+      malformed?.code === "transport:fail(malformed)" &&
+      /not an array/.test(malformed?.reason ?? ""),
+    `abs=${abs?.code} cut=${cut?.code} edit=${edit?.code} object=${malformed?.code}`,
   ];
 });
 

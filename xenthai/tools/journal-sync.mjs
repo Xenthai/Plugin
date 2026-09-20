@@ -373,10 +373,19 @@ const latestRevision = (receipt) => (receipt?.revisions?.length ? receipt.revisi
 /**
  * What the store has been handed for a month, in bytes, read from the receipts rather than from the
  * month file: a full revision followed by deltas uploads the month once, a month re-uploaded whole
- * uploads it twice, and only the receipts know which happened. A schema 1 or 2 entry, and a
- * restored one, has no `uploaded` and is whole-month, so its `bytes` is the figure.
+ * uploads it twice, and only the receipts know which happened. A schema 3 entry says so in
+ * `uploaded`; a schema 2 entry carries the store-confirmed `size` per file and may be a delta, so
+ * its `bytes` — the whole month — is never the figure; a schema 1 entry is whole-month by
+ * construction; a restored entry uploaded nothing from this machine.
  */
-const uploadedBytesOf = (receipt) => (receipt?.revisions ?? []).reduce((n, r) => n + (r.uploaded?.bytes ?? r.bytes ?? 0), 0);
+const uploadedBytesOf = (receipt) =>
+  (receipt?.revisions ?? []).reduce((n, r) => {
+    if (r.uploaded?.bytes !== undefined && r.uploaded?.bytes !== null) return n + r.uploaded.bytes;
+    if (r.restored) return n;
+    if (Array.isArray(r.parts)) return n + r.parts.reduce((sum, p) => sum + (p.size ?? 0), 0);
+    if (typeof r.size === "number") return n + r.size;
+    return n + (r.kind === "delta" ? 0 : r.bytes ?? 0);
+  }, 0);
 
 /**
  * How much of THIS machine's month file a revision settled, and what those rows hashed to.

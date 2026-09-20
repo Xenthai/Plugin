@@ -507,6 +507,31 @@ check("a browser call records the action verb and the url, and never the keystro
  * O_APPEND is atomic only while a write stays small. A row that grew past the ceiling could
  * interleave with another and corrupt both.
  */
+/**
+ * Each of these is a place where a fragment of a VALUE stood where a program can: an escaped quote
+ * inside a quoted value followed by `;`, a comment, an escaped separator, a quote nobody closed, an
+ * escaped space inside an environment value, and a quoted value that happens to end like a script.
+ * Every one was found by trying to break the extractor, and every one is asserted as absent.
+ */
+check("a value fragment never becomes a program or a script in the action, whatever the quoting", () => {
+  const cases = [
+    [`node x.mjs --why "he said \\"hi; ZQXprog --x\\" ok"`, "node x.mjs --why"],
+    ["echo hi # ZQXcomment; ZQXprog --x", "echo"],
+    ["echo a\\; ZQXprog --x", "echo --x"],
+    ["echo it's a; ZQXprog --x", "echo"],
+    ["TOKEN=ZQXsecret\\ b node x.mjs", "node x.mjs"],
+    ['node --why "ZQXsecreto.sh" tools/journal.mjs', "node journal.mjs --why"],
+    ["node --out ZQXname.mjs", "node --out"],
+  ];
+  for (const [command, expected] of cases) {
+    post("Bash", { command }, CO_A);
+    const row = rows(CO_A).at(-1);
+    const text = JSON.stringify(row);
+    if (row.target?.action !== expected || text.includes("ZQX")) return [false, `${command} -> action=${row.target?.action} leaked=${text.includes("ZQX")}`];
+  }
+  return [true, `${cases.length} quoting shapes, no value in any row`];
+});
+
 check("every row written by the suite stays under the atomic-append ceiling", () => {
   const all = [...rows(CO_A), ...rows(CO_B)];
   const sizes = all.map((r) => Buffer.byteLength(JSON.stringify(r)));
