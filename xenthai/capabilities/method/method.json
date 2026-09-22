@@ -1,8 +1,8 @@
 {
   "source": {
     "repo": "Xenthai/Web",
-    "commit": "b53aa929236cf97a1d91a221bcc2b315662937f0",
-    "committedAt": "2026-09-22T01:42:14-06:00"
+    "commit": "b924b8703f0732008d0a3a29215a476bf7ce56ab",
+    "committedAt": "2026-09-22T12:24:53-06:00"
   },
   "datasets": {
     "phases": {
@@ -611,6 +611,42 @@
           }
         },
         {
+          "id": "X9",
+          "source": {
+            "chapter": "00",
+            "section": "Anexos"
+          },
+          "part": "anexos",
+          "code": "X9",
+          "title": "Expediente completo",
+          "type": "anexo",
+          "order": 28,
+          "sourceFile": "anexos/X9-expediente.md",
+          "slug": "anexos/x9-expediente",
+          "implementers": {
+            "skills": [
+              "resume",
+              "company-profile",
+              "company-intake",
+              "process-map",
+              "company-offer",
+              "company-evidence",
+              "process-access",
+              "automate-spec",
+              "automate-handover",
+              "baseline",
+              "company-new",
+              "coverage",
+              "social-identity",
+              "social-voice",
+              "social-presence"
+            ],
+            "doctrine": [],
+            "tools": [],
+            "scaffold": []
+          }
+        },
+        {
           "id": "G1",
           "source": {
             "chapter": "00",
@@ -620,7 +656,7 @@
           "code": "G1",
           "title": "Guía de campo · Del día anterior al cierre",
           "type": "guia",
-          "order": 28,
+          "order": 29,
           "sourceFile": "guias/G1-guia-de-campo.md",
           "slug": "guias/g1-guia-de-campo",
           "implementers": {
@@ -695,7 +731,7 @@
         },
         "number": 6,
         "title": "La gobernanza se diseña al principio, no cuando llega la auditoría",
-        "oneLiner": "Registro de procesos conectados, clasificación de riesgo, política de uso aceptable, bitácora de decisiones automatizadas y criterio de intervención humana."
+        "oneLiner": "Registro de procesos conectados, clasificación de riesgo, política de uso aceptable, bitácora de decisiones automatizadas y criterio de intervención de una persona."
       },
       {
         "id": "principle-7",
@@ -704,7 +740,7 @@
           "section": "§7"
         },
         "number": 7,
-        "title": "Humano en el circuito donde el error es caro o irreversible",
+        "title": "Persona en el circuito donde el error es caro o irreversible",
         "oneLiner": "Toda automatización se clasifica por lo que pasa cuando se equivoca."
       },
       {
@@ -1130,7 +1166,7 @@
             "section": "3"
           },
           "condition": "C3 o C5 en 1",
-          "consequence": "bloquea el arranque, sin importar el total: exigen autorización explícita del comité y decisión de humano en el circuito (ver A5 §4)"
+          "consequence": "bloquea el arranque, sin importar el total: exigen autorización explícita del comité y decisión de persona en el circuito (ver A5 §4)"
         },
         {
           "id": "veto-c4-en-1-o-2",
@@ -1473,7 +1509,7 @@
           "subPhases": [
             "1"
           ],
-          "statement": "Restricciones declaradas: qué tiene que seguir siendo humano y por qué",
+          "statement": "Restricciones declaradas: qué tiene que seguir siendo de una persona y por qué",
           "evidenceSatisfies": "Lista escrita, tratada como restricción de diseño",
           "blocking": true
         },
@@ -1627,8 +1663,8 @@
           "subPhases": [
             "3"
           ],
-          "statement": "Por proceso: dueño con nombre propio",
-          "evidenceSatisfies": "Nombre en la ficha, validado con esa persona",
+          "statement": "Por proceso: dueño con puesto nombrado",
+          "evidenceSatisfies": "Puesto en la ficha; nombre y fecha de quien lo validó en la línea de validación de A2 §7",
           "blocking": true
         },
         {
@@ -1855,7 +1891,7 @@
             "3"
           ],
           "statement": "Qué procesos producen decisiones sobre personas o actos irreversibles",
-          "evidenceSatisfies": "Marca en la ficha: entrada del criterio de humano en el circuito de A5",
+          "evidenceSatisfies": "Marca en la ficha: entrada del criterio de persona en el circuito de A5",
           "blocking": true
         },
         {
@@ -1907,7 +1943,7 @@
           "whoIsHit": "Cliente final, área que ejecuta",
           "controls": [
             "Trazabilidad de fuente",
-            "humano en el circuito",
+            "persona en el circuito",
             "umbral de confianza",
             "muestreo"
           ],
@@ -1942,7 +1978,7 @@
           "whoIsHit": "Empresa, cliente final",
           "controls": [
             "Límites de acción",
-            "humano en el circuito para toda acción con efecto",
+            "persona en el circuito para toda acción con efecto",
             "separar contenido de instrucción",
             "bitácora (ver B6)"
           ],
@@ -2037,7 +2073,7 @@
             "chapter": "X5",
             "section": "§1"
           },
-          "risk": "Pérdida de conocimiento humano por desuso",
+          "risk": "Pérdida de conocimiento de las personas por desuso",
           "howItShows": "Nadie sabe ya hacer a mano lo que el sistema hace",
           "whoIsHit": "Empresa",
           "controls": [
@@ -2167,7 +2203,7 @@
           "reversibility": "Reversible con trabajo",
           "tier": "R3",
           "controls": [
-            "Humano en el circuito",
+            "Persona en el circuito",
             "bitácora completa",
             "apagado probado"
           ]
@@ -2195,7 +2231,7 @@
           "reversibility": "Reversible en minutos",
           "tier": "R3",
           "controls": [
-            "Humano en el circuito",
+            "Persona en el circuito",
             "apagado probado",
             "muestreo semanal"
           ]
@@ -2223,7 +2259,7 @@
           "reversibility": "Irreversible en la práctica",
           "tier": "R4",
           "controls": [
-            "Todo lo anterior; sin humano en el circuito no se despliega"
+            "Todo lo anterior; sin persona en el circuito no se despliega"
           ]
         }
       ]
@@ -2260,7 +2296,7 @@
           "section": "§2 Términos"
         },
         "term": "Alucinación",
-        "definition": "Respuesta de un modelo que suena correcta y no lo es: una cifra, una cita o un hecho inventados con el mismo tono que los verdaderos. Es el riesgo que justifica el humano en el circuito y las evals.",
+        "definition": "Respuesta de un modelo que suena correcta y no lo es: una cifra, una cita o un hecho inventados con el mismo tono que los verdaderos. Es el riesgo que justifica la persona en el circuito y las evals.",
         "synonyms": [
           "confabulación"
         ]
@@ -2326,7 +2362,7 @@
           "section": "§2 Términos"
         },
         "term": "Cinco bloques",
-        "definition": "Los componentes del *AI-First Operating System* del World Economic Forum —motor de inteligencia, stack adaptativo, rediseño de operaciones, equipos humano-IA y nueva creación de valor— usados como rejilla de diagnóstico en A0 §2.",
+        "definition": "Los componentes del *AI-First Operating System* del World Economic Forum —motor de inteligencia, stack adaptativo, rediseño de operaciones, equipos persona-IA y nueva creación de valor— usados como rejilla de diagnóstico en A0 §2.",
         "synonyms": []
       },
       {
@@ -2429,18 +2465,6 @@
         "term": "Filtro de higiene",
         "definition": "La pregunta que se contesta antes de cerrar cada proceso: ¿funciona bien cuando se hace a mano? Si no, el proceso se marca \"rediseñar antes de automatizar\".",
         "synonyms": []
-      },
-      {
-        "id": "human-in-the-loop",
-        "source": {
-          "chapter": "X7",
-          "section": "§2 Términos"
-        },
-        "term": "Humano en el circuito",
-        "definition": "Revisión obligatoria de una persona antes de que un acto automatizado surta efecto. Se exige donde el error es caro, irreversible o afecta a un tercero.",
-        "synonyms": [
-          "punto de control humano, la forma con la que se nombra hacia el cliente"
-        ]
       },
       {
         "id": "idempotency",
@@ -2594,6 +2618,20 @@
         ]
       },
       {
+        "id": "human-in-the-loop",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Persona en el circuito",
+        "definition": "Revisión obligatoria de una persona antes de que un acto automatizado surta efecto. Se exige donde el error es caro, irreversible o afecta a un tercero.",
+        "synonyms": [
+          "punto de control, la forma con la que se nombra hacia el cliente",
+          "human in the loop",
+          "HITL"
+        ]
+      },
+      {
         "id": "portfolio",
         "source": {
           "chapter": "X7",
@@ -2700,7 +2738,7 @@
           "dimensions": {
             "people": "La IA opera dentro de procesos con dueño, entrada, salida y criterio de terminado",
             "data": "Sistemas clave integrables por API; dato maestro identificado y con dueño",
-            "governance": "Registro de casos, clasificación de riesgo, humano en el circuito y bitácora (A5)",
+            "governance": "Registro de casos, clasificación de riesgo, persona en el circuito y bitácora (A5)",
             "measurement": "Métricas de proceso contra línea base congelada",
             "leadership": "CAIO o responsable con mandato escrito y comité activo",
             "promise": "Mejora medible de tiempo de ciclo y capacidad atendida en procesos nombrados"
@@ -5461,7 +5499,7 @@
           "stage": "a7",
           "order": 1,
           "title": "Escribir la especificación antes de construir",
-          "detail": "Trigger, datos, ramas de error, humano en el circuito, plan de prueba y rollout, sin nombrar plataforma todavía.",
+          "detail": "Trigger, datos, ramas de error, persona en el circuito, plan de prueba y rollout, sin nombrar plataforma todavía.",
           "executor": {
             "kind": "skill",
             "ref": "automate-spec"

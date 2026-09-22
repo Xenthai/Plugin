@@ -19,7 +19,7 @@ realizado.)*
 | — | — pendiente — | — pendiente — | — pendiente — | — pendiente — | — pendiente — |
 
 > El orden por dolor y el orden por viabilidad de automatización **casi nunca coinciden**. El
-> proceso que más duele suele ser el que más juicio humano exige, y por lo tanto el más difícil de
+> proceso que más duele suele ser el que más juicio de una persona exige, y por lo tanto el más difícil de
 > automatizar. Ambos órdenes se publican por separado a propósito.
 
 ## 2. Evaluación de viabilidad de automatización — rúbrica X3

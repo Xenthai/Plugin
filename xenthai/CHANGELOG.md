@@ -122,6 +122,18 @@ reads it rather than restating it.
   references it, and that every `fieldGuide` step naming a skill executor resolves to a real
   `skills/<ref>/SKILL.md`.
 
+### Changed — the method data, re-exported
+
+- **`capabilities/method/` follows the playbook's condensed annexes.** X4 PR5 now reads "dueño con
+  puesto nombrado", with the validator's name and date living only in the A2 §7 validation line
+  (`CONFORMANCE.md` Ruling 6, applied on the playbook side); the chapter list gains X9 "Expediente
+  completo", the page the playbook renders from the same `store` dataset this plugin lays out, so
+  the field guide becomes chapter 29; and every dataset says "persona en el circuito" where it said
+  "humano en el circuito", the playbook's brand sweep now blocking the older word. The es-MX
+  scaffolds and the two tools that print client-facing labels (`opportunities.mjs`, `report.mjs`)
+  follow the same vocabulary. `.gitattributes` pins LF at the repository root so a Windows checkout
+  no longer rewrites the vendored files the drift check hashes.
+
 ## [0.3.0] - 2026-09-09
 
 The gaps the plugin's own doctrine already named and nothing filled. `MEASUREMENT.md` said durable

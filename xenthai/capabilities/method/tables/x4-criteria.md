@@ -19,7 +19,7 @@
 | NE7 | Tipos de cliente con ticket y origen real | Origen de los últimos tres clientes, perseguido uno por uno | No | 1 |
 | NE8 | Cuánto tarda un peso desde el sí hasta la cuenta | Días promedio con fuente | No | 1 |
 | NE9 | Concentración: si algún cliente pasa del 30 % del ingreso anual | Porcentaje calculado, no recordado | No | 2 |
-| NE10 | Restricciones declaradas: qué tiene que seguir siendo humano y por qué | Lista escrita, tratada como restricción de diseño | Sí | 1 |
+| NE10 | Restricciones declaradas: qué tiene que seguir siendo de una persona y por qué | Lista escrita, tratada como restricción de diseño | Sí | 1 |
 | ED1 | Qué se revisó, con qué muestra, y qué quedó fuera y por qué | `04-evidencia/fuentes.md` con la causa de cada exclusión | Sí | 2 |
 | ED2 | Al menos una cifra clave del bloque NE contrastada contra documentos | Tabla de contrastes: lo declarado, lo observado, qué explica la brecha | Sí | 2 |
 | ED3 | Al menos tres reglas de negocio no escritas, aparecidas al contrastar | Tres reglas redactadas como condición, con el caso que las reveló | Sí | 2 |
@@ -30,7 +30,7 @@
 | PR2 | Proceso completo de la entrega: del compromiso al entregable aceptado | Ficha completa | Sí | 3 |
 | PR3 | Procesos administrativos recurrentes que consumen días | Dos fichas, o la justificación de por qué no existen | No | 3 |
 | PR4 | Por proceso: frecuencia al mes y minutos por vez | Las dos cifras y el método con que se obtuvieron | Sí | 3 |
-| PR5 | Por proceso: dueño con nombre propio | Nombre en la ficha, validado con esa persona | Sí | 3 |
+| PR5 | Por proceso: dueño con puesto nombrado | Puesto en la ficha; nombre y fecha de quien lo validó en la línea de validación de A2 §7 | Sí | 3 |
 | PR6 | Por proceso: excepciones, no solo el camino normal | Al menos dos excepciones con su frecuencia | Sí | 3 |
 | PR7 | Por proceso: reglas de autorización, quién aprueba qué y desde qué monto | Umbrales con cifra y unidad | Sí | 3 |
 | PR8 | Por proceso: costo del error, qué pasa al fallar, cada cuánto y cuánto cuesta | Fallas al mes por costo promedio por falla | No | 3 |
@@ -46,6 +46,6 @@
 | RC1 | Qué datos personales toca la operación y de qué categoría | Inventario por proceso: identificativos, financieros, de salud, de menores, biométricos | Sí | 2 y 3 |
 | RC2 | Si hay aviso de privacidad publicado y qué cubre | El documento, o el hallazgo explícito de que no existe | Sí | 0 |
 | RC3 | Marcos legales aplicables por país de operación y de clientes | Marco nombrado, sin emitir asesoría legal, con recomendación de revisión por abogado | No | 2 |
-| RC4 | Qué procesos producen decisiones sobre personas o actos irreversibles | Marca en la ficha: entrada del criterio de humano en el circuito de A5 | Sí | 3 |
+| RC4 | Qué procesos producen decisiones sobre personas o actos irreversibles | Marca en la ficha: entrada del criterio de persona en el circuito de A5 | Sí | 3 |
 | RC5 | Qué automatización propuesta transferiría datos personales a un servicio de IA | Lista que alimenta A5 y el anexo X5 | No | 3 |
 | RC6 | Ninguna credencial registrada en la base de conocimiento | Revisión del repositorio: consta que la cuenta existe y quién la controla, nunca cómo entrar | Sí | 0 |
