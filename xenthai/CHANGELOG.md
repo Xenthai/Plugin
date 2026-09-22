@@ -111,6 +111,17 @@ reads it rather than restating it.
   predated A2 §2's own `04-evidencia/HALLAZGOS.md` and `fuentes.md`; keeping it would have had this
   release's own layout contradict this release's own doctrine.
 
+### Added
+
+- **`capabilities/method/tables/field-guide.md` vendors the playbook's field guide** — 17 stages, 110
+  steps, from the day before the first visit to the handover — and `skills/setup/SKILL.md` now reads
+  its `preparation`, `day-one-setup` and `day-one-framing` rows as the first visit's checklist instead
+  of restating seven steps in prose, so the skill and the playbook's G1 page render the same list from
+  the one exported table. `INSTALL.md` gains one sentence naming that table as the ordered checklist
+  it supplies the platform detail for. `test/method.test.mjs` asserts the table exists, that the skill
+  references it, and that every `fieldGuide` step naming a skill executor resolves to a real
+  `skills/<ref>/SKILL.md`.
+
 ## [0.3.0] - 2026-09-09
 
 The gaps the plugin's own doctrine already named and nothing filled. `MEASUREMENT.md` said durable
