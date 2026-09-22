@@ -19,7 +19,7 @@
 | Los tres controles de datos, ¿se cumplen? | — pendiente — |
 | **Escalón objetivo, y qué lo limita** | — pendiente — |
 
-Costo del error en 1 o 2 obliga a dejar una aprobación humana en el camino, sin importar el puntaje
+Costo del error en 1 o 2 obliga a dejar la aprobación de una persona en el camino, sin importar el puntaje
 de investigación. Un control de datos que no se cumple impide pasar del escalón 1 a cualquier proceso
 que toque datos personales o de clientes: es acción prohibida, no riesgo que el cliente pueda aceptar.
 

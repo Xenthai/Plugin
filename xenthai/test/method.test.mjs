@@ -326,6 +326,42 @@ check("drift: vendored method.json matches METHOD_SOURCE when set, skipped when 
   return [identical, identical ? "byte-identical to METHOD_SOURCE" : "vendored copy has drifted from METHOD_SOURCE"];
 });
 
+check("capabilities/method/tables/field-guide.md exists", () => {
+  const path = join(TABLES_DIR, "field-guide.md");
+  return [existsSync(path), existsSync(path) ? "present" : `missing: ${path}`];
+});
+
+check("skills/setup/SKILL.md references the field guide table", () => {
+  const body = readFileSync(join(ROOT, "skills", "setup", "SKILL.md"), "utf8");
+  const referenced = body.includes("method/tables/field-guide.md");
+  return [referenced, referenced ? "referenced" : "skills/setup/SKILL.md does not mention field-guide.md"];
+});
+
+/**
+ * Resolves a `fieldGuide` step's `executor.ref` (kind `skill`) to `skills/<ref>/SKILL.md`. Shared
+ * by the real-data check and its wrong-ref counterpart below, so both exercise the same lookup.
+ */
+function skillRefExists(ref) {
+  return existsSync(join(ROOT, "skills", ref, "SKILL.md"));
+}
+
+check("every fieldGuide step with a skill executor names an existing skills/<ref>/SKILL.md", () => {
+  const fieldGuide = methodJson.datasets.fieldGuide;
+  const skillSteps = fieldGuide.steps.filter((s) => s.executor?.kind === "skill");
+  const missing = skillSteps.filter((s) => !skillRefExists(s.executor.ref)).map((s) => `${s.id} -> ${s.executor.ref}`);
+  return [
+    skillSteps.length > 0 && missing.length === 0,
+    missing.length
+      ? `refs with no skills/<ref>/SKILL.md: ${missing.join(", ")}`
+      : `${skillSteps.length} skill-executed steps, all resolve`,
+  ];
+});
+
+check("a fieldGuide step naming a nonexistent skill is refused", () => {
+  const bad = { id: "fixture-1", executor: { kind: "skill", ref: "does-not-exist" } };
+  return [!skillRefExists(bad.executor.ref), skillRefExists(bad.executor.ref) ? "a bad ref was NOT refused" : "refused: no such skills/does-not-exist/SKILL.md"];
+});
+
 let failed = 0;
 for (const [name, fn] of cases) {
   let ok = false;

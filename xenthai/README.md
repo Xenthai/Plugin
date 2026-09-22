@@ -118,7 +118,7 @@ is a deliberate scope boundary, not a missing label.
 
 | | Skill | When it runs |
 | --- | --- | --- |
-| **Setup** | `setup` | The first visit. Reads the seven steps back before running anything, then reports which are owed and by whom |
+| **Setup** | `setup` | The first visit. Reads the field guide's day-one rows back before running anything, then reports which are owed and by whom |
 | | `company-new` | Writes the `.company.json` that binds a session to exactly one company, and adopts whatever the store already holds |
 | | `doctor` | Whether this machine and the bound company's connectors can do the work about to be promised |
 | | `resume` | Where the engagement stands and what the next step is. The one entry point a client's own staff can remember |

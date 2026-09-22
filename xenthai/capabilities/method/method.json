@@ -1,8 +1,8 @@
 {
   "source": {
     "repo": "Xenthai/Web",
-    "commit": "eb0e0c9d8275580302fea2e08d804b13e0591116",
-    "committedAt": "2026-09-17T15:17:17-06:00"
+    "commit": "b924b8703f0732008d0a3a29215a476bf7ce56ab",
+    "committedAt": "2026-09-22T12:24:53-06:00"
   },
   "datasets": {
     "phases": {
@@ -22,6 +22,10 @@
         {
           "id": "anexos",
           "name": "Anexos"
+        },
+        {
+          "id": "guides",
+          "name": "Guías de campo"
         }
       ],
       "chapters": [
@@ -605,6 +609,66 @@
             "tools": [],
             "scaffold": []
           }
+        },
+        {
+          "id": "X9",
+          "source": {
+            "chapter": "00",
+            "section": "Anexos"
+          },
+          "part": "anexos",
+          "code": "X9",
+          "title": "Expediente completo",
+          "type": "anexo",
+          "order": 28,
+          "sourceFile": "anexos/X9-expediente.md",
+          "slug": "anexos/x9-expediente",
+          "implementers": {
+            "skills": [
+              "resume",
+              "company-profile",
+              "company-intake",
+              "process-map",
+              "company-offer",
+              "company-evidence",
+              "process-access",
+              "automate-spec",
+              "automate-handover",
+              "baseline",
+              "company-new",
+              "coverage",
+              "social-identity",
+              "social-voice",
+              "social-presence"
+            ],
+            "doctrine": [],
+            "tools": [],
+            "scaffold": []
+          }
+        },
+        {
+          "id": "G1",
+          "source": {
+            "chapter": "00",
+            "section": "Guías de campo"
+          },
+          "part": "guides",
+          "code": "G1",
+          "title": "Guía de campo · Del día anterior al cierre",
+          "type": "guia",
+          "order": 29,
+          "sourceFile": "guias/G1-guia-de-campo.md",
+          "slug": "guias/g1-guia-de-campo",
+          "implementers": {
+            "skills": [
+              "setup",
+              "company-new",
+              "doctor"
+            ],
+            "doctrine": [],
+            "tools": [],
+            "scaffold": []
+          }
         }
       ]
     },
@@ -667,7 +731,7 @@
         },
         "number": 6,
         "title": "La gobernanza se diseña al principio, no cuando llega la auditoría",
-        "oneLiner": "Registro de procesos conectados, clasificación de riesgo, política de uso aceptable, bitácora de decisiones automatizadas y criterio de intervención humana."
+        "oneLiner": "Registro de procesos conectados, clasificación de riesgo, política de uso aceptable, bitácora de decisiones automatizadas y criterio de intervención de una persona."
       },
       {
         "id": "principle-7",
@@ -676,7 +740,7 @@
           "section": "§7"
         },
         "number": 7,
-        "title": "Humano en el circuito donde el error es caro o irreversible",
+        "title": "Persona en el circuito donde el error es caro o irreversible",
         "oneLiner": "Toda automatización se clasifica por lo que pasa cuando se equivoca."
       },
       {
@@ -1102,7 +1166,7 @@
             "section": "3"
           },
           "condition": "C3 o C5 en 1",
-          "consequence": "bloquea el arranque, sin importar el total: exigen autorización explícita del comité y decisión de humano en el circuito (ver A5 §4)"
+          "consequence": "bloquea el arranque, sin importar el total: exigen autorización explícita del comité y decisión de persona en el circuito (ver A5 §4)"
         },
         {
           "id": "veto-c4-en-1-o-2",
@@ -1445,7 +1509,7 @@
           "subPhases": [
             "1"
           ],
-          "statement": "Restricciones declaradas: qué tiene que seguir siendo humano y por qué",
+          "statement": "Restricciones declaradas: qué tiene que seguir siendo de una persona y por qué",
           "evidenceSatisfies": "Lista escrita, tratada como restricción de diseño",
           "blocking": true
         },
@@ -1599,8 +1663,8 @@
           "subPhases": [
             "3"
           ],
-          "statement": "Por proceso: dueño con nombre propio",
-          "evidenceSatisfies": "Nombre en la ficha, validado con esa persona",
+          "statement": "Por proceso: dueño con puesto nombrado",
+          "evidenceSatisfies": "Puesto en la ficha; nombre y fecha de quien lo validó en la línea de validación de A2 §7",
           "blocking": true
         },
         {
@@ -1827,7 +1891,7 @@
             "3"
           ],
           "statement": "Qué procesos producen decisiones sobre personas o actos irreversibles",
-          "evidenceSatisfies": "Marca en la ficha: entrada del criterio de humano en el circuito de A5",
+          "evidenceSatisfies": "Marca en la ficha: entrada del criterio de persona en el circuito de A5",
           "blocking": true
         },
         {
@@ -1879,7 +1943,7 @@
           "whoIsHit": "Cliente final, área que ejecuta",
           "controls": [
             "Trazabilidad de fuente",
-            "humano en el circuito",
+            "persona en el circuito",
             "umbral de confianza",
             "muestreo"
           ],
@@ -1914,7 +1978,7 @@
           "whoIsHit": "Empresa, cliente final",
           "controls": [
             "Límites de acción",
-            "humano en el circuito para toda acción con efecto",
+            "persona en el circuito para toda acción con efecto",
             "separar contenido de instrucción",
             "bitácora (ver B6)"
           ],
@@ -2009,7 +2073,7 @@
             "chapter": "X5",
             "section": "§1"
           },
-          "risk": "Pérdida de conocimiento humano por desuso",
+          "risk": "Pérdida de conocimiento de las personas por desuso",
           "howItShows": "Nadie sabe ya hacer a mano lo que el sistema hace",
           "whoIsHit": "Empresa",
           "controls": [
@@ -2139,7 +2203,7 @@
           "reversibility": "Reversible con trabajo",
           "tier": "R3",
           "controls": [
-            "Humano en el circuito",
+            "Persona en el circuito",
             "bitácora completa",
             "apagado probado"
           ]
@@ -2167,7 +2231,7 @@
           "reversibility": "Reversible en minutos",
           "tier": "R3",
           "controls": [
-            "Humano en el circuito",
+            "Persona en el circuito",
             "apagado probado",
             "muestreo semanal"
           ]
@@ -2195,7 +2259,7 @@
           "reversibility": "Irreversible en la práctica",
           "tier": "R4",
           "controls": [
-            "Todo lo anterior; sin humano en el circuito no se despliega"
+            "Todo lo anterior; sin persona en el circuito no se despliega"
           ]
         }
       ]
@@ -2232,7 +2296,7 @@
           "section": "§2 Términos"
         },
         "term": "Alucinación",
-        "definition": "Respuesta de un modelo que suena correcta y no lo es: una cifra, una cita o un hecho inventados con el mismo tono que los verdaderos. Es el riesgo que justifica el humano en el circuito y las evals.",
+        "definition": "Respuesta de un modelo que suena correcta y no lo es: una cifra, una cita o un hecho inventados con el mismo tono que los verdaderos. Es el riesgo que justifica la persona en el circuito y las evals.",
         "synonyms": [
           "confabulación"
         ]
@@ -2298,7 +2362,7 @@
           "section": "§2 Términos"
         },
         "term": "Cinco bloques",
-        "definition": "Los componentes del *AI-First Operating System* del World Economic Forum —motor de inteligencia, stack adaptativo, rediseño de operaciones, equipos humano-IA y nueva creación de valor— usados como rejilla de diagnóstico en A0 §2.",
+        "definition": "Los componentes del *AI-First Operating System* del World Economic Forum —motor de inteligencia, stack adaptativo, rediseño de operaciones, equipos persona-IA y nueva creación de valor— usados como rejilla de diagnóstico en A0 §2.",
         "synonyms": []
       },
       {
@@ -2401,18 +2465,6 @@
         "term": "Filtro de higiene",
         "definition": "La pregunta que se contesta antes de cerrar cada proceso: ¿funciona bien cuando se hace a mano? Si no, el proceso se marca \"rediseñar antes de automatizar\".",
         "synonyms": []
-      },
-      {
-        "id": "human-in-the-loop",
-        "source": {
-          "chapter": "X7",
-          "section": "§2 Términos"
-        },
-        "term": "Humano en el circuito",
-        "definition": "Revisión obligatoria de una persona antes de que un acto automatizado surta efecto. Se exige donde el error es caro, irreversible o afecta a un tercero.",
-        "synonyms": [
-          "punto de control humano, la forma con la que se nombra hacia el cliente"
-        ]
       },
       {
         "id": "idempotency",
@@ -2566,6 +2618,20 @@
         ]
       },
       {
+        "id": "human-in-the-loop",
+        "source": {
+          "chapter": "X7",
+          "section": "§2 Términos"
+        },
+        "term": "Persona en el circuito",
+        "definition": "Revisión obligatoria de una persona antes de que un acto automatizado surta efecto. Se exige donde el error es caro, irreversible o afecta a un tercero.",
+        "synonyms": [
+          "punto de control, la forma con la que se nombra hacia el cliente",
+          "human in the loop",
+          "HITL"
+        ]
+      },
+      {
         "id": "portfolio",
         "source": {
           "chapter": "X7",
@@ -2672,7 +2738,7 @@
           "dimensions": {
             "people": "La IA opera dentro de procesos con dueño, entrada, salida y criterio de terminado",
             "data": "Sistemas clave integrables por API; dato maestro identificado y con dueño",
-            "governance": "Registro de casos, clasificación de riesgo, humano en el circuito y bitácora (A5)",
+            "governance": "Registro de casos, clasificación de riesgo, persona en el circuito y bitácora (A5)",
             "measurement": "Métricas de proceso contra línea base congelada",
             "leadership": "CAIO o responsable con mandato escrito y comité activo",
             "promise": "Mejora medible de tiempo de ciclo y capacidad atendida en procesos nombrados"
@@ -3229,6 +3295,2721 @@
           "contents": "Quién le compra a esta empresa y cómo decide.",
           "signedBy": "quién firma las afirmaciones públicas",
           "ownerSkill": "company-intake"
+        }
+      ]
+    },
+    "fieldGuide": {
+      "stages": [
+        {
+          "id": "preparation",
+          "order": 1,
+          "name": "Preparación",
+          "chapter": "A1",
+          "when": "El día anterior"
+        },
+        {
+          "id": "day-one-setup",
+          "order": 2,
+          "name": "Instalación del plugin",
+          "chapter": null,
+          "when": "Día 1"
+        },
+        {
+          "id": "day-one-framing",
+          "order": 3,
+          "name": "Encuadre y mandato",
+          "chapter": "A1",
+          "when": "Día 1"
+        },
+        {
+          "id": "a2-p",
+          "order": 4,
+          "name": "Perfil y arquetipo",
+          "chapter": "A2",
+          "when": "Semana 1"
+        },
+        {
+          "id": "a2-0",
+          "order": 5,
+          "name": "Inventario técnico",
+          "chapter": "A2",
+          "when": "Semana 1"
+        },
+        {
+          "id": "a2-1",
+          "order": 6,
+          "name": "Brief de negocio",
+          "chapter": "A2",
+          "when": "Semana 2"
+        },
+        {
+          "id": "a2-2",
+          "order": 7,
+          "name": "Arqueología documental",
+          "chapter": "A2",
+          "when": "Semana 3"
+        },
+        {
+          "id": "a2-3",
+          "order": 8,
+          "name": "Procesos",
+          "chapter": "A2",
+          "when": "Semana 4"
+        },
+        {
+          "id": "a2-coverage",
+          "order": 9,
+          "name": "Cobertura y devolución",
+          "chapter": "A2",
+          "when": "Semana 5"
+        },
+        {
+          "id": "a3",
+          "order": 10,
+          "name": "Portafolio y priorización",
+          "chapter": "A3",
+          "when": "Semana 6 a 8"
+        },
+        {
+          "id": "a4",
+          "order": 11,
+          "name": "Arquitectura, datos y plataforma",
+          "chapter": "A4",
+          "when": "Trimestre 1"
+        },
+        {
+          "id": "a5",
+          "order": 12,
+          "name": "Gobernanza, riesgo y cumplimiento",
+          "chapter": "A5",
+          "when": "Trimestre 1"
+        },
+        {
+          "id": "a6",
+          "order": 13,
+          "name": "Personas y adopción",
+          "chapter": "A6",
+          "when": "Trimestre 1 a 2"
+        },
+        {
+          "id": "a7",
+          "order": 14,
+          "name": "Implementación y operación",
+          "chapter": "A7",
+          "when": "Trimestre 2"
+        },
+        {
+          "id": "a8",
+          "order": 15,
+          "name": "Medición de valor",
+          "chapter": "A8",
+          "when": "Continuo, desde el primer proceso conectado"
+        },
+        {
+          "id": "a9",
+          "order": 16,
+          "name": "Madurez y ruta de 12 meses",
+          "chapter": "A9",
+          "when": "Mes 10 a 12"
+        },
+        {
+          "id": "closing",
+          "order": 17,
+          "name": "Cierre y traspaso",
+          "chapter": "A9",
+          "when": "Cierre del acompañamiento"
+        }
+      ],
+      "steps": [
+        {
+          "id": "prep-1",
+          "stage": "preparation",
+          "order": 1,
+          "title": "Confirmar el acuerdo de alcance y confidencialidad",
+          "detail": "Verifica que el área legal del cliente esté revisando o haya firmado X2.2 antes de que llegue el primer archivo.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Dirección general",
+            "Área legal del cliente"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A1",
+            "section": "S5"
+          }
+        },
+        {
+          "id": "prep-2",
+          "stage": "preparation",
+          "order": 2,
+          "title": "Confirmar la agenda de la sesión de arranque",
+          "detail": "Revisa con el patrocinador los ocho bloques de la media jornada y quién asiste a cada uno.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Patrocinador"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A1",
+            "section": "S6"
+          }
+        },
+        {
+          "id": "prep-3",
+          "stage": "preparation",
+          "order": 3,
+          "title": "Pedir la lista nominal de accesos por escrito",
+          "detail": "Solicita las unidades de red, carpetas, buzones y sistemas con el permiso de cada uno, quién otorga y quién revoca.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Responsable de TI",
+            "Responsable de riesgo"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A1",
+            "section": "S5"
+          }
+        },
+        {
+          "id": "prep-4",
+          "stage": "preparation",
+          "order": 4,
+          "title": "Confirmar en qué máquina y con qué cuenta correrá el plugin",
+          "detail": "Verifica que sea la máquina del cliente, con la cuenta del cliente, en Windows o macOS.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Responsable de TI"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A1",
+            "section": "S8"
+          }
+        },
+        {
+          "id": "prep-5",
+          "stage": "preparation",
+          "order": 5,
+          "title": "Confirmar que el comunicado interno está enviado o programado",
+          "detail": "Sin el comunicado de dirección general antes de la primera entrevista, las entrevistas arrancan con la pregunta de si el programa recorta personal.",
+          "executor": {
+            "kind": "client",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Dirección general"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A1",
+            "section": "S5"
+          }
+        },
+        {
+          "id": "setup-1",
+          "stage": "day-one-setup",
+          "order": 1,
+          "title": "Instalar Claude Desktop",
+          "detail": "Instálalo en la máquina del cliente si no está; es el punto de entrada a Cowork, la memoria y el plugin.",
+          "executor": {
+            "kind": "app",
+            "ref": "claude.com/claude-code"
+          },
+          "leaves": [],
+          "participants": [
+            "Consultor"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S2"
+          }
+        },
+        {
+          "id": "setup-2",
+          "stage": "day-one-setup",
+          "order": 2,
+          "title": "Iniciar sesión con la cuenta del cliente",
+          "detail": "El plugin corre con la cuenta y las credenciales del cliente, nunca con las del consultor.",
+          "executor": {
+            "kind": "client",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Cliente"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A1",
+            "section": "S8"
+          }
+        },
+        {
+          "id": "setup-3",
+          "stage": "day-one-setup",
+          "order": 3,
+          "title": "Activar Cowork",
+          "detail": "Cowork es donde corren los procesos que escriben la bitácora de ejecución del plugin.",
+          "executor": {
+            "kind": "app",
+            "ref": "Claude Desktop → Cowork"
+          },
+          "leaves": [],
+          "participants": [
+            "Consultor"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S2"
+          }
+        },
+        {
+          "id": "setup-4",
+          "stage": "day-one-setup",
+          "order": 4,
+          "title": "Activar la memoria de Claude Desktop",
+          "detail": "Primer componente de la memoria: la opción de memoria de Claude Desktop y Cowork, encendida antes de la primera sesión.",
+          "executor": {
+            "kind": "app",
+            "ref": "Claude Desktop → Configuración → Memoria"
+          },
+          "leaves": [],
+          "participants": [
+            "Consultor"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S2"
+          }
+        },
+        {
+          "id": "setup-5",
+          "stage": "day-one-setup",
+          "order": 5,
+          "title": "Instalar Node 22 LTS",
+          "detail": "El plugin y su motor de render no corren en una versión anterior.",
+          "executor": {
+            "kind": "command",
+            "ref": "node --version"
+          },
+          "leaves": [],
+          "participants": [
+            "Consultor"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S2"
+          }
+        },
+        {
+          "id": "setup-6",
+          "stage": "day-one-setup",
+          "order": 6,
+          "title": "Instalar el sincronizador de la nube del cliente",
+          "detail": "Google Drive para Escritorio si la empresa usa Google Workspace, o OneDrive si usa Microsoft 365 — el que corresponda a esta empresa.",
+          "executor": {
+            "kind": "app",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Consultor",
+            "Responsable de TI"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S2"
+          }
+        },
+        {
+          "id": "setup-7a",
+          "stage": "day-one-setup",
+          "order": 7,
+          "title": "En Windows, confirmar que el navegador del motor de render está disponible",
+          "detail": "Edge viene incluido desde Windows 10 (1809); no hace falta instalar nada.",
+          "executor": {
+            "kind": "app",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Consultor"
+          ],
+          "platforms": [
+            "windows"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S2"
+          }
+        },
+        {
+          "id": "setup-7b",
+          "stage": "day-one-setup",
+          "order": 8,
+          "title": "En macOS, instalar Chromium para el motor de render",
+          "detail": "macOS solo trae Safari, que el motor no puede controlar; instala Chromium una sola vez con Playwright.",
+          "executor": {
+            "kind": "command",
+            "ref": "npx playwright install chromium"
+          },
+          "leaves": [],
+          "participants": [
+            "Consultor"
+          ],
+          "platforms": [
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S2"
+          }
+        },
+        {
+          "id": "setup-8",
+          "stage": "day-one-setup",
+          "order": 9,
+          "title": "Agregar el marketplace desde la aplicación de escritorio",
+          "detail": "Hazlo desde Plugins → Agregar → Agregar marketplace con Xenthai/Plugin; nunca desde la terminal en la máquina del cliente.",
+          "executor": {
+            "kind": "app",
+            "ref": "Claude Desktop → Plugins → Agregar marketplace"
+          },
+          "leaves": [],
+          "participants": [
+            "Consultor"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A1",
+            "section": "S8"
+          }
+        },
+        {
+          "id": "setup-9",
+          "stage": "day-one-setup",
+          "order": 10,
+          "title": "Instalar el plugin xenthai@xenthai",
+          "detail": "Con el marketplace ya agregado desde la app, instala el plugin por su nombre completo.",
+          "executor": {
+            "kind": "command",
+            "ref": "claude plugin install xenthai@xenthai"
+          },
+          "leaves": [],
+          "participants": [
+            "Consultor"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A1",
+            "section": "S8"
+          }
+        },
+        {
+          "id": "setup-10",
+          "stage": "day-one-setup",
+          "order": 11,
+          "title": "Autorizar los conectores en la configuración de claude.ai",
+          "detail": "Google Workspace (Drive, Gmail, Calendar) o Microsoft 365 (OneDrive/SharePoint, Outlook), el que corresponda a esta empresa; solo el cliente puede autorizarlos.",
+          "executor": {
+            "kind": "client",
+            "ref": "claude.ai → Configuración → Conectores"
+          },
+          "leaves": [],
+          "participants": [
+            "Cliente"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A1",
+            "section": "S5"
+          }
+        },
+        {
+          "id": "setup-11",
+          "stage": "day-one-setup",
+          "order": 12,
+          "title": "Crear el proyecto de la empresa con sus instrucciones",
+          "detail": "Segundo componente de la memoria: un proyecto por empresa con nombre, giro, reglas propias y dónde vive su almacén.",
+          "executor": {
+            "kind": "app",
+            "ref": "Claude Desktop → Proyectos → Nuevo proyecto"
+          },
+          "leaves": [],
+          "participants": [
+            "Consultor"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S2"
+          }
+        },
+        {
+          "id": "setup-12",
+          "stage": "day-one-setup",
+          "order": 13,
+          "title": "Correr /xenthai:setup",
+          "detail": "Imprime la lista de los siete pasos de la primera visita antes de ejecutar nada, para que el consultor sepa qué falta y qué pedir.",
+          "executor": {
+            "kind": "skill",
+            "ref": "setup"
+          },
+          "leaves": [],
+          "participants": [
+            "Consultor"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S2"
+          }
+        },
+        {
+          "id": "setup-13",
+          "stage": "day-one-setup",
+          "order": 14,
+          "title": "Correr /xenthai:company-new",
+          "detail": "Tercer componente de la memoria: escribe .company.json, crea la carpeta de la empresa en su propio almacén y la carpeta journal/.",
+          "executor": {
+            "kind": "skill",
+            "ref": "company-new"
+          },
+          "leaves": [
+            ".company.json",
+            "journal/"
+          ],
+          "participants": [
+            "Consultor"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S2"
+          }
+        },
+        {
+          "id": "setup-14",
+          "stage": "day-one-setup",
+          "order": 15,
+          "title": "Correr /xenthai:doctor",
+          "detail": "Verifica Node, la máquina, el navegador, las fuentes, y hace los cuatro recorridos de conector antes de confiar en la instalación.",
+          "executor": {
+            "kind": "skill",
+            "ref": "doctor"
+          },
+          "leaves": [],
+          "participants": [
+            "Consultor"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A1",
+            "section": "S8"
+          }
+        },
+        {
+          "id": "framing-1",
+          "stage": "day-one-framing",
+          "order": 1,
+          "title": "Abrir la sesión de arranque",
+          "detail": "Media jornada con dirección; sin ella no arranca el mapeo.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Patrocinador",
+            "CAIO"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A1",
+            "section": "S6"
+          }
+        },
+        {
+          "id": "framing-2",
+          "stage": "day-one-framing",
+          "order": 2,
+          "title": "Redactar y firmar la carta de mandato",
+          "detail": "Los ocho elementos de X2.1: propósito, alcance, autoridad, presupuesto, plazo, criterio de éxito, acceso a información y qué pasa si un área se niega.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Dirección general"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A1",
+            "section": "S2"
+          }
+        },
+        {
+          "id": "framing-3",
+          "stage": "day-one-framing",
+          "order": 3,
+          "title": "Constituir el comité de IA",
+          "detail": "De cinco a siete personas, cadencia quincenal en las primeras fases, con los umbrales de gasto y riesgo del CAIO por escrito.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "CAIO",
+            "Patrocinador",
+            "Responsable de TI",
+            "Responsable de riesgo"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A1",
+            "section": "S3"
+          }
+        },
+        {
+          "id": "framing-4",
+          "stage": "day-one-framing",
+          "order": 4,
+          "title": "Firmar el acuerdo de alcance y confidencialidad",
+          "detail": "X2.2, validado por el área legal del cliente antes de recibir el primer archivo.",
+          "executor": {
+            "kind": "client",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Área legal del cliente"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A1",
+            "section": "S5"
+          }
+        },
+        {
+          "id": "framing-5",
+          "stage": "day-one-framing",
+          "order": 5,
+          "title": "Formalizar el acuerdo de acceso por escrito",
+          "detail": "Qué carpetas y buzones se revisan, qué queda fuera, quién autorizó y con qué fecha.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Dirección general",
+            "Responsable de TI"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S9"
+          }
+        },
+        {
+          "id": "framing-6",
+          "stage": "day-one-framing",
+          "order": 6,
+          "title": "Pedir el manual de identidad y los logotipos",
+          "detail": "Manual de marca o archivos de logo; sin manual, se deriva del sitio y se marca como derivado.",
+          "executor": {
+            "kind": "client",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Dirección general"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S4"
+          }
+        },
+        {
+          "id": "framing-7",
+          "stage": "day-one-framing",
+          "order": 7,
+          "title": "Pedir catálogo, lista de precios e inventario",
+          "detail": "Si no existen, se levantan por entrevista y se marcan como reportados por el cliente, nunca como verificados.",
+          "executor": {
+            "kind": "client",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Dirección general"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S5"
+          }
+        },
+        {
+          "id": "framing-8",
+          "stage": "day-one-framing",
+          "order": 8,
+          "title": "Pedir la plantilla de personal y el organigrama real",
+          "detail": "Nombres y puestos reales; los roles van en el almacén, los nombres solo en las líneas de validación.",
+          "executor": {
+            "kind": "client",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Dirección general",
+            "Recursos humanos"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S5"
+          }
+        },
+        {
+          "id": "framing-9",
+          "stage": "day-one-framing",
+          "order": 9,
+          "title": "Pedir acceso a carpetas, buzón y calendario, y una cuenta de servicio",
+          "detail": "Una cuenta de servicio dedicada para los conectores del plugin — nunca la contraseña personal de nadie, y nunca escrita en el almacén.",
+          "executor": {
+            "kind": "client",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Responsable de TI"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S9"
+          }
+        },
+        {
+          "id": "framing-10",
+          "stage": "day-one-framing",
+          "order": 10,
+          "title": "Enviar el comunicado interno",
+          "detail": "Firmado por dirección general, antes de la primera entrevista: qué se hará, quién lo conduce y la postura sobre plantilla.",
+          "executor": {
+            "kind": "client",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Dirección general"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A1",
+            "section": "S5"
+          }
+        },
+        {
+          "id": "p-1",
+          "stage": "a2-p",
+          "order": 1,
+          "title": "Confirmar la empresa vinculada",
+          "detail": "Corre doctor y di el nombre de la empresa en voz alta antes de la primera pregunta.",
+          "executor": {
+            "kind": "skill",
+            "ref": "doctor"
+          },
+          "leaves": [],
+          "participants": [
+            "Consultor"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S3"
+          }
+        },
+        {
+          "id": "p-2",
+          "stage": "a2-p",
+          "order": 2,
+          "title": "Investigar el giro si nadie en el equipo lo conoce",
+          "detail": "Cadena de valor, unidad de medida, software habitual del país, regulador y estacionalidad, media hora antes de la sesión.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Consultor"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S3"
+          }
+        },
+        {
+          "id": "p-3",
+          "stage": "a2-p",
+          "order": 3,
+          "title": "Hacer las cuatro preguntas que ubican el negocio",
+          "detail": "Cómo entra el dinero, cuánto tarda una venta, qué se entrega y qué impide vender el doble mañana — una a la vez.",
+          "executor": {
+            "kind": "skill",
+            "ref": "company-profile"
+          },
+          "leaves": [],
+          "participants": [
+            "Dirección general"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S3"
+          }
+        },
+        {
+          "id": "p-4",
+          "stage": "a2-p",
+          "order": 4,
+          "title": "Construir el glosario del giro",
+          "detail": "Pregunta qué palabras usan que alguien de fuera no entendería, y detente cada vez que pase un término sin entenderlo del todo.",
+          "executor": {
+            "kind": "skill",
+            "ref": "company-profile"
+          },
+          "leaves": [],
+          "participants": [
+            "Dirección general"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S3"
+          }
+        },
+        {
+          "id": "p-5",
+          "stage": "a2-p",
+          "order": 5,
+          "title": "Asignar el arquetipo y validarlo en voz alta",
+          "detail": "Elige entre los seis, o declara una mezcla, y confirma: entonces esto se parece más a un negocio de X que de Y.",
+          "executor": {
+            "kind": "skill",
+            "ref": "company-profile"
+          },
+          "leaves": [
+            "mapeo-<empresa>/00-PERFIL.md"
+          ],
+          "participants": [
+            "Dirección general"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S3"
+          }
+        },
+        {
+          "id": "p-6",
+          "stage": "a2-p",
+          "order": 6,
+          "title": "Cerrar con el plan adaptado y el alcance de la sesión",
+          "detail": "Qué actividades de soporte olvida este arquetipo, dónde vive su evidencia y quién más tiene que estar en cada fase.",
+          "executor": {
+            "kind": "skill",
+            "ref": "company-profile"
+          },
+          "leaves": [
+            "mapeo-<empresa>/00-PERFIL.md"
+          ],
+          "participants": [
+            "Dirección general"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S3"
+          }
+        },
+        {
+          "id": "inv-1",
+          "stage": "a2-0",
+          "order": 1,
+          "title": "Recorrer las once categorías del inventario",
+          "detail": "Correo e identidad, almacenamiento, comunicación con clientes, administración, operación, software del giro, comercial, presencia digital y hardware.",
+          "executor": {
+            "kind": "skill",
+            "ref": "process-map"
+          },
+          "leaves": [],
+          "participants": [
+            "Responsable de sistemas"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S4"
+          }
+        },
+        {
+          "id": "inv-2",
+          "stage": "a2-0",
+          "order": 2,
+          "title": "Distinguir app personal de plataforma con API en cada canal de mensajería",
+          "detail": "Pregunta si contestan desde una app instalada en un celular o desde una plataforma web donde varias personas atienden el mismo número.",
+          "executor": {
+            "kind": "skill",
+            "ref": "process-map"
+          },
+          "leaves": [],
+          "participants": [
+            "Responsable de sistemas"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S4"
+          }
+        },
+        {
+          "id": "inv-3",
+          "stage": "a2-0",
+          "order": 3,
+          "title": "Calificar el semáforo de integrabilidad de cada sistema",
+          "detail": "Verde con API o conector nativo, amarillo si solo exporta e importa archivos, rojo si es cerrado.",
+          "executor": {
+            "kind": "skill",
+            "ref": "process-map"
+          },
+          "leaves": [],
+          "participants": [
+            "Responsable de sistemas"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S4"
+          }
+        },
+        {
+          "id": "inv-4",
+          "stage": "a2-0",
+          "order": 4,
+          "title": "Registrar el costo mensual de la pila y los accesos huérfanos",
+          "detail": "Incluye lo que no existe: sin CRM, sin respaldo, sin aviso de privacidad son hallazgos tan válidos como los positivos.",
+          "executor": {
+            "kind": "skill",
+            "ref": "process-map"
+          },
+          "leaves": [
+            "mapeo-<empresa>/02-inventario.md"
+          ],
+          "participants": [
+            "Responsable de sistemas"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S4"
+          }
+        },
+        {
+          "id": "inv-5",
+          "stage": "a2-0",
+          "order": 5,
+          "title": "Nunca registrar una contraseña, llave o token",
+          "detail": "En 02-inventario.md se anota que la cuenta existe y quién la controla, jamás cómo entrar.",
+          "executor": {
+            "kind": "skill",
+            "ref": "process-map"
+          },
+          "leaves": [
+            "mapeo-<empresa>/02-inventario.md"
+          ],
+          "participants": [
+            "Responsable de sistemas"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S9"
+          }
+        },
+        {
+          "id": "brief-1",
+          "stage": "a2-1",
+          "order": 1,
+          "title": "Enviar la solicitud de documentos en un solo mensaje",
+          "detail": "Constancia fiscal, organigrama o nómina, lista de precios, una cotización y una factura reales — todo en un mensaje, nunca goteado.",
+          "executor": {
+            "kind": "skill",
+            "ref": "company-intake"
+          },
+          "leaves": [],
+          "participants": [
+            "Dirección general"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S5"
+          }
+        },
+        {
+          "id": "brief-2",
+          "stage": "a2-1",
+          "order": 2,
+          "title": "Abrir la entrevista de negocio en abierto",
+          "detail": "Platícame de la empresa, cinco minutos sin interrumpir; lo que mencionan primero es lo que van a sostener después.",
+          "executor": {
+            "kind": "skill",
+            "ref": "company-intake"
+          },
+          "leaves": [],
+          "participants": [
+            "Dirección general"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S5"
+          }
+        },
+        {
+          "id": "brief-3",
+          "stage": "a2-1",
+          "order": 3,
+          "title": "Pedir el último caso concreto, nunca el promedio",
+          "detail": "Cuéntame la última cotización que mandaste, desde que entró el contacto, en vez de cómo cotizan normalmente.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Dirección general"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S5"
+          }
+        },
+        {
+          "id": "brief-4",
+          "stage": "a2-1",
+          "order": 4,
+          "title": "Levantar el organigrama real contra el formal",
+          "detail": "Nombres, no puestos: quién decide, quién ejecuta, quién revisa, y los cuellos de botella de una sola persona.",
+          "executor": {
+            "kind": "skill",
+            "ref": "company-intake"
+          },
+          "leaves": [
+            "mapeo-<empresa>/01-personas.md"
+          ],
+          "participants": [
+            "Dirección general"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S5"
+          }
+        },
+        {
+          "id": "brief-5",
+          "stage": "a2-1",
+          "order": 5,
+          "title": "Capturar la oferta: productos, servicios y términos",
+          "detail": "OFERTA.md primero, con el límite de descuento; luego PRODUCTOS.md o SERVICIOS.md, lo que la empresa realmente venda.",
+          "executor": {
+            "kind": "skill",
+            "ref": "company-offer"
+          },
+          "leaves": [
+            "mapeo-<empresa>/01-oferta/OFERTA.md"
+          ],
+          "participants": [
+            "Dirección general"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S5"
+          }
+        },
+        {
+          "id": "brief-6",
+          "stage": "a2-1",
+          "order": 6,
+          "title": "Escribir el brief de negocio sin proponer soluciones",
+          "detail": "Modelo de ingreso, restricción principal, clientes, estacionalidad e intentos fallidos; las oportunidades quedan anotadas como semillas de backlog.",
+          "executor": {
+            "kind": "skill",
+            "ref": "company-intake"
+          },
+          "leaves": [
+            "mapeo-<empresa>/01-empresa.md"
+          ],
+          "participants": [
+            "Dirección general"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S5"
+          }
+        },
+        {
+          "id": "doc-1",
+          "stage": "a2-2",
+          "order": 1,
+          "title": "Leer la estructura de carpetas antes de abrir un archivo",
+          "detail": "Cómo se nombran los trabajos, cuántas versiones de final existen y la fecha del archivo más reciente.",
+          "executor": {
+            "kind": "skill",
+            "ref": "company-evidence"
+          },
+          "leaves": [],
+          "participants": [
+            "Quien resguarda los archivos"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S6"
+          }
+        },
+        {
+          "id": "doc-2",
+          "stage": "a2-2",
+          "order": 2,
+          "title": "Muestrear entre 15 y 30 documentos de transacción",
+          "detail": "Fecha, cliente, qué se vendió, monto, quién lo hizo y versiones posteriores, para el ticket real y la tasa de conversión.",
+          "executor": {
+            "kind": "skill",
+            "ref": "company-evidence"
+          },
+          "leaves": [
+            "mapeo-<empresa>/07-datos/"
+          ],
+          "participants": [
+            "Consultor"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S6"
+          }
+        },
+        {
+          "id": "doc-3",
+          "stage": "a2-2",
+          "order": 3,
+          "title": "Buscar patrones en correo y hojas de cálculo",
+          "detail": "Asuntos repetidos, tiempo real de respuesta y cada hoja que alguien mantiene a mano, con quién la actualiza y qué pasa cuando falta.",
+          "executor": {
+            "kind": "skill",
+            "ref": "company-evidence"
+          },
+          "leaves": [],
+          "participants": [
+            "Consultor"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S6"
+          }
+        },
+        {
+          "id": "doc-4",
+          "stage": "a2-2",
+          "order": 4,
+          "title": "Registrar qué no se pudo revisar, y por qué",
+          "detail": "Qué se revisó, con qué muestra y qué quedó fuera: sin acceso, sin autorización, fuera de alcance o inexistente.",
+          "executor": {
+            "kind": "skill",
+            "ref": "company-evidence"
+          },
+          "leaves": [
+            "mapeo-<empresa>/04-evidencia/fuentes.md"
+          ],
+          "participants": [
+            "Consultor"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S6"
+          }
+        },
+        {
+          "id": "doc-5",
+          "stage": "a2-2",
+          "order": 5,
+          "title": "Escribir la tabla de contrastes",
+          "detail": "Lo que dijeron, lo que dicen los archivos y qué explica la diferencia, presentada sin acusación.",
+          "executor": {
+            "kind": "skill",
+            "ref": "company-evidence"
+          },
+          "leaves": [
+            "mapeo-<empresa>/04-evidencia/HALLAZGOS.md"
+          ],
+          "participants": [
+            "Consultor"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S6"
+          }
+        },
+        {
+          "id": "proc-1",
+          "stage": "a2-3",
+          "order": 1,
+          "title": "Elegir entre 8 y 15 procesos, empezando por los dos obligatorios",
+          "detail": "El proceso del dinero y el proceso de la entrega van siempre; después los críticos del arquetipo.",
+          "executor": {
+            "kind": "skill",
+            "ref": "process-map"
+          },
+          "leaves": [],
+          "participants": [
+            "Consultor"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S7"
+          }
+        },
+        {
+          "id": "proc-2",
+          "stage": "a2-3",
+          "order": 2,
+          "title": "Entrevistar a quien ejecuta, no a quien administra",
+          "detail": "Pregunta explícitamente quién abre el sistema y lo hace; dirección describe el proceso diseñado, no el real.",
+          "executor": {
+            "kind": "skill",
+            "ref": "process-map"
+          },
+          "leaves": [],
+          "participants": [
+            "Quien ejecuta el proceso"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S7"
+          }
+        },
+        {
+          "id": "proc-3",
+          "stage": "a2-3",
+          "order": 3,
+          "title": "Pedir de tres a cinco instancias fechadas, nunca un promedio",
+          "detail": "Cuándo fue la última vez que corrió este proceso, y la anterior, y qué pasó en cada una.",
+          "executor": {
+            "kind": "skill",
+            "ref": "process-map"
+          },
+          "leaves": [],
+          "participants": [
+            "Quien ejecuta el proceso"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S7"
+          }
+        },
+        {
+          "id": "proc-4",
+          "stage": "a2-3",
+          "order": 4,
+          "title": "Obtener las excepciones con la pregunta negativa",
+          "detail": "Cuándo fue la última vez que esto salió mal, y qué hiciste — nunca cuáles son las excepciones.",
+          "executor": {
+            "kind": "skill",
+            "ref": "process-map"
+          },
+          "leaves": [],
+          "participants": [
+            "Quien ejecuta el proceso"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S7"
+          }
+        },
+        {
+          "id": "proc-5",
+          "stage": "a2-3",
+          "order": 5,
+          "title": "Calcular el costo mensual de cada proceso",
+          "detail": "Horas-persona al mes por costo por hora, más el costo del error, casi siempre el número que mueve la decisión.",
+          "executor": {
+            "kind": "skill",
+            "ref": "process-map"
+          },
+          "leaves": [],
+          "participants": [
+            "Consultor"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S7"
+          }
+        },
+        {
+          "id": "proc-6",
+          "stage": "a2-3",
+          "order": 6,
+          "title": "Aplicar el filtro de higiene a cada proceso",
+          "detail": "¿Funciona bien cuando se hace a mano? Si no, márcalo como rediseñar antes de automatizar.",
+          "executor": {
+            "kind": "skill",
+            "ref": "process-map"
+          },
+          "leaves": [],
+          "participants": [
+            "Consultor"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S7"
+          }
+        },
+        {
+          "id": "proc-7",
+          "stage": "a2-3",
+          "order": 7,
+          "title": "Escribir el índice de procesos ordenado por costo",
+          "detail": "Ordenado por costo mensual descendente; es la entrada directa de A3.",
+          "executor": {
+            "kind": "skill",
+            "ref": "process-map"
+          },
+          "leaves": [
+            "mapeo-<empresa>/03-procesos/INDICE.md",
+            "mapeo-<empresa>/03-procesos/PXX-<nombre>.md"
+          ],
+          "participants": [
+            "Consultor"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S7"
+          }
+        },
+        {
+          "id": "cov-1",
+          "stage": "a2-coverage",
+          "order": 1,
+          "title": "Calificar cada criterio con la rúbrica X4",
+          "detail": "Verificado, declarado, inferido o ausente; ante la duda, elige el nivel menor.",
+          "executor": {
+            "kind": "skill",
+            "ref": "coverage"
+          },
+          "leaves": [
+            "mapeo-<empresa>/98-COBERTURA.md"
+          ],
+          "participants": [
+            "Consultor"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S8"
+          }
+        },
+        {
+          "id": "cov-2",
+          "stage": "a2-coverage",
+          "order": 2,
+          "title": "Convertir cada hueco en pregunta, documento, extracción u observación",
+          "detail": "Nunca investigar más; la columna admite exactamente esas cuatro acciones.",
+          "executor": {
+            "kind": "skill",
+            "ref": "coverage"
+          },
+          "leaves": [
+            "mapeo-<empresa>/99-preguntas-abiertas.md"
+          ],
+          "participants": [
+            "Consultor"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S8"
+          }
+        },
+        {
+          "id": "cov-3",
+          "stage": "a2-coverage",
+          "order": 3,
+          "title": "Agrupar las preguntas por persona, no por sub-fase",
+          "detail": "Con el tiempo estimado de conversación, para que nadie reciba la misma pregunta en tres reuniones.",
+          "executor": {
+            "kind": "skill",
+            "ref": "coverage"
+          },
+          "leaves": [
+            "mapeo-<empresa>/99-preguntas-abiertas.md"
+          ],
+          "participants": [
+            "Consultor"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S8"
+          }
+        },
+        {
+          "id": "cov-4",
+          "stage": "a2-coverage",
+          "order": 4,
+          "title": "Emitir el veredicto de cobertura",
+          "detail": "Listo para avanzar, avanzar con reservas nombrando el costo, o no se puede avanzar nombrando los bloqueantes.",
+          "executor": {
+            "kind": "skill",
+            "ref": "coverage"
+          },
+          "leaves": [
+            "mapeo-<empresa>/98-COBERTURA.md"
+          ],
+          "participants": [
+            "Consultor"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S8"
+          }
+        },
+        {
+          "id": "cov-5",
+          "stage": "a2-coverage",
+          "order": 5,
+          "title": "Hacer la devolución con el veredicto a dirección",
+          "detail": "Sesión de la semana 5: qué se mapeó, qué quedó pendiente y con qué veredicto se pasa a A3.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Dirección general"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A2",
+            "section": "S10"
+          }
+        },
+        {
+          "id": "a3-1",
+          "stage": "a3",
+          "order": 1,
+          "title": "Extraer una oportunidad por cada señal de desperdicio",
+          "detail": "Doble captura, esperas, retrabajo y reportes armados a mano, leídos del mapa, nunca inventados.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Consultor"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A3",
+            "section": "S1"
+          }
+        },
+        {
+          "id": "a3-2",
+          "stage": "a3",
+          "order": 2,
+          "title": "Aplicar el filtro de higiene antes de puntuar",
+          "detail": "Bloquea todo candidato que no cumpla las cinco condiciones, incluida la de no automatizar un canal por vías no oficiales.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Consultor"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A3",
+            "section": "S1"
+          }
+        },
+        {
+          "id": "a3-3",
+          "stage": "a3",
+          "order": 3,
+          "title": "Puntuar cada candidato en sesión conjunta",
+          "detail": "Dueño del proceso, responsable técnico y consultor califican con la rúbrica X3; el desacuerdo se registra, no se promedia.",
+          "executor": {
+            "kind": "skill",
+            "ref": "process-access"
+          },
+          "leaves": [],
+          "participants": [
+            "Dueño del proceso",
+            "Responsable técnico"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A3",
+            "section": "S2"
+          }
+        },
+        {
+          "id": "a3-4",
+          "stage": "a3",
+          "order": 4,
+          "title": "Calcular el retorno con el extremo bajo del rango",
+          "detail": "Ahorro anual bruto por el factor de adopción de 0.5 a 0.7, nunca una cifra única.",
+          "executor": {
+            "kind": "skill",
+            "ref": "process-access"
+          },
+          "leaves": [
+            "mapeo-<empresa>/05-backlog.md"
+          ],
+          "participants": [
+            "Consultor"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A3",
+            "section": "S3"
+          }
+        },
+        {
+          "id": "a3-5",
+          "stage": "a3",
+          "order": 5,
+          "title": "Elegir el primer proceso conectado por credibilidad, no por puntaje",
+          "detail": "Visible, medible en menos de seis semanas, con dueño entusiasta, de bajo riesgo y sin integración compleja.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Consultor",
+            "Patrocinador"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A3",
+            "section": "S4"
+          }
+        },
+        {
+          "id": "a3-6",
+          "stage": "a3",
+          "order": 6,
+          "title": "Escribir las tres listas de descarte",
+          "detail": "Descartado, bloqueado y rediseñar antes de automatizar, cada una con motivo y condición de reingreso.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Consultor",
+            "Comité de IA"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A3",
+            "section": "S7"
+          }
+        },
+        {
+          "id": "a4-1",
+          "stage": "a4",
+          "order": 1,
+          "title": "Designar el sistema de registro de cada entidad de negocio",
+          "detail": "Por escrito, antes de elegir plataforma; la plataforma se deriva del portafolio, no al revés.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Responsable de sistemas"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A4",
+            "section": "S1"
+          }
+        },
+        {
+          "id": "a4-2",
+          "stage": "a4",
+          "order": 2,
+          "title": "Probar la conexión con credencial real antes de firmar",
+          "detail": "Ninguna integración se da por buena porque alguien dijo que el sistema se integra con el ERP.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Responsable de sistemas"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A4",
+            "section": "S2"
+          }
+        },
+        {
+          "id": "a4-3",
+          "stage": "a4",
+          "order": 3,
+          "title": "Correr la prueba de veinte registros",
+          "detail": "En el primer proceso conectado, antes de dar la calidad de dato por suficiente.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Responsable de sistemas"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A4",
+            "section": "S3"
+          }
+        },
+        {
+          "id": "a4-4",
+          "stage": "a4",
+          "order": 4,
+          "title": "Firmar la decisión de plataforma con los cinco criterios",
+          "detail": "Cómo se cobra y quién la administra pesan más que la familia de la herramienta.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Patrocinador"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A4",
+            "section": "S5"
+          }
+        },
+        {
+          "id": "a4-5",
+          "stage": "a4",
+          "order": 5,
+          "title": "Separar el ambiente de pruebas y versionar prompts fuera de la plataforma",
+          "detail": "Con respaldo, y un plan ante cambio de modelo o proveedor para cada proceso conectado aprobado.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Responsable de sistemas"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A4",
+            "section": "S6"
+          }
+        },
+        {
+          "id": "a4-6",
+          "stage": "a4",
+          "order": 6,
+          "title": "Dibujar la arquitectura objetivo en una página",
+          "detail": "Seis bandas horizontales con nombre real de sistema; si no cabe en una página, está sobrediseñada para esta empresa.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Responsable de sistemas"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A4",
+            "section": "S8"
+          }
+        },
+        {
+          "id": "a5-1",
+          "stage": "a5",
+          "order": 1,
+          "title": "Abrir la ventana de amnistía de IA en la sombra",
+          "detail": "Antes de publicar la política, para que declarar una herramienta no tenga costo.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Dirección general"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A5",
+            "section": "S2"
+          }
+        },
+        {
+          "id": "a5-2",
+          "stage": "a5",
+          "order": 2,
+          "title": "Registrar cada sistema de IA en el inventario único",
+          "detail": "Un registro, con dueño nombrado, es la base de la clasificación de riesgo.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Responsable de gobernanza de IA"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A5",
+            "section": "S2"
+          }
+        },
+        {
+          "id": "a5-3",
+          "stage": "a5",
+          "order": 3,
+          "title": "Clasificar el riesgo por el peor resultado plausible",
+          "detail": "Nunca por el error promedio; un asistente que ya manda correos a clientes no es de riesgo bajo.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Dueño del proceso",
+            "Responsable de gobernanza de IA"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A5",
+            "section": "S3"
+          }
+        },
+        {
+          "id": "a5-4",
+          "stage": "a5",
+          "order": 4,
+          "title": "Probar el interruptor de apagado de cada caso R3 y R4",
+          "detail": "Con dueño y suplente, y la prueba documentada — no basta con que exista.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Responsable de gobernanza de IA"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A5",
+            "section": "S4"
+          }
+        },
+        {
+          "id": "a5-5",
+          "stage": "a5",
+          "order": 5,
+          "title": "Firmar la política de uso aceptable de IA",
+          "detail": "Comunicada en sesión, con acuse, y publicada solo después de la ventana de amnistía.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Dirección general"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A5",
+            "section": "S7"
+          }
+        },
+        {
+          "id": "a5-6",
+          "stage": "a5",
+          "order": 6,
+          "title": "Revisar las cláusulas de cada proveedor con el área legal",
+          "detail": "Declarar qué marco de datos personales aplica y quién lo confirmó, antes del primer acceso.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Área legal del cliente"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A5",
+            "section": "S6"
+          }
+        },
+        {
+          "id": "a6-1",
+          "stage": "a6",
+          "order": 1,
+          "title": "Mapear los actores de cada proceso conectado del piloto",
+          "detail": "Con nombres, incluido el escéptico influyente, y sus objeciones respondidas antes del anuncio.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Dueño del proceso"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A6",
+            "section": "S3"
+          }
+        },
+        {
+          "id": "a6-2",
+          "stage": "a6",
+          "order": 2,
+          "title": "Nombrar campeones con tiempo liberado formal",
+          "detail": "No se eligen por habilidad técnica; se eligen con las tres preguntas de la doctrina, y sus metas se ajustan.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Patrocinador",
+            "Dueño del proceso"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A6",
+            "section": "S4"
+          }
+        },
+        {
+          "id": "a6-3",
+          "stage": "a6",
+          "order": 3,
+          "title": "Sostener la conversación sobre el empleo",
+          "detail": "El patrocinador la sostiene, con guion, y lo prometido queda por escrito antes de capacitar a nadie.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Patrocinador"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A6",
+            "section": "S6"
+          }
+        },
+        {
+          "id": "a6-4",
+          "stage": "a6",
+          "order": 4,
+          "title": "Correr el programa de capacitación de cuatro semanas",
+          "detail": "Sobre pendientes reales, nunca explicando qué es un modelo de lenguaje; un ejemplo por participante en la biblioteca.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Dueño del proceso"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A6",
+            "section": "S5"
+          }
+        },
+        {
+          "id": "a6-5",
+          "stage": "a6",
+          "order": 5,
+          "title": "Actualizar descripciones de puesto e incentivos",
+          "detail": "Revisión, excepción, criterio y mejora; ningún incentivo vigente puede castigar la adopción.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Recursos humanos",
+            "Patrocinador"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A6",
+            "section": "S7"
+          }
+        },
+        {
+          "id": "a6-6",
+          "stage": "a6",
+          "order": 6,
+          "title": "Publicar el tablero de adopción con uso real semanal",
+          "detail": "Usuarios activos y cobertura del proceso, nunca porcentaje de licencias asignadas.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Patrocinador"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A6",
+            "section": "S9"
+          }
+        },
+        {
+          "id": "a7-1",
+          "stage": "a7",
+          "order": 1,
+          "title": "Escribir la especificación antes de construir",
+          "detail": "Trigger, datos, ramas de error, persona en el circuito, plan de prueba y rollout, sin nombrar plataforma todavía.",
+          "executor": {
+            "kind": "skill",
+            "ref": "automate-spec"
+          },
+          "leaves": [
+            "mapeo-<empresa>/06-specs/<AXX>-<nombre>.md"
+          ],
+          "participants": [
+            "Dueño del proceso"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A7",
+            "section": "S1"
+          }
+        },
+        {
+          "id": "a7-2",
+          "stage": "a7",
+          "order": 2,
+          "title": "Correr el piloto en modo sombra antes de producción",
+          "detail": "Una sola dimensión, mínimo 30 ejecuciones reales, con datos personales enmascarados también en pruebas.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Dueño del proceso"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A7",
+            "section": "S3"
+          }
+        },
+        {
+          "id": "a7-3",
+          "stage": "a7",
+          "order": 3,
+          "title": "Migrar a credenciales de servicio antes de producción",
+          "detail": "Nunca credenciales personales; la automatización no puede depender de que alguien no cambie su contraseña.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Responsable de sistemas"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A7",
+            "section": "S4"
+          }
+        },
+        {
+          "id": "a7-4",
+          "stage": "a7",
+          "order": 4,
+          "title": "Encender el monitoreo y probar cada notificación de falla",
+          "detail": "Con una falla provocada; toda rama de error termina en un destinatario nombrado.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Dueño operativo"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A7",
+            "section": "S5"
+          }
+        },
+        {
+          "id": "a7-5",
+          "stage": "a7",
+          "order": 5,
+          "title": "Escribir el runbook y el registro de la automatización",
+          "detail": "Operación, alertas, fallas conocidas y escalamiento, para que otra persona la apague sin llamar a XenthAI.",
+          "executor": {
+            "kind": "skill",
+            "ref": "automate-handover"
+          },
+          "leaves": [
+            "mapeo-<empresa>/06-specs/REGISTRO.md"
+          ],
+          "participants": [
+            "Dueño operativo"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A7",
+            "section": "S2"
+          }
+        },
+        {
+          "id": "a7-6",
+          "stage": "a7",
+          "order": 6,
+          "title": "Aplicar la regla de las tres ocurrencias a cada excepción",
+          "detail": "Una excepción que se repite tres veces se vuelve regla o paso documentado, nunca una bitácora que solo crece.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Dueño operativo"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A7",
+            "section": "S6"
+          }
+        },
+        {
+          "id": "a8-1",
+          "stage": "a8",
+          "order": 1,
+          "title": "Congelar la línea base antes de tocar el proceso",
+          "detail": "Cycle time, touch time, throughput, error y rework, con su definición escrita antes del primer cambio.",
+          "executor": {
+            "kind": "skill",
+            "ref": "baseline"
+          },
+          "leaves": [
+            "mapeo-<empresa>/08-linea-base.md"
+          ],
+          "participants": [
+            "Quien ejecuta el proceso"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A8",
+            "section": "S1"
+          }
+        },
+        {
+          "id": "a8-2",
+          "stage": "a8",
+          "order": 2,
+          "title": "Nombrar la métrica de nivel 3 de cada caso",
+          "detail": "Con extractor, fuente y día de corte, antes de que el caso entre en producción.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Dueño del proceso"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A8",
+            "section": "S2"
+          }
+        },
+        {
+          "id": "a8-3",
+          "stage": "a8",
+          "order": 3,
+          "title": "Elegir el método de atribución y llevar la bitácora de cambios concurrentes",
+          "detail": "Contribución evidenciada, nunca un contrafactual cuantificado bajo el método antes-después.",
+          "executor": {
+            "kind": "skill",
+            "ref": "report"
+          },
+          "leaves": [],
+          "participants": [
+            "Consultor"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A8",
+            "section": "S3"
+          }
+        },
+        {
+          "id": "a8-4",
+          "stage": "a8",
+          "order": 4,
+          "title": "Publicar el tablero del CAIO",
+          "detail": "Sus seis secciones, con trazabilidad a los tableros de origen, valor del mes, mes anterior y meta.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Consultor",
+            "Patrocinador"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A8",
+            "section": "S5"
+          }
+        },
+        {
+          "id": "a8-5",
+          "stage": "a8",
+          "order": 5,
+          "title": "Calcular el retorno del programa con tres escenarios",
+          "detail": "Costo total, beneficio por fuente y supuestos numerados, nunca una cifra única sin pie de página.",
+          "executor": {
+            "kind": "skill",
+            "ref": "report"
+          },
+          "leaves": [],
+          "participants": [
+            "Finanzas del cliente"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A8",
+            "section": "S4"
+          }
+        },
+        {
+          "id": "a8-6",
+          "stage": "a8",
+          "order": 6,
+          "title": "Entregar el reporte trimestral al consejo",
+          "detail": "Una página, con las tres métricas que sostienen y sin ninguna de las que corrompen usada como meta.",
+          "executor": {
+            "kind": "skill",
+            "ref": "report"
+          },
+          "leaves": [],
+          "participants": [
+            "Patrocinador"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A8",
+            "section": "S7"
+          }
+        },
+        {
+          "id": "a9-1",
+          "stage": "a9",
+          "order": 1,
+          "title": "Contestar las veinte afirmaciones con fuente y evidencia",
+          "detail": "Una sola persona en una junta no basta; cada afirmación necesita su nivel de evidencia.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Consultor",
+            "Patrocinador"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A9",
+            "section": "S2"
+          }
+        },
+        {
+          "id": "a9-2",
+          "stage": "a9",
+          "order": 2,
+          "title": "Calificar el nivel por dimensión con la regla del mínimo",
+          "detail": "El nivel de la empresa es el mínimo entre las seis dimensiones, nunca el promedio.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Consultor"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A9",
+            "section": "S1"
+          }
+        },
+        {
+          "id": "a9-3",
+          "stage": "a9",
+          "order": 3,
+          "title": "Nombrar el patrón de estancamiento que amenaza a esta empresa",
+          "detail": "De los cuatro patrones, cuál aplica, con la señal observada y el remedio en curso.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Consultor"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A9",
+            "section": "S4"
+          }
+        },
+        {
+          "id": "a9-4",
+          "stage": "a9",
+          "order": 4,
+          "title": "Aterrizar la ruta de doce meses por trimestre",
+          "detail": "Objetivo, entregables, inversión relativa y criterio de avance, ajustada al tamaño de la empresa.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Patrocinador",
+            "Dirección general"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A9",
+            "section": "S5"
+          }
+        },
+        {
+          "id": "a9-5",
+          "stage": "a9",
+          "order": 5,
+          "title": "Verificar los cinco criterios de salida del acompañamiento",
+          "detail": "Responsable interno con mandato, dos olas conducidas sin el consultor, tablero producido adentro, gobernanza con evidencia y documentación en el repositorio del cliente.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Patrocinador"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A9",
+            "section": "S6"
+          }
+        },
+        {
+          "id": "a9-6",
+          "stage": "a9",
+          "order": 6,
+          "title": "Agendar la conversación de renovación o cierre",
+          "detail": "Entre el mes 10 y el 11, con el retorno del año, la recalificación de madurez y los tres desenlaces posibles sobre la mesa.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Patrocinador",
+            "Dirección general"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A9",
+            "section": "S7"
+          }
+        },
+        {
+          "id": "close-1",
+          "stage": "closing",
+          "order": 1,
+          "title": "Cerrar el alcance contratado contra lo entregado",
+          "detail": "Con evidencia y la diferencia explicada, renglón por renglón, antes de escribir el acta.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Patrocinador"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A9",
+            "section": "S7"
+          }
+        },
+        {
+          "id": "close-2",
+          "stage": "closing",
+          "order": 2,
+          "title": "Traspasar accesos y credenciales, y revocar las del consultor",
+          "detail": "Sistema por sistema, con fecha, con evidencia de que la credencial del consultor quedó revocada.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Responsable de sistemas"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A7",
+            "section": "S4"
+          }
+        },
+        {
+          "id": "close-3",
+          "stage": "closing",
+          "order": 3,
+          "title": "Firmar el acta de cierre y traspaso",
+          "detail": "Alcance, inventario en producción, resultado medido, documentación entregada, capacidad instalada y deuda abierta.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Patrocinador",
+            "Dirección general"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A9",
+            "section": "S7"
+          }
+        },
+        {
+          "id": "close-4",
+          "stage": "closing",
+          "order": 4,
+          "title": "Confirmar que la capacidad interna quedó instalada",
+          "detail": "Prueba haciendo, no explicando: mapear un proceso, puntuar una oportunidad, escribir una especificación, congelar una línea base y clasificar un riesgo.",
+          "executor": {
+            "kind": "consultant",
+            "ref": null
+          },
+          "leaves": [],
+          "participants": [
+            "Responsable interno"
+          ],
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "source": {
+            "chapter": "A9",
+            "section": "S6"
+          }
         }
       ]
     }

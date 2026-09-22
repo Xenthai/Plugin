@@ -77,6 +77,6 @@ Dos reglas más que conviene tener presentes al revisarlo:
 | Rol que autoriza que una automatización opere sin supervisión | — pendiente — |
 | ¿Esa persona participó en la captura? | — pendiente — |
 | Ruta de escalamiento cuando algo se detiene | — pendiente — |
-| Tiempo de respuesta humano que esa ruta entrega realmente | — pendiente — |
+| Tiempo de respuesta de una persona que esa ruta entrega realmente | — pendiente — |
 | Lista de acciones prohibidas, confirmada por quien autoriza | — pendiente — |
 

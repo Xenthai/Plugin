@@ -78,7 +78,7 @@
 
 **Gobernanza — registro, límites y escalamiento**
 
-| Qué se registra hoy | Qué debe registrarse | Acciones prohibidas sin supervisión humana | Ruta de escalamiento | Tiempo de respuesta humano real | Etiqueta regulatoria |
+| Qué se registra hoy | Qué debe registrarse | Acciones prohibidas sin supervisión de una persona | Ruta de escalamiento | Tiempo de respuesta de una persona, real | Etiqueta regulatoria |
 | --- | --- | --- | --- | --- | --- |
 | — pendiente — | — pendiente — | — pendiente — | — pendiente — | — pendiente — | — pendiente — *(SAT / PROFECO / COFEPRIS / CNBV-CONDUSEF / ninguno)* |
 

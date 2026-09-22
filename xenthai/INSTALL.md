@@ -3,6 +3,10 @@
 Written for the operator setting up a client's machine. It takes about fifteen minutes, and one
 step in the middle cannot be automated by anyone.
 
+The ordered checklist this runbook walks through is the field guide's `day-one-setup` stage —
+`capabilities/method/tables/field-guide.md`, the same table `skills/setup/SKILL.md` reads and the
+playbook's G1 page renders for the room; this file supplies the platform detail behind each row.
+
 ## What you are setting up
 
 The plugin lives on the client's machine and updates itself from the public repository. The

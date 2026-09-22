@@ -173,7 +173,7 @@ const DETECTORS = [
   },
   {
     id: "review-heavy-target",
-    title: "Un mismo documento consume revisión humana cada periodo",
+    title: "Un mismo documento consume revisión de una persona cada periodo",
     question:
       "¿La estructura del documento está peleando con la tarea? Un archivo que se revisa completo " +
       "cada periodo suele estar pidiendo partirse, no automatizarse.",

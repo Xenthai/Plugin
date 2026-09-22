@@ -495,7 +495,7 @@ const coreMetrics = (summary) => [
     definition: "Filas `approval` sin persona nombrada. Una aprobación anónima no demuestra que alguien aprobara.",
   },
   {
-    metric: "Tiempo de revisión humana (minutos)",
+    metric: "Tiempo de revisión de una persona (minutos)",
     value: summary.review.minutes,
     definition:
       "Suma de los intervalos `review_start`→`review_end` emparejados por actor dentro de una misma sesión. Es touch time, no tiempo de ciclo.",
@@ -666,7 +666,7 @@ const renderMonth = (summary) => {
     );
     out.push("");
   }
-  out.push("### Tiempo de revisión humana");
+  out.push("### Tiempo de revisión de una persona");
   out.push("");
   if (summary.review.byActor.length) {
     out.push(
