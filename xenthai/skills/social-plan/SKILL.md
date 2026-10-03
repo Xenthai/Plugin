@@ -66,7 +66,7 @@ measured truth**, and say so if a client asks where the numbers come from.
 ## Publish for approval, then stop
 
 Write `content/<YYYY-MM>/plan.md` in the company's store. Then generate a Google Doc from it for
-review, because **comments are the approval mechanism** and only a Doc returns them.
+review, named per `capabilities/naming/doctrine/naming.md`, because **comments are the approval mechanism** and only a Doc returns them.
 
 Tell the client explicitly: comment on the Doc, and the plan will be revised from the comments.
 Then **stop**. Do not produce pieces against an unapproved plan.
@@ -94,6 +94,7 @@ Load these only when the condition applies. They are long on purpose and cost no
 | File | Read it when |
 | --- | --- |
 | `capabilities/social/doctrine/COPY.md` | Choosing topics, or writing any client-facing words into the plan |
+| `capabilities/naming/doctrine/naming.md` | The review Doc is about to be named |
 | `capabilities/social/doctrine/PRESENCE.md` | The plan's baseline is being set, or a competitor is about to be named — it carries why no industry benchmark comparison is honest |
 | `capabilities/report/doctrine/REPORTING.md` | Deciding what the plan will be measured against, and on what cadence |
 | `capabilities/company/doctrine/REGULATORS-MX.md` | A pillar or a topic would put a price, a claim or a health statement in public |

@@ -6,6 +6,7 @@ import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { readCompany } from "../lib/company.mjs";
 import { EVENTS, record } from "../lib/journal.mjs";
+import { formatName } from "../lib/naming.mjs";
 import { findTransportHooks } from "../lib/transport.mjs";
 import { allMonths } from "../tools/journal-sync.mjs";
 
@@ -182,6 +183,12 @@ const ensureEngine = (root) => {
 };
 
 /**
+ * The Nombre segment of the session title. A placeholder, since the session has no topic when it
+ * starts; it is a constant so changing it is one edit.
+ */
+const SESSION_NAME = "Sesión";
+
+/**
  * Announces, at session start, the two facts every skill depends on: which company the session is
  * bound to, and where the plugin lives on disk.
  *
@@ -195,6 +202,10 @@ const ensureEngine = (root) => {
  *
  * No title is set when nothing is bound. A generic title is worse than the one the session would
  * have named itself, and the absence of a client name is itself the signal that nothing is bound.
+ *
+ * The title follows `capabilities/naming/doctrine/naming.md`. A company name the structure refuses,
+ * one containing ": ", leaves the session untitled and says why in the announcement, because a
+ * thrown error here would cost the whole announcement.
  *
  * The plugin root is announced because `${CLAUDE_PLUGIN_ROOT}` is documented for hook commands but
  * not for shell commands a skill runs later, so the resolved path is handed over here instead of
@@ -277,7 +288,14 @@ const main = () => {
   if (engine) lines.push(engine);
 
   const out = { hookEventName: "SessionStart", additionalContext: lines.join(" ") };
-  if (company.ok) out.sessionTitle = `${company.company.name} — Xenth AI`;
+  if (company.ok) {
+    try {
+      out.sessionTitle = formatName({ company: company.company.name, type: "Proyectos", name: SESSION_NAME });
+    } catch (err) {
+      lines.push(`The session title was not set: ${err.message}.`);
+      out.additionalContext = lines.join(" ");
+    }
+  }
 
   process.stdout.write(JSON.stringify({ hookSpecificOutput: out }));
 };

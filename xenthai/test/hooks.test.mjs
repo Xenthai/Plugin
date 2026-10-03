@@ -30,6 +30,7 @@ const CO_B = join(SANDBOX, "company-b");
 const PERSONAL = join(SANDBOX, "own-store");
 const FUTURE_KIND = join(SANDBOX, "future-kind");
 const UNKNOWN_STORE = join(SANDBOX, "unknown-store");
+const COLON_NAME = join(SANDBOX, "colon-name");
 const DATA = join(SANDBOX, "plugin-data");
 
 const ROOT_A = "1AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
@@ -44,6 +45,7 @@ const setup = () => {
     [PERSONAL, "own-0001", "Mi vida", ROOT_P, "personal", "drive"],
     [FUTURE_KIND, "odd-0001", "Odd Store", ROOT_P, "household", "drive"],
     [UNKNOWN_STORE, "box-0001", "Box Store", ROOT_P, undefined, "dropbox"],
+    [COLON_NAME, "col-0001", "Acme: Norte", ROOT_P, undefined, "drive"],
   ]) {
     mkdirSync(dir, { recursive: true });
     writeFileSync(
@@ -602,6 +604,20 @@ check("bootstrap titles the session with the bound company, and titles nothing w
   return [
     typeof a === "string" && a.includes("Company A") && b === undefined,
     `bound title ${JSON.stringify(a)}; unbound title ${JSON.stringify(b)}`,
+  ];
+});
+
+check("a company name the naming structure refuses leaves the session untitled and says why, and still announces the binding", () => {
+  const r = run("hooks/bootstrap.mjs", { hook_event_name: "SessionStart" }, COLON_NAME, { CLAUDE_PLUGIN_ROOT: ROOT });
+  let out;
+  try {
+    out = JSON.parse(r.out).hookSpecificOutput;
+  } catch {
+    out = {};
+  }
+  return [
+    r.code === 0 && out.sessionTitle === undefined && /Bound company: Acme: Norte/.test(out.additionalContext ?? "") && /session title was not set/.test(out.additionalContext ?? ""),
+    `exit ${r.code}; title ${JSON.stringify(out.sessionTitle)}; says why=${/session title was not set/.test(out.additionalContext ?? "")}`,
   ];
 });
 

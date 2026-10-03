@@ -357,7 +357,7 @@ rutina**, and choose **Local** — not Cloud. A cloud routine runs on Anthropic'
 
 | Field | Value |
 | --- | --- |
-| Nombre | `xenthai-digest` |
+| Nombre | `⏱️ <Empresa>: Rutina: Bitácora: Resumen diario` — the structure in `capabilities/naming/doctrine/naming.md` |
 | Descripción | Escribe el digest de estado. No envía datos de la empresa |
 | Carpeta | The engagement folder — the one holding `.company.json`, inside the synced Drive folder |
 | Programación | **Diaria**, at an hour the machine is normally on and awake |
