@@ -931,7 +931,14 @@ install and cannot be tested; the emoji table copied into each skill, which drif
 **Exports.** The emoji lives in the title inside the app only; `fileName` derives the exported file
 name without it, with ` - ` between segments, because `:` is refused in Windows and Drive names.
 
-**Open, set as defaults.** The emojis are confirmed (2026-10-03); the session's Nombre `Sesión` is a placeholder (`SESSION_NAME` in the hook); no
-Empresa is chosen for work that belongs to none, so `formatName` refuses an empty one; the Design
-System artifact has no Tipo and is named under Canvas. **Reverses if** Cowork or Claude Code impose
+**Settled by the maintainer's delegation (2026-10-03).** The emojis are confirmed. The session's Nombre
+stays `Sesión`: `Inicio` is already a project name in the doctrine's own example
+(`📚 Capital X: Proyectos: Inicio`), and two different things reading alike is what this rule exists
+to prevent. Work that belongs to no company takes the Empresa of the store it is bound to, which for
+a personal store is that store's name, and otherwise `Xenth AI` passed explicitly by the caller;
+`formatName` keeps refusing an empty Empresa rather than defaulting, because a default would hide the
+omission. The Design System stays under `Canvas` as `Canvas: Sistema de diseño`: an eleventh Tipo for
+one artifact would grow the table every skill reads.
+
+**Reverses if** Cowork or Claude Code impose
 their own title format, or Derian changes the structure.
