@@ -928,8 +928,10 @@ and breaks ordering by Empresa; the rule only in the operator's user memory, whi
 install and cannot be tested; the emoji table copied into each skill, which drifts, hence one
 `TYPES`; a regular expression at each call site, hence one `parseName`.
 
-**Open, set as defaults.** The emojis for Canvas, Slides, Docs, Web and Sheets are Claude's proposal
-and unconfirmed; the session's Nombre `Sesión` is a placeholder (`SESSION_NAME` in the hook); no
+**Exports.** The emoji lives in the title inside the app only; `fileName` derives the exported file
+name without it, with ` - ` between segments, because `:` is refused in Windows and Drive names.
+
+**Open, set as defaults.** The emojis are confirmed (2026-10-03); the session's Nombre `Sesión` is a placeholder (`SESSION_NAME` in the hook); no
 Empresa is chosen for work that belongs to none, so `formatName` refuses an empty one; the Design
 System artifact has no Tipo and is named under Canvas. **Reverses if** Cowork or Claude Code impose
 their own title format, or Derian changes the structure.

@@ -35,7 +35,7 @@ machines could both write `0.1.0` and hold different code. A row written from a 
   title the bootstrap hook sets changes from `<Empresa> — Xenth AI` to `📚 <Empresa>: Proyectos: Sesión`,
   and a company name the structure refuses leaves the session untitled with the reason in the
   announcement. `INSTALL.md`'s digest routine name, and the review Docs of `report` and `social-plan`,
-  follow it. `test/naming.test.mjs` covers the nine valid and five invalid examples. Decision 32.
+  follow it. `fileName` derives the exported file name without the emoji. `test/naming.test.mjs` covers the nine valid and five invalid examples. Decision 32.
 - **`brand-manual` is rewritten** around a Design canvas, a Slides deck and a versioned PDF, with
   applications and the public page moved to `capabilities/social/doctrine/BRAND-APPLICATIONS.md`.
 

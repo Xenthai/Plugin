@@ -1,8 +1,7 @@
 /**
  * The one table of name Types and the emoji each one carries. Everything that names a routine, a
  * chat, a session or an artifact reads its emoji from here, so a Type is never paired with a
- * second emoji somewhere else. Rutina to Costos are confirmed; Canvas to Sheets are defaults
- * pending confirmation, and changing one means changing this line only.
+ * second emoji somewhere else. All ten are confirmed by Derian; changing one means changing this table only.
  */
 export const TYPES = Object.freeze({
   Rutina: "⏱️",
@@ -76,4 +75,25 @@ export const parseName = (text) => {
   const name = rest.pop();
   const subtype = rest.length ? rest[0] : null;
   return { emoji, company: segment("company", company), type, subtype: subtype === null ? null : segment("subtype", subtype), name: segment("name", name) };
+};
+
+/**
+ * Characters Windows and Drive refuse in a file name. A segment holding one is rewritten, never
+ * rejected: the title it came from is valid, and the export still has to be saved.
+ */
+const FILE_FORBIDDEN = /[\\/:*?"<>|]/g;
+
+/**
+ * The file name for an exported artifact: the title read back with `parseName`, the emoji dropped
+ * and ` - ` between segments, as `Empresa - Tipo - [Subtipo - ]Nombre.ext`. An exported file never
+ * carries the emoji, which belongs to the title inside the app. Throws when the title is not a
+ * valid name, so a malformed title is caught at export instead of saved under a wrong name.
+ */
+export const fileName = (text, extension) => {
+  if (typeof extension !== "string" || !/^[A-Za-z0-9]+$/.test(extension)) {
+    throw new Error(`naming: extension must be letters and digits without a dot: ${JSON.stringify(extension)}`);
+  }
+  const { company, type, subtype, name } = parseName(text);
+  const clean = (s) => s.replace(FILE_FORBIDDEN, "-").trim();
+  return `${[company, type, subtype, name].filter((s) => s !== null).map(clean).join(" - ")}.${extension}`;
 };

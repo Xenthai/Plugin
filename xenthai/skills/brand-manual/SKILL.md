@@ -35,7 +35,7 @@ The Design System has no Tipo in the table; Canvas is a stopgap until the operat
 The title goes in the `title` param, in `canvas.json` / `deck.json`, in a Web page's `<title>`, or in a Doc's
 `container.create.name`. An artifact under another name is renamed in the publish that edits it.
 
-**Files** cannot carry `:` on Windows or in Drive, so they sit outside that structure:
+**Files** cannot carry `:` (Windows, Drive), and an exported artifact never carries the emoji:
 `<Empresa> - <FORMATO> - [<Grupo> - ]<Nombre>[ v<N>][ (borrador)].<ext>`, no emoji.
  Example: `Xenth AI - PDF - Manual de marca v1.1 (borrador).pdf`; images carry their size.
 

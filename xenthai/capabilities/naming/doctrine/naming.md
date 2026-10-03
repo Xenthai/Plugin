@@ -41,7 +41,7 @@ The code is the source; edit it there first.
 | Web | 🌐 | Pages and sites |
 | Sheets | 📈 | Spreadsheets |
 
-Emojis for Canvas, Slides, Docs, Web and Sheets are proposed defaults and not yet confirmed.
+All ten emojis are confirmed.
 
 ## Valid
 
@@ -70,8 +70,10 @@ Emojis for Canvas, Slides, Docs, Web and Sheets are proposed defaults and not ye
 - **Routines and scheduled tasks**, and the **Google Docs** generated for client review, take a name
   from this structure.
 - **Artifacts** (Canvas, Slides, Docs, Web) take it as their title.
-- **Files** cannot carry `:` on Windows or in Drive, so they are outside this structure. A file keeps
-  its own convention, and the skill that produces it states it.
+- **Files and exports.** `:` is not allowed in a file name on Windows or in Drive, and an exported
+  artifact never carries the emoji, which belongs to the title inside the app. `fileName(title, ext)`
+  derives it: `🧩 Xenth AI: Canvas: Manual de marca` exports as `Xenth AI - Canvas - Manual de marca.pdf`.
+  A file a skill produces itself keeps the convention that skill states.
 
 ## What the plugin cannot do
 

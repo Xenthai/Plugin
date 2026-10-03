@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { TYPES, formatName, parseName } from "../lib/naming.mjs";
+import { TYPES, fileName, formatName, parseName } from "../lib/naming.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, "..");
@@ -149,6 +149,30 @@ check("every valid example appears in the doctrine, and every invalid one is lis
   const validHere = VALID.map(([, expected]) => expected).filter((e) => !DOCTRINE.includes(`\`${e}\``));
   const invalidHere = INVALID.filter((e) => !DOCTRINE.includes(`\`${e}\``));
   return [validHere.length === 0 && invalidHere.length === 0, `missing valid ${validHere.length}, invalid ${invalidHere.length}`];
+});
+
+check("an exported file name never carries an emoji or a colon, and keeps every segment", () => {
+  const bad = [];
+  for (const [parts, title] of VALID) {
+    const f = fileName(title, "pdf");
+    const expected = `${[parts.company, parts.type, parts.subtype, parts.name].filter(Boolean).join(" - ")}.pdf`;
+    if (f !== expected) bad.push(`${f} != ${expected}`);
+    if (/\p{Extended_Pictographic}/u.test(f) || /[:\\/*?"<>|]/.test(f)) bad.push(`forbidden character in ${f}`);
+  }
+  return [bad.length === 0, bad.join("; ") || `${VALID.length} exports clean`];
+});
+
+check("fileName replaces a character Windows refuses, and refuses a bad title or extension", () => {
+  const slash = fileName("🧩 Xenth AI: Canvas: Kit 1/5", "png");
+  const refused = [() => fileName("Xenth AI: Canvas: Manual", "pdf"), () => fileName("🧩 Xenth AI: Canvas: Manual", ".pdf"), () => fileName("🧩 Xenth AI: Canvas: Manual", "")].filter((f) => {
+    try {
+      f();
+      return true;
+    } catch {
+      return false;
+    }
+  });
+  return [slash === "Xenth AI - Canvas - Kit 1-5.png" && refused.length === 0, `${slash}; accepted ${refused.length}`];
 });
 
 let failed = 0;
