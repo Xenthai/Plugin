@@ -126,6 +126,8 @@ takes minutes rather than a design session.
 
 ## 4. The configurations, ready to create when the cadence is agreed
 
+Every routine is named by `capabilities/naming/doctrine/naming.md`: Type `Rutina`, the area as Subtipo.
+
 Each one is a Desktop scheduled task: **Code tab → Routines → New routine → Local**, with the working
 folder set to the engagement folder. The instructions below are the whole prompt — self-contained by
 construction, with the lateness guard already in them.
@@ -187,3 +189,4 @@ written by a person who can defend it. Schedule a **reminder** instead of the re
 | `capabilities/report/doctrine/REPORTING.md` | §2b, on designing absence detection rather than execution |
 | `INSTALL.md` | §6b, for the digest's OS task and the folder share |
 | `tools/watch.mjs --help` | Before quoting anything about the digest |
+| `capabilities/naming/doctrine/naming.md` | A routine is about to be named |

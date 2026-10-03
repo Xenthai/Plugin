@@ -104,7 +104,7 @@ claude plugin list && claude plugin marketplace list
 
 ## What it does today
 
-Twenty-six skills. Two are routers that bind the session and decide which phase a company is in; the
+Twenty-seven skills. Two are routers that bind the session and decide which phase a company is in; the
 rest do one thing each.
 
 **The two tracks are numbered independently.** Comunicación runs phases 0, 1 and 2; operación runs
@@ -138,6 +138,7 @@ is a deliberate scope boundary, not a missing label.
 | | `social-plan` | The editorial plan. Ends at an approval gate rather than producing anything |
 | | `social-produce` | Copy, then render. Refuses to emit an asset that breaches a platform limit |
 | | `social-handoff` | The delivery package: schedule, assets, and an honest note about what still needs a hand |
+| | `brand-manual` | The compiled brand manual as a reviewable PDF: identity from the store plus the applied specifications a printer or sign shop needs. A derived artefact, never where a fact is born |
 | **Closing the loop** | `zapier-mcp-ops` | Operating a client's Zapier account over MCP: discover what is connected, read and write without guessing a schema, and log what was sent |
 | **Building** | `automate-spec` | Operación phase 5 (A7 · X2.5) — the buildable specification for one approved candidate, platform-independent until its last section |
 | | `automate-handover` | Acceptance and liability, not results. The test is whether the client can switch it off alone |

@@ -107,7 +107,7 @@ The digest is the only routine that needs nobody in the room after it is created
 scheduled task** — choose **Local**, never Cloud: a cloud routine runs on Anthropic's infrastructure
 and cannot read local files, and the journal on this machine is the entire input.
 
-`INSTALL.md` §6b has the fields and the verbatim prompt. Two things about it are not optional:
+`INSTALL.md` §6b has the fields, the name and the verbatim prompt. Two things about it are not optional:
 
 - **Run it once and approve every prompt with "permitir siempre".** A task whose permission mode
   does not already allow what it needs **stalls waiting for a person** — it does not fail and does
@@ -155,6 +155,7 @@ Company files change through `Write` and `Edit` only. `capabilities/company/doct
 | `capabilities/method/tables/field-guide.md` | Always — stages `preparation`, `day-one-setup`, `day-one-framing` are this visit's checklist |
 | `INSTALL.md` | Always — it is the machine-level runbook that carries the mechanics the table doesn't |
 | `capabilities/company/doctrine/SCHEDULING.md` | The digest routine, and every later routine |
+| `capabilities/naming/doctrine/naming.md` | A routine or a Doc is about to be named |
 | `capabilities/company/doctrine/INTAKE.md` | The store already holds documents |
 | `capabilities/company/doctrine/SESSION.md` | Anything in this visit will be asked of a person |
 | `MCP.md` | A connector behaves oddly or a store call fails |

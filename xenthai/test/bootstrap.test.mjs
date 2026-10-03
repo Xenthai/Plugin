@@ -4,6 +4,7 @@ import { chmodSync, copyFileSync, existsSync, mkdirSync, readFileSync, rmSync, w
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { formatName, parseName } from "../lib/naming.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, "..");
@@ -144,7 +145,8 @@ check("an npm that never returns is killed at the bound and the full announcemen
       typeof r.context === "string" &&
       /Bound company: Boot Co \(co-boot-0001\)/.test(r.context) &&
       /Plugin root: /.test(r.context) &&
-      r.title === "Boot Co — Xenth AI" &&
+      r.title === formatName({ company: "Boot Co", type: "Proyectos", name: "Sesión" }) &&
+      parseName(r.title).type === "Proyectos" &&
       /could not be installed/.test(r.context) &&
       /\(timeout:/.test(r.context) &&
       !existsSync(lockPath(PLUGIN)) &&

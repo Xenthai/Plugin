@@ -196,3 +196,4 @@ node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event delivery --capability rep
 | `<store>/PROOF.md` | The report will carry a figure or name the client might republish |
 | `<store>/journal/execution/<YYYY-MM>.jsonl` | A figure looks wrong and you need the rows behind it |
 | `lib/journal.mjs` | You need the exact row shape, or the `EVENTS` vocabulary |
+| `capabilities/naming/doctrine/naming.md` | Naming the review Doc |

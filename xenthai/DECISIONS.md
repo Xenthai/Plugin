@@ -906,3 +906,39 @@ the two hooks cost about 115 ms per tool call, Node's start and the library impo
 an exclude-list that misses the next write tool, which the in-process `READ_ONLY` set does not.
 **Reverses if** Claude Code lets a hook write partial output before it ends, or gives a CLI a listing
 of the store, per 21e.
+
+
+### 32 · One name structure for routines, chats, sessions and artifacts, enforced in code
+
+**Decision.** Everything the plugin names follows `Emoji Empresa: Tipo: [Subtipo:] Nombre`, with the
+Type and its emoji in one table, `TYPES` in `lib/naming.mjs`. `parseName` is the only validator.
+`hooks/bootstrap.mjs` titles a bound session `📚 <Empresa>: Proyectos: Sesión` and still sets no
+title when nothing is bound. Skills that name a routine or a review Doc cite
+`capabilities/naming/doctrine/naming.md`; `brand-manual` names its artifacts the same way and keeps
+`<Empresa> - <FORMATO> - …` for files, which cannot carry `:`.
+
+**Evidence.** Before this there were three structures: `<Empresa> — Xenth AI` for sessions,
+`Rutina: Gmail - Nombre` for chats and routines, and `<Empresa>: <Tipo>: …` in the new brand-manual
+skill. Operator rule from Derian, 2026-10-03: one format, so a name is found without guessing which
+applies. A company name containing ": " cannot be read back, so the session is left untitled and the
+announcement says why instead of the hook failing.
+
+**Rejected:** two structures, one for sessions and one for artifacts, which makes the reader guess
+and breaks ordering by Empresa; the rule only in the operator's user memory, which travels with no
+install and cannot be tested; the emoji table copied into each skill, which drifts, hence one
+`TYPES`; a regular expression at each call site, hence one `parseName`.
+
+**Exports.** The emoji lives in the title inside the app only; `fileName` derives the exported file
+name without it, with ` - ` between segments, because `:` is refused in Windows and Drive names.
+
+**Settled by the maintainer's delegation (2026-10-03).** The emojis are confirmed. The session's Nombre
+stays `Sesión`: `Inicio` is already a project name in the doctrine's own example
+(`📚 Capital X: Proyectos: Inicio`), and two different things reading alike is what this rule exists
+to prevent. Work that belongs to no company takes the Empresa of the store it is bound to, which for
+a personal store is that store's name, and otherwise `Xenth AI` passed explicitly by the caller;
+`formatName` keeps refusing an empty Empresa rather than defaulting, because a default would hide the
+omission. The Design System stays under `Canvas` as `Canvas: Sistema de diseño`: an eleventh Tipo for
+one artifact would grow the table every skill reads.
+
+**Reverses if** Cowork or Claude Code impose
+their own title format, or Derian changes the structure.

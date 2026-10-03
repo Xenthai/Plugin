@@ -26,6 +26,30 @@ installed from. It identifies exactly one tree, which is what this claim always 
 machines could both write `0.1.0` and hold different code. A row written from a working copy says
 `dev`, which is honest about being unreleasable rather than borrowing a number.
 
+## [0.6.6] - 2026-10-03
+
+### Added — one naming structure, `lib/naming.mjs`, and the rewritten `brand-manual`
+
+- **Every name follows `Emoji Empresa: Tipo: [Subtipo:] Nombre`.** `lib/naming.mjs` exports `TYPES`,
+  `formatName` and `parseName`; `capabilities/naming/doctrine/naming.md` states the rule. The session
+  title the bootstrap hook sets changes from `<Empresa> — Xenth AI` to `📚 <Empresa>: Proyectos: Sesión`,
+  and a company name the structure refuses leaves the session untitled with the reason in the
+  announcement. `INSTALL.md`'s digest routine name, and the review Docs of `report` and `social-plan`,
+  follow it. `fileName` derives the exported file name without the emoji. `test/naming.test.mjs` covers the nine valid and five invalid examples. Decision 32.
+- **`brand-manual` is rewritten** around a Design canvas, a Slides deck and a versioned PDF, with
+  applications and the public page moved to `capabilities/social/doctrine/BRAND-APPLICATIONS.md`.
+
+## [0.6.5] - 2026-10-03
+
+### Added — the `brand-manual` skill
+
+- **`skills/brand-manual/SKILL.md` compiles a company's brand manual from its store.** It reads
+  `BRAND.md`, `VOICE.md`, `DESIGN.md`, `PROOF.md` and `PRESENCE.md`, adds the applied specifications
+  a printer, sign shop or agency needs, and delivers a reviewable PDF and, when the company keeps
+  one, a design-system section. It sits outside both tracks and stops when `BRAND.md` is missing, the
+  regulator is unknown, a figure has no `PROOF.md` row, or a contradiction has no decision from the
+  approver. Twenty-seven skills now ship.
+
 ## [0.6.4] - 2026-09-20
 
 A handoff measured one month of the operator's personal store — 1,231 rows, 647 KB — and asked for
