@@ -605,6 +605,38 @@
       "split": "test",
       "kind": "near-miss",
       "why": "Platform choice reads like automate-handover, which owns ownership of a platform; designing the flow and quoting it is automate-spec, and the platform is its last section."
+    },
+    {
+      "id": "engineering-new-feature-es",
+      "query": "Vamos a agregar al repo del cliente un módulo de cotizaciones con su migración y sus pruebas. Antes de escribir código dime cómo lo planeamos, cómo lo estructuramos y qué autoridad tengo para hacer commit y PR en este repo.",
+      "expected": "engineering",
+      "split": "train",
+      "kind": "target",
+      "why": "A feature in a repository, with planning, structure and git authority named, is exactly what the engineering description claims; no company document or publishable piece is involved."
+    },
+    {
+      "id": "engineering-review-pr-en",
+      "query": "Review this pull request against how we build things: layering, tests at the right level, comments, secrets, and whether the agents that wrote it verified anything. Then tell me in three lines what is left.",
+      "expected": "engineering",
+      "split": "test",
+      "kind": "target",
+      "why": "A code review against the practice doctrine with a terse report is engineering; nothing here maps a process or produces content."
+    },
+    {
+      "id": "engineering-not-automate-spec-es",
+      "query": "El cliente ya aprobó automatizar la captura de pedidos de WhatsApp a su ERP. Necesito la especificación con criterios de aceptación, mapeo de datos y el punto de aprobación humana para que alguien lo construya.",
+      "expected": "automate-spec",
+      "split": "train",
+      "kind": "near-miss",
+      "why": "Building software sounds like engineering, but a buildable specification for one approved automation in the company store is operación phase 5, which automate-spec owns."
+    },
+    {
+      "id": "engineering-not-brand-manual-en",
+      "query": "We have the design tokens and the logo SVGs in the site repo. Turn them into the manual de marca PDF with the applications a printer needs.",
+      "expected": "brand-manual",
+      "split": "train",
+      "kind": "near-miss",
+      "why": "Reading a repository is engineering territory on the surface, but the deliverable is the brand manual compiled from the store and the code, which brand-manual owns and engineering routes to."
     }
   ]
 }

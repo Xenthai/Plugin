@@ -103,6 +103,7 @@ client machine until the `version` field moves.
 | **`doctor`'s `transport` line** — the mcp_tool upload hook validated for shape in the files the session loads, graded by binding | `tools/doctor.mjs`, `lib/transport.mjs`, `DECISIONS.md` #31 |
 | **Escalation outcomes in the report**, inferred from execution and never an approval; store kind in the header; the plugin's own rows separable | `tools/report.mjs`, `DECISIONS.md` #29 |
 | **Bash rows legible** — program, script and flag from the shell's vocabulary, schema 3 | `lib/journal.mjs`, `DECISIONS.md` #30 |
+| **`engineering` skill** — the practice's way of building software, with the six per-repository choices resolved once as a profile instead of decided globally | `skills/engineering`, `capabilities/engineering/doctrine/`, `DECISIONS.md` #33 |
 
 ---
 

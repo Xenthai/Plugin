@@ -26,6 +26,21 @@ installed from. It identifies exactly one tree, which is what this claim always 
 machines could both write `0.1.0` and hold different code. A row written from a working copy says
 `dev`, which is honest about being unreleasable rather than borrowing a number.
 
+## [0.6.7] - 2026-10-13
+
+### Added — the `engineering` skill and its doctrine
+
+- **`skills/engineering/SKILL.md` carries the practice's own way of building software**, for any repository,
+  language or framework: twenty always-on rules, the shape of a task, and nine doctrine files under
+  `capabilities/engineering/doctrine/` — profile, workflow, delegation, architecture, structure,
+  practices, design, defaults, environment. Six choices that vary by repository (git authority, feature
+  flags, scope stance, exact numbers, a non-compliant repository, who runs the dev server) are not decided
+  globally: `PROFILE.md` names each knob, its options and the moment to resolve it, and the answer is
+  recorded once as `engineering-profile` and never re-asked. The doctrine was distilled from the
+  maintainer's session memories across every repository the practice has built, with every client,
+  ticket and vendor name removed; `test/engineering.test.mjs` refuses one that leaks back in. Four routing
+  cases join `test/skill-triggers.json`. Twenty-eight skills now ship. Decision 33.
+
 ## [0.6.6] - 2026-10-03
 
 ### Added — one naming structure, `lib/naming.mjs`, and the rewritten `brand-manual`

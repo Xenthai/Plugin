@@ -942,3 +942,32 @@ one artifact would grow the table every skill reads.
 
 **Reverses if** Cowork or Claude Code impose
 their own title format, or Derian changes the structure.
+
+### 33 · The practice's engineering doctrine ships as a skill, with the per-repository choices as a profile
+
+**Decision.** `skills/engineering` carries how the practice builds software — asking and deciding,
+planning, layout, architecture by blast radius, code and tests, delegation, one verification at the
+end, reporting, git and screens — as twenty always-on rules in the skill and nine doctrine files
+under `capabilities/engineering/doctrine/`. Six choices are not decided by the doctrine: git
+authority, feature flags, scope stance, exact-number representation, what to do in a repository
+that violates the doctrine, and who runs the dev server. `PROFILE.md` lists each with its options
+and the moment it must be resolved; the session asks once through AskUserQuestion, records the
+answer as `engineering-profile`, and never asks again.
+
+**Evidence.** The rules were mined from the maintainer's session memories across every repository
+the practice has built, about five hundred recorded corrections and confirmed approaches, and the
+same six questions were answered differently in different repositories: one forbade any commit
+without a current-turn instruction while another granted standing merges on green CI; one treated
+rollout flags as dead code while another shipped features dark behind a variable until a live proof
+existed. A doctrine that picked one answer would be wrong in half the repositories; a doctrine that
+asked every session would re-ask what was already settled, which the maintainer has refused
+repeatedly ("decide, don't surface", decision-making memory of 2026-09-03).
+
+**Rejected:** keeping the doctrine only in the maintainer's user-level skill directory, which
+travels with no install and cannot be tested; one doctrine file per rule inside the skill directory,
+which the skills suite forbids and which would nest; encoding the always-on rules as hooks, because
+"never guess" and "reply terse" are judgement, and the vanilla rule puts judgement in prose; a
+Spanish body, because plugin documentation is English and the client never reads this skill.
+
+**Reverses if** the plugin stops being used to build software for clients, or the profile knobs
+converge to one answer across every repository for a year, at which point they become doctrine.

@@ -101,7 +101,7 @@ element passing a computed-style check).
 
 ### Skills — two independent tracks
 
-Twenty-seven skills, one directory each, one level deep (`skills/<name>/SKILL.md` — nesting is
+Twenty-eight skills, one directory each, one level deep (`skills/<name>/SKILL.md` — nesting is
 unattested, verified against 65/65 skills elsewhere). Frontmatter is only `name` and `description`;
 the description states **when** to invoke, never **how** the skill works (a summarised workflow
 becomes a shortcut the model takes instead of reading the body).
