@@ -104,7 +104,8 @@ claude plugin list && claude plugin marketplace list
 
 ## What it does today
 
-Twenty-eight skills. Two are routers that bind the session and decide which phase a company is in; the
+Twenty-nine skills of our own, and twenty UX and UI skills by other authors vendored under their own licences
+(`NOTICE.md`). Two are routers that bind the session and decide which phase a company is in; the
 rest do one thing each.
 
 **The two tracks are numbered independently.** Comunicación runs phases 0, 1 and 2; operación runs
@@ -140,6 +141,7 @@ is a deliberate scope boundary, not a missing label.
 | | `social-handoff` | The delivery package: schedule, assets, and an honest note about what still needs a hand |
 | | `brand-manual` | The compiled brand manual as a reviewable PDF: identity from the store plus the applied specifications a printer or sign shop needs. A derived artefact, never where a fact is born |
 | **Engineering** | `engineering` | The practice's own way of building software in any repository: the always-on rules, the shape of a task, and the six choices a repository makes once through its engineering profile |
+| | `design` | The practice's way of designing interfaces with an owner: a mockup the owner comments on, a loop that turns each comment into one change, proof by screenshots, and a design line of tokens and motion. Beside it ship twenty vendored UX and UI skills it uses as lenses, from `better-interface` to `animate` |
 | **Closing the loop** | `zapier-mcp-ops` | Operating a client's Zapier account over MCP: discover what is connected, read and write without guessing a schema, and log what was sent |
 | **Building** | `automate-spec` | Operación phase 5 (A7 · X2.5) — the buildable specification for one approved candidate, platform-independent until its last section |
 | | `automate-handover` | Acceptance and liability, not results. The test is whether the client can switch it off alone |

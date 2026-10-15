@@ -104,6 +104,7 @@ client machine until the `version` field moves.
 | **Escalation outcomes in the report**, inferred from execution and never an approval; store kind in the header; the plugin's own rows separable | `tools/report.mjs`, `DECISIONS.md` #29 |
 | **Bash rows legible** — program, script and flag from the shell's vocabulary, schema 3 | `lib/journal.mjs`, `DECISIONS.md` #30 |
 | **`engineering` skill** — the practice's way of building software, with the six per-repository choices resolved once as a profile instead of decided globally | `skills/engineering`, `capabilities/engineering/doctrine/`, `DECISIONS.md` #33 |
+| **`design` skill** — the practice's interface design loop (mockup, owner comments, proof, design line, motion) with twenty vendored UX and UI skills as lenses | `skills/design`, `capabilities/design/doctrine/`, `NOTICE.md`, `DECISIONS.md` #34 |
 
 ---
 

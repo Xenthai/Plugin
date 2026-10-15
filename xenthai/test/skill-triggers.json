@@ -637,6 +637,38 @@
       "split": "train",
       "kind": "near-miss",
       "why": "Reading a repository is engineering territory on the surface, but the deliverable is the brand manual compiled from the store and the code, which brand-manual owns and engineering routes to."
+    },
+    {
+      "id": "design-new-surface-mockup-es",
+      "query": "Vamos a rediseñar la pantalla de pendientes del cliente. Antes de escribir código quiero un mockup que yo pueda comentar, con versión móvil y escritorio, claro y oscuro, y que cada comentario mío se convierta en un cambio.",
+      "expected": "design",
+      "split": "train",
+      "kind": "target",
+      "why": "A new surface with a mockup the owner comments on, breakpoints and a comment loop is the design skill's whole claim; no repository convention or publishable piece is involved."
+    },
+    {
+      "id": "design-motion-pass-en",
+      "query": "Audit every transition on the app's pages, decide what should move and what should not, then set duration tokens and a reduced-motion policy before we touch any page.",
+      "expected": "design",
+      "split": "test",
+      "kind": "target",
+      "why": "A motion audit and tokens before page code is the design-line pass the design skill owns; animate would only apply to building one animation."
+    },
+    {
+      "id": "design-not-engineering-es",
+      "query": "El componente de la tabla de contactos ya está diseñado y aprobado. Necesito la migración de la base de datos, las pruebas y el commit con la autoridad de git que tengo en este repo.",
+      "expected": "engineering",
+      "split": "train",
+      "kind": "near-miss",
+      "why": "A screen is mentioned, but the work is migration, tests and a commit, which engineering owns; design applies to the design of the screen, not to its persistence."
+    },
+    {
+      "id": "design-not-social-en",
+      "query": "Create a carousel for Instagram announcing our new dashboard, with copy and the rendered slides ready to schedule.",
+      "expected": "social",
+      "split": "train",
+      "kind": "near-miss",
+      "why": "Interface vocabulary appears, but the deliverable is a publishable social piece, which social owns; design is for the interface of a product, not material to publish."
     }
   ]
 }
