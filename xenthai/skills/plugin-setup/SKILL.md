@@ -1,5 +1,5 @@
 ---
-name: setup
+name: plugin-setup
 description: Run the whole first-visit setup for a client in order, and report at the end which steps are done and which are still owed — the connector, the binding, the adoption of any documents already in their store, both Drive shares, the digest routine, and the handoff to intake. Use at the very first session with a new client, when arriving at a client's machine to install, when asked what to do to get a client started, and when a setup was interrupted and nobody remembers how far it got. Delegates the binding to company-new and the file request to company-intake rather than repeating them.
 ---
 

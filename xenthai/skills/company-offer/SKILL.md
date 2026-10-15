@@ -1,6 +1,6 @@
 ---
 name: company-offer
-description: Capture what a company sells and on what terms — products with stock and lead times, services with deliverables and capacity, and the payment, warranty, cancellation and CFDI terms, including the discount limit and who authorises exceeding it. Use when 01-oferta/OFERTA.md, 01-oferta/PRODUCTOS.md or 01-oferta/SERVICIOS.md are pending, when quoting or invoicing is about to be mapped or automated, or when a price must appear in public copy. For positioning use social-identity; for how the quote gets produced use process-map.
+description: Capture what a company sells and on what terms — products with stock and lead times, services with deliverables and capacity, and the payment, warranty, cancellation and CFDI terms, including the discount limit and who authorises exceeding it. Use when 01-oferta/OFERTA.md, 01-oferta/PRODUCTOS.md or 01-oferta/SERVICIOS.md are pending, when quoting or invoicing is about to be mapped or automated, or when a price must appear in public copy. For positioning use brand-identity; for how the quote gets produced use process-map.
 ---
 
 # Company offer — what is sold, and on what terms

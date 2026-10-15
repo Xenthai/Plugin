@@ -28,6 +28,18 @@ machines could both write `0.1.0` and hold different code. A row written from a 
 
 ## [0.6.8] - 2026-10-15
 
+### Changed — every skill carries a category, and brand is a track of its own
+
+- **Every skill is now `<category>-<responsibility>` or the router named after its category.** Eleven renames:
+  `setup`, `doctor` and `feedback` become `plugin-setup`, `plugin-doctor` and `plugin-feedback`; `resume`,
+  `coverage`, `report` and `opportunities` become `engagement-*`; `baseline` becomes `process-baseline`;
+  `zapier-mcp-ops` becomes `automate-zapier`; `social-identity` and `social-voice` become `brand-identity` and
+  `brand-voice`. A `/xenthai:<old-name>` invocation no longer resolves. The CLIs in `tools/`, the folders in
+  `capabilities/` and the journal's capability names keep their names. Decision 35.
+- **`skills/brand/SKILL.md` is a new router** for identity, voice, the claims register and the manual; `social` hands
+  phases 1 and 2 to it. `BRAND-APPLICATIONS.md` moves to `capabilities/brand/doctrine/`.
+- **`test/taxonomy.test.mjs`** refuses a skill with no category and a declared router that does not exist.
+
 ### Added — the `design` skill, its doctrine and twenty vendored UX and UI skills
 
 - **`skills/design/SKILL.md` carries how the practice designs interfaces with an owner**: choose the medium, build a

@@ -1,5 +1,5 @@
 ---
-name: report
+name: engagement-report
 description: Report what actually happened in a company's engagement, read back from that company's own execution journal — actions by actor, human review time, who approved what, and what the evidence cannot support. Use at the end of a month, before a client review or renewal, when the client asks how much of this the AI did or what it saved them, when an approval needs an audit trail, and before any figure about the engagement is quoted anywhere. For whether the install and its connectors work, use doctor.
 ---
 

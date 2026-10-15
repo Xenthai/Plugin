@@ -1,5 +1,5 @@
 ---
-name: doctor
+name: plugin-doctor
 description: Verify that this machine and the bound company's connectors can actually do the work. Use after installing or updating the plugin, before the first session with a new company, when a store read or write fails, when a connector shows as connected but a call failed anyway, when a render fails for a reason that is not composition (no browser, a substituted font, a blank canvas), or whenever an install looks healthy and something still does not work. For producing pieces use social-produce.
 ---
 
@@ -14,8 +14,7 @@ found at that delivery instead of in two minutes:
 - the assets folder was never shared by link, so a scheduler imports every image missing
 
 Half the checks are mechanical and a script runs them; the other half need credentials only you
-have, in a session. **This is not Claude Code's built-in `/doctor`**, which rightsizes skills and
-CLAUDE.md files; for that, send the operator to the built-in command.
+have, in a session.
 
 ## Step 1 — the local checks, by the machine
 
@@ -41,7 +40,7 @@ everything works.
 | `browser` | None of Edge, Chrome, Edge Beta, Chrome Beta launched | The render engine cannot run. Say so and do not render another way — that output has not been asserted. The machine needs Microsoft Edge or Google Chrome |
 | `fonts` | A face `template.html` declares is missing, or a bundled face lacks its `OFL-*.txt` | The install copied incompletely — the bracketed font filenames are the usual casualty. Reinstall the plugin; never substitute a font, the render asserts the family |
 | `engine` | `template.html` or `formats.json` missing, or `formats.json` does not parse | Reinstall; the render refuses to start without them |
-| `sync` | Rows exist on this machine and not in the company's store — a closed month, or any row at all on an ephemeral binding | Run `tools/journal-sync.mjs --stage` and do the upload, step 5 below. On an ephemeral binding this is not housekeeping: that disk is destroyed when the session ends, and `report` and `opportunities` are built on those rows |
+| `sync` | Rows exist on this machine and not in the company's store — a closed month, or any row at all on an ephemeral binding | Run `tools/journal-sync.mjs --stage` and do the upload, step 5 below. On an ephemeral binding this is not housekeeping: that disk is destroyed when the session ends, and `engagement-report` and `engagement-opportunities` are built on those rows |
 | `transport` | On an ephemeral binding no transport hook is installed, or on any binding one is installed that cannot fire — the reason names the defect | A hook that cannot fire falls back to the model reproducing every byte, silently. Write or rewrite the settings file per `INSTALL.md` §5b, at the directory the session started in — before binding when that directory is not the company's, since the guard blocks a local write outside it. On `absent-ephemeral` do it now, before the first upload. Whether `parentId` is this company's `journal/` folder is yours to confirm in step 5 |
 | `journal` | The journal directory rejects an append | Nothing is auditable until it is fixed: permissions on the company directory, or on the plugin data directory when unbound |
 

@@ -1,5 +1,5 @@
 ---
-name: zapier-mcp-ops
+name: automate-zapier
 description: 'Operate any Zapier MCP account safely and client-agnostically — discover which apps, actions and tables are connected, read and write without guessing schemas, send messages, and keep an audit trail when no Zap writes one. Use this whenever the user asks to "check my Zapier tables", "send a message via Zapier/WhatsApp", "connect X to Zapier", "what do I have connected", or any task touching an app through Zapier MCP, even when they name no table, field or app — this skill assumes those differ per client and discovers them live. Never conclude something "does not exist" because a search came back empty; follow the protocol before reporting absence.'
 ---
 

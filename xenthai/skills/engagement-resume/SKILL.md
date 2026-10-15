@@ -1,5 +1,5 @@
 ---
-name: resume
+name: engagement-resume
 description: Answer where a company's engagement actually stands and what the next step is, then hand off to whichever phase owes it. Use when someone asks what to do next, where the work was left, whether a phase is finished, how far along the mapping is, or to pick the work back up after time away — and use it whenever the person asking is the client's own staff rather than the operator, because they will not know a skill's name and should not have to. Answers from the documents and the journal, never from memory. For the very first visit to a machine with no company bound yet, use setup.
 ---
 
@@ -65,17 +65,17 @@ involves asking a person anything.
 | No documents at all | Nothing has started | `company-intake` — the file request, which needs nobody present |
 | Documents exist, no `01-empresa.md` | Prior work was adopted, intake never ran | `company-intake`, and read `01-empresa.md` doctrine first: those documents are adopted, not captured |
 | `PRESENCE.md` absent | The perishable before was never captured | `social-presence`, before anything is produced |
-| `BRAND.md` absent | Comunicación phase 1 | `social-identity` |
-| `BRAND.md` filled, `VOICE.md` absent | Comunicación phase 2 | `social-voice` |
+| `BRAND.md` absent | Comunicación phase 1 | `brand-identity` |
+| `BRAND.md` filled, `VOICE.md` absent | Comunicación phase 2 | `brand-voice` |
 | `VOICE.md` filled, `SOCIAL.md` absent | The editorial plan | `social-plan` |
 | `00-PERFIL.md` absent | Operación phase 1 | `company-profile` |
 | `00-PERFIL.md` filled, `03-procesos/` absent, folders or mail reachable | Operación phase 2 | `company-evidence` |
 | `03-procesos/` absent | Operación phase 3 | `process-map` |
 | `03-procesos/` exists, its pain and access sections pending | Operación phase 4 | `process-access` |
 | Shortlist scored, a candidate approved by name and date | Operación phase 5 | `automate-spec` |
-| `08-linea-base.md` absent while a process is about to change | The before, and it is perishable | `baseline`, now rather than after |
-| Everything filled, months of journal | The engagement is running | `report` for the cadence that is due, `opportunities` for what to improve next |
-| Anyone asks what is still missing, or a phase is about to start | Not a phase — a check | `coverage`, which answers with questions rather than counts |
+| `08-linea-base.md` absent while a process is about to change | The before, and it is perishable | `process-baseline`, now rather than after |
+| Everything filled, months of journal | The engagement is running | `engagement-report` for the cadence that is due, `engagement-opportunities` for what to improve next |
+| Anyone asks what is still missing, or a phase is about to start | Not a phase — a check | `engagement-coverage`, which answers with questions rather than counts |
 
 Read the table against `status`, not against what anyone remembers about the last session.
 
@@ -96,7 +96,7 @@ Company files change through `Write` and `Edit` only. `capabilities/company/doct
 
 ## STOP conditions
 
-- **No company is bound.** This is not a resumption. If the machine is new, use `setup`; if a folder
+- **No company is bound.** This is not a resumption. If the machine is new, use `plugin-setup`; if a folder
   was simply not opened, say which folder to open rather than creating anything.
 - **`status` reports a document in the wrong language.** Say so before reporting progress. It is a
   delivery defect and it outranks the position report.

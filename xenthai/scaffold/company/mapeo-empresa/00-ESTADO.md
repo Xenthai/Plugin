@@ -1,6 +1,6 @@
 # 00-ESTADO (A2 §2) — <empresa>
 
-> Panel de control. Se lee primero, se escribe último. `resume` lo regenera completo al cerrar cada
+> Panel de control. Se lee primero, se escribe último. `engagement-resume` lo regenera completo al cerrar cada
 > sesión — nunca se edita a mano entre sesiones, para que siempre sea lo último que pasó, no un
 > acumulado que alguien olvidó actualizar.
 

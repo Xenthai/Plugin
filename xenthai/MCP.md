@@ -81,7 +81,7 @@ backup file first rather than relying on the store.
 The second store provider, declared with `"kind": "onedrive"` in the manifest's `store`. It is
 reached through the claude.ai **Microsoft 365** connector, which needs a work or school account and
 whose write tools are **off by default** until the tenant's administrator re-consents and turns them
-on — so "connected" can be green with every write refused, and `doctor`'s write-and-trash probe is
+on — so "connected" can be green with every write refused, and `plugin-doctor`'s write-and-trash probe is
 the only proof.
 
 | What the plugin does with it | Tool it uses |

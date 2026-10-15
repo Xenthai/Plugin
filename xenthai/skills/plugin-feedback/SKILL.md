@@ -1,5 +1,5 @@
 ---
-name: feedback
+name: plugin-feedback
 description: Collect what to fix, add, remove or patch in this plugin, from evidence rather than from impressions — the errors that keep recurring, the guard rejections, the documents that never fill, the skills nobody ever invokes, and what the operator worked around by hand. Use monthly at a client, at the end of a session where something did not work, when an operator says a step is confusing or slow, before shipping a plugin change, and when deciding what to build next. Produces a dated report carrying no client data. For improving the CLIENT's company rather than the plugin, use opportunities.
 ---
 
@@ -9,7 +9,7 @@ Two improvement loops are easy to confuse and they have different subjects:
 
 | Loop | Improves | Skill |
 | --- | --- | --- |
-| What should this **company** do next | The client's processes and documents | `opportunities` |
+| What should this **company** do next | The client's processes and documents | `engagement-opportunities` |
 | What should this **plugin** do differently | The instrument itself, for every client | this one |
 
 Getting them mixed produces the worst of both: a plugin change justified by one client's preference,

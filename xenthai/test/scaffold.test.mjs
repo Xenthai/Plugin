@@ -178,7 +178,7 @@ check("the intake skill routes to the phase skills instead of interviewing itsel
   const front = text.split("---")[1] ?? "";
   const keys = [...front.matchAll(/^([a-z_-]+):/gim)].map((m) => m[1]);
   const onlyTwo = keys.length === 2 && keys.includes("name") && keys.includes("description");
-  const routes = /social-identity|process-map/.test(front);
+  const routes = /brand-identity|process-map/.test(front);
   const stops = /## STOP conditions/.test(text);
   return [onlyTwo && routes && stops, `frontmatter ${keys.join("+")}; negative routing ${routes}; STOP ${stops}`];
 });

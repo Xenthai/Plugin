@@ -1,6 +1,6 @@
 ---
 name: process
-description: Entry point for the operación track — capturing how a company actually works and what of it can be automated. Routes to the profile, the evidence sweep, the Diagnóstico, the Mapeo integral or the specification, whichever the company's documents say is live. Use when asked to map or document processes, to write down how something is done today, to find what to automate first, to price or scope an automation, or when the client asks who must approve an automation or what an AI must never be allowed to do. For communication work — editorial plans, posts, brand or voice documents — use the social router instead. For measuring a before, use baseline; for what is still missing, use coverage.
+description: Entry point for the operación track — capturing how a company actually works and what of it can be automated. Routes to the profile, the evidence sweep, the Diagnóstico, the Mapeo integral or the specification, whichever the company's documents say is live. Use when asked to map or document processes, to write down how something is done today, to find what to automate first, to price or scope an automation, or when the client asks who must approve an automation or what an AI must never be allowed to do. For communication work — editorial plans, posts, brand or voice documents — use the social router instead. For measuring a before, use process-baseline; for what is still missing, use coverage.
 ---
 
 # Process — the router for the operación track
@@ -54,7 +54,7 @@ check and an access map built on it.
 show and what people say, and interviewing first anchors the numbers before they can be tested.
 `EVIDENCE.md` §2 carries why.
 
-Before routing, and again at the close of any session, run `coverage`: it says which blocking fields
+Before routing, and again at the close of any session, run `engagement-coverage`: it says which blocking fields
 are still missing and whether the next phase may start at all.
 
 **The process phases do not depend on `BRAND.md`, `VOICE.md` or `PROOF.md`.** A process inventory
@@ -83,7 +83,7 @@ Never put client content in `--why` or `--detail`. The name of a process is clie
 | The client wants | Route to | Why not here |
 | --- | --- | --- |
 | An editorial plan, posts, a carousel, a brand or voice document | the `social` router | Different capability, different documents, different approval gate |
-| A measured "before" so a later improvement can be defended | `baseline` — and if it is not installed here, say so plainly | Cycle time, touch time and throughput are measurements, not captures. Guessing them here would poison every later comparison |
+| A measured "before" so a later improvement can be defended | `process-baseline` — and if it is not installed here, say so plainly | Cycle time, touch time and throughput are measurements, not captures. Guessing them here would poison every later comparison |
 | A quote for building the automation | `automate-spec`, and only after phase 4 | The exception rows and the integration surfaces are the quote. Without them there is nothing to price |
 
 ## 5. STOP conditions
@@ -110,5 +110,5 @@ Never put client content in `--why` or `--detail`. The name of a process is clie
 | `skills/process-map/SKILL.md` | Routing to phase 3 |
 | `skills/process-access/SKILL.md` | Routing to phase 4 |
 | `skills/automate-spec/SKILL.md` | Routing to phase 5 |
-| `skills/coverage/SKILL.md` | Before every route, and at the close of every session |
+| `skills/engagement-coverage/SKILL.md` | Before every route, and at the close of every session |
 | `scaffold/company/mapeo-empresa/03-procesos/INDICE.md` | Phase 3 needs the inventory skeleton to copy into the store |

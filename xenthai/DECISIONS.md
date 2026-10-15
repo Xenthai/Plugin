@@ -1000,3 +1000,27 @@ and a reference table, not a screen rule.
 **Reverses if** the vendored skills' sources change licence or disappear, at which point the copies stay under the
 licence they were taken under and the skill table is revisited; or the practice stops designing with an owner in the
 loop.
+
+### 35 · Every skill is named for its category, and brand is a track with its own router
+
+**Decision.** A skill is `<category>-<responsibility>`, or it is the router named after its category. Nine categories:
+`company`, `process`, `automate`, `brand`, `social`, `design`, `engineering`, `plugin` and `engagement`;
+`test/taxonomy.test.mjs` holds the list, which of them need a router, and refuses a skill with neither. Eleven skills
+were renamed: the install's own skills to `plugin-*`, the engagement read-backs to `engagement-*`, the before-measure to
+`process-baseline`, the Zapier operator to `automate-zapier`, identity and voice to `brand-*`. Brand gets a router of its
+own because BRAND.md, VOICE.md and PROOF.md are read by social and design alike, and a router named `social`
+owning them hid that. Comunicación's phase numbers are unchanged: phases 1 and 2 are still Comunicación phases, now
+reached through `brand`.
+
+**Evidence.** Before this, twelve of thirty skills had no category, so the name of `report` or `setup` said nothing about
+which track owned it or what it touched; the four prefixed families (`social-*`, `process-*`, `automate-*`,
+`company-*`) were the ones an operator could place without reading a description. The maintainer chose the whole plugin
+over design alone, accepting that every old `/xenthai:<name>` stops resolving (session of 2026-10-15).
+
+**Rejected:** renaming only the design suite, which leaves the twelve uncategorised; folding the install and
+engagement skills into `company-*`, which already means the company's own documents and would have stopped meaning
+it; renaming the CLIs, capability folders and journal capability names to match, which would split the journal's
+history at a schema boundary for a cosmetic gain.
+
+**Reverses if** a skill appears whose responsibility fits no category and adding one would hold a single skill for
+good; at that point the categories are revisited rather than the skill left bare.

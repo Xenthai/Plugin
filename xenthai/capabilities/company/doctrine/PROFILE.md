@@ -137,6 +137,6 @@ That last column is where the real errors hide.
 | --- | --- |
 | `capabilities/company/doctrine/SESSION.md` | Before the session — it governs asking a person anything |
 | `capabilities/company/doctrine/INTAKE.md` | The profile session names documents to request; that file governs the request |
-| `capabilities/company/doctrine/REGULATORS-MX.md` | The trade's regulator, which the profile identifies and `social-identity` records |
+| `capabilities/company/doctrine/REGULATORS-MX.md` | The trade's regulator, which the profile identifies and `brand-identity` records |
 | `capabilities/company/doctrine/EVIDENCE.md` | Phase 2 tests the profile's claims against documents |
 | `scaffold/company/mapeo-empresa/00-PERFIL.md` | The skeleton to copy into the store |

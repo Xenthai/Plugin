@@ -34,9 +34,9 @@ const EXTRA_OWNERS = {
     "process-access",
   ],
   "mapeo-<empresa>/02-inventario.md": ["company-evidence"],
-  "mapeo-<empresa>/05-backlog.md": ["opportunities"],
-  "mapeo-<empresa>/09-rutinas.md": ["report", "process-access"],
-  "comunicacion/PROOF.md": ["social-voice"],
+  "mapeo-<empresa>/05-backlog.md": ["engagement-opportunities"],
+  "mapeo-<empresa>/09-rutinas.md": ["engagement-report", "process-access"],
+  "comunicacion/PROOF.md": ["brand-voice"],
   "comunicacion/SOCIAL.md": ["social-plan"],
 };
 

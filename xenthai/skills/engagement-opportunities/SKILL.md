@@ -1,5 +1,5 @@
 ---
-name: opportunities
+name: engagement-opportunities
 description: Find what to improve next from a company's own execution journal instead of from another interview — which documents get reworked every period, which escalation keeps coming back, which step has been failing for months without anyone reporting it. Use at the monthly scan the company's 09-rutinas.md schedules, at a quarterly or renewal review, when the client asks what to do next or where else AI would help, or when a process was mapped months ago and the estimates in it were never re-measured. Requires several periods of journal history. For the first mapping of a company that has none, use process-map; for scoring and pricing a shortlist in a session with the client, use process-access.
 ---
 

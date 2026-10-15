@@ -44,7 +44,7 @@ refusal gives up the indefensible half of a pitch nobody was buying.
 
 Two cautions attach. These are *stated ambitions*, not outcomes, and the gap between them is the
 whole reason a baseline exists. And a client who does eventually ask for pesos saved has not been
-disqualified by a survey — answer them with §10b and record their decision, as `report`'s STOP
+disqualified by a survey — answer them with §10b and record their decision, as `engagement-report`'s STOP
 conditions require.
 
 ---

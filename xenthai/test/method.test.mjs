@@ -331,10 +331,10 @@ check("capabilities/method/tables/field-guide.md exists", () => {
   return [existsSync(path), existsSync(path) ? "present" : `missing: ${path}`];
 });
 
-check("skills/setup/SKILL.md references the field guide table", () => {
-  const body = readFileSync(join(ROOT, "skills", "setup", "SKILL.md"), "utf8");
+check("skills/plugin-setup/SKILL.md references the field guide table", () => {
+  const body = readFileSync(join(ROOT, "skills", "plugin-setup", "SKILL.md"), "utf8");
   const referenced = body.includes("method/tables/field-guide.md");
-  return [referenced, referenced ? "referenced" : "skills/setup/SKILL.md does not mention field-guide.md"];
+  return [referenced, referenced ? "referenced" : "skills/plugin-setup/SKILL.md does not mention field-guide.md"];
 });
 
 /**

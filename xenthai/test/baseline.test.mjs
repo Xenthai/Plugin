@@ -6,7 +6,7 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, "..");
 const DOCTRINE = join(ROOT, "capabilities", "baseline", "doctrine", "MEASUREMENT.md");
 const SCAFFOLD = join(ROOT, "scaffold", "company", "mapeo-empresa", "08-linea-base.md");
-const SKILL = join(ROOT, "skills", "baseline", "SKILL.md");
+const SKILL = join(ROOT, "skills", "process-baseline", "SKILL.md");
 
 /**
  * Words that assert an accreditation nobody in this practice holds. A baseline is self-reported and

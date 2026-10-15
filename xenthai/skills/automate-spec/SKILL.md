@@ -21,7 +21,7 @@ node "${CLAUDE_PLUGIN_ROOT}/tools/coverage.mjs" --pending
 
 Name the company aloud. Then check the six required inputs from `SPEC.md` §2. **A `— pendiente —` in
 the process, the integration surface, the authorisation rules or the score is blocking.** Write the
-question, route it to `coverage`, and stop. An assumption written into a specification is
+question, route it to `engagement-coverage`, and stop. An assumption written into a specification is
 indistinguishable from a captured fact by the time a builder reads it.
 
 **Specify only a candidate the client approved by name and on a date.** Specifying an unapproved one

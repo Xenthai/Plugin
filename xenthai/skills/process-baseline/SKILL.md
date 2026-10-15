@@ -1,5 +1,5 @@
 ---
-name: baseline
+name: process-baseline
 description: Measure a company's before while it still exists — cycle time, touch time, throughput, error rate and coverage per process. Use BEFORE anything is automated or changed, because a before cannot be reconstructed from memory afterwards, and again at every check-in with the same measures. Any savings figure or improvement claim depends on what was frozen here. The inventory it measures against comes from process-map; reading an engagement back is report.
 ---
 
@@ -17,7 +17,7 @@ time by a median 47%. There is no second chance to take it.
 | A check-in falls due | Re-record the same measures, same definitions, same boundary. Point-in-time, never trended |
 | Someone asks for a savings or improvement figure | Check what was frozen. No frozen boundary means no publishable figure — say that before offering one |
 | The company has no `03-procesos/` yet | Stop. The inventory is `process-map`'s output; there is no denominator and no list of subjects without it |
-| The question is what happened this month, or how much the AI did | That is `report`, read back from the journal. Come here only for the *before* a comparison needs |
+| The question is what happened this month, or how much the AI did | That is `engagement-report`, read back from the journal. Come here only for the *before* a comparison needs |
 
 ## Order of work
 

@@ -1,6 +1,6 @@
 ---
-name: coverage
-description: Audit how complete an engagement's documents are, turn every gap into a question already written out and addressed to a named role, and say whether the next phase can start. Use when asked what is missing, whether there is enough to continue, what information is still needed, to prepare the questions for an upcoming session, or at the close of any session that filled a document. Reports a verdict rather than a count. For where the engagement stands overall use resume; for whether this machine and its connectors work use doctor.
+name: engagement-coverage
+description: Audit how complete an engagement's documents are, turn every gap into a question already written out and addressed to a named role, and say whether the next phase can start. Use when asked what is missing, whether there is enough to continue, what information is still needed, to prepare the questions for an upcoming session, or at the close of any session that filled a document. Reports a verdict rather than a count. For where the engagement stands overall use engagement-resume; for whether this machine and its connectors work use doctor.
 ---
 
 # Coverage — what is missing, who has it, and whether to proceed
@@ -91,7 +91,7 @@ The client decides. What is not allowed is a phase starting while the gap goes u
 3. **What is needed before the next session** — documents, accesses and people, as a list the
    operator can forward to the client unedited.
 
-Then one next step, named as one thing with one owner. `resume`'s rule holds: a client handed three
+Then one next step, named as one thing with one owner. `engagement-resume`'s rule holds: a client handed three
 options has been handed the decision they came to have made for them.
 
 ```bash
@@ -124,7 +124,7 @@ fields are covered. **Collecting past that point bills the client for no additio
 
 ## STOP conditions
 
-- **No company is bound.** There is nothing to audit. Route to `setup` or name the folder to open.
+- **No company is bound.** There is nothing to audit. Route to `plugin-setup` or name the folder to open.
 - **A document is in the wrong language.** Say it before reporting anything else. It looks finished
   and it is a delivery defect.
 - **A gap cannot be turned into one of the four actions.** The field is badly specified. Say so and
@@ -139,5 +139,5 @@ fields are covered. **Collecting past that point bills the client for no additio
 | --- | --- |
 | `capabilities/company/doctrine/SESSION.md` | §1 decides who each question goes to |
 | `capabilities/company/doctrine/EVIDENCE.md` | When a gap resolves to Derive rather than Ask |
-| `skills/resume/SKILL.md` | The overall position. This skill answers what is missing, that one answers where we are |
+| `skills/engagement-resume/SKILL.md` | The overall position. This skill answers what is missing, that one answers where we are |
 | `tools/coverage.mjs --help` | The options. Trust it over this file |

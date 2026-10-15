@@ -72,7 +72,7 @@ anywhere.
 So creating the task is not finishing it. **Click Run now once, answer every permission prompt with
 "always allow", and confirm the output appeared.** Future runs then auto-approve the same tools. A
 routine created and never run once is a routine nobody has proved, and that is the same standard
-`doctor` applies to the install and `automate-handover` applies to a failure path.
+`plugin-doctor` applies to the install and `automate-handover` applies to a failure path.
 
 Two more properties worth writing into the prompt rather than discovering:
 
@@ -166,7 +166,7 @@ median to be stable.
 ### Opportunities scan — semiannual
 
 > Corre `node "${CLAUDE_PLUGIN_ROOT}/tools/opportunities.mjs" --journal <raíz-del-almacén>` y lee la
-> skill `opportunities` antes de interpretar nada. Cada patrón es una repetición medida, no una
+> skill `engagement-opportunities` antes de interpretar nada. Cada patrón es una repetición medida, no una
 > recomendación: aplica la prueba de autónomo, recurrente y revisable, y deja los hallazgos en
 > `03-procesos/` con su procedencia visible. Si la bitácora no cubre suficientes periodos, dilo y no
 > bajes el umbral.

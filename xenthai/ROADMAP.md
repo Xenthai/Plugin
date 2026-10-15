@@ -27,8 +27,8 @@
   (`DECISIONS.md` #21d).
 - **Silencing the journal rows the journal's own upload generates.** A title regex is spoofable and
   the folder id is optional in the connector's input; delta revisions leave about three rows per
-  sync, which `doctor` already tolerates as a session's tail.
-- **A weekly period for `opportunities`.** The detectors count distinct months because the file, the
+  sync, which `plugin-doctor` already tolerates as a session's tail.
+- **A weekly period for `engagement-opportunities`.** The detectors count distinct months because the file, the
   receipt grammar and every reader are monthly, and `--min` already exists (`DECISIONS.md` #23). A
   first reading in three weeks would be noise with a date on it.
 - **Narrowing the hook matchers to skip read-only tools.** The two hooks cost about 115 ms per tool
@@ -43,7 +43,7 @@
 - **`argument-hint` in skill frontmatter.** Sixty-seven of Anthropic's first-party skills declare
   it, and it is still wrong here for two independent reasons: it is not among the Agent Skills
   spec's six portable fields, and no skill in this plugin reads `$ARGUMENTS`. A hint advertises an
-  interface — the operator types `/xenthai:report 2026-08`, the skill ignores it and asks for the
+  interface — the operator types `/xenthai:engagement-report 2026-08`, the skill ignores it and asks for the
   month anyway. That is worse than no hint. Revisit only if a skill actually consumes arguments.
 - **Moving the hook declarations out of `plugin.json` into `hooks/hooks.json`.** The inline form is
   the working one: the caveman plugin installed on this machine declares its hooks inline, has no
@@ -56,7 +56,7 @@
   not. But it measures *tool execution time*, which is neither the human review time a client is
   paying for nor the cycle time a process improves on — so it supports no client-facing claim, and
   adding it costs a `ROW_SCHEMA` bump. It would earn its place as a diagnostic for a store whose
-  connector calls are degrading, which is `doctor`'s subject, not the report's.
+  connector calls are degrading, which is `plugin-doctor`'s subject, not the report's.
 
 ---
 
@@ -71,12 +71,12 @@ client machine until the `version` field moves.
 | **`process` capability** — operación phases 3 and 4, breadth before depth, Wanner suitability scoring with the two judgement criteria labelled as judgement | `skills/process*`, `capabilities/process/doctrine/PROCESS.md`, `scaffold/company/PROCESSES.md` |
 | **`company-profile`** — operación phase 1, six operating archetypes from four questions, the trade's glossary, and the adapted hunt list for phase 3 | `skills/company-profile`, `capabilities/company/doctrine/PROFILE.md`, `scaffold/company/PROFILE.md` |
 | **`company-evidence`** — operación phase 2, volumes and rates derived from the company's own records and contrasted against what was claimed. Closes the gap `MEASUREMENT.md` named and nothing filled | `skills/company-evidence`, `capabilities/company/doctrine/EVIDENCE.md` |
-| **`coverage`** — blocking gaps turned into questions addressed to a role, and a verdict on starting the next phase | `skills/coverage`, `tools/coverage.mjs` |
+| **`engagement-coverage`** — blocking gaps turned into questions addressed to a role, and a verdict on starting the next phase | `skills/engagement-coverage`, `tools/coverage.mjs` |
 | **`automate-spec`** — operación phase 5, the buildable specification, platform-independent until its last section, with the autonomy ceiling set before anything is designed | `skills/automate-spec`, `capabilities/automate/doctrine/SPEC.md`, `capabilities/automate/doctrine/PLATFORMS.md`, `scaffold/company/AUTOMATION-SPEC.md` |
-| **`baseline` capability** — three layers, company-wide rather than per-channel, with the never-a-single-self-reported-duration rule | `skills/baseline`, `capabilities/baseline/doctrine/MEASUREMENT.md`, `scaffold/company/BASELINE.md` |
-| **`report` capability** — journal rows to an engagement report, contribution framing, never "certified" | `skills/report`, `tools/report.mjs` |
+| **`process-baseline` capability** — three layers, company-wide rather than per-channel, with the never-a-single-self-reported-duration rule | `skills/process-baseline`, `capabilities/baseline/doctrine/MEASUREMENT.md`, `scaffold/company/BASELINE.md` |
+| **`engagement-report` capability** — journal rows to an engagement report, contribution framing, never "certified" | `skills/engagement-report`, `tools/report.mjs` |
 | **`company` capability** — documents before questions, and what is sold on what terms | `skills/company-intake`, `skills/company-offer`, `capabilities/company/doctrine/INTAKE.md` |
-| **`doctor` skill** — the MCP checklist as an executable round trip | `skills/doctor`, `tools/doctor.mjs` |
+| **`plugin-doctor` skill** — the MCP checklist as an executable round trip | `skills/plugin-doctor`, `tools/doctor.mjs` |
 | **`status` CLI** — pending fields per document and the phase that owes each | `tools/status.mjs`, called by both routers |
 | **Plugin version on every journal row** | `lib/journal.mjs` `PLUGIN_VERSION` |
 | **CI on GitHub Actions** — `npm ci --ignore-scripts`, the suites, `plugin validate`, no browser download | `.github/workflows/test.yml` |
@@ -85,22 +85,22 @@ client machine until the `version` field moves.
 | **`company-new` skill** — the engagement bootstrap: the manifest, the store folder, the health check, the handoff to intake | `skills/company-new` |
 | **`social-presence` skill** — the perishable before, captured at the first session and append-only | `skills/social-presence`, `capabilities/social/doctrine/PRESENCE.md`, `scaffold/company/PRESENCE.md` |
 | **`automate-handover` skill** — acceptance and liability rather than results, with the three-rung autonomy ladder | `skills/automate-handover`, `capabilities/automate/doctrine/HANDOVER.md` |
-| **`opportunities` skill** — what recurred across periods, read from the journal, as questions rather than recommendations | `skills/opportunities`, `tools/opportunities.mjs`, `capabilities/process/doctrine/PROCESS.md` §8 |
+| **`engagement-opportunities` skill** — what recurred across periods, read from the journal, as questions rather than recommendations | `skills/engagement-opportunities`, `tools/opportunities.mjs`, `capabilities/process/doctrine/PROCESS.md` §8 |
 | **Readability floor for operator-facing documents** — Szigriszt-Pazos on the INFLESZ scale, gated across every client-facing scaffold | `tools/legible.mjs`, `capabilities/automate/doctrine/HANDOVER.md` §5b |
 | **Session doctrine** — who has to be in the room for each question, and who must not be | `capabilities/company/doctrine/SESSION.md`, reached from all eight interviewing skills |
 | **Controls doctrine and the maturity model** — what the plugin refuses versus merely records, and whose level actually moved | `capabilities/company/doctrine/CONTROLS.md`, `MATURITY.md` |
 | **Source verification in every report** — the digest of the bytes a report was computed from, anchored by the client's own store | `tools/report.mjs`, `capabilities/report/doctrine/REPORTING.md` §10d |
 | **`watch` digest** — engagement health as counts and dates, computed with no model, no session and no network, safe to share with the practice | `tools/watch.mjs`, `INSTALL.md` §6b |
-| **`feedback` skill** — the second improvement loop: what to fix in the PLUGIN, from evidence, carrying nothing about any company | `skills/feedback` |
+| **`plugin-feedback` skill** — the second improvement loop: what to fix in the PLUGIN, from evidence, carrying nothing about any company | `skills/plugin-feedback` |
 | **Adoption of pre-existing documents** — a store that is not empty when the plugin arrives | `capabilities/company/doctrine/INTAKE.md`, `skills/company-new`, `skills/company-intake` |
-| **`setup` skill** — the whole first visit in order, reporting which of seven steps are done and which are owed | `skills/setup` |
+| **`plugin-setup` skill** — the whole first visit in order, reporting which of seven steps are done and which are owed | `skills/plugin-setup` |
 | **Scheduling doctrine** — which of the three mechanisms a routine belongs on, and the permission stall that silences one | `capabilities/company/doctrine/SCHEDULING.md` |
-| **The language of a document is a control** — `doctor` gates the manifest's locale, `status` audits what actually landed in the store, including reports, plans and the copy inside rendered assets | `tools/doctor.mjs`, `tools/status.mjs`, `tools/legible.mjs`, `capabilities/company/doctrine/CONTROLS.md` §4c |
+| **The language of a document is a control** — `plugin-doctor` gates the manifest's locale, `status` audits what actually landed in the store, including reports, plans and the copy inside rendered assets | `tools/doctor.mjs`, `tools/status.mjs`, `tools/legible.mjs`, `capabilities/company/doctrine/CONTROLS.md` §4c |
 | **`chart` archetype and PDF output in the render engine** — values printed as text beside each bar, refuses without `piece.basis`, vector copy beside the PNG | `capabilities/social/engine/template.html`, `render.mjs` |
 | **Six report templates, one per cadence** plus the mapping-close record, each declaring the single question it answers | `capabilities/report/templates/` |
 | **`ROUTINES.md` per company** — the pre-approved planned tasks, with the digest active from day one and absence detection per row | `scaffold/company/ROUTINES.md`, `skills/company-new` |
 | **The `PROOF.md` expiry sweep**, configured as a routine ready to activate when its cadence is agreed | `capabilities/company/doctrine/SCHEDULING.md` §4 |
-| **`doctor`'s `transport` line** — the mcp_tool upload hook validated for shape in the files the session loads, graded by binding | `tools/doctor.mjs`, `lib/transport.mjs`, `DECISIONS.md` #31 |
+| **`plugin-doctor`'s `transport` line** — the mcp_tool upload hook validated for shape in the files the session loads, graded by binding | `tools/doctor.mjs`, `lib/transport.mjs`, `DECISIONS.md` #31 |
 | **Escalation outcomes in the report**, inferred from execution and never an approval; store kind in the header; the plugin's own rows separable | `tools/report.mjs`, `DECISIONS.md` #29 |
 | **Bash rows legible** — program, script and flag from the shell's vocabulary, schema 3 | `lib/journal.mjs`, `DECISIONS.md` #30 |
 | **`engineering` skill** — the practice's way of building software, with the six per-repository choices resolved once as a profile instead of decided globally | `skills/engineering`, `capabilities/engineering/doctrine/`, `DECISIONS.md` #33 |
@@ -116,7 +116,7 @@ The MVP passes its own tests. These are the gaps a real engagement would hit on 
 | --- | --- | --- |
 | **Skill-trigger evaluation inside the gate** — the 58 cases in `test/skill-triggers.json` run on every change, not on request | Twenty skills now, up from six. A `description` is the only trigger surface and the measured failure mode is **under**-triggering: a skill that never fires is indistinguishable from a skill that does not exist. `test/skill-eval.mjs` exists and runs nowhere | Claude CLI and API access in CI, or a local pre-release step |
 | **Verify `${CLAUDE_PLUGIN_ROOT}` inside a skill's shell** on a real install | Every semantic journal entry from a skill depends on it, and the documentation does not say it resolves there. The bootstrap hook announces the path as a fallback, but the assumption is untested | A second machine |
-| **A first-session dry run against a real company** — every phase, in order, with the journal read back afterwards | The suites prove each part in isolation. Nothing has yet proven the parts compose, and the journal has never been read by `report` on rows a full engagement produced | `company-new` |
+| **A first-session dry run against a real company** — every phase, in order, with the journal read back afterwards | The suites prove each part in isolation. Nothing has yet proven the parts compose, and the journal has never been read by `engagement-report` on rows a full engagement produced | `company-new` |
 
 ---
 
@@ -158,7 +158,7 @@ Where the plugin gets better with every client, which is the property that justi
 
 | Item                                                                                                                                                                                                                                                                                                                                                                              | Why                                                                                                                                                                                                                           | Waits on                              |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------- |
-| **`opportunities` capability** (from `IDEAS.md`) — read a company's journal and surface automation candidates: the same action on the same kind of target repeated; lookups clustered around one process; escalations that always resolve the same way; review time concentrated in one step. Score each with the five published criteria and hand it to `process` as a candidate | Turns the journal from a compliance artefact into the next engagement. The client's own log names the next process worth automating. The semantic events exist from day one for exactly this                                  | Journal volume; `process` for scoring |
+| **`engagement-opportunities` capability** (from `IDEAS.md`) — read a company's journal and surface automation candidates: the same action on the same kind of target repeated; lookups clustered around one process; escalations that always resolve the same way; review time concentrated in one step. Score each with the five published criteria and hand it to `process` as a candidate | Turns the journal from a compliance artefact into the next engagement. The client's own log names the next process worth automating. The semantic events exist from day one for exactly this                                  | Journal volume; `process` for scoring |
 | **Cross-company write detection** from the journal — a scan that compares every store write's `parentId` against the bound company's root and alerts                                                                                                                                                                                                                              | The guard no longer blocks writes to an unknown folder by design (no allowlists). The journal carries the `parentId`; nothing reads it back yet. This is the residual risk made visible on a schedule instead of on discovery | —                                     |
 | **Cross-company pattern library** (anonymized) — which archetypes and pillars clear the approval gate fastest, from journal approval events only                                                                                                                                                                                                                                  | This is data the plugin genuinely has, unlike reach or engagement. It must never be dressed as performance data                                                                                                               | Several companies' journals           |
 | **Schema migration tooling** — `schema_version` on every document, auto-migrate after writing a backup, refuse rather than guess when the shape does not match a known version, three-way merge for hand-edited documents with conflict markers rather than silent overwrite                                                                                                      | The documents are the state and clients will be live when the shape changes. This is what kills growing products                                                                                                              | The first schema change               |
@@ -175,7 +175,7 @@ More surfaces for the same company documents.
 | **Alt text on every asset**                                                                                                                                                                                                                                               | Accessibility, and a required column in the import schemas                                                                                            | —                              |
 | **Text-only posts** for LinkedIn and X with the per-platform truncation point enforced (~210 desktop / ~140 mobile on LinkedIn, 280 on X) and the hashtag rule per platform (2 recommended on X; more than 60 on YouTube voids all of them)                               | Often the highest-performing format on LinkedIn and nearly free to produce                                                                            | —                              |
 | **Two headline variants per piece** for the client to choose between at the review gate                                                                                                                                                                                   | A choice is easier to approve than a single option, and it teaches the voice faster. This is not A/B testing — there are no analytics to test against | —                              |
-| **Client-facing monthly page** generated from the journal, in the company's language                                                                                                                                                                                      | The bitácora as a deliverable the client reads, not only an audit file the consultant keeps                                                           | `report`                       |
+| **Client-facing monthly page** generated from the journal, in the company's language                                                                                                                                                                                      | The bitácora as a deliverable the client reads, not only an audit file the consultant keeps                                                           | `engagement-report`                       |
 | **`web` capability** — a company's one-page site from the same documents                                                                                                                                                                                                  | `BRAND.md`, `PROOF.md` and `SOCIAL.md` already hold what a one-page site says. The author's own site is built this way                                | Social docs mature             |
 | **Bilingual output** per company                                                                                                                                                                                                                                          | `locale` is already in the manifest and unused                                                                                                        | —                              |
 

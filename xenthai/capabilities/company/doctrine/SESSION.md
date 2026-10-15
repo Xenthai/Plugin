@@ -5,8 +5,8 @@ Implements: A2 §5 · X6 §1-§3 · X6 §6-§7
 `01-empresa.md` says to get facts from documents rather than by asking. This file is for what is left:
 the facts that exist only in somebody's head, and the session where they come out.
 
-It applies to every skill that fills a document by talking to a person — `social-identity`,
-`social-voice`, `social-presence`, `company-offer`, `process-map`, `process-access`, `baseline`,
+It applies to every skill that fills a document by talking to a person — `brand-identity`,
+`brand-voice`, `social-presence`, `company-offer`, `process-map`, `process-access`, `process-baseline`,
 `automate-handover`. The failure it prevents is not an awkward meeting. It is a document full of
 confident, wrong facts, which then gets published, quoted in a report, or automated against.
 
