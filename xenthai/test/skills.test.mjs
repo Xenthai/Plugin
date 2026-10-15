@@ -11,17 +11,7 @@ const allNames = readdirSync(SKILLS, { withFileTypes: true })
   .filter((e) => e.isDirectory())
   .map((e) => e.name);
 
-/**
- * Third-party skills copied in whole, listed in `NOTICE.md` with their licence. They keep their
- * authors' frontmatter, size and wording, so the rules below that only make sense for a skill of
- * this plugin (portable keys, size band, WHEN clause, STOP section, doctrine table) skip them;
- * `test/suite.test.mjs` holds the rules that apply to them instead.
- */
-const NOTICE = join(ROOT, "NOTICE.md");
-const vendored = new Set(
-  existsSync(NOTICE) ? [...readFileSync(NOTICE, "utf8").matchAll(/^\| `([a-z0-9-]+)` \|/gm)].map((m) => m[1]) : []
-);
-const names = allNames.filter((n) => !vendored.has(n));
+const names = allNames;
 
 /**
  * Frontmatter keys and body of a SKILL.md. Claude Code reads only `name` and `description` at

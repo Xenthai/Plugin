@@ -1,71 +1,55 @@
 # Notice
 
-The files authored for this plugin are licensed under FSL-1.1-ALv2, see `LICENSE`. The twenty skills listed
-below, kept under `skills/` beside our own, are third-party works copied with their authors' licences; they stay
-under those licences and are never edited here. This file is the attribution those licences require.
+Every file in this plugin is authored for it and licensed under FSL-1.1-ALv2, see `LICENSE`. No third-party skill is
+copied here or installed from elsewhere.
 
-Each skill was copied from the maintainer's skills directory on 2026-10-15, as the UX and UI lenses the `design`
-skill works with. A copy can differ
-from its source's current head; the source URL is where updates come from.
+The design and brand-copy skills were written in this plugin's own words from ideas found in the sources below. Ideas
+are not anyone's property, and no text, table or list was copied; this list is the credit those authors are owed, and
+the place to look when a rule's reasoning needs its origin. Read on 2026-10-15.
 
-## Vendored skills
+## Skills whose ideas were rewritten here
 
-| Skill | Author | Source | Licence |
-|---|---|---|---|
-| `better-accessibility` | Jakub Krehel | https://github.com/jakubkrehel/skills | MIT |
-| `better-colors` | Jakub Krehel | https://github.com/jakubkrehel/skills | MIT |
-| `better-interface` | Jakub Krehel | https://github.com/jakubkrehel/skills | MIT |
-| `better-layout` | Jakub Krehel | https://github.com/jakubkrehel/skills | MIT |
-| `better-typography` | Jakub Krehel | https://github.com/jakubkrehel/skills | MIT |
-| `better-ui` | Jakub Krehel | https://github.com/jakubkrehel/skills | MIT |
-| `better-writing` | Jakub Krehel | https://github.com/jakubkrehel/skills | MIT |
-| `interface-review` | Jakub Krehel | https://github.com/jakubkrehel/skills | MIT |
-| `explain-interface` | Jakub Krehel | https://github.com/jakubkrehel/skills | MIT |
-| `emil-design-eng` | Emil Kowalski | https://github.com/emilkowalski/skills | MIT |
-| `animate` | Emil Kowalski | https://github.com/emilkowalski/skills | MIT |
-| `animation-vocabulary` | Emil Kowalski | https://github.com/emilkowalski/skills | MIT |
-| `find-animation-opportunities` | Emil Kowalski | https://github.com/emilkowalski/skills | MIT |
-| `improve-animations` | Emil Kowalski | https://github.com/emilkowalski/skills | MIT |
-| `apple-design` | Emil Kowalski | https://github.com/emilkowalski/skills | MIT |
-| `design-motion-principles` | Kyle Zantos | https://github.com/kylezantos/design-motion-principles | MIT |
-| `ui-ux-pro-max` | Next Level Builder | https://github.com/nextlevelbuilder/ui-ux-pro-max-skill | MIT |
-| `copywriting` | Corey Haines | https://github.com/coreyhaines31/marketingskills | MIT |
-| `web-design-guidelines` | Vercel Labs | https://github.com/vercel-labs/agent-skills | MIT |
-| `frontend-design` | Anthropic | https://github.com/anthropics/skills | Apache-2.0 |
+- Jakub Krehel — better-accessibility, better-colors, better-interface, better-layout, better-typography, better-ui, better-writing, interface-review and explain-interface — https://github.com/jakubkrehel/skills
+- Emil Kowalski — emil-design-eng, animate, animation-vocabulary, find-animation-opportunities, improve-animations and apple-design — https://github.com/emilkowalski/skills
+- Kyle Zantos — design-motion-principles — https://github.com/kylezantos/design-motion-principles
+- Next Level Builder — ui-ux-pro-max — https://github.com/nextlevelbuilder/ui-ux-pro-max-skill
+- Corey Haines — copywriting — https://github.com/coreyhaines31/marketingskills
+- Vercel Labs — web-design-guidelines and the Web Interface Guidelines — https://github.com/vercel-labs/web-interface-guidelines
+- Anthropic — frontend-design — https://github.com/anthropics/skills
 
-Licence evidence, read from each source on 2026-10-15: the `LICENSE` file of `jakubkrehel/skills`
-(Copyright 2026 Jakub Krehel), `emilkowalski/skills` (Copyright 2026 Emil Kowalski),
-`kylezantos/design-motion-principles` (Copyright 2026 Kyle Zantos), `nextlevelbuilder/ui-ux-pro-max-skill`
-(Copyright 2024 Next Level Builder) and `coreyhaines31/marketingskills` (Copyright 2025 Corey Haines), each
-the MIT licence below; the "License: MIT" section of the `vercel-labs/agent-skills` README, whose guidelines
-source `vercel-labs/web-interface-guidelines` carries an MIT `LICENSE` (Copyright 2025 Vercel Labs); and the
-Apache License 2.0 text shipped as `skills/frontend-design/LICENSE.txt`.
+## Standards and primary sources
 
-## MIT licence
-
-Applies to every skill marked MIT above, each under its own copyright line from the table.
-
-```text
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
-
-## Not vendored
-
-Skills with no licence found are never copied here; `external-skills.json` lists them with the command that
-installs them from their own source.
+- W3C WAI — Web Content Accessibility Guidelines (WCAG) 2.2 — https://www.w3.org/TR/WCAG22/
+- W3C WAI — ARIA Authoring Practices Guide patterns — https://www.w3.org/WAI/ARIA/apg/patterns/
+- W3C — Using ARIA — https://www.w3.org/TR/using-aria/
+- Myndex, Andrew Somers — APCA in a Nutshell — https://git.apcacontrast.com/documentation/APCA_in_a_Nutshell
+- MDN — prefers-reduced-motion — https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion
+- web.dev — Animations and performance — https://web.dev/articles/animations-guide
+- ISO — ISO 9241-210, human-centred design for interactive systems — https://www.iso.org/standard/77520.html
+- Apple — Human Interface Guidelines: Motion — https://developer.apple.com/design/human-interface-guidelines/motion
+- Apple — Designing Fluid Interfaces, WWDC 2018 — https://developer.apple.com/videos/play/wwdc2018/803/
+- Apple — The Details of UI Typography, WWDC 2020 — https://developer.apple.com/videos/play/wwdc2020/10175/
+- Google — Android window size classes — https://developer.android.com/develop/ui/compose/layouts/adaptive/window-size-classes
+- Nielsen Norman Group — 10 Usability Heuristics for User Interface Design — https://www.nngroup.com/articles/ten-usability-heuristics/
+- Nielsen Norman Group — Severity Ratings for Usability Problems — https://www.nngroup.com/articles/how-to-rate-the-severity-of-usability-problems/
+- Nielsen Norman Group — Why You Only Need to Test with 5 Users — https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/
+- Nielsen Norman Group — Card Sorting: How Many Users to Test — https://www.nngroup.com/articles/card-sorting-how-many-users-to-test/
+- Nielsen Norman Group — Tree Testing — https://www.nngroup.com/articles/tree-testing/
+- Nielsen Norman Group — Progressive Disclosure — https://www.nngroup.com/articles/progressive-disclosure/
+- Nielsen Norman Group — Response Times: The 3 Important Limits — https://www.nngroup.com/articles/response-times-3-important-limits/
+- Nielsen Norman Group — Designing Empty States in Complex Applications — https://www.nngroup.com/articles/empty-state-interface-design/
+- Nielsen Norman Group — Error-Message Guidelines — https://www.nngroup.com/articles/error-message-guidelines/
+- Wharton, Rieman, Lewis and Polson — The Cognitive Walkthrough Method — https://dl.acm.org/doi/10.5555/189200.189214
+- Jon Yablonski — Laws of UX — https://lawsofux.com/
+- Holtzblatt and Beyer — Contextual Design — https://www.interaction-design.org/literature/book/the-encyclopedia-of-human-computer-interaction-2nd-ed/contextual-design
+- Erika Hall — Just Enough Research — https://abookapart.com/products/just-enough-research
+- Teresa Torres — Continuous Discovery Habits — https://www.producttalk.org/continuous-discovery-habits/
+- Rob Fitzpatrick — The Mom Test — https://www.momtestbook.com/
+- Clayton Christensen et al. — Know Your Customers' Jobs to Be Done — https://hbr.org/2016/09/know-your-customers-jobs-to-be-done
+- Alan Klement — Replacing the User Story with the Job Story — https://jtbd.info/replacing-the-user-story-with-the-job-story-af7cdee10c27
+- Bob Moesta and Chris Spiek — The Forces of Progress — https://jobstobedone.org/radio/unpacking-the-progress-making-forces-diagram/
+- GOV.UK — Writing for user interfaces — https://www.gov.uk/service-manual/design/writing-for-user-interfaces
+- GOV.UK Design System — Error summary — https://design-system.service.gov.uk/components/error-summary/
+- Mailchimp — Content Style Guide: Voice and Tone — https://styleguide.mailchimp.com/voice-and-tone/
+- Microsoft — Localization style guides — https://learn.microsoft.com/en-us/globalization/reference/microsoft-style-guides
+- Emil Kowalski — You Don't Need Animations — https://emilkowal.ski/ui/you-dont-need-animations

@@ -1,6 +1,6 @@
 ---
 name: design
-description: The practice's way of designing user experience and interfaces with an owner on a product that ships. Use for any UI or UX work on a product — a new screen or surface, a redesign, a mockup, a design-line pass (tokens, header, surfaces, pills), motion, a review of an interface, a mockup comment loop — and before writing any page code. For code, tests, commits and repository conventions use engineering; for publishable social or marketing material use social; for brand identity or a brand manual use brand-manual; for research, strategy, journeys and audits before anything is built use intent. Inside a design task, for animation craft alone use animate, for an accessibility, layout, typography, colour or copy review use better-interface, for a review of a diff or pull request use interface-review, and for marketing copy on a page use copywriting.
+description: Entry point for designing the user experience and interface of a product that ships, with its owner. Use for any UI or UX work on a product — a new screen or surface, a redesign, a mockup and its comment loop, a design-line pass (tokens, header, surfaces, pills), a review of a screen, diff or pull request before the owner sees it — and before writing any page code. Invoke before any design-ux-* or design-ui-* skill: this one owns the loop and dispatches the craft. For code, tests, commits and repository conventions use engineering; for publishable social material use social; for brand identity, voice, page copy that sells or a brand manual use brand.
 ---
 
 # Design — mockup first, the owner's comments as the loop
@@ -10,14 +10,13 @@ comment on, a loop that turns each comment into one change, proof by screenshots
 motion that every page then follows. It covers execution on a shipping product. Code, tests and git belong to
 `engineering`, which routes screens here.
 
-## Where it sits next to `intent`
+## Where the craft lives
 
-`intent` (github.com/ghaida/intent) is a family of UX strategy and research skills: strategize, investigate,
-journey, wireframe, evaluate, specify and the rest, run for a designer or team before and around a build. This skill
-starts later and narrower: an owner is present, the product already ships or its surface is decided, and the work is
-a reviewed mockup, a loop of short comments, a design line and the pages built from it. For research-stage work —
-who the users are, what the journey is, what to build at all — use `intent` first and bring its output here as the
-brief; this skill never invents research and does not replace it.
+This skill owns the loop with the owner; the craft is split into two families it dispatches to. `design-ux-*` answers
+what the person is trying to do and whether they can: research, flows and states, interface copy, accessibility and
+evaluation. `design-ui-*` answers what it looks like and how it moves: direction, system, layout, motion, polish and
+inspection of an existing interface. For research-stage work — who the users are, what the journey is, what to build
+at all — run `design-ux-research` first and bring its findings here as the brief; this skill never invents research.
 
 ## 0 · Precedence
 
@@ -75,20 +74,27 @@ brief; this skill never invents research and does not replace it.
 2. Critiques are read-only lenses on a cheap model, run before the owner looks.
 3. The orchestrator edits inline only for a tiny change (one CSS line) and says so (`DELEGATION.md`).
 
-## Sibling skills this suite carries
+## The skills this router dispatches to
 
-Open one as a lens inside the loop; none replaces the loop.
+Open one inside the loop for its question; none replaces the loop.
 
 | Question in the loop | Skill |
 |---|---|
-| Does it meet accessibility, layout, type, colour and copy standards | `better-interface`, which routes to `better-accessibility`, `better-layout`, `better-typography`, `better-colors`, `better-writing` and `better-ui` |
-| Is the change set itself clean | `interface-review` |
-| Should this animate, and how | `animate`, `emil-design-eng`, `design-motion-principles`, `find-animation-opportunities`, `improve-animations` |
-| A distinctive visual direction, styles, palettes, font pairings | `frontend-design`, `ui-ux-pro-max` |
-| Gesture-driven or physical interaction | `apple-design` |
-| Marketing copy on a page | `copywriting` |
+| Who uses this, for what job, and what do we already know | `design-ux-research` |
+| What are the steps, states and paths, and where can the user get stuck | `design-ux-flow` |
+| What does each label, error, empty state and confirmation say, through the dictionaries | `design-ux-copy` |
+| Can everyone perceive, reach and operate it by keyboard, screen reader, zoom and touch | `design-ux-accessibility` |
+| Does the mockup or the built surface work, measured against heuristics or a test | `design-ux-evaluate` |
+| What visual direction should a surface with no system yet take | `design-ui-direction` |
+| Which tokens, type scale, colour and contrast does it use | `design-ui-system` |
+| How are grouping, spacing, alignment and breakpoints arranged | `design-ui-layout` |
+| Should this move, how, and what happens under reduced motion | `design-ui-motion` |
+| Are the details finished: radii, optical alignment, depth, icons, states | `design-ui-polish` |
+| How was an existing interface built, and which values were measured | `design-ui-inspect` |
+| What does a page that sells say, backed by the claims register | `brand-copy`, through `brand` |
 
-Name the skills in every design brief and have reviewers check against them.
+Before the owner sees a round, run the critique pass in `REVIEW.md`: it dispatches these as read-only lenses and
+orders what they find. Name the skills in scope in every design brief and have reviewers check against them.
 
 ## STOP conditions
 
@@ -97,7 +103,7 @@ Name the skills in every design brief and have reviewers check against them.
 - **The mockup cannot be built from the product's tokens** because one is missing. Raise it, do not invent one.
 - **An agent died mid-edit** or its report does not match the diff. Do not publish; diff and syntax-check first.
 - **Capture shows an error or a blank frame.** Fix the cause before reading any other image.
-- **The work is research-stage**: users, journey or scope are undecided. Route to `intent`.
+- **The work is research-stage**: users, journey or scope are undecided. Route to `design-ux-research`.
 - **The product has its own design doctrine that contradicts this one.** The product wins; note it in the report.
 - **The task is code, tests or git.** Use `engineering`; return here for the screen.
 
@@ -111,4 +117,5 @@ Name the skills in every design brief and have reviewers check against them.
 | `capabilities/design/doctrine/PATTERNS.md` | Designing any list, decision card, action bar, toast, feedback, conversation or phone deck |
 | `capabilities/design/doctrine/MOTION.md` | Any transition, animation, gesture or reduced-motion decision |
 | `capabilities/design/doctrine/PROOF.md` | Capturing frames, publishing a file, writing a PR body, claiming done |
+| `capabilities/design/doctrine/REVIEW.md` | Running the critique pass on a mockup round, a screen, a diff or a pull request before the owner looks |
 | `capabilities/design/doctrine/DELEGATION.md` | Launching, resuming or recovering an agent that writes or critiques a design |
