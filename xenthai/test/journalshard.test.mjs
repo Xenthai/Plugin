@@ -15,6 +15,20 @@ import { tmpdir } from "node:os";
 import { execFileSync } from "node:child_process";
 
 const TOOL = fileURLToPath(new URL("../tools/journal-sync.mjs", import.meta.url));
+
+/**
+ * The month the journal writes into now. `--stage` stamps its own row with the current time, so a month fixed in the
+ * source passes only while the calendar agrees with it; the fixture manifest declares UTC so this is the journal's file.
+ */
+const MONTH = new Date().toISOString().slice(0, 7);
+
+/** A month already closed: the case `--stage` normally meets, where its own row lands in the current month instead. */
+const CLOSED = (() => {
+  const d = new Date();
+  d.setUTCDate(1);
+  d.setUTCMonth(d.getUTCMonth() - 1);
+  return d.toISOString().slice(0, 7);
+})();
 const sha = (b) => `sha256:${createHash("sha256").update(b).digest("hex")}`;
 
 let pass = 0;
@@ -41,21 +55,20 @@ const newRoot = (name) => {
   const root = mkdtempSync(join(tmpdir(), `xenthai-shard-${name}-`));
   writeFileSync(
     join(root, ".company.json"),
-    JSON.stringify({ schema_version: 1, binding: "ephemeral", kind: "personal", id: "t", name: "T", store: { kind: "drive", root: "X" } }, null, 2)
+    JSON.stringify({ schema_version: 1, binding: "ephemeral", kind: "personal", id: "t", name: "T", timezone: "UTC", store: { kind: "drive", root: "X" } }, null, 2)
   );
   mkdirSync(join(root, "journal", "execution"), { recursive: true });
   return root;
 };
 
-// A month big enough to need parts: 300 rows of ~300 bytes each.
+/** A month big enough to need parts under a 20000-byte budget. */
 const rows = Array.from(
   { length: 300 },
-  (_, i) => `${JSON.stringify({ schema: 2, n: i, ts: `2026-09-17T00:00:${String(i % 60).padStart(2, "0")}.000Z`, pad: "x".repeat(200) })}\n`
+  (_, i) => `${JSON.stringify({ schema: 2, n: i, ts: `${MONTH}-17T00:00:${String(i % 60).padStart(2, "0")}.000Z`, pad: "x".repeat(200) })}\n`
 ).join("");
 
-// ---------------------------------------------------------------- stage --------
 const root = newRoot("a");
-const monthFile = join(root, "journal", "execution", "2026-09.jsonl");
+const monthFile = join(root, "journal", "execution", `${MONTH}.jsonl`);
 writeFileSync(monthFile, rows);
 const originalDigest = sha(readFileSync(monthFile));
 
@@ -84,40 +97,38 @@ ok("stage prints the month digest so the parts can be checked against it", stage
 ok("no part exceeds the budget", parts.every((n) => readFileSync(join(outbox, n)).length <= 20000));
 ok("no row is split across parts", parts.every((n) => readFileSync(join(outbox, n), "utf8").endsWith("\n")));
 
-// -------------------------------------------------------------- receipt --------
-const tooFew = run(["--receipt", "--month", "2026-09", "--file-id", "id1:1"], root);
+const tooFew = run(["--receipt", "--month", MONTH, "--file-id", "id1:1"], root);
 ok("a receipt with fewer ids than parts is refused", tooFew.code === 2 && /id\(s\)/.test(tooFew.out), `code=${tooFew.code}`);
 
 const ids = parts.map((_, i) => `drive-id-${i + 1}`);
 const sized = parts.map((n, i) => `${ids[i]}:${readFileSync(join(outbox, n)).length}`);
-const settled = run(["--receipt", "--month", "2026-09", "--file-id", sized.join(",")], root);
+const settled = run(["--receipt", "--month", MONTH, "--file-id", sized.join(",")], root);
 ok("a receipt with one id per part settles the month", settled.code === 0, settled.out.slice(0, 200));
 ok("the receipt records the month digest, not a part digest", settled.out.includes(frozenDigest), settled.out.slice(0, 200));
 
-const receipt = JSON.parse(readFileSync(join(root, "journal", "sync", "2026-09.json"), "utf8"));
+const receipt = JSON.parse(readFileSync(join(root, "journal", "sync", `${MONTH}.json`), "utf8"));
 const rev = receipt.revisions.at(-1);
 ok("the receipt stores every part with its id and digest", Array.isArray(rev.parts) && rev.parts.length === parts.length);
 ok("part order in the receipt matches the id order given", rev.parts.every((p, i) => p.file_id === ids[i] && p.name === parts[i]));
 ok("the staged copies are removed once settled", readdirSync(outbox).length === 0);
 ok("--check is clean after the receipt", run(["--check"], root).code === 0);
 
-// -------------------------------------------------------------- restore --------
-// Simulate the store: the parts as they would sit in the company's journal/ folder.
+/** Stands in for the company's journal/ folder in its store. */
 const store = mkdtempSync(join(tmpdir(), "xenthai-shard-store-"));
 const fresh = newRoot("b");
-// Re-stage from the original month to get the part files back for the store.
+/** Re-staged from the original month so the store holds its parts. */
 const root2 = newRoot("c");
-writeFileSync(join(root2, "journal", "execution", "2026-09.jsonl"), rows);
+writeFileSync(join(root2, "journal", "execution", `${MONTH}.jsonl`), rows);
 run(["--stage", "--shard-bytes", "20000", "--first-revision"], root2);
 for (const n of readdirSync(join(root2, "journal", "outbox"))) cpSync(join(root2, "journal", "outbox", n), join(store, n));
 
 const restored = run(["--restore", "--from", store], fresh);
 ok("restore rebuilds a month from its parts", restored.code === 0, restored.out.slice(0, 300));
-const restoredBytes = readFileSync(join(fresh, "journal", "execution", "2026-09.jsonl"));
+const restoredBytes = readFileSync(join(fresh, "journal", "execution", `${MONTH}.jsonl`));
 ok("the restored month is byte-identical to what was staged", sha(restoredBytes) === sha(Buffer.concat(readdirSync(store).sort().map((n) => readFileSync(join(store, n))))));
 ok("the restored month still carries the original rows as its prefix", restoredBytes.subarray(0, Buffer.byteLength(rows)).equals(Buffer.from(rows)));
 
-// An incomplete set must be refused, loudly, naming the missing part.
+/** A part set missing its last part, which restore must refuse by name. */
 const broken = mkdtempSync(join(tmpdir(), "xenthai-shard-broken-"));
 const all = readdirSync(store).sort();
 for (const n of all.slice(0, -1)) cpSync(join(store, n), join(broken, n));
@@ -127,17 +138,27 @@ ok("an incomplete part set is refused", /REFUSED/.test(refusedRun.out), refusedR
 ok("the refusal names the missing part", new RegExp(`missing part\\(s\\) ${all.length}`).test(refusedRun.out), refusedRun.out.slice(0, 300));
 ok("nothing was written from an incomplete set", !readdirSync(join(fresh2, "journal", "execution")).length);
 
-// --------------------------------------------------- small month unchanged -----
 const small = newRoot("e");
-writeFileSync(join(small, "journal", "execution", "2026-08.jsonl"), rows.slice(0, 1200));
+writeFileSync(join(small, "journal", "execution", `${CLOSED}.jsonl`), rows.slice(0, 1200));
 run(["--stage", "--first-revision"], small);
 const smallFiles = readdirSync(join(small, "journal", "outbox"));
-ok("a month inside the budget still stages as one file with the old name", smallFiles.length === 1 && /^2026-08\.rev-001\.jsonl$/.test(smallFiles[0]), smallFiles.join(" "));
+ok("a month inside the budget still stages as one file with the old name", smallFiles.length === 1 && smallFiles[0] === `${CLOSED}.rev-001.jsonl`, smallFiles.join(" "));
 const smallSize = readFileSync(join(small, "journal", "outbox", smallFiles[0])).length;
-const smallReceipt = run(["--receipt", "--month", "2026-08", "--file-id", `only-id:${smallSize}`], small);
+const smallReceipt = run(["--receipt", "--month", CLOSED, "--file-id", `only-id:${smallSize}`], small);
 ok("a single-file revision still takes one bare id", smallReceipt.code === 0, smallReceipt.out.slice(0, 200));
 
-for (const d of [root, root2, fresh, fresh2, small, store, broken]) rmSync(d, { recursive: true, force: true });
+const closed = newRoot("f");
+writeFileSync(join(closed, "journal", "execution", `${CLOSED}.jsonl`), rows);
+run(["--stage", "--shard-bytes", "20000", "--first-revision"], closed);
+const closedOutbox = join(closed, "journal", "outbox");
+const closedFrozen = Buffer.concat(readdirSync(closedOutbox).sort().map((n) => readFileSync(join(closedOutbox, n))));
+ok("a closed month stages exactly as it was, with no row added to it", closedFrozen.equals(Buffer.from(rows)), `${closedFrozen.length} vs ${Buffer.byteLength(rows)} bytes`);
+ok(
+  "staging a closed month writes its own row into the current month",
+  readFileSync(join(closed, "journal", "execution", `${MONTH}.jsonl`), "utf8").trimEnd().split("\n").length === 1
+);
+
+for (const d of [root, root2, fresh, fresh2, small, store, broken, closed]) rmSync(d, { recursive: true, force: true });
 
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

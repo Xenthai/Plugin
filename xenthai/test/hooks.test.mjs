@@ -226,7 +226,7 @@ check("a plugin CLI run through the plugin-root variable leaves a legible action
 });
 
 check("a report run from the repository names the script and the flag, and the journal path stays a path", () => {
-  post("Bash", { command: `cd ${CO_A} && node tools/report.mjs --journal ${join(CO_A, "journal")}` }, CO_A);
+  post("Bash", { command: `cd "${CO_A}" && node tools/report.mjs --journal "${join(CO_A, "journal")}"` }, CO_A);
   const row = rows(CO_A).at(-1);
   return [
     row.target?.action === "node report.mjs --journal" && (row.target?.paths ?? []).some((p) => p.endsWith("journal")),
