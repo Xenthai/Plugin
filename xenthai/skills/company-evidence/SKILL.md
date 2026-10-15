@@ -77,7 +77,7 @@ Three columns: what they said · what the records show · what explains the diff
 40% y usted mencionó que siempre es 50%, ¿cómo se decide eso?"* Almost every one of those uncovers an
 unwritten business rule, which is exactly what a phase-5 specification needs and never has.
 
-Route the questions to `coverage` so they arrive grouped by person rather than as a list.
+Route the questions to `engagement-coverage` so they arrive grouped by person rather than as a list.
 
 ```bash
 node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event delivery --capability company \

@@ -101,19 +101,28 @@ element passing a computed-style check).
 
 ### Skills — two independent tracks
 
-Twenty-eight skills, one directory each, one level deep (`skills/<name>/SKILL.md` — nesting is
+Twenty-nine skills of ours, plus twenty vendored third-party UX and UI skills listed in `xenthai/NOTICE.md`, one directory each, one level deep (`skills/<name>/SKILL.md` — nesting is
 unattested, verified against 65/65 skills elsewhere). Frontmatter is only `name` and `description`;
 the description states **when** to invoke, never **how** the skill works (a summarised workflow
 becomes a shortcut the model takes instead of reading the body).
 
+Every skill is named `<category>-<responsibility>`, or is the router named after its category; the
+categories and which of them need a router are `CATEGORIES` in `test/taxonomy.test.mjs`, which refuses a
+skill with none. Categories: `company`, `process`, `automate`, `brand`, `social`, `design`, `engineering`,
+`plugin` (the install itself: setup, doctor, feedback) and `engagement` (where a client's engagement
+stands: resume, coverage, report, opportunities).
+
 Comunicación and Operación are numbered independently — phase numbers are meaningless without
 naming the track:
-- **Comunicación** (phases 0–2): `social` (mandatory router) → `social-presence` → `social-identity`
-  → `social-voice` → `social-plan` → `social-produce` → `social-handoff`.
+- **Comunicación** (phases 0–2): `social` (mandatory router) → `social-presence` → `brand-identity`
+  → `brand-voice` → `social-plan` → `social-produce` → `social-handoff`. Phases 1–2 are owned by the
+  `brand` router, which also fronts `brand-manual`; `social` hands off to it.
 - **Operación** (phases 1–5): `process` (router) → `company-profile` → `company-evidence` →
   `process-map` → `process-access` → `automate-spec` → `automate-handover`.
-- Setup/utility skills (`setup`, `company-new`, `doctor`, `resume`, `coverage`, `baseline`,
-  `report`, `opportunities`, `feedback`, `zapier-mcp-ops`, `brand-manual`) sit outside both tracks.
+- `engineering` and `design` are practices, not tracks: how the practice builds software and designs interfaces with an
+  owner, each with its doctrine under `capabilities/<name>/doctrine/`. The twenty skills in `NOTICE.md` are other
+  authors' work copied in whole under their own licences; never edit one here, and `test/suite.test.mjs` holds the
+  rules that apply to them.
 
 ### Where a fact belongs (one subject, one file — a fact in two is a defect)
 

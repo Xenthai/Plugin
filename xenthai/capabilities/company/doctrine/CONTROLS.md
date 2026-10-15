@@ -62,7 +62,7 @@ a cloud container is a file that does not: the container is reclaimed when the s
 evidence goes with it, with nothing raising an error, because a deleted journal and a quiet month
 produce the same empty directory.
 
-What that costs is not the rows. **`opportunities` needs three distinct periods before it reports
+What that costs is not the rows. **`engagement-opportunities` needs three distinct periods before it reports
 anything, and the quarterly report is the first cadence that may claim a result** — so in that
 environment both are unreachable for ever, and both refuse with a sentence that reads as *this
 engagement is young* when the truth is *the history is being deleted every night*. A refusal for the
@@ -73,7 +73,7 @@ one here — deterministically where that is possible, advisory where it is not:
 
 | Surface | What it does | Tier |
 | --- | --- | --- |
-| `doctor`'s `sync` line | FAILS when a closed month is unsynced, or when an ephemeral binding holds any unsynced row | Deterministic |
+| `plugin-doctor`'s `sync` line | FAILS when a closed month is unsynced, or when an ephemeral binding holds any unsynced row | Deterministic |
 | `tools/journal-sync.mjs --check` | Exit 1 on rows this machine holds and the store does not | Deterministic |
 | The SessionStart announcement | Tells the session, while it can still act, that this binding is ephemeral and what it owes | Advisory |
 | The SessionEnd warning | One line to the operator. By then nothing can act | Advisory |
@@ -120,11 +120,11 @@ the rule:
   while silently bound to another is the one mistake in this system that is both invisible and
   permanent.
 - **`"binding": "ephemeral"`** in the manifest permits the home placement where there is genuinely
-  no alternative, and makes `doctor` say what it costs on every run. **Declared, never detected**: a
+  no alternative, and makes `plugin-doctor` say what it costs on every run. **Declared, never detected**: a
   sniff for a container is wrong in both directions, and the expensive direction is permitting the
   ambient-authority pattern in silence on a machine that was durable all along.
 
-An undeclared manifest at a home directory is a `doctor` FAIL. That is the difference between a rule
+An undeclared manifest at a home directory is a `plugin-doctor` FAIL. That is the difference between a rule
 and a preference, and it is the whole point of writing it down here.
 
 ### Where a client policy needs a hook
@@ -279,7 +279,7 @@ now, and they cover different halves:
 
 | Where | What it catches |
 | --- | --- |
-| `doctor`, on the manifest | A locale this toolchain cannot honour. Every client-facing part is Spanish by construction — the scaffolds, the report templates, `tools/report.mjs`'s prose, and the readability index whose scale and syllable rules are Spanish-only — so a non-Spanish locale is refused rather than ignored |
+| `plugin-doctor`, on the manifest | A locale this toolchain cannot honour. Every client-facing part is Spanish by construction — the scaffolds, the report templates, `tools/report.mjs`'s prose, and the readability index whose scale and syllable rules are Spanish-only — so a non-Spanish locale is refused rather than ignored |
 | `status`, on each written document | A document that **was filled** in the wrong language. The scaffold ships in es-MX and a session fills it, and a file with Spanish headings and English content looks finished |
 
 `status` audits two sets, and the second one is where the visible artefacts live. The eighteen

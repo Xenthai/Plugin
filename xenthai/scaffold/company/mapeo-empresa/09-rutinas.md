@@ -94,7 +94,7 @@ declarado aquí y el cliente lo acepte con esa condición dicha en voz alta.
 | Revisión de contenido sin mantenimiento | Revisa lo publicado que nadie mantiene | Cada 3 años como piso | — pendiente — | La prueba: si dejarlo así estorbaría a una persona no especialista |
 | Escaneo de oportunidades | Lee el journal y propone el siguiente proceso que vale automatizar | Mensual | — pendiente — | Acción repetida sobre el mismo tipo de objetivo, consultas concentradas en un proceso, escalaciones que siempre se resuelven igual. **Los dos primeros meses va a decir que no hay historia suficiente** — el piso son 3 periodos distintos — y eso no es que la rutina esté rota |
 | Revisión de accesos | Confirma que [03-procesos/INDICE.md](03-procesos/INDICE.md) sigue diciendo quién tiene qué | Semestral | — pendiente — | Quien se fue y sigue con acceso es el hallazgo |
-| Salud de la instalación | Corre `doctor` | Mensual | — pendiente — | Barato, y evita descubrir un conector roto en una entrega |
+| Salud de la instalación | Corre `plugin-doctor` | Mensual | — pendiente — | Barato, y evita descubrir un conector roto en una entrega |
 
 **El digest detecta; el escaneo interpreta.** Son dos renglones y no se duplican. El digest corre
 solo, todos los días, y sólo dice cuántos hallazgos disparó cada detector y cuántos periodos abarca

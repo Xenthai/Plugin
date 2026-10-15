@@ -1,6 +1,6 @@
 ---
 name: social
-description: Mandatory entry point for any social or content work on behalf of a company — posts, images, carousels, video or text for Instagram, LinkedIn, Facebook, TikTok, X or WhatsApp; a new company's brand, voice or proof documents; an editorial plan; or packaging finished assets for someone to publish. Also use when asked which onboarding phase a company is in, or when social work should resume. Invoke before any social-identity, social-voice, social-plan, social-produce or social-handoff — those assume a bound company and a known phase, and this establishes both. For process mapping and automation scoping, this is the wrong skill.
+description: Mandatory entry point for any social or content work on behalf of a company — posts, images, carousels, video or text for Instagram, LinkedIn, Facebook, TikTok, X or WhatsApp; an editorial plan; or packaging finished assets for someone to publish. Also use when asked which onboarding phase a company is in, or when social work should resume. Invoke before any social-presence, social-plan, social-produce or social-handoff — those assume a bound company and a known phase, and this establishes both. For a company's brand, voice or proof documents use brand; for process mapping and automation scoping, this is the wrong skill.
 ---
 
 # Social — router
@@ -44,8 +44,8 @@ node "${CLAUDE_PLUGIN_ROOT}/tools/status.mjs" --json
 | What exists in the store | Phase | Hand off to |
 | --- | --- | --- |
 | No `PRESENCE.md`, and the company has any public presence at all | **0 — presence audit** | `social-presence` |
-| Nothing, or only a folder, and `PRESENCE.md` is done or the company has no public presence | 1 — identity | `social-identity` |
-| `BRAND.md` and `DESIGN.md` exist but no `VOICE.md` | 2 — voice and proof | `social-voice` |
+| Nothing, or only a folder, and `PRESENCE.md` is done or the company has no public presence | 1 — identity | `brand`, which owns it |
+| `BRAND.md` and `DESIGN.md` exist but no `VOICE.md` | 2 — voice and proof | `brand`, which owns it |
 | `BRAND.md` + `VOICE.md` + `PROOF.md`, no plan for the target period | 3 — plan | `social-plan` |
 | A plan exists and is approved, no assets produced for it | 4 — produce | `social-produce` |
 | Assets exist for an approved plan, not yet packaged | 5 — handoff | `social-handoff` |
@@ -86,7 +86,7 @@ Routing wrong is worse than not routing. In each of these, say what you found an
 - **The operator asks for a piece and no phase has run.** Producing from nothing invents the brand.
   Say which phase is missing and what it costs to skip it — then route there, not to production.
 - **The request is not social at all** — a process to map, a baseline to measure, prices to
-  capture. Hand it to `process`, `baseline` or `company-offer` instead of stretching this router.
+  capture. Hand it to `process`, `process-baseline` or `company-offer` instead of stretching this router.
 
 ## Reference material
 

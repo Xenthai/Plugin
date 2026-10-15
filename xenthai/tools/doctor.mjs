@@ -70,7 +70,7 @@ EXIT CODES
 
 WHAT THIS DOES NOT CHECK
   Connectors. A CLI has no credentials, so the store round trips — read, write and trash, comments,
-  public link — are walked in a session by the doctor skill: skills/doctor/SKILL.md.
+  public link — are walked in a session by the doctor skill: skills/plugin-doctor/SKILL.md.
 `;
 
 const firstLine = (text) => String(text ?? "").split("\n")[0].slice(0, 160);
@@ -482,7 +482,7 @@ const checkTransport = (cwd) => {
   const ephemeral = Boolean(ctx.binding?.ephemeral);
   const { found, unreadable, malformed } = findTransportHooks(cwd, ctx.company);
   const defects = [...new Set([...found.flatMap((f) => f.defects), ...(unreadable.length ? ["unparseable"] : []), ...(malformed.length ? ["malformed"] : [])])];
-  const left = "Left to the session: that parentId is this company's journal/ folder and that server is the connector's name as the hooks see it (skills/doctor step 5)";
+  const left = "Left to the session: that parentId is this company's journal/ folder and that server is the connector's name as the hooks see it (skills/plugin-doctor step 5)";
   if (defects.length) {
     const where = [
       ...found.map((f) => `${f.path}: ${f.defects.join(", ") || "valid"}`),

@@ -7,9 +7,21 @@ const ROOT = join(HERE, "..");
 const SKILLS = join(ROOT, "skills");
 const SANDBOX = join(HERE, "sandbox", "skills");
 
-const names = readdirSync(SKILLS, { withFileTypes: true })
+const allNames = readdirSync(SKILLS, { withFileTypes: true })
   .filter((e) => e.isDirectory())
   .map((e) => e.name);
+
+/**
+ * Third-party skills copied in whole, listed in `NOTICE.md` with their licence. They keep their
+ * authors' frontmatter, size and wording, so the rules below that only make sense for a skill of
+ * this plugin (portable keys, size band, WHEN clause, STOP section, doctrine table) skip them;
+ * `test/suite.test.mjs` holds the rules that apply to them instead.
+ */
+const NOTICE = join(ROOT, "NOTICE.md");
+const vendored = new Set(
+  existsSync(NOTICE) ? [...readFileSync(NOTICE, "utf8").matchAll(/^\| `([a-z0-9-]+)` \|/gm)].map((m) => m[1]) : []
+);
+const names = allNames.filter((n) => !vendored.has(n));
 
 /**
  * Frontmatter keys and body of a SKILL.md. Claude Code reads only `name` and `description` at
@@ -31,20 +43,20 @@ const parse = (text) => {
  * it the router either fires for everything or never fires, and the measured failure mode is
  * under-triggering.
  */
-const MUST_ROUTE = ["social", "process", "company-new", "company-intake", "company-offer", "baseline", "social-presence", "automate-handover"];
+const MUST_ROUTE = ["social", "process", "company-new", "company-intake", "company-offer", "process-baseline", "social-presence", "brand", "automate-handover"];
 
 const cases = [];
 const check = (name, fn) => cases.push([name, fn]);
 
 check("every skill is one level deep, which is the only depth that loads", () => {
   const nested = [];
-  for (const n of names) {
+  for (const n of allNames) {
     const inner = readdirSync(join(SKILLS, n), { withFileTypes: true }).filter((e) => e.isDirectory());
     for (const d of inner) {
       if (existsSync(join(SKILLS, n, d.name, "SKILL.md"))) nested.push(`${n}/${d.name}`);
     }
   }
-  return [nested.length === 0, nested.length ? `nested skills never load: ${nested.join(", ")}` : `${names.length} at depth 1`];
+  return [nested.length === 0, nested.length ? `nested skills never load: ${nested.join(", ")}` : `${allNames.length} at depth 1`];
 });
 
 /**
@@ -80,7 +92,7 @@ check("every skill's frontmatter stays inside the six portable spec fields", () 
 
 check("every skill's name equals its directory", () => {
   const bad = [];
-  for (const n of names) {
+  for (const n of allNames) {
     const { front } = parse(readFileSync(join(SKILLS, n, "SKILL.md"), "utf8"));
     const declared = /^name:\s*(.+)$/m.exec(front)?.[1]?.trim();
     if (declared !== n) bad.push(`${n} declares "${declared}"`);

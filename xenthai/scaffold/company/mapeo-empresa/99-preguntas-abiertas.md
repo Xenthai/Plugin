@@ -1,7 +1,7 @@
 # 99-preguntas-abiertas (A2 §8) — <empresa>
 
 > Huecos convertidos en preguntas literales, agrupadas por persona con el tiempo estimado de
-> conversación. `coverage` las genera desde [98-COBERTURA.md](98-COBERTURA.md) §3; nunca se
+> conversación. `engagement-coverage` las genera desde [98-COBERTURA.md](98-COBERTURA.md) §3; nunca se
 > completan por suposición, cada una se resuelve con una de las cuatro acciones: preguntar, pedir
 > un documento o acceso, extraer de la evidencia, u observar.
 

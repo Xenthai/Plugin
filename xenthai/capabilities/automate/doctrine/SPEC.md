@@ -147,7 +147,7 @@ first platform turns out to bill per operation on a process that runs four hundr
 - **Hours saved, or any counterfactual.** Not here, not in the report, not in the quote.
 - **A credential, or part of one.**
 - **A field name nobody verified.** Guessing a schema produces a build that fails on first contact
-  with the real system; `zapier-mcp-ops` carries the same rule for live operation.
+  with the real system; `automate-zapier` carries the same rule for live operation.
 - **An assumption presented as a captured rule.** `— pendiente —` is available and is the product.
 
 ## Reference material

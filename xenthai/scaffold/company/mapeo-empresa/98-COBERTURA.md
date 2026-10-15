@@ -1,6 +1,6 @@
 # 98-COBERTURA (A2 §8) — <empresa>
 
-> Corre al cerrar cada sesión y antes de cada cambio de sub-fase. `coverage` la escribe con
+> Corre al cerrar cada sesión y antes de cada cambio de sub-fase. `engagement-coverage` la escribe con
 > `tools/coverage.mjs` — el mecanismo — y la rúbrica X4 (`capabilities/method/tables/x4-criteria.md`)
 > — el juicio. Impide entregar un diagnóstico con huecos silenciosos.
 

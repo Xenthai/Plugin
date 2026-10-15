@@ -9,18 +9,18 @@
     {
       "id": "identity-empty-store-es",
       "query": "Ya estamos en la carpeta de Talleres del Norte y su store está vacío: ni BRAND.md ni nada. Arranquemos la fase 1: razón social, cómo escriben de verdad el nombre comercial, sector con su regulador y quién firma lo que se publica.",
-      "expected": "social-identity",
+      "expected": "brand-identity",
       "split": "train",
       "kind": "target",
-      "why": "A bound company with an empty store and the phase-1 facts named is exactly the state social-identity's description claims."
+      "why": "A bound company with an empty store and the phase-1 facts named is exactly the state brand-identity's description claims."
     },
     {
       "id": "voice-generic-copy-en",
       "query": "This company has BRAND.md and DESIGN.md but no VOICE.md, and every draft we write for them reads like any competitor could have posted it. Derive their voice from what they already publish and fill in PROOF.md.",
-      "expected": "social-voice",
+      "expected": "brand-voice",
       "split": "test",
       "kind": "target",
-      "why": "BRAND.md present, VOICE.md missing and copy coming out generic are the three cues social-voice names; the produce lure is a distraction."
+      "why": "BRAND.md present, VOICE.md missing and copy coming out generic are the three cues brand-voice names; the produce lure is a distraction."
     },
     {
       "id": "plan-october-calendar-es",
@@ -73,18 +73,18 @@
     {
       "id": "identity-restart-guessed-brand-en",
       "query": "Restart Grupo Ferrer's onboarding from scratch. The BRAND.md we have was filled in by guessing and we can't trust a single field in it.",
-      "expected": "social-identity",
+      "expected": "brand-identity",
       "split": "test",
       "kind": "target",
-      "why": "BRAND.md exists, which lures toward social-voice, but restarting a company's onboarding is identity's explicit trigger."
+      "why": "BRAND.md exists, which lures toward brand-voice, but restarting a company's onboarding is identity's explicit trigger."
     },
     {
       "id": "voice-claim-needs-proof-row-es",
       "query": "El cliente quiere publicar que 'reducimos 40% los costos de nuestros clientes'. Antes de que esa cifra entre en una pieza, regístrala con su fuente, quién la confirmó y cuándo se revalida.",
-      "expected": "social-voice",
+      "expected": "brand-voice",
       "split": "train",
       "kind": "target",
-      "why": "A claim that needs a verification row before it can be published is social-voice's PROOF.md duty, even though the claim is bound for a piece."
+      "why": "A claim that needs a verification row before it can be published is brand-voice's PROOF.md duty, even though the claim is bound for a piece."
     },
     {
       "id": "doctor-setup-before-first-session-es",
@@ -161,7 +161,7 @@
     {
       "id": "voice-boilerplate-to-rules-en",
       "query": "Their posts always say 'soluciones integrales' and 'líderes en el sector'. Turn what they actually publish into word rules a writer can follow, and get rid of the boilerplate.",
-      "expected": "social-voice",
+      "expected": "brand-voice",
       "split": "test",
       "kind": "near-miss",
       "why": "Turning published material into word-level rules is voice extraction; rewriting their posts lures toward social-produce."
@@ -172,7 +172,7 @@
       "expected": "social",
       "split": "train",
       "kind": "near-miss",
-      "why": "A new client's onboarding lures toward social-identity, but identity requires a bound company and is reached through the router, which binds first."
+      "why": "A new client's onboarding lures toward brand-identity, but identity requires a bound company and is reached through the router, which binds first."
     },
     {
       "id": "doctor-every-asset-substituted-font-es",
@@ -513,7 +513,7 @@
     {
       "id": "zapier-tables-discover-es",
       "query": "Revisa qué tengo conectado en Zapier y dime qué tablas hay. No me acuerdo cómo se llaman ni qué campos traen.",
-      "expected": "zapier-mcp-ops",
+      "expected": "automate-zapier",
       "split": "train",
       "kind": "target",
       "why": "Naming Zapier and asking what is connected without naming a table is the exact state the description claims: the IDs differ per client and are discovered live."
@@ -521,7 +521,7 @@
     {
       "id": "zapier-send-whatsapp-en",
       "query": "Send a WhatsApp message to the lead who wrote in this morning, through our Zapier connection, and make sure it gets logged somewhere.",
-      "expected": "zapier-mcp-ops",
+      "expected": "automate-zapier",
       "split": "test",
       "kind": "target",
       "why": "Sending through a connected channel plus the audit-trail requirement is section 4 of the skill; no other skill touches Zapier MCP."
@@ -529,10 +529,10 @@
     {
       "id": "zapier-empty-search-es",
       "query": "Busqué en la tabla de Zapier y no salió nada, así que el cliente no tiene registros. ¿Confirmas?",
-      "expected": "zapier-mcp-ops",
+      "expected": "automate-zapier",
       "split": "train",
       "kind": "near-miss",
-      "why": "The premise is the failure mode the description warns about: find_record caps results, so absence is not established. Expected zapier-mcp-ops to run the protocol, never a confirmation."
+      "why": "The premise is the failure mode the description warns about: find_record caps results, so absence is not established. Expected automate-zapier to run the protocol, never a confirmation."
     },
     {
       "id": "automation-handover-not-zapier-es",
@@ -540,7 +540,7 @@
       "expected": "automate-handover",
       "split": "test",
       "kind": "near-miss",
-      "why": "Zapier is named but the request is acceptance and liability, which is automate-handover; zapier-mcp-ops operates an account, it does not hand one over."
+      "why": "Zapier is named but the request is acceptance and liability, which is automate-handover; automate-zapier operates an account, it does not hand one over."
     },
     {
       "id": "profile-unknown-trade-es",
@@ -556,7 +556,7 @@
       "expected": "company-profile",
       "split": "test",
       "kind": "near-miss",
-      "why": "The surface names BRAND.md and a sector, which points at social-identity; the request is for the operating archetype, which is company-profile's and not that one's."
+      "why": "The surface names BRAND.md and a sector, which points at brand-identity; the request is for the operating archetype, which is company-profile's and not that one's."
     },
     {
       "id": "evidence-folder-sweep-es",
@@ -637,6 +637,38 @@
       "split": "train",
       "kind": "near-miss",
       "why": "Reading a repository is engineering territory on the surface, but the deliverable is the brand manual compiled from the store and the code, which brand-manual owns and engineering routes to."
+    },
+    {
+      "id": "design-new-surface-mockup-es",
+      "query": "Vamos a rediseñar la pantalla de pendientes del cliente. Antes de escribir código quiero un mockup que yo pueda comentar, con versión móvil y escritorio, claro y oscuro, y que cada comentario mío se convierta en un cambio.",
+      "expected": "design",
+      "split": "train",
+      "kind": "target",
+      "why": "A new surface with a mockup the owner comments on, breakpoints and a comment loop is the design skill's whole claim; no repository convention or publishable piece is involved."
+    },
+    {
+      "id": "design-motion-pass-en",
+      "query": "Audit every transition on the app's pages, decide what should move and what should not, then set duration tokens and a reduced-motion policy before we touch any page.",
+      "expected": "design",
+      "split": "test",
+      "kind": "target",
+      "why": "A motion audit and tokens before page code is the design-line pass the design skill owns; animate would only apply to building one animation."
+    },
+    {
+      "id": "design-not-engineering-es",
+      "query": "El componente de la tabla de contactos ya está diseñado y aprobado. Necesito la migración de la base de datos, las pruebas y el commit con la autoridad de git que tengo en este repo.",
+      "expected": "engineering",
+      "split": "train",
+      "kind": "near-miss",
+      "why": "A screen is mentioned, but the work is migration, tests and a commit, which engineering owns; design applies to the design of the screen, not to its persistence."
+    },
+    {
+      "id": "design-not-social-en",
+      "query": "Create a carousel for Instagram announcing our new dashboard, with copy and the rendered slides ready to schedule.",
+      "expected": "social",
+      "split": "train",
+      "kind": "near-miss",
+      "why": "Interface vocabulary appears, but the deliverable is a publishable social piece, which social owns; design is for the interface of a product, not material to publish."
     }
   ]
 }

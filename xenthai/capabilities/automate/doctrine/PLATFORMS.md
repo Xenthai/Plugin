@@ -43,7 +43,7 @@ Every hosted platform bills a unit, and the unit is not the workflow. Find out w
 - **Per step or per operation.** Now the number of nodes is a cost, and batching fifty records
   through one run is an order of magnitude cheaper than fifty runs.
 
-`zapier-mcp-ops` already records one instance of this — two tasks per successful call. The general
+`automate-zapier` already records one instance of this — two tasks per successful call. The general
 rule belongs here: **the billing unit is a design input, and the spec states the expected monthly
 consumption before a platform is chosen.**
 
@@ -91,7 +91,7 @@ Business messaging APIs are not open pipes, and the constraints are design input
 footnotes:
 
 - **A service window.** Free-form replies are allowed only for a limited period after the customer's
-  last inbound message; outside it, only pre-approved templates send. `zapier-mcp-ops` §4 carries the
+  last inbound message; outside it, only pre-approved templates send. `automate-zapier` §4 carries the
   operational form of this. A spec whose flow assumes it can message a customer at an arbitrary time
   is wrong before it is built.
 - **Templates need approval in advance**, which is lead time on the project plan, not a detail.
@@ -124,4 +124,4 @@ work will fund the platform; one that has been quoted for it cold will not.
 | `capabilities/automate/doctrine/HANDOVER.md` | §1 first. It owns who pays for and administers a platform, and the refusal case |
 | `capabilities/automate/doctrine/SPEC.md` | The specification this file's choice closes |
 | `scaffold/company/mapeo-empresa/02-inventario.md` | Where modality, cost and administrator are recorded |
-| `skills/zapier-mcp-ops/SKILL.md` | Operating one specific hosted platform over MCP — an instance of §2, not a substitute for it |
+| `skills/automate-zapier/SKILL.md` | Operating one specific hosted platform over MCP — an instance of §2, not a substitute for it |

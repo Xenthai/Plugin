@@ -1,6 +1,6 @@
 ---
 name: company-profile
-description: Run operación phase 1 — decide what kind of business this actually is before mapping it, by placing it in an operating archetype, capturing the trade's vocabulary and naming which processes phase 3 should hunt for. Use when a company is bound and 00-PERFIL.md does not exist, when nobody on the team has worked this trade before, when the client's sector label says nothing useful about how their day runs, or when a mapping session is about to start with no idea what to look for. Not the sector field on BRAND.md, which social-identity captures for the regulator. For requesting the company's own documents use company-intake; for deriving quantities from them use company-evidence.
+description: Run operación phase 1 — decide what kind of business this actually is before mapping it, by placing it in an operating archetype, capturing the trade's vocabulary and naming which processes phase 3 should hunt for. Use when a company is bound and 00-PERFIL.md does not exist, when nobody on the team has worked this trade before, when the client's sector label says nothing useful about how their day runs, or when a mapping session is about to start with no idea what to look for. Not the sector field on BRAND.md, which brand-identity captures for the regulator. For requesting the company's own documents use company-intake; for deriving quantities from them use company-evidence.
 ---
 
 # Operación phase 1 — profile and archetype
@@ -79,7 +79,7 @@ write into `00-PERFIL.md`:
 - Where this archetype's durable evidence lives, which is phase 2's shopping list.
 - The first quantity worth having.
 - The trade's unit of measure, which becomes the natural key of every later automation.
-- Which regulator to verify, handed to `social-identity` rather than answered here.
+- Which regulator to verify, handed to `brand-identity` rather than answered here.
 - Which sensitive data categories this trade touches, per `CONTROLS.md`.
 
 ## 7 · Close on scope, not on findings
@@ -98,7 +98,7 @@ node "${CLAUDE_PLUGIN_ROOT}/tools/journal.mjs" --event phase_end --capability co
 
 Never put the archetype, the trade, a process name or any client content in `--why` or `--detail`.
 
-Then run `coverage` and tell the client what is missing before the next session.
+Then run `engagement-coverage` and tell the client what is missing before the next session.
 
 Company files change through `Write` and `Edit` only. `capabilities/company/doctrine/CONTROLS.md` carries why, and what the guard refuses versus merely records.
 

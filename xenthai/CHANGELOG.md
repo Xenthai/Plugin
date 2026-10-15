@@ -26,6 +26,38 @@ installed from. It identifies exactly one tree, which is what this claim always 
 machines could both write `0.1.0` and hold different code. A row written from a working copy says
 `dev`, which is honest about being unreleasable rather than borrowing a number.
 
+## [0.6.8] - 2026-10-15
+
+### Changed — every skill carries a category, and brand is a track of its own
+
+- **Every skill is now `<category>-<responsibility>` or the router named after its category.** Eleven renames:
+  `setup`, `doctor` and `feedback` become `plugin-setup`, `plugin-doctor` and `plugin-feedback`; `resume`,
+  `coverage`, `report` and `opportunities` become `engagement-*`; `baseline` becomes `process-baseline`;
+  `zapier-mcp-ops` becomes `automate-zapier`; `social-identity` and `social-voice` become `brand-identity` and
+  `brand-voice`. A `/xenthai:<old-name>` invocation no longer resolves. The CLIs in `tools/`, the folders in
+  `capabilities/` and the journal's capability names keep their names. Decision 35.
+- **`skills/brand/SKILL.md` is a new router** for identity, voice, the claims register and the manual; `social` hands
+  phases 1 and 2 to it. `BRAND-APPLICATIONS.md` moves to `capabilities/brand/doctrine/`.
+- **`test/taxonomy.test.mjs`** refuses a skill with no category and a declared router that does not exist.
+
+### Added — the `design` skill, its doctrine and twenty vendored UX and UI skills
+
+- **`skills/design/SKILL.md` carries how the practice designs interfaces with an owner**: choose the medium, build a
+  one-file mockup from the product's real tokens, publish it privately, run the owner's comments as the loop, prove
+  each round with captured screenshots, take "build it" as approval, write the design-line spec and the motion
+  audit, then build in order. Seven doctrine files under `capabilities/design/doctrine/` hold the detail: process,
+  mockup, review loop, approved patterns, motion, proof, delegation. It positions itself against the `intent`
+  family, which owns UX research and strategy. `engineering` now routes the design of a screen to it. Decision 34.
+- **Twenty UX and UI skills by other authors ship beside it**, copied whole under their own MIT or Apache-2.0
+  licences and attributed in `NOTICE.md`: the `better-*` family, `interface-review`, `explain-interface`, the
+  animation and design-engineering skills, `apple-design`, `design-motion-principles`, `ui-ux-pro-max`,
+  `copywriting`, `web-design-guidelines` and `frontend-design`. `external-skills.json` lists what is installed from
+  its own source instead (`intent`). Forty-nine skill folders now ship, twenty-nine of them ours.
+- **`test/design.test.mjs` and `test/suite.test.mjs`**: the first refuses a product name, ticket id or decision number
+  in the doctrine and checks the skill's routing, size and reference table; the second checks every vendored skill's
+  attribution, frontmatter allowance and absence of bytecode. `test/skills.test.mjs` now skips the vendored skills for
+  the rules that only fit our own.
+
 ## [0.6.7] - 2026-10-13
 
 ### Added — the `engineering` skill and its doctrine

@@ -122,7 +122,7 @@ Ninety seconds is the budget. It has two consequences for an engagement:
   *"users stay stuck at Level 0 chat."* A plugin with no reach into the client's own data is a
   chatbot with extra steps, and the client will correctly say so.
 
-That is why company creation runs `doctor` before intake, and why intake asks for files rather than
+That is why company creation runs `plugin-doctor` before intake, and why intake asks for files rather than
 opinions: **both exist to make the first useful output arrive early.**
 
 ---
@@ -210,7 +210,7 @@ engagement having made things worse.
 
 So warn them at the mapping close, before it happens: **the number of known problems is expected to
 rise, and a rising count of known problems is the instrument working.** Then, when it rises, the
-warning is what makes the finding credible instead of alarming — and `opportunities` is what surfaces
+warning is what makes the finding credible instead of alarming — and `engagement-opportunities` is what surfaces
 the list, which is why its output belongs in the quarterly rather than being saved up.
 
 ## 7. Record it, or it is an opinion

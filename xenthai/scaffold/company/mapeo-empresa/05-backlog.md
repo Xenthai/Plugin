@@ -2,7 +2,7 @@
 
 > La lista corta priorizada. `process-access` la escribe a partir de cada ficha de
 > [03-procesos/](03-procesos/): el dolor declarado y la viabilidad de automatización, en dos
-> órdenes separados a propósito. `opportunities` la revisita cuando un patrón se repite entre
+> órdenes separados a propósito. `engagement-opportunities` la revisita cuando un patrón se repite entre
 > periodos.
 
 **Esquema:** 1 · **Estado del documento:** — pendiente — *(provisional | completo)*

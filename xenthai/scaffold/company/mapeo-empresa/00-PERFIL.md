@@ -65,7 +65,7 @@ Lo que este arquetipo cambia en las fases siguientes. Es la razón por la que es
 | Dónde vive la evidencia durable, que es la lista de compras de la fase 2 | — pendiente — |
 | La primera cantidad que vale la pena tener | — pendiente — |
 | Estacionalidad, y cuándo NO conviene implementar | — pendiente — |
-| Regulador por verificar → se entrega a `social-identity` | — pendiente — |
+| Regulador por verificar → se entrega a `brand-identity` | — pendiente — |
 | Categorías de datos sensibles que este giro toca | — pendiente — |
 
 ## 5. Qué se leyó del giro antes de la sesión

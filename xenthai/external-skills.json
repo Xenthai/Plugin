@@ -1,0 +1,9 @@
+{
+  "skills": [
+    {
+      "name": "intent",
+      "source": "ghaida/intent",
+      "installCommand": "npx skills add ghaida/intent --all"
+    }
+  ]
+}

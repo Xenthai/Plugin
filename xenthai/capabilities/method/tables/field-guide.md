@@ -17,9 +17,9 @@
 | Instalación del plugin | Instalar el plugin xenthai@xenthai | claude plugin install xenthai@xenthai |  | Consultor |
 | Instalación del plugin | Autorizar los conectores en la configuración de claude.ai | claude.ai → Configuración → Conectores |  | Cliente |
 | Instalación del plugin | Crear el proyecto de la empresa con sus instrucciones | Claude Desktop → Proyectos → Nuevo proyecto |  | Consultor |
-| Instalación del plugin | Correr /xenthai:setup | setup |  | Consultor |
+| Instalación del plugin | Correr /xenthai:plugin-setup | plugin-setup |  | Consultor |
 | Instalación del plugin | Correr /xenthai:company-new | company-new | .company.json, journal/ | Consultor |
-| Instalación del plugin | Correr /xenthai:doctor | doctor |  | Consultor |
+| Instalación del plugin | Correr /xenthai:plugin-doctor | plugin-doctor |  | Consultor |
 | Encuadre y mandato | Abrir la sesión de arranque | consultant |  | Patrocinador, CAIO |
 | Encuadre y mandato | Redactar y firmar la carta de mandato | consultant |  | Dirección general |
 | Encuadre y mandato | Constituir el comité de IA | consultant |  | CAIO, Patrocinador, Responsable de TI, Responsable de riesgo |
@@ -30,7 +30,7 @@
 | Encuadre y mandato | Pedir la plantilla de personal y el organigrama real | client |  | Dirección general, Recursos humanos |
 | Encuadre y mandato | Pedir acceso a carpetas, buzón y calendario, y una cuenta de servicio | client |  | Responsable de TI |
 | Encuadre y mandato | Enviar el comunicado interno | client |  | Dirección general |
-| Perfil y arquetipo | Confirmar la empresa vinculada | doctor |  | Consultor |
+| Perfil y arquetipo | Confirmar la empresa vinculada | plugin-doctor |  | Consultor |
 | Perfil y arquetipo | Investigar el giro si nadie en el equipo lo conoce | consultant |  | Consultor |
 | Perfil y arquetipo | Hacer las cuatro preguntas que ubican el negocio | company-profile |  | Dirección general |
 | Perfil y arquetipo | Construir el glosario del giro | company-profile |  | Dirección general |
@@ -59,10 +59,10 @@
 | Procesos | Calcular el costo mensual de cada proceso | process-map |  | Consultor |
 | Procesos | Aplicar el filtro de higiene a cada proceso | process-map |  | Consultor |
 | Procesos | Escribir el índice de procesos ordenado por costo | process-map | mapeo-<empresa>/03-procesos/INDICE.md, mapeo-<empresa>/03-procesos/PXX-<nombre>.md | Consultor |
-| Cobertura y devolución | Calificar cada criterio con la rúbrica X4 | coverage | mapeo-<empresa>/98-COBERTURA.md | Consultor |
-| Cobertura y devolución | Convertir cada hueco en pregunta, documento, extracción u observación | coverage | mapeo-<empresa>/99-preguntas-abiertas.md | Consultor |
-| Cobertura y devolución | Agrupar las preguntas por persona, no por sub-fase | coverage | mapeo-<empresa>/99-preguntas-abiertas.md | Consultor |
-| Cobertura y devolución | Emitir el veredicto de cobertura | coverage | mapeo-<empresa>/98-COBERTURA.md | Consultor |
+| Cobertura y devolución | Calificar cada criterio con la rúbrica X4 | engagement-coverage | mapeo-<empresa>/98-COBERTURA.md | Consultor |
+| Cobertura y devolución | Convertir cada hueco en pregunta, documento, extracción u observación | engagement-coverage | mapeo-<empresa>/99-preguntas-abiertas.md | Consultor |
+| Cobertura y devolución | Agrupar las preguntas por persona, no por sub-fase | engagement-coverage | mapeo-<empresa>/99-preguntas-abiertas.md | Consultor |
+| Cobertura y devolución | Emitir el veredicto de cobertura | engagement-coverage | mapeo-<empresa>/98-COBERTURA.md | Consultor |
 | Cobertura y devolución | Hacer la devolución con el veredicto a dirección | consultant |  | Dirección general |
 | Portafolio y priorización | Extraer una oportunidad por cada señal de desperdicio | consultant |  | Consultor |
 | Portafolio y priorización | Aplicar el filtro de higiene antes de puntuar | consultant |  | Consultor |
@@ -94,12 +94,12 @@
 | Implementación y operación | Encender el monitoreo y probar cada notificación de falla | consultant |  | Dueño operativo |
 | Implementación y operación | Escribir el runbook y el registro de la automatización | automate-handover | mapeo-<empresa>/06-specs/REGISTRO.md | Dueño operativo |
 | Implementación y operación | Aplicar la regla de las tres ocurrencias a cada excepción | consultant |  | Dueño operativo |
-| Medición de valor | Congelar la línea base antes de tocar el proceso | baseline | mapeo-<empresa>/08-linea-base.md | Quien ejecuta el proceso |
+| Medición de valor | Congelar la línea base antes de tocar el proceso | process-baseline | mapeo-<empresa>/08-linea-base.md | Quien ejecuta el proceso |
 | Medición de valor | Nombrar la métrica de nivel 3 de cada caso | consultant |  | Dueño del proceso |
-| Medición de valor | Elegir el método de atribución y llevar la bitácora de cambios concurrentes | report |  | Consultor |
+| Medición de valor | Elegir el método de atribución y llevar la bitácora de cambios concurrentes | engagement-report |  | Consultor |
 | Medición de valor | Publicar el tablero del CAIO | consultant |  | Consultor, Patrocinador |
-| Medición de valor | Calcular el retorno del programa con tres escenarios | report |  | Finanzas del cliente |
-| Medición de valor | Entregar el reporte trimestral al consejo | report |  | Patrocinador |
+| Medición de valor | Calcular el retorno del programa con tres escenarios | engagement-report |  | Finanzas del cliente |
+| Medición de valor | Entregar el reporte trimestral al consejo | engagement-report |  | Patrocinador |
 | Madurez y ruta de 12 meses | Contestar las veinte afirmaciones con fuente y evidencia | consultant |  | Consultor, Patrocinador |
 | Madurez y ruta de 12 meses | Calificar el nivel por dimensión con la regla del mínimo | consultant |  | Consultor |
 | Madurez y ruta de 12 meses | Nombrar el patrón de estancamiento que amenaza a esta empresa | consultant |  | Consultor |

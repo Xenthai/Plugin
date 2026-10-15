@@ -10,7 +10,7 @@ import { syncedButAbsent } from "./journal-sync.mjs";
  * This is the counting half of finding what to improve next. It proposes nothing. Repetition is a
  * fact the journal can establish; what a repetition means — automate it, restructure the document,
  * delegate the decision, fix the broken step — is a judgement that needs the process, the people and
- * the client's own priorities, and `skills/opportunities/SKILL.md` is where that judgement is made.
+ * the client's own priorities, and `skills/engagement-opportunities/SKILL.md` is where that judgement is made.
  *
  * Two properties are deliberate and both cost something:
  *
@@ -219,7 +219,7 @@ Exit 0 whether or not anything was found — nothing recurring is a valid and re
 Exit 2 when no journal can be read or the arguments are wrong.
 
 The journal holds only what passed through the plugin, so this is blind to any process nobody has
-opened yet. Read skills/opportunities/SKILL.md before turning a finding into a recommendation.`;
+opened yet. Read skills/engagement-opportunities/SKILL.md before turning a finding into a recommendation.`;
 
 const main = () => {
   const argv = process.argv.slice(2);

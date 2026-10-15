@@ -114,7 +114,7 @@ const activeDays = (rows) => {
 const signal = (id, question, verdict, value, note) => ({ id, question, verdict, value, note });
 
 /**
- * The deterministic half of `skills/feedback`, so plugin-improvement signal accumulates on a
+ * The deterministic half of `skills/plugin-feedback`, so plugin-improvement signal accumulates on a
  * schedule instead of waiting for a monthly session.
  *
  * `detect` returns each finding's SUBJECT — a file path, an escalation reason, a tool-and-target

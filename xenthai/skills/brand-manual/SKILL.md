@@ -1,6 +1,6 @@
 ---
 name: brand-manual
-description: Build or revise a company's brand manual from its store and its code — a Design canvas, a Slides deck and a versioned PDF — with brand applications on request. Use for a brand manual, brand book or "manual de marca", when a printer or agency needs specifications, or after a brand decision. Requires BRAND.md; if it is missing use social-identity first, and for voice alone use social-voice.
+description: Build or revise a company's brand manual from its store and its code — a Design canvas, a Slides deck and a versioned PDF — with brand applications on request. Use for a brand manual, brand book or "manual de marca", when a printer or agency needs specifications, or after a brand decision. Requires BRAND.md; if it is missing use brand-identity first, and for voice alone use brand-voice.
 ---
 
 # Brand manual
@@ -18,8 +18,8 @@ the company has none, build it first (step 4): it keeps the next deck, proposal 
 without reopening the manual.
 
 Applications and the public web page are **not** default output. Offer them at the end and build
-only what the operator picks, from `capabilities/social/doctrine/BRAND-APPLICATIONS.md`. For voice alone use social-voice; for first-time
-identity capture use social-identity.
+only what the operator picks, from `capabilities/brand/doctrine/BRAND-APPLICATIONS.md`. For voice alone use brand-voice; for first-time
+identity capture use brand-identity.
 
 ## Naming — every artifact and file
 
@@ -213,7 +213,7 @@ In the operator's language, under their formatting rules:
 
 ## STOP conditions
 
-- **`BRAND.md` does not exist.** Run `social-identity`; a manual without it is invention.
+- **`BRAND.md` does not exist.** Run `brand-identity`; a manual without it is invention.
 - **A figure has no `PROOF.md` row.** It does not enter the manual, however often the site repeats it.
 - **Two sources contradict each other and the approver has not decided.** Show both values and mark the chapter pending.
 - **The client asks to send the manual to suppliers before approval.** Offer the draft as a draft.
@@ -223,6 +223,6 @@ In the operator's language, under their formatting rules:
 | File | Open when |
 | --- | --- |
 | `capabilities/naming/doctrine/naming.md` | Naming any artifact or Doc |
-| `capabilities/social/doctrine/BRAND-APPLICATIONS.md` | The manual is delivered and applications or the public page are on offer |
+| `capabilities/brand/doctrine/BRAND-APPLICATIONS.md` | The manual is delivered and applications or the public page are on offer |
 | `capabilities/social/doctrine/LAYOUT.md` | Composing any page or board |
 | `capabilities/company/doctrine/REGULATORS-MX.md` | The regulator is unclear or an example makes a claim |

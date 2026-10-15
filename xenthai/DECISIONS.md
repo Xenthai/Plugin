@@ -971,3 +971,56 @@ Spanish body, because plugin documentation is English and the client never reads
 
 **Reverses if** the plugin stops being used to build software for clients, or the profile knobs
 converge to one answer across every repository for a year, at which point they become doctrine.
+
+### 34 · The practice's interface design loop ships inside the plugin as a skill, with the owner's approved patterns as doctrine
+
+**Decision.** `skills/design` carries how the practice designs user experience and interfaces with an owner on a
+product that ships: mockup first, the owner's comments as the review loop, proof by screenshots, a design line of
+tokens and motion. Seven doctrine files under `capabilities/design/doctrine/` hold the process, the mockup contract,
+the loop, the approved patterns, motion, proof and delegation. Twenty UX and UI skills by other authors ship beside
+it under `skills/`, copied whole under their own licences and attributed in `NOTICE.md`, because the design skill
+names them as lenses and a lens that is not installed is a dead reference. `engineering` routes the design of a
+screen here. Research and strategy stay with the `intent` family.
+
+**Evidence.** The loop and the patterns were mined from a long run of mockup rounds with one owner on one product:
+comments anchored on elements, each one change, two misreadings that cost a round each, and a taste that converged on
+cleaner and simpler. Written once, they apply to the next product without repeating the rounds. The vendored skills
+were checked for licence at their sources on 2026-10-15: MIT at each author's repository, Apache-2.0 for
+`frontend-design` with its licence text in the folder, and an MIT statement in the README of the publisher of
+`web-design-guidelines`. The maintainer ruled that design belongs inside this plugin ("no es un plugin nuevo, va
+dentro del plugin de xenthai") and not in a repository of its own.
+
+**Rejected:** a separate repository and plugin for design, which the maintainer refused and which would have split one
+practice across two installs; adding only the `design` skill and listing the twenty others as external, which leaves
+its lens table pointing at skills the session may not have; vendoring a skill with no licence found, which none of the
+twenty needed; rewriting a vendored skill's frontmatter to fit the portable six fields, which would change when two of
+them load; extending `engineering`'s `DESIGN.md` instead, because the loop is a process with its own stop conditions
+and a reference table, not a screen rule.
+
+**Reverses if** the vendored skills' sources change licence or disappear, at which point the copies stay under the
+licence they were taken under and the skill table is revisited; or the practice stops designing with an owner in the
+loop.
+
+### 35 · Every skill is named for its category, and brand is a track with its own router
+
+**Decision.** A skill is `<category>-<responsibility>`, or it is the router named after its category. Nine categories:
+`company`, `process`, `automate`, `brand`, `social`, `design`, `engineering`, `plugin` and `engagement`;
+`test/taxonomy.test.mjs` holds the list, which of them need a router, and refuses a skill with neither. Eleven skills
+were renamed: the install's own skills to `plugin-*`, the engagement read-backs to `engagement-*`, the before-measure to
+`process-baseline`, the Zapier operator to `automate-zapier`, identity and voice to `brand-*`. Brand gets a router of its
+own because BRAND.md, VOICE.md and PROOF.md are read by social and design alike, and a router named `social`
+owning them hid that. Comunicación's phase numbers are unchanged: phases 1 and 2 are still Comunicación phases, now
+reached through `brand`.
+
+**Evidence.** Before this, twelve of thirty skills had no category, so the name of `report` or `setup` said nothing about
+which track owned it or what it touched; the four prefixed families (`social-*`, `process-*`, `automate-*`,
+`company-*`) were the ones an operator could place without reading a description. The maintainer chose the whole plugin
+over design alone, accepting that every old `/xenthai:<name>` stops resolving (session of 2026-10-15).
+
+**Rejected:** renaming only the design suite, which leaves the twelve uncategorised; folding the install and
+engagement skills into `company-*`, which already means the company's own documents and would have stopped meaning
+it; renaming the CLIs, capability folders and journal capability names to match, which would split the journal's
+history at a schema boundary for a cosmetic gain.
+
+**Reverses if** a skill appears whose responsibility fits no category and adding one would hold a single skill for
+good; at that point the categories are revisited rather than the skill left bare.

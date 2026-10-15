@@ -1,12 +1,12 @@
 ---
 name: company-new
-description: Start a new company engagement — write the .company.json that binds a session to exactly one company, create its folder in the company's own store, and verify the install can reach it. Use at the first session with a company that has no manifest yet — including one whose store already holds documents from earlier work — when a new client is starting, or when an engagement moves to a different store. Creates the binding and fills no document — to verify a manifest that already exists use doctor, to start gathering documents use company-intake.
+description: Start a new company engagement — write the .company.json that binds a session to exactly one company, create its folder in the company's own store, and verify the install can reach it. Use at the first session with a company that has no manifest yet — including one whose store already holds documents from earlier work — when a new client is starting, or when an engagement moves to a different store. Creates the binding and fills no document — to verify a manifest that already exists use plugin-doctor, to start gathering documents use company-intake.
 ---
 
 # New company — the binding, before anything else
 
 One session, and a short one. Deliverables: a filled `.company.json`, the company's folder in its
-own store, and a green `doctor`. **No company document is written here** — that is intake's work,
+own store, and a green `plugin-doctor`. **No company document is written here** — that is intake's work,
 and mixing the two hides a failed binding behind a busy session.
 
 Everything downstream assumes exactly one company is bound. Getting this wrong is the one mistake
@@ -23,7 +23,7 @@ when none is. So the manifest is written first, on purpose:
 2. The session is now bound. Store writes are unlocked.
 3. **Create the company's root folder** in its store.
 4. **Edit `.company.json`** to hold the real folder id.
-5. **Run `doctor`.** It fails while `store.root` is null, which is what makes step 4 impossible to
+5. **Run `plugin-doctor`.** It fails while `store.root` is null, which is what makes step 4 impossible to
    forget.
 
 Do not try to create the folder first. It will be vetoed, and the veto is correct — a store write
@@ -95,7 +95,7 @@ one, and it is the specific failure this file exists to prevent.
 **Where the working directory IS the home** — a cloud container — keep the rule one of two ways, in
 this order: set `XENTHAI_COMPANY` to a manifest in its own folder, which beats the directory walk;
 or, only when there is no other directory, declare `"binding": "ephemeral"` and say out loud that
-the disk does not survive the session. `doctor` fails on an undeclared manifest at a home directory.
+the disk does not survive the session.
 `capabilities/company/doctrine/CONTROLS.md` §1c carries why both exist.
 
 ## Then verify, and only then hand off
@@ -105,7 +105,7 @@ node "${CLAUDE_PLUGIN_ROOT}/tools/doctor.mjs"
 node "${CLAUDE_PLUGIN_ROOT}/tools/status.mjs"
 ```
 
-`doctor` proves the install can reach the store; `status` reports which documents exist and which
+`plugin-doctor` proves the install can reach the store; `status` reports which documents exist and which
 phase owes each absent one, which is the fastest way to show the operator what the engagement will
 cover. For a company starting today every document is absent, and that is the correct state. For a
 company whose store already held work, the documents `status` finds are the adopted ones — say so
@@ -126,7 +126,7 @@ images. So do not end this session with "listo": end it by reading this back, ma
 | # | Step | What it unblocks | Who |
 | --- | --- | --- | --- |
 | 1 | Drive authorized in the client's own connector settings | Everything. Without it the skills load and look healthy until the first call | The client, in a browser |
-| 2 | This binding — manifest, store root, `doctor` green | Every store write | Done, here |
+| 2 | This binding — manifest, store root, `plugin-doctor` green | Every store write | Done, here |
 | 3 | Documents already in the store adopted, not overwritten | The client's prior work survives | Done, here |
 | 4 | Assets folder shared **anyone with the link** | Scheduler imports. Skipping it is the most common silent failure | A person, in Drive's own interface |
 | 5 | `digest` folder created and shared with the practice as **Lector** | Continuous monitoring, and it is the only part that runs with nobody present | A person, in Drive's own interface |
@@ -197,6 +197,6 @@ Company files change through `Write` and `Edit` only. `capabilities/company/doct
   the id, or create the folder yourself once the manifest is written.
 - **The client offers a login so you can "set up the Drive yourself".** Decline. Record which role
   holds the access and ask them to create the folder and send the id.
-- **`doctor` is not green.** Do not start intake on a binding that cannot reach the store. A
+- **`plugin-doctor` is not green.** Do not start intake on a binding that cannot reach the store. A
   failed connector discovered now costs minutes; discovered at the first delivery it costs the
   client's confidence.

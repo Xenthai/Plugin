@@ -46,7 +46,7 @@ Three things about those two lines, each of which has cost somebody a failed att
 Then authorize the connectors it needs. **A plugin cannot declare or install a connector**, so this
 is the one step a person has to do by hand — see [MCP.md](MCP.md) for what to authorize and how to
 verify it actually works. The full first-visit runbook is [INSTALL.md](INSTALL.md), or run
-`/xenthai:setup`, which reads the seven steps back before doing anything.
+`/xenthai:plugin-setup`, which reads the seven steps back before doing anything.
 
 Updates then arrive automatically, once per session, and **every push reaches a client** — neither
 manifest declares a `version`, so the CLI resolves it to the commit SHA. A declared version pins the
@@ -104,7 +104,8 @@ claude plugin list && claude plugin marketplace list
 
 ## What it does today
 
-Twenty-eight skills. Two are routers that bind the session and decide which phase a company is in; the
+Twenty-nine skills of our own, and twenty UX and UI skills by other authors vendored under their own licences
+(`NOTICE.md`). Two are routers that bind the session and decide which phase a company is in; the
 rest do one thing each.
 
 **The two tracks are numbered independently.** Comunicación runs phases 0, 1 and 2; operación runs
@@ -118,10 +119,10 @@ is a deliberate scope boundary, not a missing label.
 
 | | Skill | When it runs |
 | --- | --- | --- |
-| **Setup** | `setup` | The first visit. Reads the field guide's day-one rows back before running anything, then reports which are owed and by whom |
+| **Setup** | `plugin-setup` | The first visit. Reads the field guide's day-one rows back before running anything, then reports which are owed and by whom |
 | | `company-new` | Writes the `.company.json` that binds a session to exactly one company, and adopts whatever the store already holds |
-| | `doctor` | Whether this machine and the bound company's connectors can do the work about to be promised |
-| | `resume` | Where the engagement stands and what the next step is. The one entry point a client's own staff can remember |
+| | `plugin-doctor` | Whether this machine and the bound company's connectors can do the work about to be promised |
+| | `engagement-resume` | Where the engagement stands and what the next step is. The one entry point a client's own staff can remember |
 | **Mapping** | `company-intake` | Asks for the files the company already has instead of interviewing for every fact |
 | | `company-offer` | What it sells and on what terms — stock, lead times, CFDI, the discount limit and who authorises exceeding it |
 | | `company-profile` | Operación phase 1 (A2 §3) — the operating archetype, the trade's vocabulary, and which processes phase 3 should hunt for |
@@ -129,23 +130,25 @@ is a deliberate scope boundary, not a missing label.
 | | `process-map` | Operación phase 3 (A2 §7), the *Diagnóstico*: every process it actually runs, breadth before depth |
 | | `process-access` | Operación phase 4 (A3 §2), the *Mapeo integral*: pain, access, authority, and a scored shortlist |
 | | `process` | The router for the operación track |
-| | `coverage` | What is still missing, as questions addressed to a role — and whether the next phase may start |
-| | `baseline` | The before, while it still exists. It cannot be reconstructed afterwards |
+| | `engagement-coverage` | What is still missing, as questions addressed to a role — and whether the next phase may start |
+| | `process-baseline` | The before, while it still exists. It cannot be reconstructed afterwards |
+| **Brand** | `brand` | The entry point for a company's identity, voice, claims register and manual; social and design read what it produces |
+| | `brand-identity` | Comunicación phase 1, owned by the brand track — names, sector, regulator, who approves a public claim, who actually decides |
+| | `brand-voice` | Comunicación phase 2, owned by the brand track — voice derived from what they already published, as word-level rules |
+| | `brand-manual` | The compiled brand manual as a reviewable PDF: identity from the store plus the applied specifications a printer or sign shop needs. A derived artefact, never where a fact is born |
 | **Communication** | `social` | The mandatory entry point for anything published |
 | | `social-presence` | The perishable before: every account that exists, dated, append-only |
-| | `social-identity` | Comunicación phase 1 — names, sector, regulator, who approves a public claim, who actually decides |
-| | `social-voice` | Comunicación phase 2 — voice derived from what they already published, as word-level rules |
 | | `social-plan` | The editorial plan. Ends at an approval gate rather than producing anything |
 | | `social-produce` | Copy, then render. Refuses to emit an asset that breaches a platform limit |
 | | `social-handoff` | The delivery package: schedule, assets, and an honest note about what still needs a hand |
-| | `brand-manual` | The compiled brand manual as a reviewable PDF: identity from the store plus the applied specifications a printer or sign shop needs. A derived artefact, never where a fact is born |
 | **Engineering** | `engineering` | The practice's own way of building software in any repository: the always-on rules, the shape of a task, and the six choices a repository makes once through its engineering profile |
-| **Closing the loop** | `zapier-mcp-ops` | Operating a client's Zapier account over MCP: discover what is connected, read and write without guessing a schema, and log what was sent |
+| | `design` | The practice's way of designing interfaces with an owner: a mockup the owner comments on, a loop that turns each comment into one change, proof by screenshots, and a design line of tokens and motion. Beside it ship twenty vendored UX and UI skills it uses as lenses, from `better-interface` to `animate` |
+| **Closing the loop** | `automate-zapier` | Operating a client's Zapier account over MCP: discover what is connected, read and write without guessing a schema, and log what was sent |
 | **Building** | `automate-spec` | Operación phase 5 (A7 · X2.5) — the buildable specification for one approved candidate, platform-independent until its last section |
 | | `automate-handover` | Acceptance and liability, not results. The test is whether the client can switch it off alone |
-| | `report` | The journal read back, per cadence, with what the evidence cannot support |
-| | `opportunities` | What recurred across periods, as questions rather than recommendations |
-| | `feedback` | What to fix in **this plugin**, from evidence, carrying nothing about any company |
+| | `engagement-report` | The journal read back, per cadence, with what the evidence cannot support |
+| | `engagement-opportunities` | What recurred across periods, as questions rather than recommendations |
+| | `plugin-feedback` | What to fix in **this plugin**, from evidence, carrying nothing about any company |
 
 Onboarding is one phase per session, deliberately. A longer instrument measurably reduces both
 starts and completions, and each phase ends with something the client can look at — a director who

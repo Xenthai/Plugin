@@ -1,6 +1,6 @@
 ---
 name: company-intake
-description: Request the files a company already has — constancia fiscal, org chart or payroll list, price list, a real quote and invoice, the software bill, a brand manual, any written procedure — and map the company from those instead of interviewing for every fact. Use at the start of a new company, when files a client sent need extracting, when a store already holds documents from earlier work that must be adopted rather than overwritten, or when a session stalls on facts nobody in the room knows. Produces 01-empresa.md. For what no document holds the phase skills interview — social-identity for positioning, company-offer for prices, process-map for how work runs.
+description: Request the files a company already has — constancia fiscal, org chart or payroll list, price list, a real quote and invoice, the software bill, a brand manual, any written procedure — and map the company from those instead of interviewing for every fact. Use at the start of a new company, when files a client sent need extracting, when a store already holds documents from earlier work that must be adopted rather than overwritten, or when a session stalls on facts nobody in the room knows. Produces 01-empresa.md. For what no document holds the phase skills interview — brand-identity for positioning, company-offer for prices, process-map for how work runs.
 ---
 
 # Company intake — files before questions
@@ -60,7 +60,7 @@ Write extracted facts into the document that owns them:
 | A real quote and a real invoice | `03-procesos/` (hand to `process-map`), `02-inventario.md` |
 | System list or the monthly software invoice | `02-inventario.md` |
 | Brand manual or logo files | `DESIGN.md` |
-| Published posts | `VOICE.md` extraction (hand to `social-voice`), `SOCIAL.md` baseline |
+| Published posts | `VOICE.md` extraction (hand to `brand-voice`), `SOCIAL.md` baseline |
 | Written procedures | `03-procesos/` steps |
 | Real customer objections | `CUSTOMERS.md`, verbatim |
 
