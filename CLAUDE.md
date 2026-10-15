@@ -101,7 +101,7 @@ element passing a computed-style check).
 
 ### Skills — two independent tracks
 
-Twenty-eight skills, one directory each, one level deep (`skills/<name>/SKILL.md` — nesting is
+Twenty-nine skills of ours, plus twenty vendored third-party UX and UI skills listed in `xenthai/NOTICE.md`, one directory each, one level deep (`skills/<name>/SKILL.md` — nesting is
 unattested, verified against 65/65 skills elsewhere). Frontmatter is only `name` and `description`;
 the description states **when** to invoke, never **how** the skill works (a summarised workflow
 becomes a shortcut the model takes instead of reading the body).
@@ -114,6 +114,10 @@ naming the track:
   `process-map` → `process-access` → `automate-spec` → `automate-handover`.
 - Setup/utility skills (`setup`, `company-new`, `doctor`, `resume`, `coverage`, `baseline`,
   `report`, `opportunities`, `feedback`, `zapier-mcp-ops`, `brand-manual`) sit outside both tracks.
+- `engineering` and `design` are practices, not tracks: how the practice builds software and designs interfaces with an
+  owner, each with its doctrine under `capabilities/<name>/doctrine/`. The twenty skills in `NOTICE.md` are other
+  authors' work copied in whole under their own licences; never edit one here, and `test/suite.test.mjs` holds the
+  rules that apply to them.
 
 ### Where a fact belongs (one subject, one file — a fact in two is a defect)
 

@@ -971,3 +971,32 @@ Spanish body, because plugin documentation is English and the client never reads
 
 **Reverses if** the plugin stops being used to build software for clients, or the profile knobs
 converge to one answer across every repository for a year, at which point they become doctrine.
+
+### 34 · The practice's interface design loop ships inside the plugin as a skill, with the owner's approved patterns as doctrine
+
+**Decision.** `skills/design` carries how the practice designs user experience and interfaces with an owner on a
+product that ships: mockup first, the owner's comments as the review loop, proof by screenshots, a design line of
+tokens and motion. Seven doctrine files under `capabilities/design/doctrine/` hold the process, the mockup contract,
+the loop, the approved patterns, motion, proof and delegation. Twenty UX and UI skills by other authors ship beside
+it under `skills/`, copied whole under their own licences and attributed in `NOTICE.md`, because the design skill
+names them as lenses and a lens that is not installed is a dead reference. `engineering` routes the design of a
+screen here. Research and strategy stay with the `intent` family.
+
+**Evidence.** The loop and the patterns were mined from a long run of mockup rounds with one owner on one product:
+comments anchored on elements, each one change, two misreadings that cost a round each, and a taste that converged on
+cleaner and simpler. Written once, they apply to the next product without repeating the rounds. The vendored skills
+were checked for licence at their sources on 2026-10-15: MIT at each author's repository, Apache-2.0 for
+`frontend-design` with its licence text in the folder, and an MIT statement in the README of the publisher of
+`web-design-guidelines`. The maintainer ruled that design belongs inside this plugin ("no es un plugin nuevo, va
+dentro del plugin de xenthai") and not in a repository of its own.
+
+**Rejected:** a separate repository and plugin for design, which the maintainer refused and which would have split one
+practice across two installs; adding only the `design` skill and listing the twenty others as external, which leaves
+its lens table pointing at skills the session may not have; vendoring a skill with no licence found, which none of the
+twenty needed; rewriting a vendored skill's frontmatter to fit the portable six fields, which would change when two of
+them load; extending `engineering`'s `DESIGN.md` instead, because the loop is a process with its own stop conditions
+and a reference table, not a screen rule.
+
+**Reverses if** the vendored skills' sources change licence or disappear, at which point the copies stay under the
+licence they were taken under and the skill table is revisited; or the practice stops designing with an owner in the
+loop.

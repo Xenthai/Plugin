@@ -1,6 +1,6 @@
 ---
 name: engineering
-description: Xenth AI's engineering doctrine for building or changing software in any repository, language or framework — how to ask and decide, plan, lay out a project, architect by blast radius, write and test code, delegate to agents, verify once, report, commit and design screens. Use at the start of any non-trivial engineering task (a feature, a fix, a refactor, a review, a new repository, an operations pending, a screen) and before sending a question, launching agents, committing or replying. Resolves the repository's engineering profile once and records it. For a company's processes and automations use process; for publishable material use social; for a brand manual use brand-manual.
+description: Xenth AI's engineering doctrine for building or changing software in any repository, language or framework — how to ask and decide, plan, lay out a project, architect by blast radius, write and test code, delegate to agents, verify once, report, commit and build screens. Use at the start of any non-trivial engineering task (a feature, a fix, a refactor, a review, a new repository, an operations pending, a screen's code) and before sending a question, launching agents, committing or replying. Resolves the repository's engineering profile once and records it. For a company's processes and automations use process; for publishable material use social; for a brand manual use brand-manual; for designing a screen, a mockup or an interface use design.
 ---
 
 # Engineering — the doctrine, and the profile that decides the rest
@@ -80,8 +80,8 @@ These apply before any doctrine file is opened. They are the rules whose violati
    doctrine with that language's idiomatic tooling, versions verified against its registry.
 5. Substantive work runs as a workflow or subagents with an explicit model per complexity; the
    session orchestrates and keeps money, auth, ledger and migration write paths inline (`DELEGATION.md`).
-6. A screen starts as a reviewed mockup when new, and is shown live with screenshots when it already
-   runs (`DESIGN.md`).
+6. Designing a screen goes through the `design` skill: a reviewed mockup when it is new, shown live with
+   screenshots when it already runs. `DESIGN.md` keeps only the UX rules code must respect.
 
 ## STOP conditions
 
@@ -105,6 +105,6 @@ These apply before any doctrine file is opened. They are the rules whose violati
 | `capabilities/engineering/doctrine/ARCHITECTURE.md` | Creating a package, module or repository; touching money, auth, tenancy, persistence, providers, events, secrets |
 | `capabilities/engineering/doctrine/STRUCTURE.md` | Creating files, packages, tests, docs, migrations or scripts; naming anything |
 | `capabilities/engineering/doctrine/PRACTICES.md` | Writing or reviewing code, tests, SQL, logs, validation, dependencies, an API or a UI |
-| `capabilities/engineering/doctrine/DESIGN.md` | Any screen: a new surface, a change to one that runs, mockups, screenshots |
+| `capabilities/engineering/doctrine/DESIGN.md` | Writing screen code: the UX rules it must respect and the proof it ships with. Designing the screen itself is the `design` skill |
 | `capabilities/engineering/doctrine/DEFAULTS.md` | The stack is free to choose, or the language is not TypeScript |
 | `capabilities/engineering/doctrine/ENVIRONMENT.md` | On Windows, inside a worktree, or with other sessions running |
