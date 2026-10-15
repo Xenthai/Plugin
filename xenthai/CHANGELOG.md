@@ -28,6 +28,19 @@ machines could both write `0.1.0` and hold different code. A row written from a 
 
 ## [0.6.8] - 2026-10-15
 
+### Changed — the design suite is our own: eleven `design-ux-*` and `design-ui-*` skills, `brand-copy`, no copies
+
+- **Eleven skills written here replace the twenty vendored UX and UI skills and the external `intent` family**:
+  `design-ux-research`, `design-ux-flow`, `design-ux-copy`, `design-ux-accessibility`, `design-ux-evaluate`,
+  `design-ui-direction`, `design-ui-system`, `design-ui-layout`, `design-ui-motion`, `design-ui-polish` and
+  `design-ui-inspect`, dispatched by the `design` router, which also runs the new critique pass in `REVIEW.md` before
+  the owner looks. Their doctrine is flat `UX-*` and `UI-*` files under `capabilities/design/doctrine/`. Decision 36.
+- **`brand-copy`** writes the copy of pages that sell, bound to `VOICE.md` and `PROOF.md`, under the `brand` router; its
+  doctrine is `capabilities/brand/doctrine/PAGE-COPY.md`. Interface microcopy is `design-ux-copy`.
+- **Removed:** the twenty copied skill folders and `external-skills.json`. `NOTICE.md` now credits the sources whose
+  ideas were rewritten. `test/suite.test.mjs` refuses a copied skill, an external one, a file in a skill beside its
+  `SKILL.md` and a skill that fetches rules from the network; `test/design.test.mjs` covers the eleven skills.
+
 ### Changed — every skill carries a category, and brand is a track of its own
 
 - **Every skill is now `<category>-<responsibility>` or the router named after its category.** Eleven renames:

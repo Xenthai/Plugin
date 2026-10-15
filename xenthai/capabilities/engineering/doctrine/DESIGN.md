@@ -19,11 +19,10 @@ Implements: fuera del playbook (X9)
 
 ## Skill stack
 
-Name these in every UI brief and have reviewers check against them: the frontend-design,
-web-design-guidelines, artifact-design and dataviz skills; the Emil Kowalski animation and
-design-engineering skills; ui-ux-pro-max; the better-* interface skills (accessibility, layout,
-typography, color, writing, ui). Use the component library's own tooling to search and reuse
-primitives before building any.
+Route the design of a screen to `design`, which dispatches to its `design-ux-*` and `design-ui-*` skills; name the
+ones in scope in every UI brief and have reviewers check against them. The harness's artifact-design and dataviz
+skills apply to artifacts and charts. Use the component library's own tooling to search and reuse primitives before
+building any.
 
 ## UX doctrine
 

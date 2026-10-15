@@ -2,19 +2,20 @@
 
 Implements: fuera del playbook (X9)
 
-Reference: the `design-motion-principles` skill (Emil Kowalski, Jakub Krehel, Jhey Tompkins). Load it for the
-per-designer reasoning; this file holds the decisions the practice has already made.
+Reference: the `design-ui-motion` skill and its craft doctrine (`UI-MOTION-CRAFT.md`, `UI-MOTION-GESTURES.md`,
+`UI-MOTION-RUNTIME.md`). Load them for the reasoning and the lens table; this file holds the decisions the practice
+has already made.
 
 ## Weighting by product type
 
 | Product | Primary | Secondary | Selective |
 |---|---|---|---|
-| Productivity tool used all day | Kowalski | Krehel | Tompkins, only for empty states |
-| Any other type | Whatever the skill's context-to-perspective table says for that type | | |
+| Productivity tool used all day | Restraint | Polish | Expression, only for empty states |
+| Any other type | Whatever the lens table in `UI-MOTION-CRAFT.md` says for that type | | |
 
-1. Map the product type once with the skill's table, confirm with the owner, record it in the design-line spec.
+1. Map the product type once with the lens table in `UI-MOTION-CRAFT.md`, confirm with the owner, record it in the design-line spec.
    Never re-argue it per page.
-2. Do not apply one designer's duration caps outside the type they were written for.
+2. Do not apply one lens's duration caps outside the type they were written for.
 
 ## Frequency gate
 

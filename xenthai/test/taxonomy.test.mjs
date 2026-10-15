@@ -1,15 +1,12 @@
-import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { existsSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, "..");
 const SKILLS = join(ROOT, "skills");
-const NOTICE = join(ROOT, "NOTICE.md");
 
 const names = readdirSync(SKILLS, { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => e.name);
-const notice = existsSync(NOTICE) ? readFileSync(NOTICE, "utf8") : "";
-const vendored = new Set([...notice.matchAll(/^\| `([a-z0-9-]+)` \|/gm)].map((m) => m[1]));
 
 /**
  * Every skill of ours is `<category>-<responsibility>` or is the router named after its category, so a
@@ -39,8 +36,8 @@ const cases = [];
 const check = (name, fn) => cases.push([name, fn]);
 
 check("every skill of ours carries a category", () => {
-  const bare = names.filter((n) => !vendored.has(n) && categoryOf(n) === null);
-  return [bare.length === 0, bare.length ? `no category: ${bare.join(", ")}` : `${names.length - vendored.size} skills, all categorised`];
+  const bare = names.filter((n) => categoryOf(n) === null);
+  return [bare.length === 0, bare.length ? `no category: ${bare.join(", ")}` : `${names.length} skills, all categorised`];
 });
 
 check("every category that declares a router has one", () => {

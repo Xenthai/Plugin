@@ -84,15 +84,13 @@ more often by models than by people, so every non-informative one is a permanent
   already has. "Use good typography" is a defect; "divide every size by 2.7 to know if it reads in
   a feed" is a rule.
 
-## Vendored skills
+## Other authors' skills
 
-- A third-party skill is copied into `skills/<name>/` only when its licence is permissive (MIT, Apache-2.0, CC0) and
-  stated by its source. Add a row to `NOTICE.md` with author, source URL and licence; `test/suite.test.mjs` refuses a
-  skill it lists without one.
-- No licence found: do not copy. Add `{ name, source, installCommand }` to `external-skills.json`.
-- A vendored skill is never edited here and keeps its author's frontmatter, so it is exempt from the rules above that
-  only fit our own skills; our own keep exactly `name` and `description`.
-- Remove bytecode and caches (`__pycache__`) from a copied folder.
+- No third-party skill is copied into `skills/` and none is installed from outside. A skill worth learning from is
+  read, and its ideas are rewritten here in the plugin's own words, structure and rules; text, tables and lists are
+  never copied. `test/suite.test.mjs` refuses a copied-skill row in `NOTICE.md`, an `external-skills.json`, a file
+  in a skill other than its `SKILL.md`, and a skill that fetches its rules from the network.
+- Credit every source whose ideas shaped a skill in `NOTICE.md`'s credits list: author or organisation, title, URL.
 
 ## Method data
 

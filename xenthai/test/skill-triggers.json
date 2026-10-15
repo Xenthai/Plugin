@@ -669,6 +669,118 @@
       "split": "train",
       "kind": "near-miss",
       "why": "Interface vocabulary appears, but the deliverable is a publishable social piece, which social owns; design is for the interface of a product, not material to publish."
+    },
+    {
+      "id": "design-ux-research-plan-es",
+      "query": "Antes de diseñar nada necesito entender quién usa el portal de proveedores y qué intenta lograr. Arma el plan de entrevistas y cómo vamos a sintetizar lo que salga.",
+      "expected": "design-ux-research",
+      "split": "train",
+      "kind": "target",
+      "why": "Who the users are and what they try to do, before any surface exists, is research; nothing is drawn yet."
+    },
+    {
+      "id": "design-ux-flow-states-en",
+      "query": "Map the checkout flow end to end with every state, including empty, loading, error and offline, before anyone draws a wireframe.",
+      "expected": "design-ux-flow",
+      "split": "test",
+      "kind": "target",
+      "why": "Task flow and its states, ahead of wireframes, is the flow skill's claim; no visual decision is asked for."
+    },
+    {
+      "id": "design-ux-copy-error-es",
+      "query": "¿Qué debe decir el botón de pagar y el mensaje cuando falla el cobro? Que todo pase por los diccionarios de la app.",
+      "expected": "design-ux-copy",
+      "split": "train",
+      "kind": "target",
+      "why": "Button and error wording inside the product, through i18n dictionaries, is interface microcopy."
+    },
+    {
+      "id": "design-ux-a11y-modal-en",
+      "query": "Keyboard users cannot get out of our modal and the screen reader announces nothing when the form has errors. Fix the behaviour.",
+      "expected": "design-ux-accessibility",
+      "split": "test",
+      "kind": "target",
+      "why": "Focus trapping, keyboard escape and announced errors are accessibility behaviour, not visual polish."
+    },
+    {
+      "id": "design-ux-evaluate-heuristic-es",
+      "query": "Haz una evaluación heurística del panel de facturas y clasifica los hallazgos por severidad antes de que lo vea el dueño.",
+      "expected": "design-ux-evaluate",
+      "split": "train",
+      "kind": "target",
+      "why": "A heuristic evaluation with severity ratings is the evaluate skill; the owner's comment loop has not started."
+    },
+    {
+      "id": "design-ui-direction-new-en",
+      "query": "Brand-new product, no design system yet. Give it a distinctive visual direction that does not look like every AI-generated template.",
+      "expected": "design-ui-direction",
+      "split": "test",
+      "kind": "target",
+      "why": "An aesthetic direction for a surface with no system is the direction skill; there are no tokens to obey yet."
+    },
+    {
+      "id": "design-ui-system-tokens-es",
+      "query": "Necesitamos rampas de color en OKLCH y una escala tipográfica con tokens semánticos, y revisar el contraste real de cada par.",
+      "expected": "design-ui-system",
+      "split": "train",
+      "kind": "target",
+      "why": "Colour ramps, type scale, semantic tokens and measured contrast are the system skill's whole claim."
+    },
+    {
+      "id": "design-ui-layout-cluttered-en",
+      "query": "The settings page feels cluttered. Fix the grouping, spacing and alignment so it holds up across our breakpoints.",
+      "expected": "design-ui-layout",
+      "split": "train",
+      "kind": "target",
+      "why": "Grouping, spacing and alignment across breakpoints is layout; the flow and the copy are not in question."
+    },
+    {
+      "id": "design-ui-motion-sheet-en",
+      "query": "Build the bottom sheet's drag-to-dismiss with velocity handoff and a spring that can be interrupted mid-gesture.",
+      "expected": "design-ui-motion",
+      "split": "test",
+      "kind": "target",
+      "why": "Gesture physics, velocity and interruptible springs are motion craft."
+    },
+    {
+      "id": "design-ui-polish-radius-es",
+      "query": "Los bordes de las tarjetas anidadas no casan y los íconos se ven más gruesos que el texto de al lado. Hay que pulir esos detalles.",
+      "expected": "design-ui-polish",
+      "split": "train",
+      "kind": "target",
+      "why": "Concentric radius and icon weight against text are the polish skill's details."
+    },
+    {
+      "id": "design-ui-inspect-competitor-en",
+      "query": "How did this competitor's pricing page get that typography and that hover effect? Work it out from the screenshot.",
+      "expected": "design-ui-inspect",
+      "split": "test",
+      "kind": "target",
+      "why": "Reverse-engineering how someone else's interface was built, from an image, is inspection."
+    },
+    {
+      "id": "brand-copy-pricing-es",
+      "query": "Escribe el copy de la página de precios de Talleres del Norte con su voz, y solo con afirmaciones que tengan fuente en su registro.",
+      "expected": "brand-copy",
+      "split": "train",
+      "kind": "target",
+      "why": "Persuasive page copy bound to the company's voice and claims register is brand-copy."
+    },
+    {
+      "id": "design-ux-copy-not-brand-en",
+      "query": "Write the empty-state message for the invoices list when a customer has not issued any yet.",
+      "expected": "design-ux-copy",
+      "split": "test",
+      "kind": "near-miss",
+      "why": "It is writing, which points at brand-copy, but an empty state inside the product is interface microcopy."
+    },
+    {
+      "id": "brand-copy-not-ux-copy-en",
+      "query": "Write the hero headline and the call to action for our homepage so a buyer understands what we sell in five seconds.",
+      "expected": "brand-copy",
+      "split": "test",
+      "kind": "near-miss",
+      "why": "Headline and CTA sound like interface copy, but a homepage that has to sell is persuasion, which brand-copy owns."
     }
   ]
 }

@@ -135,6 +135,7 @@ is a deliberate scope boundary, not a missing label.
 | **Brand** | `brand` | The entry point for a company's identity, voice, claims register and manual; social and design read what it produces |
 | | `brand-identity` | Comunicación phase 1, owned by the brand track — names, sector, regulator, who approves a public claim, who actually decides |
 | | `brand-voice` | Comunicación phase 2, owned by the brand track — voice derived from what they already published, as word-level rules |
+| | `brand-copy` | Copy for the pages that sell — home, landing, pricing, about — in the company's voice, with no claim outside its register |
 | | `brand-manual` | The compiled brand manual as a reviewable PDF: identity from the store plus the applied specifications a printer or sign shop needs. A derived artefact, never where a fact is born |
 | **Communication** | `social` | The mandatory entry point for anything published |
 | | `social-presence` | The perishable before: every account that exists, dated, append-only |
@@ -142,7 +143,9 @@ is a deliberate scope boundary, not a missing label.
 | | `social-produce` | Copy, then render. Refuses to emit an asset that breaches a platform limit |
 | | `social-handoff` | The delivery package: schedule, assets, and an honest note about what still needs a hand |
 | **Engineering** | `engineering` | The practice's own way of building software in any repository: the always-on rules, the shape of a task, and the six choices a repository makes once through its engineering profile |
-| | `design` | The practice's way of designing interfaces with an owner: a mockup the owner comments on, a loop that turns each comment into one change, proof by screenshots, and a design line of tokens and motion. Beside it ship twenty vendored UX and UI skills it uses as lenses, from `better-interface` to `animate` |
+| **Design** | `design` | The entry point for designing a product's interface with its owner: a mockup the owner comments on, a loop that turns each comment into one change, a critique pass before each round, proof by screenshots, and a design line of tokens and motion |
+| | `design-ux-*` | Research, flows and states, interface copy, accessibility and evaluation — what the person is trying to do and whether they can |
+| | `design-ui-*` | Direction, system, layout, motion, polish and inspecting an existing interface — what it looks like and how it moves |
 | **Closing the loop** | `automate-zapier` | Operating a client's Zapier account over MCP: discover what is connected, read and write without guessing a schema, and log what was sent |
 | **Building** | `automate-spec` | Operación phase 5 (A7 · X2.5) — the buildable specification for one approved candidate, platform-independent until its last section |
 | | `automate-handover` | Acceptance and liability, not results. The test is whether the client can switch it off alone |

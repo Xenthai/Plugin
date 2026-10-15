@@ -1024,3 +1024,29 @@ history at a schema boundary for a cosmetic gain.
 
 **Reverses if** a skill appears whose responsibility fits no category and adding one would hold a single skill for
 good; at that point the categories are revisited rather than the skill left bare.
+
+### 36 · The design suite is written here, in two families under one router, and no third-party skill ships
+
+**Decision.** The twenty vendored UX and UI skills and the external `intent` family are replaced by eleven skills of
+our own under the `design` router: `design-ux-research`, `-flow`, `-copy`, `-accessibility`, `-evaluate`, and
+`design-ui-direction`, `-system`, `-layout`, `-motion`, `-polish`, `-inspect`; persuasive page copy becomes
+`brand-copy` under `brand`. Their knowledge lives in flat `UX-*` and `UI-*` doctrine files beside the owner's seven,
+plus `REVIEW.md` for the critique pass the router runs before the owner looks. Each rule lives in one file: contrast in
+the system's colour file, target size in accessibility, reduced motion and animation performance in motion. Ideas from
+the former copies and from primary sources (WCAG 2.2, WAI-ARIA APG, NN/g, ISO 9241-210, platform guidelines) were
+rewritten in the plugin's words; nothing was copied, and `NOTICE.md` credits every source. This reverses the vendoring
+half of decision 34; the loop and its doctrine stand.
+
+**Evidence.** The copies overlapped: seven covered motion, four were competing whole-interface reviews, one fetched its
+rules from GitHub on every run, one shipped a Python engine over a thousand catalogue rows, and one linked files that
+did not exist. None could be edited here, so a duplicate or a contradiction could only be routed around. `intent` had no
+licence and could not ship at all, which left research-stage work pointing outside the plugin. The maintainer chose
+rewritten over copied, one router over two, and replacing `intent` (session of 2026-10-15).
+
+**Rejected:** keeping the copies and only renaming them, which their licences permit but which keeps every overlap and
+the remote fetch; deriving edited copies under MIT and Apache notices, which keeps other authors' text as the substance;
+porting the catalogue engine to Node, which encodes judgement in code against `CONTRIBUTING.md`'s rule; two routers,
+`design-ux` and `design-ui`, which would compete for every request that is both.
+
+**Reverses if** a skill elsewhere becomes the maintained reference for a craft area and following it beats keeping our
+own file current; that area is then credited and linked from its skill rather than rewritten again.
