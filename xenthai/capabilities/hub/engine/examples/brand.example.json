@@ -1,0 +1,18 @@
+{
+  "name": "Ejemplo Logística",
+  "lang": "es",
+  "colors": {
+    "brand": "#14532d",
+    "accent": "#f59e0b",
+    "accent_ink": "#111111"
+  },
+  "fonts": {
+    "body": "Inter",
+    "display": "Inter"
+  },
+  "logo_light": null,
+  "logo_dark": null,
+  "banner_images": [],
+  "light": {},
+  "dark": {}
+}

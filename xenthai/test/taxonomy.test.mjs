@@ -24,6 +24,7 @@ const CATEGORIES = {
   engineering: true,
   plugin: false,
   engagement: false,
+  hub: true,
 };
 
 const categoryOf = (name) => {
