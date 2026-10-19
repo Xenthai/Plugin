@@ -68,6 +68,7 @@ client machine until the `version` field moves.
 
 | Shipped | Where it lives |
 | --- | --- |
+| **`hub` family** — a company's internal knowledge hubs: the map of which ones, the questionnaire, the build on one shared template, the engineering atlas and the audit | `skills/hub*`, `capabilities/hub/` |
 | **`process` capability** — operación phases 3 and 4, breadth before depth, Wanner suitability scoring with the two judgement criteria labelled as judgement | `skills/process*`, `capabilities/process/doctrine/PROCESS.md`, `scaffold/company/PROCESSES.md` |
 | **`company-profile`** — operación phase 1, six operating archetypes from four questions, the trade's glossary, and the adapted hunt list for phase 3 | `skills/company-profile`, `capabilities/company/doctrine/PROFILE.md`, `scaffold/company/PROFILE.md` |
 | **`company-evidence`** — operación phase 2, volumes and rates derived from the company's own records and contrasted against what was claimed. Closes the gap `MEASUREMENT.md` named and nothing filled | `skills/company-evidence`, `capabilities/company/doctrine/EVIDENCE.md` |

@@ -26,6 +26,28 @@ installed from. It identifies exactly one tree, which is what this claim always 
 machines could both write `0.1.0` and hold different code. A row written from a working copy says
 `dev`, which is honest about being unreleasable rather than borrowing a number.
 
+## [0.7.0] - 2026-10-18
+
+### Added — the `hub` family: a company's internal knowledge hubs, from the map to maintenance
+
+- **Five skills under a new `hub` category.** `hub` is the router and decides which hubs a company needs and in what
+  order (catalogue, sector packs, a scored rubric) into `hubs/MAPA.md`; `hub-intake` writes the questionnaire for each
+  area and turns answers into `content.json`; `hub-build` builds, checks and publishes a hub as a multi-page artifact
+  and links it into its siblings' switcher; `hub-atlas` turns a repository into 8–12 evidenced diagrams and findings
+  for an engineering hub; `hub-audit` reviews published hubs and proposes, never applies, their maintenance.
+  Decision 37.
+- **`capabilities/hub/engine/`**: the shared template (`shell.html`, `icons.svg`) and five Node CLIs — `build.mjs`
+  (brand + content → `index.html`, tokens derived from two colours, contrast checked, refuses a duplicate id, an
+  unknown block or a doctype), `check.mjs` (walks every page in the viewer's skeleton at desktop, dark and phone),
+  `switcher.mjs` (adds a hub to a sibling's two switchers and proves nothing else changed), `audit.mjs` (per-hub and
+  cross-hub report, sensitive-looking text as leads) and `capture.mjs` (one PNG per diagram). No new dependency:
+  the browser ones use `playwright-core` and the system browser, or `--chrome`/`CHROME_PATH`.
+- **Doctrine** in `capabilities/hub/doctrine/` (twelve files) and two es-MX templates in
+  `capabilities/hub/templates/` (`PREGUNTAS.md`, `CUESTIONARIO.md`).
+- **Archify is the recommended diagram tool** for `hub-atlas`, asked for once and installed only on a yes
+  (`npx skills add tt-a1i/archify -g`); without it, Mermaid or SVG. It is not shipped.
+- **`test/hub.test.mjs`**; `test/taxonomy.test.mjs` declares `hub` as a routed category.
+
 ## [0.6.8] - 2026-10-15
 
 ### Changed — the design suite is our own: eleven `design-ux-*` and `design-ui-*` skills, `brand-copy`, no copies

@@ -1,0 +1,127 @@
+{
+  "hub": {
+    "name": "Hub de Operaciones",
+    "lang": "es",
+    "owner": "[nombre del responsable]",
+    "version": "1",
+    "date": "Enero 2027",
+    "internal": true,
+    "footer_right": "Ejemplo ficticio para probar la plantilla"
+  },
+  "hubs": [
+    { "name": "Hub de Producto", "url": "https://claude.ai/artifact/EJEMPLO-PRODUCTO" },
+    { "name": "Hub de Operaciones", "current": true },
+    { "name": "Hub de Personas", "url": "https://claude.ai/artifact/EJEMPLO-PERSONAS" }
+  ],
+  "resources": [
+    { "label": "Sistema de diseño", "url": "https://claude.ai/artifact/EJEMPLO-DISENO", "icon": "palette" }
+  ],
+  "groups": [
+    {
+      "title": "Empezar",
+      "icon": "home",
+      "pages": [
+        {
+          "id": "introduccion",
+          "title": "Introducción",
+          "icon": "home",
+          "banner": {
+            "crumb": "Empezar",
+            "h1": "¿Cómo trabaja el equipo de operaciones?",
+            "lede": "El manual del día a día: quién hace qué, cómo se atiende un pedido y qué hacer cuando algo sale mal.",
+            "icon": "briefcase",
+            "bg": 0
+          },
+          "sections": [
+            {
+              "title": "¿Para qué sirve este hub?",
+              "icon": "target",
+              "blocks": [
+                { "type": "lede", "text": "Para que cualquier persona del equipo resuelva su trabajo sin tener que preguntar dos veces." },
+                { "type": "stats", "items": [
+                  { "value": "4", "label": "roles en el área", "icon": "users" },
+                  { "value": "6", "label": "procesos documentados", "icon": "route" },
+                  { "value": "[por confirmar]", "label": "tiempo de respuesta comprometido", "icon": "clock" }
+                ] },
+                { "type": "aside", "tone": "caution", "icon": "lock", "title": "Solo uso interno.", "text": "No se comparte fuera de la empresa." },
+                { "type": "src", "text": "Responsable de este hub: [nombre]. Si algo cambió o falta, avísale." }
+              ]
+            },
+            {
+              "title": "¿Qué encontrarás?",
+              "icon": "map",
+              "blocks": [
+                { "type": "cards", "items": [
+                  { "title": "Atender un pedido", "text": "Del pedido recibido a la entrega confirmada.", "page": "pedido", "icon": "cart" },
+                  { "title": "Incidencias", "text": "Qué hacer cuando un envío se retrasa o llega dañado.", "page": "incidencias", "icon": "alert", "tone": "caution" }
+                ] }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Procesos",
+      "icon": "route",
+      "pages": [
+        {
+          "id": "pedido",
+          "title": "Atender un pedido",
+          "icon": "cart",
+          "banner": { "h1": "¿Cómo se atiende un pedido?", "lede": "Los pasos en orden, quién los hace y en qué sistema.", "icon": "cart" },
+          "sections": [
+            {
+              "title": "¿Cuál es el flujo?",
+              "icon": "route",
+              "blocks": [
+                { "type": "flow", "items": [
+                  { "title": "Recibir", "text": "Entra por el portal.", "icon": "upload" },
+                  { "title": "Validar", "text": "Inventario y dirección.", "icon": "check-shield" },
+                  { "title": "Surtir", "text": "Almacén arma el pedido.", "icon": "layers" },
+                  { "title": "Entregar", "text": "Se confirma con el cliente.", "icon": "check" }
+                ] }
+              ]
+            },
+            {
+              "title": "Diagrama",
+              "icon": "layers",
+              "blocks": [
+                { "type": "figure", "src": "img/ejemplo.png", "alt": "Diagrama de ejemplo del flujo de un pedido.", "caption": "Flujo · ejemplo", "interactive": "d/ejemplo.html" }
+              ]
+            },
+            {
+              "title": "¿Qué hay que saber?",
+              "icon": "info",
+              "blocks": [
+                { "type": "checks", "items": [ "Un pedido sin dirección validada no pasa a surtido.", "El cliente recibe aviso en cada cambio de estado." ] },
+                { "type": "aside", "tone": "caution", "icon": "help", "title": "[Por confirmar]", "text": "Quién autoriza un envío urgente fuera de horario." }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "incidencias",
+          "title": "Incidencias",
+          "icon": "alert",
+          "banner": { "h1": "¿Qué hacer cuando algo sale mal?", "lede": "Retrasos, daños y devoluciones: a quién avisar y en cuánto tiempo.", "icon": "alert" },
+          "sections": [
+            {
+              "title": "¿A quién se escala?",
+              "icon": "users",
+              "blocks": [
+                { "type": "table", "columns": ["Caso", "Quién lo atiende", "Tiempo"], "rows": [
+                  ["Retraso", "Coordinación de rutas", "[por confirmar]"],
+                  ["Producto dañado", "Atención a clientes", "[por confirmar]"]
+                ] },
+                { "type": "faq", "items": [ { "q": "¿Y si el cliente no está?", "a": "Se agenda un segundo intento; ver [Atender un pedido](#pedido)." } ] },
+                { "type": "paths", "items": [ { "path": "Drive › Operaciones › Manual de incidencias", "text": "Versión vigente del manual." } ] },
+                { "type": "chips", "items": ["Retraso", "Daño", "Devolución"] }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -104,9 +104,8 @@ claude plugin list && claude plugin marketplace list
 
 ## What it does today
 
-Twenty-nine skills of our own, and twenty UX and UI skills by other authors vendored under their own licences
-(`NOTICE.md`). Two are routers that bind the session and decide which phase a company is in; the
-rest do one thing each.
+Forty-seven skills, all of our own; ideas from other authors are rewritten and credited in `NOTICE.md`. The
+routers bind the session and decide which phase a company is in; the rest do one thing each.
 
 **The two tracks are numbered independently.** Comunicación runs phases 0, 1 and 2; operación runs
 phases 1 through 5. They do not depend on each other — a process inventory needs no voice document —
@@ -146,6 +145,11 @@ is a deliberate scope boundary, not a missing label.
 | **Design** | `design` | The entry point for designing a product's interface with its owner: a mockup the owner comments on, a loop that turns each comment into one change, a critique pass before each round, proof by screenshots, and a design line of tokens and motion |
 | | `design-ux-*` | Research, flows and states, interface copy, accessibility and evaluation — what the person is trying to do and whether they can |
 | | `design-ui-*` | Direction, system, layout, motion, polish and inspecting an existing interface — what it looks like and how it moves |
+| **Hubs** | `hub` | The entry point for a company's internal knowledge hubs: which area guides it needs, in what order, and who owns each |
+| | `hub-intake` | The questionnaire each area fills, and its answers turned into a hub's content |
+| | `hub-build` | One hub built from the shared template, checked as the viewer shows it, published, and linked into its siblings' switcher |
+| | `hub-atlas` | A repository as 8–12 evidenced diagrams and findings, for an engineering hub |
+| | `hub-audit` | What the published hubs need maintained, as proposals someone approves |
 | **Closing the loop** | `automate-zapier` | Operating a client's Zapier account over MCP: discover what is connected, read and write without guessing a schema, and log what was sent |
 | **Building** | `automate-spec` | Operación phase 5 (A7 · X2.5) — the buildable specification for one approved candidate, platform-independent until its last section |
 | | `automate-handover` | Acceptance and liability, not results. The test is whether the client can switch it off alone |

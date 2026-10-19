@@ -1050,3 +1050,29 @@ porting the catalogue engine to Node, which encodes judgement in code against `C
 
 **Reverses if** a skill elsewhere becomes the maintained reference for a craft area and following it beats keeping our
 own file current; that area is then credited and linked from its skill rather than rewritten again.
+
+### 37 · Internal knowledge hubs are a category of their own, with their builder ported to Node
+
+**Decision.** A company's internal hubs — area guides published as linked artifacts with one design — ship as a `hub`
+category: the `hub` router (which hubs, in what order) and `hub-intake`, `hub-build`, `hub-atlas`, `hub-audit`. The
+skills arrived as five Spanish skills with `references/`, `assets/` and Python scripts; they were rewritten to the
+plugin's shape: one `SKILL.md` each in English, doctrine in `capabilities/hub/doctrine/`, client-facing templates in
+es-MX under `capabilities/hub/templates/`, and the scripts ported to `.mjs` under `capabilities/hub/engine/`, where an
+exact answer exists (token derivation and contrast, HTML assembly, a switcher edit verified byte-for-byte outside its
+two blocks, link and pattern checks). Hub files live in the company store under `hubs/`; the map, the questionnaire and
+the audit report are markdown, and `content.json` and the built HTML are derived from them. Archify is recommended for
+diagrams and installed only when the operator says yes; Mermaid or SVG is the default without it.
+
+**Evidence.** The skills are the practice's own (maintainer, session of 2026-10-18), so they are adapted, not credited.
+The Python build and the Node port produce the same HTML for the shipped example, apart from colour tokens one unit
+apart where Python rounds half to even. Python would have been a second runtime on every client machine for code with
+no judgement in it.
+
+**Rejected:** shipping the folders as they came, which `test/suite.test.mjs` refuses and which nests files a skill
+does not load; keeping the Python scripts beside Node; spreading the skills across `engineering` and `design`, which
+would hide one track behind two routers; shipping Archify, which the no-third-party-skill rule forbids.
+
+**Reverses if** the vendored store table (`capabilities/method/method.json`) gains a `hubs/` entry from the Web
+repository's export, in which case `hubs/` paths follow it; or if hubs move to a first-party documents connector, in
+which case the engine's HTML step is replaced by that connector.
+

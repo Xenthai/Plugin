@@ -101,7 +101,7 @@ element passing a computed-style check).
 
 ### Skills — two independent tracks
 
-Forty-two skills, all of ours, one directory each holding only its `SKILL.md`, one level deep (`skills/<name>/SKILL.md` — nesting is
+Forty-seven skills, all of ours, one directory each holding only its `SKILL.md`, one level deep (`skills/<name>/SKILL.md` — nesting is
 unattested, verified against 65/65 skills elsewhere). Frontmatter is only `name` and `description`;
 the description states **when** to invoke, never **how** the skill works (a summarised workflow
 becomes a shortcut the model takes instead of reading the body).
@@ -109,8 +109,8 @@ becomes a shortcut the model takes instead of reading the body).
 Every skill is named `<category>-<responsibility>`, or is the router named after its category; the
 categories and which of them need a router are `CATEGORIES` in `test/taxonomy.test.mjs`, which refuses a
 skill with none. Categories: `company`, `process`, `automate`, `brand`, `social`, `design`, `engineering`,
-`plugin` (the install itself: setup, doctor, feedback) and `engagement` (where a client's engagement
-stands: resume, coverage, report, opportunities).
+`plugin` (the install itself: setup, doctor, feedback), `engagement` (where a client's engagement
+stands: resume, coverage, report, opportunities) and `hub` (a company's internal knowledge hubs).
 
 Comunicación and Operación are numbered independently — phase numbers are meaningless without
 naming the track:
@@ -122,6 +122,10 @@ naming the track:
 - `engineering` and `design` are practices, not tracks: how the practice builds software and designs interfaces with an
   owner, each with its doctrine under `capabilities/<name>/doctrine/`. `design` is a router over `design-ux-*` (research,
   flow, copy, accessibility, evaluate) and `design-ui-*` (direction, system, layout, motion, polish, inspect).
+- **Hubs** (`hub` router → `hub-intake` → `hub-build`, with `hub-atlas` for an engineering hub and `hub-audit` for
+  maintenance): area guides published as linked artifacts on one template. Doctrine in `capabilities/hub/doctrine/`,
+  es-MX templates in `capabilities/hub/templates/`, the Node CLIs (`build`, `check`, `switcher`, `audit`, `capture`) in
+  `capabilities/hub/engine/`. Archify is a recommended, unshipped diagram skill; Mermaid/SVG without it.
 - No third-party skill is copied or installed: other authors' ideas are rewritten here and credited in
   `xenthai/NOTICE.md`; `test/suite.test.mjs` refuses a copy.
 

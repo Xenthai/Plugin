@@ -33,7 +33,7 @@ const parse = (text) => {
  * it the router either fires for everything or never fires, and the measured failure mode is
  * under-triggering.
  */
-const MUST_ROUTE = ["social", "process", "company-new", "company-intake", "company-offer", "process-baseline", "social-presence", "brand", "automate-handover"];
+const MUST_ROUTE = ["social", "process", "company-new", "company-intake", "company-offer", "process-baseline", "social-presence", "brand", "automate-handover", "hub"];
 
 const cases = [];
 const check = (name, fn) => cases.push([name, fn]);

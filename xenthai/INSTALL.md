@@ -87,6 +87,20 @@ used and what breaks without them.
 | macOS    | `npx playwright install chromium` once. macOS ships only Safari, which cannot be driven this way |
 | Linux    | `npx playwright install chromium` once                                                           |
 
+The hub check (`capabilities/hub/engine/check.mjs`) drives the same browser. Where none is installed but a
+Chromium exists at a path, pass `--chrome <path>` or set `CHROME_PATH`.
+
+### 4b. Archify — recommended, for engineering hubs
+
+`hub-atlas` draws an engineering hub's diagrams best with Archify, a third-party skill (MIT) the plugin
+recommends but does not ship. Install it once per machine if engineering hubs are part of the work:
+
+```bash
+npx skills add tt-a1i/archify -g
+```
+
+Without it, `hub-atlas` draws Mermaid or SVG diagrams and says so; `hub-atlas` asks before installing it.
+
 ## 5. The engagement folder — inside the synced Drive folder
 
 One folder per company, and **it goes inside the company's Drive folder as synced by Google Drive for
