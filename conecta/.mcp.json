@@ -1,0 +1,1 @@
+{ "mcpServers": { "conecta": { "type": "http", "url": "https://conecta.xenth.ai/mcp" } } }
