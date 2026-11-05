@@ -1,7 +1,7 @@
 {
   "name": "conecta",
   "displayName": "Conecta by Xenth AI",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Conecta, by Xenth AI: one company's WhatsApp, Facebook and Instagram inboxes, contacts and leads, meetings, scheduled posts, analytics and Pendientes through its MCP server, with a skill that teaches the find, run and confirm loop.",
   "author": { "name": "Xenth AI", "email": "hola@xenth.ai", "url": "https://xenth.ai" },
   "homepage": "https://conecta.xenth.ai",

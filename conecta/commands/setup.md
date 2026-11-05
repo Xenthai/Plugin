@@ -11,7 +11,8 @@ Orient yourself in the business this connection is bound to before any report.
 
 1. `business_get_context` `{}` (read): the business's name, profile and catalogue
 2. `connections_list_accounts` `{}` (read): the connected channel and ad accounts with their status; if this connection is not served it, say so and continue
-3. `pending_list` `{status: "pending"}` (read): what waits on a person today
+3. `connections_available` `{}` (read): what this business could still connect and which modules wait on an operator; if this connection is not served it, skip it
+4. `pending_list` `{status: "pending"}` (read): what waits on a person today
 
 ## Rules
 
@@ -25,7 +26,7 @@ Orient yourself in the business this connection is bound to before any report.
 
 ## Output
 
-Three short blocks: the business, the connected accounts with their status, and what waits on a person.
+Four short blocks: the business, the connected accounts with their status, what it could still connect, and what waits on a person.
 
 ## Hand-offs
 

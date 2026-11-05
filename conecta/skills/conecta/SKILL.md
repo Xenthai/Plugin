@@ -7,7 +7,7 @@ description: "Operate an authorized Conecta business workspace through its MCP s
 
 This server is one company's Conecta workspace: each module below acts only on that company's own accounts and data, and nothing here reaches outside them.
 
-Remote MCP server: https://conecta.xenth.ai/mcp. A connection reaches only the tools its permissions and modules allow: a tool absent from tools/list and from conecta_find_tools is not available on it. Optional work tracking and Code Mode require their explicit grants and enabled capabilities; this skill does not grant them.
+Remote MCP server: https://conecta.xenth.ai/mcp. A connection reaches only the tools its permissions and modules allow: a tool absent from tools/list and from conecta_find_tools is not available on it. OAuth connections include ordinary work access by default within current roles and saved restrictions; tracking still requires explicit activation. Code Mode requires a separate grant and enabled runtime; this skill does not grant access.
 
 ## Modules
 
@@ -17,12 +17,15 @@ Modules, by tool name prefix:
 - contacts_: the canonical people directory: one person across every channel, with identities, consent, timeline and leads.
 - facebook_: the Facebook Page inbox and the comments people leave on the Page's posts.
 - instagram_: the Instagram DM inbox and the comments people leave on the account's posts.
-- analytics_: channel and ad-account analytics as each account reported them, day by day.
+- analytics_, meta_: channel and ad-account analytics as each account reported them, day by day.
 - publishing_: drafts, scheduled and published posts for the connected accounts.
 - links_: tracked short links and campaigns for the business's own destinations, with clicks per day.
 - classification_: the labels stored for inbound messages, comments and proposed replies, such as topic, urgency and opt-out.
 - threads_: Threads post replies.
 - tiktok_: TikTok comments and ad campaigns.
+- youtube_: YouTube video comments.
+- linkedin_: LinkedIn Company Page post comments.
+- x_: X post replies.
 - agents_, workspace_, audit_, trash_, connections_, team_, pending_: agent requests and Pendientes (what waits on a person's decision), and the workspace records this connection may read.
 - work_: tracked work and versioned files.
 
@@ -197,17 +200,36 @@ Each step is a tool and the arguments it takes. Call a listed tool directly; run
 
 1. `analytics_ads` `{level: "campaign", period: "month"}` (read): CTR, CPC and CPM per campaign, one block per ad account in its own currency; never add accounts together
 
-### 16. Check this month's ad pacing
+### 16. Check what is off this month
 
-1. `analytics_ads` `{period: "month", level: "campaign"}` (read): spend to date, one block per ad account
-2. `analytics_ads` `{from: <first day of last month, YYYY-MM-DD>, to: <last day of last month, YYYY-MM-DD>, level: "campaign"}` (read): last month's spend, as the reference when the user gives no budget; projected spend is spend to date divided by days elapsed, times days in the month
+1. `analytics_review` `{period: "month"}` (read): ad pacing, spend without results, cost per result, stale sources and slower replies, each flag with the figures it was judged on
+2. `analytics_ads` `{period: "month", level: "campaign"}` (read): the campaigns behind an ads flag, in their account's own currency
 
-### 17. Trace first-touch sources to qualified leads
+### 17. Export this month's analytics to a spreadsheet
+
+1. `analytics_export` `{period: "month", format: "csv"}` (read): one row per value; an empty cell is not reported, never zero; past the payload limit ask for one channel
+
+### 18. Find which metrics can be read day by day
+
+1. `analytics_metrics` `{}` (read): each field's channels and unit, and whether it is read day by day
+2. `analytics_series` `{metrics: ["<ids marked day by day>"], period: "month"}` (read)
+
+### 19. See what this business could still connect
+
+1. `connections_available` `{}` (read): each channel and ad provider, whether its module is granted and how many accounts are connected
+
+### 20. Trace first-touch sources to qualified leads
 
 1. `analytics_sources` `{period: "month"}` (read): people per first-touch source and how many qualified
 2. `whatsapp_list_leads` `{status: "qualified", since: <first day of this month, ISO 8601 with offset>, detail: "summary"}` (read): the qualified leads of the same month
 
-### 18. Pause a TikTok campaign
+### 21. Lower a Meta ad set's budget
+
+1. `meta_ads_list_campaigns` `{}` (read): the ad set's id, its budget type and amount, and whether it or its campaign holds the budget
+2. `meta_ads_preview_budget` `{level: "adset", id: <ad set id from the listing>, budget: <new budget in the account's currency>}` (read, preview of `analytics.meta_budget`)
+3. `conecta_confirm` `{operation: "analytics.meta_budget", confirmation_token, user_confirmation}` (destructive): only after the user approves the preview in so many words
+
+### 22. Pause a TikTok campaign
 
 1. `tiktok_ads_list_campaigns` `{}` (read): the campaign's id and its status now
 2. `tiktok_ads_preview_status` `{level: "campaign", id: <campaign id from the listing>, status: "pause"}` (read, preview of `tiktok.ads_status`)
